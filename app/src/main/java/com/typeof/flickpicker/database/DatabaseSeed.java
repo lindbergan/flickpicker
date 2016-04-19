@@ -14,6 +14,7 @@ public class DatabaseSeed {
     private SQLiteDatabase db;
 
     public DatabaseSeed(Context ctx) {
+
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
         this.db = mDbHelper.getWritableDatabase();
     }
@@ -22,6 +23,7 @@ public class DatabaseSeed {
 
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
+
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
@@ -37,6 +39,11 @@ public class DatabaseSeed {
                 MovieTable.MovieEntry.TABLE_NAME,
                 MovieTable.MovieEntry.COLUMN_NAME_NULLABLE,
                 values);
+
+        //---RATING---
+
+        db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
+        db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
 
 
     }
