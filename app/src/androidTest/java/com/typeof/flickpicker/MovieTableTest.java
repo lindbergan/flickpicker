@@ -4,11 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
-import android.test.InstrumentationTestCase;
-import android.util.Log;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
+import com.typeof.flickpicker.database.MovieTable;
+import com.typeof.flickpicker.database.SQLiteDatabaseHelper;
 
 /**
  * FlickPicker
