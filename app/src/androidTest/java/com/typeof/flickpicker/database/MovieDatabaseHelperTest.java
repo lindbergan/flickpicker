@@ -1,13 +1,6 @@
 package com.typeof.flickpicker.database;
-
 import android.test.AndroidTestCase;
-import android.util.Log;
-
 import com.typeof.flickpicker.Movie;
-
-import junit.framework.TestCase;
-
-import java.sql.SQLDataException;
 
 /**
  * FlickPicker
@@ -38,7 +31,7 @@ public class MovieDatabaseHelperTest extends AndroidTestCase {
      * @throws Exception
      */
     public void testFind() throws Exception {
-        Movie movie = mMovieDatabaseHelper.find(5);
+        Movie movie = mMovieDatabaseHelper.find(5); // This record is created via the DatabaseSeed
         assertEquals("Checking if fetching movie is successful", "Shawshank Redemption", movie.getTitle());
     }
 

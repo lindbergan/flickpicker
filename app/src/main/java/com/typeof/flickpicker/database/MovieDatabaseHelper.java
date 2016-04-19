@@ -1,17 +1,9 @@
 package com.typeof.flickpicker.database;
-
-import android.app.Application;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import com.typeof.flickpicker.Movie;
-
-import java.sql.SQLDataException;
-import java.util.List;
-
 /**
  * FlickPicker
  * Group 22
