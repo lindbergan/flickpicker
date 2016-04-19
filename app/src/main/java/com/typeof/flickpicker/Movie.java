@@ -1,10 +1,13 @@
 package com.typeof.flickpicker;
 public class Movie {
-    private int id;
+    private long id = 0;
     private String title;
 
-    public Movie(int id, String title) {
-        this.id = id;
+    public Movie(String title) {
+        this.title = title;
+    }
+
+    public Movie(long id, String title) {
         this.title = title;
     }
 
@@ -12,7 +15,15 @@ public class Movie {
         return this.title;
     }
 
-    public int getId() {
+    public long getId() {
         return this.id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

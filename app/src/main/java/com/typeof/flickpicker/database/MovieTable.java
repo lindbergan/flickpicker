@@ -30,7 +30,7 @@ public class MovieTable {
 
         public static String getSQLCreateTableQuery() {
             return "CREATE TABLE " + TABLE_NAME + " (" +
-                    COLUMN_NAME_ID + " INTEGER PRIMARY KEY," +
+                    COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_GENRE + TEXT_TYPE + COMMA_SEP +
