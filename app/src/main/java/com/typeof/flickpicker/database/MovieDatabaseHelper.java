@@ -39,9 +39,6 @@ public class MovieDatabaseHelper {
         c.moveToFirst();
         String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
         long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
-
-        Log.d("Found id", id + "");
-
         return new Movie(id, title);
     }
 
