@@ -1,8 +1,8 @@
 package com.typeof.flickpicker;
 
-public class Rating extends DatabaseObject {
+public class Rating {
 
-    private final String TABLENAME = "RATINGS";
+    //private final String TABLENAME = "RATINGS";
     private int id;
     private double rating;
     private int movieId;
@@ -17,9 +17,9 @@ public class Rating extends DatabaseObject {
 
     //----------GETTERS--------------
 
-    public String getTableName() {
-        return TABLENAME;
-    }
+    //public String getTableName() {
+    //    return TABLENAME;
+    //}
 
     public int getId() {
         return id;
