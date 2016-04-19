@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 public class MovieTest extends TestCase {
 
     public void testMovieID() {
-        Movie movie = new Movie(55);
+        Movie movie = new Movie(55, "Test");
         assertTrue(movie.getId() == 55);
     }
 
