@@ -36,7 +36,7 @@ public class MovieDatabaseHelper {
         return new Movie(movieTitle);
     }
 
-    public long save(Movie movie) throws SQLDataException {
+    public long save(Movie movie) {
         ContentValues values = new ContentValues();
         values.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, movie.getTitle());
 
@@ -51,16 +51,15 @@ public class MovieDatabaseHelper {
         long newRowId;
         newRowId = db.insert(MovieTable.MovieEntry.TABLE_NAME, MovieTable.MovieEntry.COLUMN_NAME_NULLABLE, values);
 
-        if (newRowId == -1) {
-            throw new SQLDataException("Error while saving record to the database");
-        }
+        // If there was an error saving the record, we return -1 as the id
+        if (newRowId == -1) return -1;
 
         movie.setId(newRowId);
 
         return newRowId;
     }
 
-    private void update(Movie movie, ContentValues values) throws SQLDataException {
+    private void update(Movie movie, ContentValues values) {
         String selection = MovieTable.MovieEntry.COLUMN_NAME_ID + " LIKE ?";
         String[] selectionArgs = { String.valueOf(movie.getId()) };
 

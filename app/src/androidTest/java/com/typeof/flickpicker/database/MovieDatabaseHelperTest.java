@@ -33,42 +33,43 @@ public class MovieDatabaseHelperTest extends AndroidTestCase {
         mDatabaseSeed.clearDatabase();
     }
 
+    /**
+     * Tests if we can find a record in the database
+     * @throws Exception
+     */
     public void testFind() throws Exception {
         Movie movie = mMovieDatabaseHelper.find(5);
         assertEquals("Checking if fetching movie is successful", "Shawshank Redemption", movie.getTitle());
     }
 
+    /**
+     * Tests if a record is saved in the database
+     * @throws Exception
+     */
     public void testSave() throws Exception {
         Movie movie = new Movie("Rocky");
         long rowId = mMovieDatabaseHelper.save(movie);
-
-        Movie fetchedMovie = mMovieDatabaseHelper.find((int)rowId);
-        assertEquals("Check if we can retrieve saved movie", "Rocky", fetchedMovie.getTitle());
+        assertFalse(rowId == -1);
     }
 
+    /**
+     * Tests if we can create a record and then update it
+     * @throws Exception
+     */
     public void testUpdate() throws Exception {
         Movie movie = new Movie("2001: A Space Odyssey");
-        long movieId = 0;
-
-        try {
-            movieId = mMovieDatabaseHelper.save(movie);
-        } catch (SQLDataException e) {
-            e.printStackTrace();
-        }
-
-        movie.setTitle("2001");
-
-        try {
-            mMovieDatabaseHelper.save(movie);
-        } catch (SQLDataException e) {
-            e.printStackTrace();
-        }
+        long movieId = mMovieDatabaseHelper.save(movie);
 
         // We assert that the movie was saved and was given a unique ID;
-        assertFalse(movieId == 0);
+        assertFalse(movieId == -1);
 
+        movie.setTitle("2001");
+        mMovieDatabaseHelper.save(movie);
+
+        // We now look in our database for the record saved
         Movie movieFetched = mMovieDatabaseHelper.find(movieId);
 
+        // Check if the movie has the new updated title
         assertEquals(movieFetched.getTitle(), "2001");
     }
 
