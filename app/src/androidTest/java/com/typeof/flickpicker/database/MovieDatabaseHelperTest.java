@@ -1,6 +1,10 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
+import android.util.Log;
+
 import com.typeof.flickpicker.Movie;
+
+import java.util.List;
 
 /**
  * FlickPicker
@@ -64,6 +68,18 @@ public class MovieDatabaseHelperTest extends AndroidTestCase {
 
         // Check if the movie has the new updated title
         assertEquals(movieFetched.getTitle(), "2001");
+    }
+
+    public void testSearch() {
+        Movie movie = new Movie("Pulp Fiction");
+        long id = mMovieDatabaseHelper.save(movie);
+
+        List<Movie> results = mMovieDatabaseHelper.search("Pulp");
+
+        assertEquals(results.size(), 1);
+
+        Movie foundMovie = results.get(0);
+        assertEquals(id, foundMovie.getId());
     }
 
 }

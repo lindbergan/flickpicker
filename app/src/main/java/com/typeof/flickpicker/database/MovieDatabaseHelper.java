@@ -3,7 +3,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+
 import com.typeof.flickpicker.Movie;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * FlickPicker
  * Group 22
@@ -22,10 +28,21 @@ public class MovieDatabaseHelper {
         if (c.getCount() < 1) {
             return null;
         }
-        c.moveToFirst();
-        String movieTitle = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
+
+        Movie movie = createMovieFromDatabaseData(c);
         c.close();
-        return new Movie(movieTitle);
+
+        return movie;
+    }
+
+    public Movie createMovieFromDatabaseData(Cursor c) {
+        c.moveToFirst();
+        String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
+        long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
+
+        Log.d("Found id", id + "");
+
+        return new Movie(id, title);
     }
 
     public long save(Movie movie) {
@@ -64,5 +81,19 @@ public class MovieDatabaseHelper {
 
     public long delete(Movie movie) {
         return movie.getId();
+    }
+
+    public List<Movie> search(String searchString) {
+        List<Movie> results = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT * FROM movies WHERE " + MovieTable.MovieEntry.COLUMN_NAME_TITLE + " LIKE ?", new String[]{"%" + searchString + "%"});
+
+        while (c.moveToNext()) {
+            long movieId = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
+            results.add(find(movieId));
+        }
+
+        c.close();
+
+        return results;
     }
 }
