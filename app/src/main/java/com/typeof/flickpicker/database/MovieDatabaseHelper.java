@@ -86,7 +86,7 @@ public class MovieDatabaseHelper {
 
         while (c.moveToNext()) {
             long movieId = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
-            results.add(find(movieId));
+            results.add(createMovieFromDatabaseData(c));
         }
 
         c.close();
