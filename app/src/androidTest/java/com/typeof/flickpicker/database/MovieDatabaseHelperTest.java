@@ -70,7 +70,11 @@ public class MovieDatabaseHelperTest extends AndroidTestCase {
         assertEquals(movieFetched.getTitle(), "2001");
     }
 
-    public void testSearch() {
+    /**
+     * Tests if we can create a movie in the database and then find it by searching for it.
+     * @throws Exception
+     */
+    public void testSearch() throws Exception {
         Movie movie = new Movie("Pulp Fiction");
         long id = mMovieDatabaseHelper.save(movie);
 
