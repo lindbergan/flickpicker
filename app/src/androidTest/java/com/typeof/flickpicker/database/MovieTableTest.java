@@ -1,9 +1,10 @@
-package com.typeof.flickpicker;
+package com.typeof.flickpicker.database;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
+import android.util.Log;
 
 import com.typeof.flickpicker.database.MovieTable;
 import com.typeof.flickpicker.database.SQLiteDatabaseHelper;
@@ -19,9 +20,10 @@ public class MovieTableTest extends AndroidTestCase {
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
+        db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
+
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'movies'", null);
-        System.out.println(cursor);
-        assertNotNull(cursor);
+        assertTrue(cursor.getCount() == 1);
     }
 
     public void testRecordInsertion() {
@@ -40,13 +42,12 @@ public class MovieTableTest extends AndroidTestCase {
         values.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 10);
         values.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 5.5);
 
-        long newRowId;
-        newRowId = db.insert(
+        long newRowId = db.insert(
                 MovieTable.MovieEntry.TABLE_NAME,
                 MovieTable.MovieEntry.COLUMN_NAME_NULLABLE,
                 values);
 
-        assertEquals("Record created in database", 5, newRowId);
+        assertEquals(5, newRowId);
 
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
     }
@@ -54,7 +55,6 @@ public class MovieTableTest extends AndroidTestCase {
     public void testTableDeletion() {
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
     }
 
 }
