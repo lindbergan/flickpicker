@@ -41,15 +41,28 @@ public class DatabaseSeed {
                 values);
 
         //---RATING---
+        db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
+        db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
 
-        db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
-        db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
+        //
+        // Create a new map of values, where column names are the keys
+        ContentValues ratingValues = new ContentValues();
+        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 5);
+        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 4.0);
+        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 3);
+        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 3);
 
+        long newRowIdRating = db.insert(
+                RatingTable.RatingEntry.TABLE_NAME,
+                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
+                values);
 
     }
 
     public void clearDatabase() {
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
+        db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
+
     }
 
 }
