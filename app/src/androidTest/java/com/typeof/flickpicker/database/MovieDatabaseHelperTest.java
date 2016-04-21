@@ -85,4 +85,13 @@ public class MovieDatabaseHelperTest extends AndroidTestCase {
         assertEquals(id, foundMovie.getId());
     }
 
+    public void testDelete() throws Exception {
+        Movie movie = new Movie("Reservoir Dogs");
+        long id = mMovieDatabaseHelper.save(movie);
+
+        mMovieDatabaseHelper.delete(movie);
+
+        Movie foundMovie = mMovieDatabaseHelper.find(id);
+    }
+
 }

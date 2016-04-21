@@ -1,8 +1,6 @@
 package com.typeof.flickpicker.core;
 
-import com.typeof.flickpicker.DatabaseObject;
-
-public class User extends DatabaseObject {
+public class User {
 
     private final String TABLENAME = "USERS";
     private int id;

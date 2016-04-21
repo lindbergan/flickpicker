@@ -1,7 +1,5 @@
 package com.typeof.flickpicker.core;
 
-import com.typeof.flickpicker.DatabaseObject;
-
 public class Rating {
 
     private final String TABLENAME = "RATINGS";

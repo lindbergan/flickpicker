@@ -1,5 +1,4 @@
 package com.typeof.flickpicker.core;
-import com.typeof.flickpicker.DatabaseObject;
 
 import java.util.ArrayList;
 import java.util.List;

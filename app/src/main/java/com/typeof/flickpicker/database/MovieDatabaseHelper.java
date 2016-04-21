@@ -21,11 +21,14 @@ public class MovieDatabaseHelper extends DatabaseHelper<Movie> {
     }
 
     public Movie find(long id) {
-        Cursor c = super.find(id, "movies");
-        Movie movie = createMovieCursor(c);
-        c.close();
-
-        return movie;
+        try {
+            Cursor c = super.find(id, "movies");
+            Movie movie = createMovieCursor(c);
+            c.close();
+            return movie;
+        } catch (DatabaseRecordNotFoundException e) {
+            throw new DatabaseRecordNotFoundException(e.getMessage());
+        }
     }
 
     public Movie createMovieCursor(Cursor c) {
@@ -43,19 +46,17 @@ public class MovieDatabaseHelper extends DatabaseHelper<Movie> {
     }
 
     public void update(Movie movie, ContentValues values) {
-        String selection = MovieTable.MovieEntry.COLUMN_NAME_ID + " LIKE ?";
-        String[] selectionArgs = { String.valueOf(movie.getId()) };
-
         super.update(movie, values);
     }
 
     public long delete(Movie movie) {
+        super.delete(movie, "movies");
         return movie.getId();
     }
 
     public List<Movie> search(String searchString) {
         List<Movie> results = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT * FROM movies WHERE " + MovieTable.MovieEntry.COLUMN_NAME_TITLE + " LIKE ?", new String[]{"%" + searchString + "%"});
+        Cursor c = super.search("movies", "title", searchString);
 
         while (c.moveToNext()) {
             long movieId = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));

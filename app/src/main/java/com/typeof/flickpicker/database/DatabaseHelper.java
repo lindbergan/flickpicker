@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.typeof.flickpicker.core.CoreEntity;
 import com.typeof.flickpicker.core.Movie;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * FlickPicker
  * Group 22
@@ -22,8 +25,12 @@ public abstract class DatabaseHelper<T> {
         db = mDbHelper.getWritableDatabase();
     }
 
-    public Cursor find(long id, String tableName) {
-        return db.rawQuery("SELECT * FROM ? WHERE id = ? LIMIT 1", new String[]{tableName, String.valueOf(id)});
+    public Cursor find(long id, String tableName) throws DatabaseRecordNotFoundException {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + tableName + " WHERE id = ? LIMIT 1", new String[]{String.valueOf(id)});
+        if (cursor.getCount() == 0) {
+            throw new DatabaseRecordNotFoundException("Record not found in database");
+        }
+        return cursor;
     }
 
     public long save(CoreEntity object, String tableName, ContentValues values) {
@@ -56,14 +63,21 @@ public abstract class DatabaseHelper<T> {
                 selectionArgs);
     }
 
-    public long delete(CoreEntity object) throws IllegalStateException {
+    public long delete(CoreEntity object, String tableName) throws IllegalStateException {
         if (object.getId() == 0) {
             throw new IllegalStateException("Core Entity cannot be deleted before it has been saved to the database");
         }
+
+        db.rawQuery("DELETE FROM " + tableName + " WHERE id = ?", new String[]{String.valueOf(object.getId())});
 
         return object.getId();
     }
 
 
+    public Cursor search(String tableName, String column, String searchString) {
+        List<Movie> results = new ArrayList<>();
+        return db.rawQuery("SELECT * FROM " + tableName + " WHERE " + column + " LIKE ?",
+                new String[]{"%" + searchString + "%"});
+    }
 
 }
