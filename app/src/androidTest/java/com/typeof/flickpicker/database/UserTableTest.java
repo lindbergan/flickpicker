@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.User;
 import com.typeof.flickpicker.database.MovieTable;
 import com.typeof.flickpicker.database.SQLiteDatabaseHelper;
 

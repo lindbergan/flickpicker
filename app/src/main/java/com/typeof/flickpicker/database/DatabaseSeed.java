@@ -51,7 +51,7 @@ public class DatabaseSeed {
         ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 5);
         ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 4.0);
         ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 3);
-        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 3);
+        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 2);
 
         long newRowIdRating = db.insert(
                 RatingTable.RatingEntry.TABLE_NAME,

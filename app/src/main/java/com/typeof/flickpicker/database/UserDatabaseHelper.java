@@ -5,7 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.typeof.flickpicker.User;
+//import com.typeof.flickpicker.User;
+import com.typeof.flickpicker.core.User;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class UserDatabaseHelper {
          return new User(id, username, password);
     }
 
-    
+/*
     public long save(User user) {
     }
 
@@ -56,5 +57,5 @@ public class UserDatabaseHelper {
     public List<User> search(String searchString) {
     }
 
-
+*/
 }

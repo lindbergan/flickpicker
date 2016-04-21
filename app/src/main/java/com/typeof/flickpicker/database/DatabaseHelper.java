@@ -56,8 +56,9 @@ public abstract class DatabaseHelper<T> {
         String selection = "id LIKE ?";
         String[] selectionArgs = { String.valueOf(object.getId()) };
 
+        /// OBS: EJ GENERIC!
         int count = db.update(
-                MovieTable.MovieEntry.TABLE_NAME,
+                MovieTable.MovieEntry.TABLE_NAME, //!!
                 values,
                 selection,
                 selectionArgs);
@@ -80,4 +81,11 @@ public abstract class DatabaseHelper<T> {
                 new String[]{"%" + searchString + "%"});
     }
 
+    //QUICK_FIX.....TEMP://////////
+
+    public SQLiteDatabase getDatabase(){
+        return db;
+    }
+
+    //////////////////////
 }

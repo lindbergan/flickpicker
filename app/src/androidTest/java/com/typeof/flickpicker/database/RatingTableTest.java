@@ -12,7 +12,7 @@ import com.typeof.flickpicker.database.SQLiteDatabaseHelper;
 /**
  * FlickPicker
  * Group 22
- * Created on 16-04-19.
+ * Created on 16-04-20.
  */
 
 public class RatingTableTest extends AndroidTestCase {

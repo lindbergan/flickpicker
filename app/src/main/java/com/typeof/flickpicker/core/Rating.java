@@ -1,14 +1,14 @@
 package com.typeof.flickpicker.core;
 
-public class Rating {
+public class Rating implements CoreEntity {
 
     //private final String TABLENAME = "RATINGS";
-    private int id;
+    private long id;
     private double rating;
     private int movieId;
     private int userId;
 
-    public Rating(int id, double rating, int movieId, int userId) {
+    public Rating(long id, double rating, int movieId, int userId) {
         this.id = id;
         this.rating = rating;
         this.movieId = movieId;
@@ -17,11 +17,11 @@ public class Rating {
 
     //----------GETTERS--------------
 
-    //public String getTableName() {
-    //    return TABLENAME;
-    //}
+    public void setId(long id){
+        this.id = id;
+    }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

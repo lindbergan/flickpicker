@@ -1,33 +1,33 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
-import com.typeof.flickpicker.Movie;
+import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Rating;
 
 import java.util.List;
 
 /**
  * FlickPicker
  * Group 22
- * Created on 16-04-19.
+ * Created on 16-04-21.
  */
 public class RatingDatabaseHelperTest extends AndroidTestCase {
 
     private RatingDatabaseHelper mRatingDatabaseHelper;
-    private DatabaseSeed rDatabaseSeed;
+    private DatabaseSeed mDatabaseSeed;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mRatingDatabaseHelper = new RatingDatabaseHelper(getContext());
-        rDatabaseSeed = new DatabaseSeed(getContext());
-        rDatabaseSeed.seedDatabase();
+        mDatabaseSeed = new DatabaseSeed(getContext());
+        mDatabaseSeed.seedDatabase();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        rDatabaseSeed.clearDatabase();
+        mDatabaseSeed.clearDatabase();
     }
 
     /**
@@ -35,8 +35,8 @@ public class RatingDatabaseHelperTest extends AndroidTestCase {
      * @throws Exception
      */
     public void testFind() throws Exception {
-        Movie movie = mRatingDatabaseHelper.find(5); // This record is created via the DatabaseSeed
-        assertEquals("Checking if fetching movie is successful", "Shawshank Redemption", movie.getTitle());
+        Rating rating = mRatingDatabaseHelper.find(5); // This record is created via the DatabaseSeed
+        assertEquals("Checking if fetching rating is successful", 4.0, rating.getRating());
     }
 
     /**
@@ -44,8 +44,8 @@ public class RatingDatabaseHelperTest extends AndroidTestCase {
      * @throws Exception
      */
     public void testSave() throws Exception {
-        Movie movie = new Movie("Rocky");
-        long rowId = mRatingDatabaseHelper.save(movie);
+        Rating rating = new Rating(1,1.0,1,1); //int id, double rating, int movieId, int userId
+        long rowId = mRatingDatabaseHelper.save(rating);
         assertFalse(rowId == -1);
     }
 
@@ -54,36 +54,51 @@ public class RatingDatabaseHelperTest extends AndroidTestCase {
      * @throws Exception
      */
     public void testUpdate() throws Exception {
-        Movie movie = new Movie("2001: A Space Odyssey");
-        long movieId = mRatingDatabaseHelper.save(movie);
+        Rating rating = new Rating(2,2.0,2,2);
+        long ratingId = mRatingDatabaseHelper.save(rating);
 
-        // We assert that the movie was saved and was given a unique ID;
-        assertFalse(movieId == -1);
+        // We assert that the rating was saved and was given a unique ID;
+        assertFalse(ratingId == -1);
 
-        movie.setTitle("2001");
-        mRatingDatabaseHelper.save(movie);
+        rating.updateRating(5.0);
+        mRatingDatabaseHelper.save(rating);
 
         // We now look in our database for the record saved
-        Movie movieFetched = mRatingDatabaseHelper.find(movieId);
+        Rating ratingFetched = mRatingDatabaseHelper.find(ratingId);
 
-        // Check if the movie has the new updated title
-        assertEquals(movieFetched.getTitle(), "2001");
+        // Check if the rating has the new updated rating
+        assertEquals(ratingFetched.getRating(), 5.0);
     }
 
     /**
-     * Tests if we can create a movie in the database and then find it by searching for it.
+     * Tests if we can create a rating in the database and then find it by searching for it.
      * @throws Exception
      */
     public void testSearch() throws Exception {
-        Movie movie = new Movie("Pulp Fiction");
-        long id = mRatingDatabaseHelper.save(movie);
+        Rating rating = new Rating(3,3.0,3,3);
+        long id = mRatingDatabaseHelper.save(rating);
 
-        List<Movie> results = mRatingDatabaseHelper.search("Pulp");
+        List<Rating> results = mRatingDatabaseHelper.search("3.0");
 
         assertEquals(results.size(), 1);
 
-        Movie foundMovie = results.get(0);
-        assertEquals(id, foundMovie.getId());
+        Rating foundRating = results.get(0);
+        assertEquals(id, foundRating.getId());
+    }
+
+    public void testDelete() throws Exception {
+        Rating rating = new Rating(4,4.0,4,4);
+        long id = mRatingDatabaseHelper.save(rating);
+
+        mRatingDatabaseHelper.delete(rating);
+
+        try {
+            Rating foundRating = mRatingDatabaseHelper.find(id);
+        }
+        catch(DatabaseRecordNotFoundException e){
+            //catch exception - test successful
+        }
+
     }
 
 }
