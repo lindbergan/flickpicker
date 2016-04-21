@@ -1,14 +1,14 @@
 package com.typeof.flickpicker;
 
-public class User extends DatabaseObject {
+public class User {
 
     private final String TABLENAME = "USERS";
-    private int id;
+    private long id;
     private String userName;
     private int score;
     private String password;
 
-    public User(int id, String userName, String password) {
+    public User(long id, String userName, String password) {
         this.id = id;
         this.userName = userName;
         this.password = password;
@@ -21,7 +21,7 @@ public class User extends DatabaseObject {
         return TABLENAME;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
