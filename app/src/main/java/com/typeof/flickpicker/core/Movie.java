@@ -1,5 +1,5 @@
-package com.typeof.flickpicker;
-public class Movie {
+package com.typeof.flickpicker.core;
+public class Movie implements CoreEntity {
 
     private long id;
     private String title;

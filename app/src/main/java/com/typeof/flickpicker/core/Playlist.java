@@ -1,8 +1,9 @@
-package com.typeof.flickpicker;
+package com.typeof.flickpicker.core;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Playlist extends DatabaseObject {
+public class Playlist {
 
     private final String TABLENAME = "PLAYLISTS";
     private int id;

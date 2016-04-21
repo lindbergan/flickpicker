@@ -1,6 +1,6 @@
-package com.typeof.flickpicker;
+package com.typeof.flickpicker.core;
 
-public class Friend extends DatabaseObject {
+public class Friend {
 
     private final String TABLENAME = "FRIENDS";
 
