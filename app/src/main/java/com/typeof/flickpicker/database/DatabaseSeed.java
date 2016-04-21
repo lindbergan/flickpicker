@@ -55,7 +55,7 @@ public class DatabaseSeed {
         long newRowIdRating = db.insert(
                 RatingTable.RatingEntry.TABLE_NAME,
                 RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                values);
+                ratingValues);
 
     }
 
