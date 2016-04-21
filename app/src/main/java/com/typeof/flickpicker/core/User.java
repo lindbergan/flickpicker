@@ -1,4 +1,6 @@
-package com.typeof.flickpicker;
+package com.typeof.flickpicker.core;
+
+import com.typeof.flickpicker.DatabaseObject;
 
 public class User extends DatabaseObject {
 

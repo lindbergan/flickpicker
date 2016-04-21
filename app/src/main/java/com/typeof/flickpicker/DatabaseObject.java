@@ -1,5 +1,7 @@
 package com.typeof.flickpicker;
 
+import com.typeof.flickpicker.core.Friend;
+
 public abstract class DatabaseObject {
 
     public abstract String getTableName();

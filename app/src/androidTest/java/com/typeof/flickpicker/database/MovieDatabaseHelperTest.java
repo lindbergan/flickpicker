@@ -1,8 +1,7 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
-import com.typeof.flickpicker.Movie;
+import com.typeof.flickpicker.core.Movie;
 
 import java.util.List;
 
