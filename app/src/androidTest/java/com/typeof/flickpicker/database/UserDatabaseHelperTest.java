@@ -12,7 +12,14 @@ import junit.framework.TestCase;
  */
 public class UserDatabaseHelperTest extends AndroidTestCase {
 
-    private MovieDatabaseHelper mUserDatabaseHelper;
+    private UserDatabaseHelper mUserDatabaseHelper;
     private DatabaseSeed mDatabaseSeed;
 
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mUserDatabaseHelper = new UserDatabaseHelper(getContext());
+        mDatabaseSeed = new DatabaseSeed(getContext());
+        mDatabaseSeed.seedDatabase();
+    }
 }
