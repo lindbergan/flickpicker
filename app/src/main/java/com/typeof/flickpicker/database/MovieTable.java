@@ -25,7 +25,7 @@ public class MovieTable {
         public static final String COLUMN_NAME_GENRE = "genre";
         public static final String COLUMN_NAME_VOTES = "votes";
         public static final String COLUMN_NAME_COMMUNITY_RATING = "community_rating";
-        public static final String COLUMN_NAME_NULLABLE = " NULL";
+        public static final String COLUMN_NAME_NULLABLE = " ";
 
 
         public static String getSQLCreateTableQuery() {
