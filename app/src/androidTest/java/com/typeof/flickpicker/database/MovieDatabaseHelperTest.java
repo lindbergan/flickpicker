@@ -1,8 +1,7 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
-import android.util.Log;
 
-import com.typeof.flickpicker.Movie;
+import com.typeof.flickpicker.core.Movie;
 
 import java.util.List;
 
@@ -84,6 +83,15 @@ public class MovieDatabaseHelperTest extends AndroidTestCase {
 
         Movie foundMovie = results.get(0);
         assertEquals(id, foundMovie.getId());
+    }
+
+    public void testDelete() throws Exception {
+        Movie movie = new Movie("Reservoir Dogs");
+        long id = mMovieDatabaseHelper.save(movie);
+
+        mMovieDatabaseHelper.delete(movie);
+
+        Movie foundMovie = mMovieDatabaseHelper.find(id);
     }
 
 }

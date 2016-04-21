@@ -1,4 +1,4 @@
-package com.typeof.flickpicker;
+package com.typeof.flickpicker.core;
 
 public class User {
 
