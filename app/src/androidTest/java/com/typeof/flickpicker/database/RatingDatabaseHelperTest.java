@@ -44,7 +44,7 @@ public class RatingDatabaseHelperTest extends AndroidTestCase {
      * @throws Exception
      */
     public void testSave() throws Exception {
-        Rating rating = new Rating(1,1.0,1,1); //int id, double rating, int movieId, int userId
+        Rating rating = new Rating(1.0,1,1); //int id, double rating, int movieId, int userId
         long rowId = mRatingDatabaseHelper.save(rating);
         assertFalse(rowId == -1);
     }
@@ -54,7 +54,7 @@ public class RatingDatabaseHelperTest extends AndroidTestCase {
      * @throws Exception
      */
     public void testUpdate() throws Exception {
-        Rating rating = new Rating(2,2.0,2,2);
+        Rating rating = new Rating(2.0,2,2);
         long ratingId = mRatingDatabaseHelper.save(rating);
 
         // We assert that the rating was saved and was given a unique ID;
@@ -70,24 +70,8 @@ public class RatingDatabaseHelperTest extends AndroidTestCase {
         assertEquals(ratingFetched.getRating(), 5.0);
     }
 
-    /**
-     * Tests if we can create a rating in the database and then find it by searching for it.
-     * @throws Exception
-     */
-    public void testSearch() throws Exception {
-        Rating rating = new Rating(3,3.0,3,3);
-        long id = mRatingDatabaseHelper.save(rating);
-
-        List<Rating> results = mRatingDatabaseHelper.search("3.0");
-
-        assertEquals(results.size(), 1);
-
-        Rating foundRating = results.get(0);
-        assertEquals(id, foundRating.getId());
-    }
-
     public void testDelete() throws Exception {
-        Rating rating = new Rating(4,4.0,4,4);
+        Rating rating = new Rating(4.0,4,4);
         long id = mRatingDatabaseHelper.save(rating);
 
         mRatingDatabaseHelper.delete(rating);

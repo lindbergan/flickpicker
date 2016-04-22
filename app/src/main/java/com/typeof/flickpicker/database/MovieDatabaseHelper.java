@@ -46,7 +46,7 @@ public class MovieDatabaseHelper extends DatabaseHelper<Movie> {
     }
 
     public void update(Movie movie, ContentValues values) {
-        super.update(movie, values);
+        super.update(movie, values, "movies");
     }
 
     public long delete(Movie movie) {

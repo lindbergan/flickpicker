@@ -39,12 +39,16 @@ public class RatingDatabaseHelper extends DatabaseHelper<Movie> {
         Double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
         int movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
         int userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
-        return new Rating(id, rating, movieId,userId);
+        Rating r = new Rating(rating, movieId,userId);
+        r.setId(id);
+        return r;
     }
 
     public long save(Rating rating) {
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating.getRating());
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, rating.getMovieId());
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, rating.getUserId());
 
         return super.save(rating, "ratings", values);
     }
@@ -55,16 +59,8 @@ public class RatingDatabaseHelper extends DatabaseHelper<Movie> {
     }
     */
 
-    @Override
-    public void update(CoreEntity object, ContentValues values) {
-        String selection = "id LIKE ?";
-        String[] selectionArgs = { String.valueOf(object.getId()) };
-
-        int count = this.getDatabase().update(
-                RatingTable.RatingEntry.TABLE_NAME,
-                values,
-                selection,
-                selectionArgs);
+    public void update(Rating rating, ContentValues values) {
+        super.update(rating, values, "ratings");
     }
 
     public long delete(Rating rating) {
@@ -72,17 +68,14 @@ public class RatingDatabaseHelper extends DatabaseHelper<Movie> {
         return rating.getId();
     }
 
-    public List<Rating> search(String searchString) {
-        List<Rating> results = new ArrayList<>();
-        Cursor c = super.search("ratings","rating", searchString); //will fail... how to solve? - can we really have search as generic?
+    /*
+    public List<Rating> getRatingFromUser(){
 
-        while (c.moveToNext()) {
-            long movieId = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
-            results.add(createRatingCursor(c));
-        }
-
-        c.close();
-
-        return results;
     }
+
+    public List<Rating> getRatingFromMovie(){
+
+    }
+    */
+
 }

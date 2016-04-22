@@ -36,10 +36,13 @@ public abstract class DatabaseHelper<T> {
     public long save(CoreEntity object, String tableName, ContentValues values) {
         // If we have an id on this object
         // Check if it exists in the database
+
         if (object.getId() != 0) {
-            // if it does, then we update the existing record
-            update(object, values);
-            return object.getId();
+            try {
+                this.find(object.getId(), tableName);
+                update(object, values, tableName);
+                return object.getId();
+            } catch (DatabaseRecordNotFoundException e) {}
         }
 
         long newRowId = db.insert(tableName, MovieTable.MovieEntry.COLUMN_NAME_NULLABLE, values);
@@ -52,13 +55,12 @@ public abstract class DatabaseHelper<T> {
         return newRowId;
     }
 
-    public void update(CoreEntity object, ContentValues values) {
+    public void update(CoreEntity object, ContentValues values, String tableName) {
         String selection = "id LIKE ?";
         String[] selectionArgs = { String.valueOf(object.getId()) };
 
-        /// OBS: EJ GENERIC!
         int count = db.update(
-                MovieTable.MovieEntry.TABLE_NAME, //!!
+                tableName, 
                 values,
                 selection,
                 selectionArgs);
@@ -74,18 +76,9 @@ public abstract class DatabaseHelper<T> {
         return object.getId();
     }
 
-
     public Cursor search(String tableName, String column, String searchString) {
         List<Movie> results = new ArrayList<>();
         return db.rawQuery("SELECT * FROM " + tableName + " WHERE " + column + " LIKE ?",
                 new String[]{"%" + searchString + "%"});
     }
-
-    //QUICK_FIX.....TEMP://////////
-
-    public SQLiteDatabase getDatabase(){
-        return db;
-    }
-
-    //////////////////////
 }
