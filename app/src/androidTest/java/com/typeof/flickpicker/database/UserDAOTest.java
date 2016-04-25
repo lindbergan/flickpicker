@@ -41,12 +41,11 @@ public class UserDAOTest extends AndroidTestCase {
         //checks if return value in userID matches ID used in constructor
         assertEquals(123, userID);
 
-
     }
 
     public void testGetUserById() throws Exception {
 
-        
+
 
 
     }

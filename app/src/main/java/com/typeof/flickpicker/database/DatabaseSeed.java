@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.MovieTable;
 import com.typeof.flickpicker.database.sql.RatingTable;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.database.sql.UserTable;
 
 /**
  * FlickPicker
@@ -61,6 +63,25 @@ public class DatabaseSeed {
                 RatingTable.RatingEntry.TABLE_NAME,
                 RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
                 ratingValues);
+
+
+        //---USER---
+
+        db.execSQL(UserTable.UserEntry.getSQLDropTableQuery());
+        db.execSQL(UserTable.UserEntry.getSQLCreateTableQuery());
+
+        // Create a new map of values, where column names are the keys
+        ContentValues userValues = new ContentValues();
+        userValues.put(UserTable.UserEntry.COLUMN_NAME_ID, 12);
+        userValues.put(UserTable.UserEntry.COLUMN_NAME_USERNAME, "Frodo");
+        userValues.put(UserTable.UserEntry.COLUMN_NAME_PASSWORD, "TheRing");
+        userValues.put(UserTable.UserEntry.COLUMN_NAME_SCORE, 0);
+
+        long newRowIdUser = db.insert(
+                UserTable.UserEntry.TABLE_NAME,
+                UserTable.UserEntry.COLUMN_NAME_NULLABLE,
+                userValues);
+
 
     }
 
