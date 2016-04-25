@@ -13,6 +13,6 @@ public interface FriendDAO {
 
     boolean addFriend(long userId1, long userId2);
     List<User> getFriendsFromUserId(long id);
-    boolean removeFriend();
+    boolean removeFriend(long userId1, long userId2);
 
 }
