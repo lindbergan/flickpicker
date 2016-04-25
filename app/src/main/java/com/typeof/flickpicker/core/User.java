@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.core;
 
-public class User {
+public class User implements DatabaseObject {
 
     private final String TABLENAME = "USERS";
     private long id;
@@ -38,6 +38,8 @@ public class User {
     }
 
     //---------SETTERS-------------
+
+    public void setId(long id) { this.id = id; }
 
     public void setScore(int score) {
         this.score = score;

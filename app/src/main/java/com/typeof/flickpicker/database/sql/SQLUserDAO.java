@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.database.sql;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,7 +46,12 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
 
     @Override
     public long saveUser(User user) {
-        return 0;
+        ContentValues cv = new ContentValues();
+        cv.put(UserTable.UserEntry.COLUMN_NAME_ID, user.getId());
+        cv.put(UserTable.UserEntry.COLUMN_NAME_USERNAME, user.getUsername());
+        cv.put(UserTable.UserEntry.COLUMN_NAME_PASSWORD, user.getPassword());
+        cv.put(UserTable.UserEntry.COLUMN_NAME_SCORE, user.getScore());
+        return this.save(user, user.getTableName(), cv);
     }
 
     @Override
