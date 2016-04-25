@@ -67,14 +67,22 @@ public abstract class SQLDAO {
                 selectionArgs);
     }
 
-    public long delete(DatabaseObject object, String tableName) throws IllegalStateException {
+    /**
+     * Delete
+     * Returns number of rows affected
+     * @param object
+     * @param tableName
+     * @return
+     * @throws IllegalStateException
+     */
+    public int delete(DatabaseObject object, String tableName) throws IllegalStateException {
         if (object.getId() == 0) {
             throw new IllegalStateException("Core Entity cannot be deleted before it has been saved to the database");
         }
 
-        db.rawQuery("DELETE FROM " + tableName + " WHERE id = ?", new String[]{String.valueOf(object.getId())});
+        Cursor c = db.rawQuery("DELETE FROM " + tableName + " WHERE id = ?", new String[]{String.valueOf(object.getId())});
 
-        return object.getId();
+        return c.getCount();
     }
 
     public Cursor search(String tableName, String column, String searchString) {
