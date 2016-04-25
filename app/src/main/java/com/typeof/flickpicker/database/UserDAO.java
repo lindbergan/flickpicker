@@ -9,8 +9,8 @@ import com.typeof.flickpicker.core.User;
  */
 public interface UserDAO {
 
-    public User getUserById(long userId);
     public long saveUser(User user);
+    public User getUserById(long userId);
     public int deleteUser(User user);
 
 }
