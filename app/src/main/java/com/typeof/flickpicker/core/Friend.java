@@ -1,14 +1,12 @@
 package com.typeof.flickpicker.core;
 
-public class Friend {
+public class Friend implements DatabaseObject {
 
-    private final String TABLENAME = "FRIENDS";
-
-    private int id;
+    private long id;
     private long userIdOne;
     private long getUserIdTwo;
 
-    public Friend(int id, long userIdOne, long getUserIdTwo) {
+    public Friend(long id, long userIdOne, long getUserIdTwo) {
         this.id = id;
         this.userIdOne = userIdOne;
         this.getUserIdTwo = getUserIdTwo;
@@ -16,12 +14,13 @@ public class Friend {
 
     //-----------GETTERS-------------
 
-    public String getTableName() {
-        return TABLENAME;
+    public long getId() {
+        return id;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    public void setId(long id) {
+
     }
 
     public long getUserIdOne() {
