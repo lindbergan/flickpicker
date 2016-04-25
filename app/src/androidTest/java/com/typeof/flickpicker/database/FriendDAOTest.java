@@ -22,4 +22,10 @@ public class FriendDAOTest extends AndroidTestCase {
         fDatabaseSeed = new DatabaseSeed(getContext());
         fDatabaseSeed.seedDatabase();
     }
+
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        fDatabaseSeed.clearDatabase();
+    }
 }
