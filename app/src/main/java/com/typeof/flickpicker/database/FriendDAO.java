@@ -11,8 +11,8 @@ import java.util.List;
  */
 public interface FriendDAO {
 
-    boolean addFriend(long userId1, long userId2);
+    long addFriend(long userId1, long userId2);
     List<User> getFriendsFromUserId(long id);
-    boolean removeFriend(long userId1, long userId2);
+    long removeFriend(long userId1, long userId2);
 
 }

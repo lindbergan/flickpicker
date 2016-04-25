@@ -18,8 +18,8 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
     }
 
     @Override
-    public boolean addFriend(long userId1, long userId2) {
-        return false;
+    public long addFriend(long userId1, long userId2) {
+        return 0;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
     }
 
     @Override
-    public boolean removeFriend(long userId1, long userId2) {
-        return false;
+    public long removeFriend(long userId1, long userId2) {
+        return 0;
     }
 }
