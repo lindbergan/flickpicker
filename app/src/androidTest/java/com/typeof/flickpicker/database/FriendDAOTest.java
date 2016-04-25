@@ -46,6 +46,8 @@ public class FriendDAOTest extends AndroidTestCase {
 
         fFriendDAO.addFriend(user1.getId(), user2.getId());
 
+        testGetFriendsFromUserId();
+
         List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
 
         assertEquals(1, userFriends.size());
@@ -65,6 +67,31 @@ public class FriendDAOTest extends AndroidTestCase {
         List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
 
         assertTrue(userFriends != null);
+
+    }
+
+    /**
+     * Tests removeFriend
+     * Creates two random users
+     * Adds user2 to user1s friend list
+     * Removes user2 from user1s friend list
+     * @throws Exception
+     */
+
+    public void testRemoveFriend() throws Exception {
+
+        User user1 = new User(0, "pelle", "password");
+        User user2 = new User(1, "johan", "password");
+
+        testAddFriend();
+
+        fFriendDAO.addFriend(user1.getId(), user2.getId());
+
+        fFriendDAO.removeFriend(user1.getId(), user2.getId());
+
+        List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
+
+        assertTrue(userFriends.size() == 0);
 
     }
 }
