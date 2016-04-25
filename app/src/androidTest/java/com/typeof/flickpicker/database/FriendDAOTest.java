@@ -51,4 +51,20 @@ public class FriendDAOTest extends AndroidTestCase {
         assertEquals(1, userFriends.size());
 
     }
+
+    /**
+     * Tests getFriendsFromUserId
+     * Asserts that
+     * @throws Exception
+     */
+
+    public void testGetFriendsFromUserId() throws Exception {
+
+        User user1 = new User(0, "pelle", "password");
+
+        List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
+
+        assertTrue(userFriends != null);
+
+    }
 }
