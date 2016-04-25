@@ -2,7 +2,10 @@ package com.typeof.flickpicker.database;
 
 import android.test.AndroidTestCase;
 
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.SQLFriendDAO;
+
+import java.util.List;
 
 /**
  * FlickPicker
@@ -27,5 +30,25 @@ public class FriendDAOTest extends AndroidTestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
         fDatabaseSeed.clearDatabase();
+    }
+
+    /**
+     * Tests addFriend
+     * Creates two random users, user1 adds user2 as a friend
+     * Asserts that user1 has a friend in his friend list
+     * @throws Exception
+     */
+
+    public void testAddFriend() throws Exception {
+
+        User user1 = new User(0, "pelle", "password");
+        User user2 = new User(1, "johan", "password");
+
+        fFriendDAO.addFriend(user1.getId(), user2.getId());
+
+        List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
+
+        assertEquals(1, userFriends.size());
+
     }
 }
