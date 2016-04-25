@@ -4,13 +4,13 @@ public class User {
 
     private final String TABLENAME = "USERS";
     private long id;
-    private String userName;
+    private String username;
     private int score;
     private String password;
 
-    public User(long id, String userName, String password) {
+    public User(long id, String username, String password) {
         this.id = id;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.score = 0;
     }
@@ -25,8 +25,8 @@ public class User {
         return id;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     public int getScore() {

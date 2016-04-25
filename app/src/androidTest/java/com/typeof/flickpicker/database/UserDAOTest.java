@@ -32,6 +32,7 @@ public class UserDAOTest extends AndroidTestCase {
     }
 
     public void testSaveUser() throws Exception {
+
         //creates test user
         User user = new User(123, "Gandalf", "WhiteWiz");
 
@@ -45,12 +46,18 @@ public class UserDAOTest extends AndroidTestCase {
 
     public void testGetUserById() throws Exception {
 
+        //return user that was added to database via mDatabaseSeed
+        User user = mSQLUserDAO.getUserById(12);
 
+        //Checks if this indeed is the same user
+        assertEquals("checks if usernames matches", "Frodo", user.getUsername());
 
 
     }
 
     public void testDeleteUser() throws Exception {
+
+        
 
     }
 
