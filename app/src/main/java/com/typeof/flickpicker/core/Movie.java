@@ -1,5 +1,5 @@
 package com.typeof.flickpicker.core;
-public class Movie implements CoreEntity {
+public class Movie implements DatabaseObject {
 
     private long id;
     private String title;

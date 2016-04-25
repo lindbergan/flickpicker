@@ -1,25 +1,23 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
-
-import java.util.List;
+import com.typeof.flickpicker.database.sql.SQLRatingDAO;
 
 /**
  * FlickPicker
  * Group 22
  * Created on 16-04-21.
  */
-public class RatingDatabaseHelperTest extends AndroidTestCase {
+public class SQLRatingDAOTest extends AndroidTestCase {
 
-    private RatingDatabaseHelper mRatingDatabaseHelper;
+    private SQLRatingDAO mRatingDatabaseHelper;
     private DatabaseSeed mDatabaseSeed;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mRatingDatabaseHelper = new RatingDatabaseHelper(getContext());
+        mRatingDatabaseHelper = new SQLRatingDAO(getContext());
         mDatabaseSeed = new DatabaseSeed(getContext());
         mDatabaseSeed.seedDatabase();
     }

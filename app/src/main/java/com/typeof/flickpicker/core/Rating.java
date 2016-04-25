@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.core;
 
-public class Rating implements CoreEntity {
+public class Rating implements DatabaseObject {
 
     //private final String TABLENAME = "RATINGS";
     private long id = 0;

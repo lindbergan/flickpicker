@@ -4,6 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.typeof.flickpicker.database.sql.MovieTable;
+import com.typeof.flickpicker.database.sql.RatingTable;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+
 /**
  * FlickPicker
  * Group 22

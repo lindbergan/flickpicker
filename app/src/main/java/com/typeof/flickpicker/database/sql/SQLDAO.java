@@ -1,12 +1,13 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.sql;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.typeof.flickpicker.core.CoreEntity;
+import com.typeof.flickpicker.core.DatabaseObject;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +17,11 @@ import java.util.List;
  * Group 22
  * Created on 16-04-20.
  */
-public abstract class DatabaseHelper<T> {
+public abstract class SQLDAO {
 
     private SQLiteDatabase db;
 
-    public DatabaseHelper(Context ctx) {
+    public SQLDAO(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
         db = mDbHelper.getWritableDatabase();
     }
@@ -33,7 +34,7 @@ public abstract class DatabaseHelper<T> {
         return cursor;
     }
 
-    public long save(CoreEntity object, String tableName, ContentValues values) {
+    public long save(DatabaseObject object, String tableName, ContentValues values) {
         // If we have an id on this object
         // Check if it exists in the database
 
@@ -55,7 +56,7 @@ public abstract class DatabaseHelper<T> {
         return newRowId;
     }
 
-    public void update(CoreEntity object, ContentValues values, String tableName) {
+    public void update(DatabaseObject object, ContentValues values, String tableName) {
         String selection = "id LIKE ?";
         String[] selectionArgs = { String.valueOf(object.getId()) };
 
@@ -66,7 +67,7 @@ public abstract class DatabaseHelper<T> {
                 selectionArgs);
     }
 
-    public long delete(CoreEntity object, String tableName) throws IllegalStateException {
+    public long delete(DatabaseObject object, String tableName) throws IllegalStateException {
         if (object.getId() == 0) {
             throw new IllegalStateException("Core Entity cannot be deleted before it has been saved to the database");
         }

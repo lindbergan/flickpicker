@@ -1,6 +1,5 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.sql;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -8,18 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 //import com.typeof.flickpicker.User;
 import com.typeof.flickpicker.core.User;
 
-import java.util.List;
-
 /**
  * FlickPicker
  * Group 22
  * Created on 16-04-20.
  */
-public class UserDatabaseHelper {
+public class SQLUserDAO {
 
     private SQLiteDatabase db;
 
-    public UserDatabaseHelper(Context ctx) {
+    public SQLUserDAO(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
         db = mDbHelper.getWritableDatabase();
     }

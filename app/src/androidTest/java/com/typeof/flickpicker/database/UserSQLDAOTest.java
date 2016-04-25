@@ -1,24 +1,23 @@
 package com.typeof.flickpicker.database;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
-import junit.framework.TestCase;
+import com.typeof.flickpicker.database.sql.SQLUserDAO;
 
 /**
  * FlickPicker
  * Group 22
  * Created on 16-04-19.
  */
-public class UserDatabaseHelperTest extends AndroidTestCase {
+public class UserSQLDAOTest extends AndroidTestCase {
 
-    private UserDatabaseHelper mUserDatabaseHelper;
+    private SQLUserDAO mSQLUserDAO;
     private DatabaseSeed mDatabaseSeed;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mUserDatabaseHelper = new UserDatabaseHelper(getContext());
+        mSQLUserDAO = new SQLUserDAO(getContext());
         mDatabaseSeed = new DatabaseSeed(getContext());
         mDatabaseSeed.seedDatabase();
     }

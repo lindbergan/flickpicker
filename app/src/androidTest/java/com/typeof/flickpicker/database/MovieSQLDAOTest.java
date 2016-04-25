@@ -2,6 +2,7 @@ package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
 
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.database.sql.MovieSQLDAO;
 
 import java.util.List;
 
@@ -10,15 +11,15 @@ import java.util.List;
  * Group 22
  * Created on 16-04-19.
  */
-public class MovieDatabaseHelperTest extends AndroidTestCase {
+public class MovieSQLDAOTest extends AndroidTestCase {
 
-    private MovieDatabaseHelper mMovieDatabaseHelper;
+    private MovieSQLDAO mMovieDatabaseHelper;
     private DatabaseSeed mDatabaseSeed;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mMovieDatabaseHelper = new MovieDatabaseHelper(getContext());
+        mMovieDatabaseHelper = new MovieSQLDAO(getContext());
         mDatabaseSeed = new DatabaseSeed(getContext());
         mDatabaseSeed.seedDatabase();
     }

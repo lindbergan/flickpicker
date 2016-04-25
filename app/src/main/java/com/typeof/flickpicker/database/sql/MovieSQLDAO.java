@@ -1,10 +1,11 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.sql;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
+import com.typeof.flickpicker.database.MovieDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,9 @@ import java.util.List;
  * Group 22
  * Created on 16-04-19.
  */
-public class MovieDatabaseHelper extends DatabaseHelper<Movie> {
+public class MovieSQLDAO extends SQLDAO<Movie> implements MovieDAO {
 
-    public MovieDatabaseHelper(Context ctx) {
+    public MovieSQLDAO(Context ctx) {
         super(ctx);
     }
 

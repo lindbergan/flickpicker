@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.sql;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

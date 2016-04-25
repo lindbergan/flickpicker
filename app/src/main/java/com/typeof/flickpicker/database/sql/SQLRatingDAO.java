@@ -1,24 +1,20 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.sql;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.typeof.flickpicker.core.CoreEntity;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 
 /**
  * FlickPicker
  * Group 22
  * Created on 16-04-21.
  */
-public class RatingDatabaseHelper extends DatabaseHelper<Movie> {
+public class SQLRatingDAO extends SQLDAO {
 
-    public RatingDatabaseHelper(Context ctx) {
+    public SQLRatingDAO(Context ctx) {
         super(ctx);
     }
 
