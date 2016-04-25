@@ -46,18 +46,24 @@ public class UserDAOTest extends AndroidTestCase {
 
     public void testGetUserById() throws Exception {
 
-        //return user that was added to database via mDatabaseSeed
+        //return dummy user that was added to database via mDatabaseSeed
         User user = mSQLUserDAO.getUserById(12);
 
         //Checks if this indeed is the same user
         assertEquals("checks if usernames matches", "Frodo", user.getUsername());
 
-
     }
 
     public void testDeleteUser() throws Exception {
 
-        
+        //return dummy user that was added to database via mDatabaseSeed
+        User user = mSQLUserDAO.getUserById(12);
+
+        //delete method returns number of rows affected
+        int numberOfUsersDeleted = mSQLUserDAO.deleteUser(user);
+
+        //checks that only one user was deleted
+        assertEquals(1, numberOfUsersDeleted);
 
     }
 
