@@ -5,10 +5,10 @@ public class Friend {
     private final String TABLENAME = "FRIENDS";
 
     private int id;
-    private int userIdOne;
-    private int getUserIdTwo;
+    private long userIdOne;
+    private long getUserIdTwo;
 
-    public Friend(int id, int userIdOne, int getUserIdTwo) {
+    public Friend(int id, long userIdOne, long getUserIdTwo) {
         this.id = id;
         this.userIdOne = userIdOne;
         this.getUserIdTwo = getUserIdTwo;
@@ -24,11 +24,11 @@ public class Friend {
         return id;
     }
 
-    public int getUserIdOne() {
+    public long getUserIdOne() {
         return userIdOne;
     }
 
-    public int getGetUserIdTwo() {
+    public long getGetUserIdTwo() {
         return getUserIdTwo;
     }
 }//Friend
