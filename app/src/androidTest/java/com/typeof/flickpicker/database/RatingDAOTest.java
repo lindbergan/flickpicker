@@ -9,7 +9,7 @@ import com.typeof.flickpicker.database.sql.SQLRatingDAO;
  * Group 22
  * Created on 16-04-21.
  */
-public class SQLRatingDAOTest extends AndroidTestCase {
+public class RatingDAOTest extends AndroidTestCase {
 
     private SQLRatingDAO mRatingDatabaseHelper;
     private DatabaseSeed mDatabaseSeed;

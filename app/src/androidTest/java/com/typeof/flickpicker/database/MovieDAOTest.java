@@ -14,7 +14,7 @@ import java.util.List;
  * Group 22
  * Created on 16-04-19.
  */
-public class SQLMovieDAOTest extends AndroidTestCase {
+public class MovieDAOTest extends AndroidTestCase {
 
     private MovieDAO mMovieDAO;
     private DatabaseSeed mDatabaseSeed;

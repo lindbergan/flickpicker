@@ -9,7 +9,7 @@ import com.typeof.flickpicker.database.sql.SQLUserDAO;
  * Group 22
  * Created on 16-04-19.
  */
-public class UserSQLDAOTest extends AndroidTestCase {
+public class UserDAOTest extends AndroidTestCase {
 
     private SQLUserDAO mSQLUserDAO;
     private DatabaseSeed mDatabaseSeed;

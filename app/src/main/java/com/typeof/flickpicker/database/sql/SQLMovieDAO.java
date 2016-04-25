@@ -58,7 +58,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         Cursor c = super.search("movies", column, searchString);
 
         while (c.moveToNext()) {
-            long movieId = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
             results.add(createMovieFromCursor(c));
         }
 
