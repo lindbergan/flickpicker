@@ -33,10 +33,13 @@ public class MovieDAOTest extends AndroidTestCase {
         mDatabaseSeed.clearDatabase();
     }
 
+
     /**
      * Tests if we can find a record in the database
      * @throws Exception
      */
+
+
     public void testFind() throws Exception {
         Movie movie = mMovieDAO.findMovie(5); // This record is created via the DatabaseSeed
         assertEquals("Checking if fetching movie is successful", "Shawshank Redemption", movie.getTitle());
@@ -46,6 +49,8 @@ public class MovieDAOTest extends AndroidTestCase {
      * Tests if a record is saved in the database
      * @throws Exception
      */
+
+
     public void testSave() throws Exception {
         Movie movie = new Movie("Rocky");
         long rowId = mMovieDAO.saveMovie(movie);
@@ -56,6 +61,7 @@ public class MovieDAOTest extends AndroidTestCase {
      * Tests if we can create a record and then update it
      * @throws Exception
      */
+
     public void testUpdate() throws Exception {
         Movie movie = new Movie("2001: A Space Odyssey");
         long movieId = mMovieDAO.saveMovie(movie);
@@ -77,6 +83,7 @@ public class MovieDAOTest extends AndroidTestCase {
      * Tests if we can create a movie in the database and then find it by searching for it.
      * @throws Exception
      */
+
     public void testSearch() throws Exception {
         Movie movie = new Movie("Pulp Fiction");
         long id = mMovieDAO.saveMovie(movie);

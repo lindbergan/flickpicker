@@ -93,6 +93,23 @@ public class RatingDAOTest extends AndroidTestCase {
             assertTrue(true); // success!
         }
 
+        public void testGetCommunityTopPicks(int max){
+
+
+            //Process:
+            //Metoden i DAO skall SORTERA tabellen, därefter loopa igenom (int max) antal element i tabellen och retunera denna lista till
+            //testmetoden. Testet testar sedan så att filmer som inte kom med har lägre rating än de som retunerats.
+
+            //dummy-movies:
+
+            Movie firstDummyMove = new Movie()
+
+        }
+
+
+        //List<Movie> getTopRecommendedMoviesThisYear(int max);
+        //List<Movie> getMostDislikedMovies(int max);
+
     }
 
 
