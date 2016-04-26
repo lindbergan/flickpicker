@@ -34,7 +34,6 @@ public class RatingTableTest extends AndroidTestCase {
 
     public void testTableCreation() {
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'ratings'", null);
-        //System.out.println(cursor);
         assertNotNull(cursor);
     }
 
