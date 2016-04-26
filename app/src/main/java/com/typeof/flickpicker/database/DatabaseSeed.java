@@ -20,7 +20,6 @@ public class DatabaseSeed {
     private SQLiteDatabase db;
 
     public DatabaseSeed(Context ctx) {
-
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
         this.db = mDbHelper.getWritableDatabase();
     }
@@ -102,7 +101,6 @@ public class DatabaseSeed {
     public void clearDatabase() {
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
-
     }
 
 }

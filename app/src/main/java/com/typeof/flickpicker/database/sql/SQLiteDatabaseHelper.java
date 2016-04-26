@@ -15,6 +15,9 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
+        // Begin with dropping the old tables
+        db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
+
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
         db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());

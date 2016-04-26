@@ -2,6 +2,7 @@ package com.typeof.flickpicker.database.sql;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -20,14 +21,19 @@ import java.util.List;
  * Created on 16-04-25.
  */
 public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
+
+    private SQLiteDatabase db;
+
     public SQLPlaylistDAO(Context ctx) {
         super(ctx);
+        SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(ctx);
+        this.db = databaseHelper.getReadableDatabase();
     }
+
 
     @Override
     public long savePlaylist(Playlist playlist) {
         Gson gson = new Gson();
-        List<Number> bb = playlist.getMovieIds();
         String movieIdsJson = gson.toJson(playlist.getMovieIds(), new TypeToken<ArrayList<Number>>() {
         }.getType());
         ContentValues values = new ContentValues();
@@ -64,6 +70,17 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
     @Override
     public List<Playlist> getUserPlaylists(long userId) {
-        return null;
+        List<Playlist> playlists = new ArrayList<>();
+        Cursor c = db.rawQuery("SELECT * FROM playlists WHERE user_id = ?", new String[]{String.valueOf(userId)});
+        c.moveToFirst();
+        try {
+            do {
+                playlists.add(createPlaylistFromCursor(c));
+            }
+            while(c.moveToNext());
+        } finally {
+            c.close();
+        }
+        return playlists;
     }
 }

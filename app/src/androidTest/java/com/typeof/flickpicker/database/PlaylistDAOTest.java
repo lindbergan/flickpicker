@@ -1,4 +1,5 @@
 package com.typeof.flickpicker.database;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
@@ -9,6 +10,7 @@ import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FlickPicker
@@ -18,19 +20,33 @@ import java.util.ArrayList;
 public class PlaylistDAOTest extends AndroidTestCase {
 
     private PlaylistDAO mPlaylistDAO;
-    private SQLiteDatabase db;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(getContext());
         mPlaylistDAO = new SQLPlaylistDAO(getContext());
-        db = databaseHelper.getWritableDatabase();
+        SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(getContext());
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
+        db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+
+    public void testGetUserPlaylists() {
+        Playlist playlist = new Playlist("My favourites", 8, new ArrayList<Number>(){{add(20); add(30); add(40);}});
+        long id1 = mPlaylistDAO.savePlaylist(playlist);
+        Playlist playlist2 = new Playlist("My worst movies", 8, new ArrayList<Number>(){{add(20); add(30); add(40);}});
+        long id2 = mPlaylistDAO.savePlaylist(playlist2);
+        Playlist playlist3 = new Playlist("My coolest movies", 8, new ArrayList<Number>(){{add(20); add(30); add(40);}});
+        long id3 = mPlaylistDAO.savePlaylist(playlist3);
+
+        List<Playlist> playlists = mPlaylistDAO.getUserPlaylists(8);
+
+        assertEquals(3, playlists.size());
     }
 
     public void testFindPlaylistById() {
