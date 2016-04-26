@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.core;
 public class Movie implements DatabaseObject {
 
-    private long id;
+    private long id = 0;
     private String title;
     private String description;
     private String genre;

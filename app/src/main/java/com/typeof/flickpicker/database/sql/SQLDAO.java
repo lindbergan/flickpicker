@@ -46,7 +46,7 @@ public abstract class SQLDAO {
             } catch (DatabaseRecordNotFoundException e) {}
         }
 
-        long newRowId = db.insert(tableName, MovieTable.MovieEntry.COLUMN_NAME_NULLABLE, values);
+        long newRowId = db.insert(tableName, " ", values);
 
         // If there was an error saving the record, we return -1 as the id
         if (newRowId == -1) return -1;

@@ -3,38 +3,50 @@ package com.typeof.flickpicker.core;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Playlist {
-
-    private final String TABLENAME = "PLAYLISTS";
-    private int id;
+public class Playlist implements DatabaseObject {
+    private long id = 0;
     private String title;
-    private List<Movie> playlist;
-    private int userId;
+    private List<Number> movieIds;
+    private long userId;
 
-    public Playlist(int id, String title, int userId) {
-        this.id = id;
+    public Playlist(String title, long userId) {
         this.title = title;
         this.userId = userId;
-        playlist = new ArrayList<Movie>();
+        movieIds = new ArrayList<>();
     }
 
-    public String getTableName() {
-        return TABLENAME;
+    public Playlist(String title, long userId, List<Number> movieIds) {
+        this.title = title;
+        this.userId = userId;
+        this.movieIds = movieIds;
     }
 
-    public int getId(){
+    public long getId(){
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public List<Number> getMovieIds() {
+        return this.movieIds;
     }
 
     public String getTitle(){
         return title;
     }
 
-    public void add(Movie movie){
-        playlist.add(movie);
+    public void add(long movieId) {
+        this.movieIds.add(movieId);
     }
 
-    public void remove(Movie movie){
-        playlist.remove(movie);
+    public void remove(long movieId) {
+        movieIds.remove(movieIds.indexOf(movieId));
     }
+
 }//Playlist

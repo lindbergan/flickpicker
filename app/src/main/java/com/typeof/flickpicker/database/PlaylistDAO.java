@@ -8,6 +8,7 @@ import java.util.List;
  * Created on 16-04-25.
  */
 public interface PlaylistDAO {
+    long savePlaylist(Playlist playlist);
     Playlist findPlaylistById(long id);
     List<Playlist> getUserPlaylists(long userId);
 }

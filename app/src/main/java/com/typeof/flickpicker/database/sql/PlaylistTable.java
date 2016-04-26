@@ -20,14 +20,16 @@ public class PlaylistTable {
 
         public static final String TABLE_NAME = "playlists";
         public static final String COLUMN_NAME_ID = "id";
-        public static final String COLUMN_NAME_USER_ID = "userId";
-        public static final String COLUMN_NAME_MOVIES_LIST = "moviesList";
+        public static final String COLUMN_NAME_TITLE = "title";
+        public static final String COLUMN_NAME_USER_ID = "user_id";
+        public static final String COLUMN_NAME_MOVIES_LIST = "movies_list";
         public static final String COLUMN_NAME_NULLABLE = " ";
 
 
         public static String getSQLCreateTableQuery() {
             return "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_USER_ID + INTEGER_TYPE + COMMA_SEP +
                     COLUMN_NAME_MOVIES_LIST + TEXT_TYPE +
                     " )";
