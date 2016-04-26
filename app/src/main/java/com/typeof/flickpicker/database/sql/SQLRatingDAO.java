@@ -6,6 +6,7 @@ import android.database.Cursor;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
+import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created on 16-04-21.
  */
 
-public class SQLRatingDAO extends SQLDAO {
+public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     public SQLRatingDAO(Context ctx) {
         super(ctx);
@@ -39,7 +40,7 @@ public class SQLRatingDAO extends SQLDAO {
 
     }
 
-    public long saveRating(double rating, int movieId, int userId) {
+    public long saveRating(double rating, long movieId, long userId) {
 
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating);

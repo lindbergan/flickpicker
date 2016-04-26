@@ -4,10 +4,10 @@ public class Rating implements DatabaseObject {
 
     private long id = 0;
     private double rating;
-    private int movieId;
-    private int userId;
+    private long movieId;
+    private long userId;
 
-    public Rating(double rating, int movieId, int userId) {
+    public Rating(double rating, long movieId, long userId) {
         this.rating = rating;
         this.movieId = movieId;
         this.userId = userId;
@@ -27,11 +27,11 @@ public class Rating implements DatabaseObject {
         return rating;
     }
 
-    public int getMovieId() {
+    public long getMovieId() {
         return movieId;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
