@@ -14,6 +14,7 @@ import java.util.List;
  * Group 22
  * Created on 16-04-21.
  */
+
 public class SQLRatingDAO extends SQLDAO {
 
     public SQLRatingDAO(Context ctx) {
@@ -21,10 +22,6 @@ public class SQLRatingDAO extends SQLDAO {
     }
 
     public List<Rating> getMovieRatings(long movieId){
-
-    }
-
-    public void removeRating(long ratingId){
 
     }
 
@@ -56,6 +53,13 @@ public class SQLRatingDAO extends SQLDAO {
 
     public Cursor findRating(long id){
         return super.find(id,"ratings");
+    }
+
+    public int removeRating(long id){
+        Cursor c = findRating(id);
+        Rating ratingToDelete = createRatingFromCursor(c);
+
+        return super.delete(ratingToDelete,"ratings");
     }
 
     /*

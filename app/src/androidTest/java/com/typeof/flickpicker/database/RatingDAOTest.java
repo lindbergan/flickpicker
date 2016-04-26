@@ -58,8 +58,8 @@ public class RatingDAOTest extends AndroidTestCase {
     public void testSaveRating(){
 
         //process:
-        //save rating and save its id
-        //call createRatingFromCursor() and save that rating
+        //save rating and its corresponding id
+        //call createRatingFromCursor() and save that rating object
         //compare that ratings id to the rating created in the beginning to verify that the object has been saved
 
         long rateId = mRatingDatabaseHelper.saveRating(2,2,2);
@@ -72,6 +72,22 @@ public class RatingDAOTest extends AndroidTestCase {
     }
     public void testremoveRating(){
 
+        //process:
+        // saves a dummy rating and confirm that it is saved
+        // call deleteRating() and verify that the returned value (value of the cursor for that id) matches the expected value 0
+
+        long ratingId = mRatingDatabaseHelper.saveRating(4,4,4);
+        Cursor cursor = mRatingDatabaseHelper.findRating(ratingId);
+        int CursorCountAfterSave = cursor.getCount();
+
+        //confirms that its count equals 1 after save
+        assertEquals(1, CursorCountAfterSave);
+
+        int CursorCountAfterDelete = mRatingDatabaseHelper.removeRating(ratingId);
+
+        //confirms that its count equals 0 after delete
+        assertEquals(0, CursorCountAfterDelete);
+        
     }
 
 
