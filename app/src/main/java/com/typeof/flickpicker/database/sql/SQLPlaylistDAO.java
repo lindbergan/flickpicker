@@ -27,10 +27,13 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
     @Override
     public long savePlaylist(Playlist playlist) {
         Gson gson = new Gson();
+        List<Number> bb = playlist.getMovieIds();
+        String movieIdsJson = gson.toJson(playlist.getMovieIds(), new TypeToken<ArrayList<Number>>() {
+        }.getType());
         ContentValues values = new ContentValues();
         values.put(PlaylistTable.PlaylistEntry.COLUMN_NAME_TITLE, playlist.getTitle());
         values.put(PlaylistTable.PlaylistEntry.COLUMN_NAME_USER_ID, playlist.getUserId());
-        values.put(PlaylistTable.PlaylistEntry.COLUMN_NAME_MOVIES_LIST, gson.toJson(playlist.getMovieIds()));
+        values.put(PlaylistTable.PlaylistEntry.COLUMN_NAME_MOVIES_LIST, movieIdsJson);
         return super.save(playlist, "playlists", values);
     }
 

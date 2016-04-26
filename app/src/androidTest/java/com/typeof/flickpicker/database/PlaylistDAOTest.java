@@ -34,9 +34,8 @@ public class PlaylistDAOTest extends AndroidTestCase {
     }
 
     public void testFindPlaylistById() {
-        Playlist playlist = new Playlist("My favourites", 5);
+        Playlist playlist = new Playlist("My favourites", 5, new ArrayList<Number>(){{add(20); add(30); add(40);}});
         long id = mPlaylistDAO.savePlaylist(playlist);
-
         Playlist foundPlaylist = mPlaylistDAO.findPlaylistById(id);
         assertEquals(id, foundPlaylist.getId());
     }
