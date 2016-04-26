@@ -17,12 +17,14 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
+        db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
     }
 
     @Override
     public void onUpgrade(android.database.sqlite.SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
+        db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
         onCreate(db);
     }
 
