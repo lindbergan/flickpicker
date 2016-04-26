@@ -26,15 +26,12 @@ public class SQLRatingDAO extends SQLDAO {
 
         List<Rating> ratingsForMovie = new ArrayList<Rating>();
         Cursor movieIdCursor = searchRatingBy("movieId","5");
-        int cCount = movieIdCursor.getCount();
         movieIdCursor.moveToFirst();
 
-        if(movieIdCursor.moveToFirst()) {
-            do {
-                ratingsForMovie.add(createRatingFromCursor(movieIdCursor));
-            }
-            while (movieIdCursor.moveToNext());
 
+        for(int i = 0; i < movieIdCursor.getCount(); i++){
+            ratingsForMovie.add(createRatingFromCursor(movieIdCursor));
+            movieIdCursor.moveToNext();
         }
 
         movieIdCursor.close();
@@ -43,11 +40,11 @@ public class SQLRatingDAO extends SQLDAO {
     }
 
     public long saveRating(double rating, int movieId, int userId) {
+
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating);
         values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, movieId);
         values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, userId);
-
         return super.save(new Rating(rating,movieId,userId), "ratings", values);
     }
 
@@ -57,7 +54,6 @@ public class SQLRatingDAO extends SQLDAO {
 
     public Rating createRatingFromCursor(Cursor c) {
 
-        c.moveToFirst();
         long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
         double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
         int movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
@@ -68,14 +64,17 @@ public class SQLRatingDAO extends SQLDAO {
         return createdRating;
     }
 
-    public Cursor findRating(long id){
-        return super.find(id,"ratings");
+    public Rating findRating(long id){
+        Cursor cursor = super.find(id,"ratings");
+        cursor.moveToFirst();
+        Rating ratingToReturn = createRatingFromCursor(cursor);
+        cursor.close();
+        return ratingToReturn;
     }
 
     public int removeRating(long id){
-        Cursor c = findRating(id);
-        Rating ratingToDelete = createRatingFromCursor(c);
 
+        Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete,"ratings");
     }
 

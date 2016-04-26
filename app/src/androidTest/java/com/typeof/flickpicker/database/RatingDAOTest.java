@@ -2,8 +2,11 @@ package com.typeof.flickpicker.database;
 import android.database.Cursor;
 import android.test.AndroidTestCase;
 
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.sql.SQLRatingDAO;
+
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,7 @@ public class RatingDAOTest extends AndroidTestCase {
         mDatabaseSeed.clearDatabase();
     }
 
-    public void testgetMovieRatings(){
+    public void testGetMovieRatings(){
 
         //Process:
         // create two different ratings with the same movie id
@@ -59,12 +62,11 @@ public class RatingDAOTest extends AndroidTestCase {
 
         //process:
         //save rating and its corresponding id
-        //call createRatingFromCursor() and save that rating object
-        //compare that ratings id to the rating created in the beginning to verify that the object has been saved
+        //call findRating() and save that rating object
+        //compare that ratings id of that object to the rating created in the beginning to verify that the object has been saved
 
         long rateId = mSQLRatingDAO.saveRating(2,2,2);
-        Cursor c = mSQLRatingDAO.findRating(rateId);
-        Rating fetchedRating = mSQLRatingDAO.createRatingFromCursor(c);
+        Rating fetchedRating = mSQLRatingDAO.findRating(rateId);
 
         assertEquals(rateId, fetchedRating.getId() );
 
@@ -74,19 +76,22 @@ public class RatingDAOTest extends AndroidTestCase {
 
         //process:
         // saves a dummy rating and confirm that it is saved
-        // call deleteRating() and verify that the returned value (value of the cursor for that id) matches the expected value 0
+        // call deleteRating() and verify that it has been deleted
 
         long ratingId = mSQLRatingDAO.saveRating(4,4,4);
-        Cursor cursor = mSQLRatingDAO.findRating(ratingId);
-        int CursorCountAfterSave = cursor.getCount();
+        Rating ratingAfterSave = mSQLRatingDAO.findRating(ratingId);
 
-        //confirms that its count equals 1 after save
-        assertEquals(1, CursorCountAfterSave);
+        //confirms that the rating has been saved
+        assertEquals(ratingId, ratingAfterSave.getId());
 
-        int CursorCountAfterDelete = mSQLRatingDAO.removeRating(ratingId);
+        mSQLRatingDAO.removeRating(ratingId);
 
-        //confirms that its count equals 0 after delete
-        assertEquals(0, CursorCountAfterDelete);
+        try {
+            Rating foundRating = mSQLRatingDAO.findRating(ratingId);
+            Assert.fail("Throw record not found exception");
+        } catch (DatabaseRecordNotFoundException e) {
+            assertTrue(true); // success!
+        }
 
     }
 
