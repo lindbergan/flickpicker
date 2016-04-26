@@ -1,8 +1,12 @@
 package com.typeof.flickpicker.database;
+import android.database.Cursor;
 import android.test.AndroidTestCase;
 
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.sql.SQLRatingDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FlickPicker
@@ -28,19 +32,70 @@ public class RatingDAOTest extends AndroidTestCase {
         mDatabaseSeed.clearDatabase();
     }
 
+    public void testGetMovieRatings(){
+
+        //Process:
+        // create two different ratings with same movie id
+        // save those two ratings and save their ids for comparison later on
+        // find those two ratings by searching for the specific movieId
+        //compare the aquired list of ratings with the ones created earlier on to verify the method
+
+        long ratingOneId = mRatingDatabaseHelper.saveRating(3.0,5,5);
+        long ratingTwoId = mRatingDatabaseHelper.saveRating(4.0,5,4);
+
+        List<Rating> uniqeRatings = new ArrayList<>();
+        Cursor tempCursor = mRatingDatabaseHelper.searchRatingBy("movieId","5");
+
+        while(tempCursor.moveToNext()){
+            uniqeRatings.add(new Rating(1,1,1));
+        }
+
+        assertEquals(2, uniqeRatings.size());
+
+
+    }
+
+    public void testSaveRating(){
+
+        //process:
+        //save rating and save its id
+        //call createRatingFromCursor() and save that rating
+        //compare that ratings id to the rating created in the beginning to verify that the object has been saved
+
+        long rateId = mRatingDatabaseHelper.saveRating(2,2,2);
+        Cursor c = mRatingDatabaseHelper.findRating(rateId);
+        Rating fetchedRating = mRatingDatabaseHelper.createRatingFromCursor(c);
+
+        assertEquals(rateId, fetchedRating.getId() );
+
+
+    }
+    public void testremoveRating(){
+
+    }
+
+
+
+    //--------OLD DESIGN---------------------------
+
     /**
      * Tests if we can find a record in the database
      * @throws Exception
      */
+
+    /*
     public void testFind() throws Exception {
         Rating rating = mRatingDatabaseHelper.find(5); // This record is created via the DatabaseSeed
         assertEquals("Checking if fetching rating is successful", 4.0, rating.getRating());
     }
+    */
 
     /**
      * Tests if a record is saved in the database
      * @throws Exception
      */
+
+    /*
     public void testSave() throws Exception {
         Rating rating = new Rating(1.0,1,1); //int id, double rating, int movieId, int userId
         long rowId = mRatingDatabaseHelper.save(rating);
@@ -51,6 +106,7 @@ public class RatingDAOTest extends AndroidTestCase {
      * Tests if we can create a record and then update it
      * @throws Exception
      */
+    /*
     public void testUpdate() throws Exception {
         Rating rating = new Rating(2.0,2,2);
         long ratingId = mRatingDatabaseHelper.save(rating);
@@ -82,5 +138,7 @@ public class RatingDAOTest extends AndroidTestCase {
         }
 
     }
+    */
+
 
 }

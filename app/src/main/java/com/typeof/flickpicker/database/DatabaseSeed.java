@@ -25,6 +25,9 @@ public class DatabaseSeed {
 
     public void seedDatabase() {
 
+
+                        //-----Movie-----
+
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
 
@@ -44,23 +47,34 @@ public class DatabaseSeed {
                 MovieTable.MovieEntry.COLUMN_NAME_NULLABLE,
                 values);
 
-        //---RATING---
+                        //---RATING---
 
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
 
         //
         // Create a new map of values, where column names are the keys
-        ContentValues ratingValues = new ContentValues();
-        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 5);
-        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 4.0);
-        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 3);
-        ratingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 2);
+        ContentValues firstRatingValues = new ContentValues();
+        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 5);
+        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 4.0);
+        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 3);
+        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 2);
 
-        long newRowIdRating = db.insert(
+        long firstNewRowIdRating = db.insert(
                 RatingTable.RatingEntry.TABLE_NAME,
                 RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                ratingValues);
+                firstRatingValues);
+
+        ContentValues SecondRatingValues = new ContentValues();
+        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 4);
+        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 3.0);
+        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 2);
+        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 1);
+
+        long secondNewRowIdRating = db.insert(
+                RatingTable.RatingEntry.TABLE_NAME,
+                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
+                SecondRatingValues);
 
     }
 

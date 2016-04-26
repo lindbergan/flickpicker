@@ -7,6 +7,8 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 
+import java.util.List;
+
 /**
  * FlickPicker
  * Group 22
@@ -18,6 +20,45 @@ public class SQLRatingDAO extends SQLDAO {
         super(ctx);
     }
 
+    public List<Rating> getMovieRatings(long movieId){
+
+    }
+
+    public void removeRating(long ratingId){
+
+    }
+
+    public long saveRating(double rating, int movieId, int userId) {
+        ContentValues values = new ContentValues();
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating);
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, movieId);
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, userId);
+
+        return super.save(new Rating(rating,movieId,userId), "ratings", values);
+    }
+
+    public Cursor searchRatingBy(String column, String searchString){
+        return super.search("ratings",column, searchString);
+    }
+
+    public Rating createRatingFromCursor(Cursor c) {
+
+        c.moveToFirst();
+        long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
+        double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
+        int movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        int userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+
+        Rating createdRating = new Rating(rating,movieId,userId);
+        createdRating.setId(id);
+        return createdRating;
+    }
+
+    public Cursor findRating(long id){
+        return super.find(id,"ratings");
+    }
+
+    /*
     public Rating find(long id) {
         try {
             Cursor c = super.find(id, "ratings");
@@ -54,6 +95,8 @@ public class SQLRatingDAO extends SQLDAO {
         super.update(rating, values);
     }
     */
+
+    /*
 
     public void update(Rating rating, ContentValues values) {
         super.update(rating, values, "ratings");

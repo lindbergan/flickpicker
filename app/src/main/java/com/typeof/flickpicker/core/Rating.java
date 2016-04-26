@@ -2,7 +2,6 @@ package com.typeof.flickpicker.core;
 
 public class Rating implements DatabaseObject {
 
-    //private final String TABLENAME = "RATINGS";
     private long id = 0;
     private double rating;
     private int movieId;
@@ -39,4 +38,5 @@ public class Rating implements DatabaseObject {
     public void updateRating(double newRating){
         this.rating = newRating;
     }
+
 }//Rating
