@@ -7,6 +7,7 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +23,22 @@ public class SQLRatingDAO extends SQLDAO {
     }
 
     public List<Rating> getMovieRatings(long movieId){
+
+        List<Rating> ratingsForMovie = new ArrayList<Rating>();
+        Cursor movieIdCursor = searchRatingBy("movieId","5");
+        int cCount = movieIdCursor.getCount();
+        movieIdCursor.moveToFirst();
+
+        if(movieIdCursor.moveToFirst()) {
+            do {
+                ratingsForMovie.add(createRatingFromCursor(movieIdCursor));
+            }
+            while (movieIdCursor.moveToNext());
+
+        }
+
+        movieIdCursor.close();
+        return ratingsForMovie;
 
     }
 

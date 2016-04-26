@@ -15,13 +15,13 @@ import java.util.List;
  */
 public class RatingDAOTest extends AndroidTestCase {
 
-    private SQLRatingDAO mRatingDatabaseHelper;
+    private SQLRatingDAO mSQLRatingDAO;
     private DatabaseSeed mDatabaseSeed;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mRatingDatabaseHelper = new SQLRatingDAO(getContext());
+        mSQLRatingDAO = new SQLRatingDAO(getContext());
         mDatabaseSeed = new DatabaseSeed(getContext());
         mDatabaseSeed.seedDatabase();
     }
@@ -32,26 +32,26 @@ public class RatingDAOTest extends AndroidTestCase {
         mDatabaseSeed.clearDatabase();
     }
 
-    public void testGetMovieRatings(){
+    public void testgetMovieRatings(){
 
         //Process:
-        // create two different ratings with same movie id
-        // save those two ratings and save their ids for comparison later on
+        // create two different ratings with the same movie id
+        // save those two ratings and save their corresponding ids for comparison later on
         // find those two ratings by searching for the specific movieId
-        //compare the aquired list of ratings with the ones created earlier on to verify the method
+        //compare the aquired list of ratings ids with the ones created earlier on to verify the method works as expected
 
-        long ratingOneId = mRatingDatabaseHelper.saveRating(3.0,5,5);
-        long ratingTwoId = mRatingDatabaseHelper.saveRating(4.0,5,4);
+        //two unique ids, from two different users but points to the same movie
+        long ratingOneId = mSQLRatingDAO.saveRating(3,5,5);
+        long ratingTwoId = mSQLRatingDAO.saveRating(4,5,4);
 
-        List<Rating> uniqeRatings = new ArrayList<>();
-        Cursor tempCursor = mRatingDatabaseHelper.searchRatingBy("movieId","5");
+        List<Rating> ratingsToCompare = mSQLRatingDAO.getMovieRatings(5);
+        int size = ratingsToCompare.size();
+        //compares the size of the auired array to the expected value:
+        assertEquals(2, ratingsToCompare.size());
 
-        while(tempCursor.moveToNext()){
-            uniqeRatings.add(new Rating(1,1,1));
-        }
-
-        assertEquals(2, uniqeRatings.size());
-
+        //finally verifies the ids:
+        assertEquals(ratingOneId,ratingsToCompare.get(0).getId());
+        assertEquals(ratingTwoId,ratingsToCompare.get(1).getId());
 
     }
 
@@ -62,32 +62,32 @@ public class RatingDAOTest extends AndroidTestCase {
         //call createRatingFromCursor() and save that rating object
         //compare that ratings id to the rating created in the beginning to verify that the object has been saved
 
-        long rateId = mRatingDatabaseHelper.saveRating(2,2,2);
-        Cursor c = mRatingDatabaseHelper.findRating(rateId);
-        Rating fetchedRating = mRatingDatabaseHelper.createRatingFromCursor(c);
+        long rateId = mSQLRatingDAO.saveRating(2,2,2);
+        Cursor c = mSQLRatingDAO.findRating(rateId);
+        Rating fetchedRating = mSQLRatingDAO.createRatingFromCursor(c);
 
         assertEquals(rateId, fetchedRating.getId() );
 
 
     }
-    public void testremoveRating(){
+    public void testRemoveRating(){
 
         //process:
         // saves a dummy rating and confirm that it is saved
         // call deleteRating() and verify that the returned value (value of the cursor for that id) matches the expected value 0
 
-        long ratingId = mRatingDatabaseHelper.saveRating(4,4,4);
-        Cursor cursor = mRatingDatabaseHelper.findRating(ratingId);
+        long ratingId = mSQLRatingDAO.saveRating(4,4,4);
+        Cursor cursor = mSQLRatingDAO.findRating(ratingId);
         int CursorCountAfterSave = cursor.getCount();
 
         //confirms that its count equals 1 after save
         assertEquals(1, CursorCountAfterSave);
 
-        int CursorCountAfterDelete = mRatingDatabaseHelper.removeRating(ratingId);
+        int CursorCountAfterDelete = mSQLRatingDAO.removeRating(ratingId);
 
         //confirms that its count equals 0 after delete
         assertEquals(0, CursorCountAfterDelete);
-        
+
     }
 
 
@@ -101,7 +101,7 @@ public class RatingDAOTest extends AndroidTestCase {
 
     /*
     public void testFind() throws Exception {
-        Rating rating = mRatingDatabaseHelper.find(5); // This record is created via the DatabaseSeed
+        Rating rating = mSQLRatingDAO.find(5); // This record is created via the DatabaseSeed
         assertEquals("Checking if fetching rating is successful", 4.0, rating.getRating());
     }
     */
@@ -114,7 +114,7 @@ public class RatingDAOTest extends AndroidTestCase {
     /*
     public void testSave() throws Exception {
         Rating rating = new Rating(1.0,1,1); //int id, double rating, int movieId, int userId
-        long rowId = mRatingDatabaseHelper.save(rating);
+        long rowId = mSQLRatingDAO.save(rating);
         assertFalse(rowId == -1);
     }
 
@@ -125,16 +125,16 @@ public class RatingDAOTest extends AndroidTestCase {
     /*
     public void testUpdate() throws Exception {
         Rating rating = new Rating(2.0,2,2);
-        long ratingId = mRatingDatabaseHelper.save(rating);
+        long ratingId = mSQLRatingDAO.save(rating);
 
         // We assert that the rating was saved and was given a unique ID;
         assertFalse(ratingId == -1);
 
         rating.updateRating(5.0);
-        mRatingDatabaseHelper.save(rating);
+        mSQLRatingDAO.save(rating);
 
         // We now look in our database for the record saved
-        Rating ratingFetched = mRatingDatabaseHelper.find(ratingId);
+        Rating ratingFetched = mSQLRatingDAO.find(ratingId);
 
         // Check if the rating has the new updated rating
         assertEquals(ratingFetched.getRating(), 5.0);
@@ -142,12 +142,12 @@ public class RatingDAOTest extends AndroidTestCase {
 
     public void testDelete() throws Exception {
         Rating rating = new Rating(4.0,4,4);
-        long id = mRatingDatabaseHelper.save(rating);
+        long id = mSQLRatingDAO.save(rating);
 
-        mRatingDatabaseHelper.delete(rating);
+        mSQLRatingDAO.delete(rating);
 
         try {
-            Rating foundRating = mRatingDatabaseHelper.find(id);
+            Rating foundRating = mSQLRatingDAO.find(id);
         }
         catch(DatabaseRecordNotFoundException e){
             //catch exception - test successful

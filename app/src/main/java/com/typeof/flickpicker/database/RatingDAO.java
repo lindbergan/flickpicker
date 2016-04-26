@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface RatingDAO {
 
-    public List<Rating> getMovieRatings(long movieId);
+    public List<Rating> getMovieRatings(long movieId); // int, not long right?
     public long saveRating(double RatingValue, long movieId, long userId);
     public void removeRating(long ratingId);
 }
