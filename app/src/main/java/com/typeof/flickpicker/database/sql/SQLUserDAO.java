@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 //import com.typeof.flickpicker.User;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.UserDAO;
 
 /**
@@ -36,12 +37,12 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
 //        return user;
 //    }
 
-    public User createUserFromDatabaseData(Cursor c){
+    public User createUserFromCursor(Cursor c){
         c.moveToFirst();
         long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
         String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
         String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
-         return new User(id, username, password);
+        return new User(id, username, password);
     }
 
     @Override
@@ -56,22 +57,23 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
 
     @Override
     public User getUserById(long userId) {
-        return null;
+        try {
+            Cursor c = this.find(userId, UserTable.UserEntry.TABLE_NAME);
+            User user = this.createUserFromCursor(c);
+            c.close();
+            return user;
+        } catch (DatabaseRecordNotFoundException e) {
+            throw new DatabaseRecordNotFoundException(e.getMessage());
+        }
     }
 
     @Override
     public int deleteUser(User user) {
-        return 0;
+        return this.delete()
     }
 
 /*
-    public long save(User user) {
-    }
-
     private void update(User user, ContentValues values) {
-    }
-
-    public long delete(User user) {
     }
 
     public List<User> search(String searchString) {
