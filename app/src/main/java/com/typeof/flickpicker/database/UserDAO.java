@@ -2,6 +2,8 @@ package com.typeof.flickpicker.database;
 
 import com.typeof.flickpicker.core.User;
 
+import java.util.List;
+
 /**
  * FlickPicker
  * Group 22
@@ -9,8 +11,9 @@ import com.typeof.flickpicker.core.User;
  */
 public interface UserDAO {
 
-    public long saveUser(User user);
     public User getUserById(long userId);
+    public long saveUser(User user);
+    public List<User> searchUser(String column, String searchString);
     public int deleteUser(User user);
 
 }

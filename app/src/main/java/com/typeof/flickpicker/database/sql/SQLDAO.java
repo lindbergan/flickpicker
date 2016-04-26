@@ -80,9 +80,9 @@ public abstract class SQLDAO {
             throw new IllegalStateException("Core Entity cannot be deleted before it has been saved to the database");
         }
 
-        Cursor c = db.rawQuery("DELETE FROM " + tableName + " WHERE id = ?", new String[]{String.valueOf(object.getId())});
+        return db.delete(tableName, "id = " + object.getId(), null);
 
-        return c.getCount();
+
     }
 
     public Cursor search(String tableName, String column, String searchString) {
