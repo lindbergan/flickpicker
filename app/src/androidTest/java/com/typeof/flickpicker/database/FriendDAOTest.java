@@ -41,12 +41,10 @@ public class FriendDAOTest extends AndroidTestCase {
 
     public void testAddFriend() throws Exception {
 
-        User user1 = new User(0, "pelle", "password");
-        User user2 = new User(1, "johan", "password");
+        User user1 = new User("pelle", "password");
+        User user2 = new User("johan", "password");
 
         fFriendDAO.addFriend(user1.getId(), user2.getId());
-
-        testGetFriendsFromUserId();
 
         List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
 
@@ -62,7 +60,7 @@ public class FriendDAOTest extends AndroidTestCase {
 
     public void testGetFriendsFromUserId() throws Exception {
 
-        User user1 = new User(0, "pelle", "password");
+        User user1 = new User("pelle", "password");
 
         List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
 
@@ -80,10 +78,8 @@ public class FriendDAOTest extends AndroidTestCase {
 
     public void testRemoveFriend() throws Exception {
 
-        User user1 = new User(0, "pelle", "password");
-        User user2 = new User(1, "johan", "password");
-
-        testAddFriend();
+        User user1 = new User("pelle", "password");
+        User user2 = new User("johan", "password");
 
         fFriendDAO.addFriend(user1.getId(), user2.getId());
 
