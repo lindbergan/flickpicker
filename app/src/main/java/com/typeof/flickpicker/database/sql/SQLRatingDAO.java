@@ -85,24 +85,35 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     }
 
     public List<Movie> getCommunityTopPicks(int max){
+        return getCommunityAllTime(max,"DESC");
+    }
 
-        //first - query the database of sorting the top "int max" number of movies with the highest rating from the rating table
-        Cursor c = getDatabase().rawQuery("SELECT * FROM ratings ORDER BY rating DESC LIMIT " + String.valueOf(max),null);
-        List<Movie> topRatedMovies = new ArrayList<Movie>();
+
+    public List<Movie> getMostDislikedMovies(int max){
+        return getCommunityAllTime(max,"ASC");
+    }
+
+    public List<Movie> getCommunityAllTime(int max, String decOrInc){
+
+        //Query the database of sorting the "int max" number of movies with the highest or lowest (decOrInc) rating from the rating table at the top of the table
+        Cursor c = getDatabase().rawQuery("SELECT * FROM ratings ORDER BY rating " + decOrInc + " LIMIT " + String.valueOf(max),null); //DESC
+        List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
         for (int i = 0; i < max; i++) {
 
-            //get the top ratings and save their movieId:s. Find movie based on id and save it to topRatedMovies
-            Rating topRating = createRatingFromCursor(c);
-            long movieId = topRating.getMovieId();
-            topRatedMovies.add(sqlMovieDAO.findMovie(movieId));
+            //get the top or bottom ratings and save their movieId:s. Find movie based on id and save it to ratedMovies
+            Rating rating = createRatingFromCursor(c);
+            long movieId = rating.getMovieId();
+            sortedMovies.add(sqlMovieDAO.findMovie(movieId));
             c.moveToNext();
         }
 
         c.close();
-        return topRatedMovies;
+        return sortedMovies;
     }
+
+
 
 
     /*

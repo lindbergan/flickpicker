@@ -102,8 +102,9 @@ public class RatingDAOTest extends AndroidTestCase {
 
 
             //Process:
-            //Metoden i DAO skall SORTERA tabellen, därefter loopa igenom (int max) antal element i tabellen och retunera denna lista till
-            //testmetoden. Testet testar sedan så att filmer som inte kom med har lägre rating än de som retunerats.
+            //The method getCommunityTopPicks in RatingDAO shall sort the rating table and loop through
+            // the table (int desiredSizeOfList) and return a list containing the movies. Theese movies need
+            // to match the expected movies to confirm that the method is valid.
 
             //dummy-movies:
             long firstDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("A"));
@@ -127,12 +128,44 @@ public class RatingDAOTest extends AndroidTestCase {
 
             assertEquals("B",communityTopPicksAllTime.get(0).getTitle());
             assertEquals("C",communityTopPicksAllTime.get(1).getTitle());
-            //assertEquals("D",communityTopPicksAllTime.get(2).getTitle());
     }
 
 
+    public void testGetMostDislikedMovies(){
+
+        //Process:
+        //The method getCommunityTopPicks in RatingDAO shall sort the rating table and loop through
+        // the table (int desiredSizeOfList) and return a list containing the movies. Theese movies need
+        // to match the expected movies to confirm that the method is valid.
+
+        //dummy-movies:
+        long firstDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("A"));
+        long secondDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("B"));
+        long thirdDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("C"));
+        long fourthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("D"));
+
+        //dummy ratings for those movies
+        int userId = 1;
+        long firstDummyRatingId = mSQLRatingDAO.saveRating(1,firstDummyMovieId, userId);
+        long secondDummyRatingId = mSQLRatingDAO.saveRating(2,secondDummyMovieId, userId);
+        long thirdDummyRatingId = mSQLRatingDAO.saveRating(1,thirdDummyMovieId, userId);
+        long fourthDummyRatingId = mSQLRatingDAO.saveRating(3,fourthDummyMovieId, userId);
+
+        int desiredSizeOFList = 2;
+        List<Movie> communityMostDislikedMovies = mSQLRatingDAO.getMostDislikedMovies(desiredSizeOFList);
+
+        assertEquals(desiredSizeOFList,communityMostDislikedMovies.size());
+
+        //...now that we have the lists' size check out, we need to make sure that the correct list has been given to us
+
+        assertEquals("A",communityMostDislikedMovies.get(0).getTitle());
+        assertEquals("C",communityMostDislikedMovies.get(1).getTitle());
+
+    }
+
+
+
         //List<Movie> getTopRecommendedMoviesThisYear(int max);
-        //List<Movie> getMostDislikedMovies(int max);
 
 }
 
