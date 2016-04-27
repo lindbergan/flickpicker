@@ -2,6 +2,7 @@ package com.typeof.flickpicker.database.sql;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
@@ -18,6 +19,10 @@ import java.util.List;
  */
 
 public class SQLRatingDAO extends SQLDAO implements RatingDAO {
+
+    private SQLiteDatabase db;
+    private SQLMovieDAO sqlMovieDAO;
+
 
     public SQLRatingDAO(Context ctx) {
         super(ctx);
@@ -78,6 +83,26 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete,"ratings");
     }
+
+    public List<Movie> getCommunityTopPicks(int max){
+
+        //first - query the database of sorting the top "int max" number of movies with the highest rating from the rating table
+        Cursor c = db.rawQuery("SELECT * FROM ratings ORDER BY rating DESC LIMIT " + String.valueOf(max), null);
+        int count = c.getCount();
+        List<Movie> topRatedMovies = new ArrayList<Movie>();
+
+        for (int i = 0; i<c.getCount();i++) {
+
+            //get the movie id and save that movie
+            Rating rating = createRatingFromCursor(c);
+            topRatedMovies.add(sqlMovieDAO.findMovie(rating.getMovieId()));
+            c.moveToNext();
+        }
+
+        c.close();
+        return topRatedMovies;
+    }
+
 
     /*
     public Rating find(long id) {

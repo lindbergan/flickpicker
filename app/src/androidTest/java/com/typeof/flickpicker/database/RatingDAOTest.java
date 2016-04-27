@@ -1,9 +1,11 @@
 package com.typeof.flickpicker.database;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.database.sql.SQLMovieDAO;
 import com.typeof.flickpicker.database.sql.SQLRatingDAO;
 
 import junit.framework.Assert;
@@ -19,12 +21,14 @@ import java.util.List;
 public class RatingDAOTest extends AndroidTestCase {
 
     private SQLRatingDAO mSQLRatingDAO;
+    private SQLMovieDAO mSQLMovieDAO;
     private DatabaseSeed mDatabaseSeed;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mSQLRatingDAO = new SQLRatingDAO(getContext());
+        mSQLMovieDAO = new SQLMovieDAO(getContext());
         mDatabaseSeed = new DatabaseSeed(getContext());
         mDatabaseSeed.seedDatabase();
     }
@@ -72,13 +76,13 @@ public class RatingDAOTest extends AndroidTestCase {
 
 
     }
-    public void testRemoveRating(){
+    public void testRemoveRating() {
 
         //process:
         // saves a dummy rating and confirm that it is saved
         // call deleteRating() and verify that it has been deleted
 
-        long ratingId = mSQLRatingDAO.saveRating(4,4,4);
+        long ratingId = mSQLRatingDAO.saveRating(4, 4, 4);
         Rating ratingAfterSave = mSQLRatingDAO.findRating(ratingId);
 
         //confirms that the rating has been saved
@@ -92,8 +96,9 @@ public class RatingDAOTest extends AndroidTestCase {
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!
         }
+    }
 
-        public void testGetCommunityTopPicks(int max){
+    public void testGetCommunityTopPicks(){
 
 
             //Process:
@@ -101,16 +106,31 @@ public class RatingDAOTest extends AndroidTestCase {
             //testmetoden. Testet testar sedan så att filmer som inte kom med har lägre rating än de som retunerats.
 
             //dummy-movies:
+            long firstDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("A"));
+            long secondDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("B"));
+            long thirdDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("C"));
+            long fourthDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("D"));
 
-            Movie firstDummyMove = new Movie()
+            //dummy ratings for those movies
+            int userId = 1;
+            long firstDummyRatingId = mSQLRatingDAO.saveRating(2,firstDummyMoveId, userId);
+            long secondDummyRatingId = mSQLRatingDAO.saveRating(3,secondDummyMoveId, userId);
+            long thirdDummyRatingId = mSQLRatingDAO.saveRating(4,thirdDummyMoveId, userId);
+            long fourthDummyRatingId = mSQLRatingDAO.saveRating(5,fourthDummyMoveId, userId);
 
-        }
+            List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(3);
+
+            assertEquals(3, communityTopPicksAllTime.size());
+
+            //...now that we have the list, we need to make sure that the correct list has been given to us
+
+    }
 
 
         //List<Movie> getTopRecommendedMoviesThisYear(int max);
         //List<Movie> getMostDislikedMovies(int max);
 
-    }
+}
 
 
 
@@ -179,4 +199,3 @@ public class RatingDAOTest extends AndroidTestCase {
     */
 
 
-}
