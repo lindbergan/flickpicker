@@ -163,9 +163,10 @@ public class RatingDAOTest extends AndroidTestCase {
 
     }
 
+    public void testGetTopRecommendedMoviesThisYear(){
 
 
-        //List<Movie> getTopRecommendedMoviesThisYear(int max);
+    }
 
 }
 

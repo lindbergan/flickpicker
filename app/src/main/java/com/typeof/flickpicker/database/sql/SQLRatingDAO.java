@@ -47,6 +47,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     public long saveRating(double rating, long movieId, long userId) {
 
+        // NOTE: determine if previous rating exists (same movie, same user) - in that case: updateRating()... must be impemented
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating);
         values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, movieId);
@@ -112,6 +113,8 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         c.close();
         return sortedMovies;
     }
+
+    //public List<Movie> getTopRecommendedMoviesThisYear(int max){}
 
 
 

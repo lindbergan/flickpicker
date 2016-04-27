@@ -41,6 +41,7 @@ public class MovieTableTest extends AndroidTestCase {
         ContentValues values = new ContentValues();
         values.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
         values.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Shawshank Redemption");
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1994);
         values.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "Derp");
         values.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "Drama");
         values.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 10);
