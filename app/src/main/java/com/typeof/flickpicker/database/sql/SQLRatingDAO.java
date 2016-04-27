@@ -20,12 +20,12 @@ import java.util.List;
 
 public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
-    private SQLiteDatabase db;
     private SQLMovieDAO sqlMovieDAO;
 
 
     public SQLRatingDAO(Context ctx) {
         super(ctx);
+        sqlMovieDAO = new SQLMovieDAO(ctx);
     }
 
     public List<Rating> getMovieRatings(long movieId){
@@ -87,15 +87,16 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     public List<Movie> getCommunityTopPicks(int max){
 
         //first - query the database of sorting the top "int max" number of movies with the highest rating from the rating table
-        Cursor c = db.rawQuery("SELECT * FROM ratings ORDER BY rating DESC LIMIT " + String.valueOf(max), null);
-        int count = c.getCount();
+        Cursor c = getDatabase().rawQuery("SELECT * FROM ratings ORDER BY rating DESC LIMIT " + String.valueOf(max),null);
         List<Movie> topRatedMovies = new ArrayList<Movie>();
+        c.moveToFirst();
 
-        for (int i = 0; i<c.getCount();i++) {
+        for (int i = 0; i < max; i++) {
 
-            //get the movie id and save that movie
-            Rating rating = createRatingFromCursor(c);
-            topRatedMovies.add(sqlMovieDAO.findMovie(rating.getMovieId()));
+            //get the top ratings and save their movieId:s. Find movie based on id and save it to topRatedMovies
+            Rating topRating = createRatingFromCursor(c);
+            long movieId = topRating.getMovieId();
+            topRatedMovies.add(sqlMovieDAO.findMovie(movieId));
             c.moveToNext();
         }
 
