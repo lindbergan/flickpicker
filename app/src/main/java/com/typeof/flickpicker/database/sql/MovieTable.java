@@ -21,6 +21,7 @@ public class MovieTable {
         public static final String TABLE_NAME = "movies";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_TITLE = "title";
+        public static final String COLUMN_NAME_YEAR = "year";
         public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_GENRE = "genre";
         public static final String COLUMN_NAME_VOTES = "votes";
@@ -32,6 +33,7 @@ public class MovieTable {
             return "CREATE TABLE " + TABLE_NAME + " (" +
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+                    COLUMN_NAME_YEAR + INTEGER_TYPE + COMMA_SEP +
                     COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_GENRE + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_VOTES + INTEGER_TYPE + COMMA_SEP +
