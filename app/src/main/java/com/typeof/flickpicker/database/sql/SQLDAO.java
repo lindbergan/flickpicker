@@ -75,6 +75,7 @@ public abstract class SQLDAO {
      * @return
      * @throws IllegalStateException
      */
+
     public int delete(DatabaseObject object, String tableName) throws IllegalStateException {
         if (object.getId() == 0) {
             throw new IllegalStateException("Core Entity cannot be deleted before it has been saved to the database");
@@ -86,7 +87,6 @@ public abstract class SQLDAO {
     }
 
     public Cursor search(String tableName, String column, String searchString) {
-        List<Movie> results = new ArrayList<>();
         return db.rawQuery("SELECT * FROM " + tableName + " WHERE " + column + " LIKE ?",
                 new String[]{"%" + searchString + "%"});
     }

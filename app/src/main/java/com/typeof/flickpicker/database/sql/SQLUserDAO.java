@@ -36,7 +36,12 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
         String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
         String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
         int score = c.getInt(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_SCORE));
-        return new User(id, username, password, score);
+
+        User u = new User(username, password);
+        u.setId(id);
+        u.setScore(score);
+
+        return u;
     }
 
     /**

@@ -1,8 +1,12 @@
 package com.typeof.flickpicker.database.sql;
 
 import android.content.Context;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.typeof.flickpicker.core.Friend;
 
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
@@ -17,10 +21,12 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
         // Begin with dropping the old tables
         db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
-
+        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
         db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
+        db.execSQL(FriendTable.FriendEntry.getSQLCreateTableQuery());
+        db.execSQL(UserTable.UserEntry.getSQLCreateTableQuery());
     }
 
     @Override
@@ -28,6 +34,8 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
         db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
+        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
+        db.execSQL(UserTable.UserEntry.getSQLDropTableQuery());
         onCreate(db);
     }
 

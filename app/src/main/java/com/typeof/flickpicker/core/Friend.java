@@ -1,34 +1,38 @@
 package com.typeof.flickpicker.core;
 
-public class Friend {
+public class Friend implements DatabaseObject {
 
-    private final String TABLENAME = "FRIENDS";
+    private long id;
+    private long userIdOne;
+    private long getUserIdTwo;
 
-    private int id;
-    private int userIdOne;
-    private int getUserIdTwo;
-
-    public Friend(int id, int userIdOne, int getUserIdTwo) {
-        this.id = id;
+    public Friend(long userIdOne, long getUserIdTwo) {
         this.userIdOne = userIdOne;
         this.getUserIdTwo = getUserIdTwo;
     }
 
-    //-----------GETTERS-------------
+    /**
+     * Getters
+     */
 
-    public String getTableName() {
-        return TABLENAME;
-    }
-
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public int getUserIdOne() {
+    public long getUserIdOne() {
         return userIdOne;
     }
 
-    public int getGetUserIdTwo() {
+    public long getGetUserIdTwo() {
         return getUserIdTwo;
     }
-}//Friend
+
+    /**
+     * Setters
+     */
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+}
