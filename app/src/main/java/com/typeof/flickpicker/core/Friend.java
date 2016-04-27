@@ -6,21 +6,17 @@ public class Friend implements DatabaseObject {
     private long userIdOne;
     private long getUserIdTwo;
 
-    public Friend(long id, long userIdOne, long getUserIdTwo) {
-        this.id = id;
+    public Friend(long userIdOne, long getUserIdTwo) {
         this.userIdOne = userIdOne;
         this.getUserIdTwo = getUserIdTwo;
     }
 
-    //-----------GETTERS-------------
+    /**
+     * Getters
+     */
 
     public long getId() {
         return id;
-    }
-
-    @Override
-    public void setId(long id) {
-
     }
 
     public long getUserIdOne() {
@@ -30,4 +26,13 @@ public class Friend implements DatabaseObject {
     public long getGetUserIdTwo() {
         return getUserIdTwo;
     }
-}//Friend
+
+    /**
+     * Setters
+     */
+
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+}
