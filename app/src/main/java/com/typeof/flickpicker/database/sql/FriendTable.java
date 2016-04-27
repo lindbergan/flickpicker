@@ -25,15 +25,14 @@ public class FriendTable {
 
 
         public static String getSQLCreateTableQuery() {
-            return "CREATE TABLE " + TABLE_NAME + " (" +
-                    COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME_USER1ID +
-                    DOUBLE_TYPE + COMMA_SEP + COLUMN_NAME_USER2ID + DOUBLE_TYPE +
-                    " )";
+            return "CREATE TABLE friends (id INTEGER PRIMARY KEY AUTOINCREMENT, user1d INT, user2id INT);";
+
         }
 
         public static String getSQLDropTableQuery() {
             return "DROP TABLE IF EXISTS " + TABLE_NAME;
         }
+
     }
 
 }
