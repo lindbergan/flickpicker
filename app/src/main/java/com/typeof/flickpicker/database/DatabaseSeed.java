@@ -57,7 +57,7 @@ public class DatabaseSeed {
         // Create a new map of values, where column names are the keys
         ContentValues firstRatingValues = new ContentValues();
         firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 5);
-        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 2.0);
+        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 3.0);
         firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 3);
         firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 2);
 
@@ -68,7 +68,7 @@ public class DatabaseSeed {
 
         ContentValues SecondRatingValues = new ContentValues();
         SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 4);
-        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 1.0);
+        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 3.0);
         SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 2);
         SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 1);
 
