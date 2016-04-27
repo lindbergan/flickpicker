@@ -90,5 +90,8 @@ public abstract class SQLDAO {
         return db.rawQuery("SELECT * FROM " + tableName + " WHERE " + column + " LIKE ?",
                 new String[]{"%" + searchString + "%"});
     }
-
+    
+    public SQLiteDatabase getDatabase(){
+        return db;
+    }
 }

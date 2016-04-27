@@ -106,24 +106,28 @@ public class RatingDAOTest extends AndroidTestCase {
             //testmetoden. Testet testar sedan så att filmer som inte kom med har lägre rating än de som retunerats.
 
             //dummy-movies:
-            long firstDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("A"));
-            long secondDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("B"));
-            long thirdDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("C"));
-            long fourthDummyMoveId = mSQLMovieDAO.saveMovie(new Movie("D"));
+            long firstDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("A"));
+            long secondDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("B"));
+            long thirdDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("C"));
+            long fourthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("D"));
 
             //dummy ratings for those movies
             int userId = 1;
-            long firstDummyRatingId = mSQLRatingDAO.saveRating(2,firstDummyMoveId, userId);
-            long secondDummyRatingId = mSQLRatingDAO.saveRating(3,secondDummyMoveId, userId);
-            long thirdDummyRatingId = mSQLRatingDAO.saveRating(4,thirdDummyMoveId, userId);
-            long fourthDummyRatingId = mSQLRatingDAO.saveRating(5,fourthDummyMoveId, userId);
+            long firstDummyRatingId = mSQLRatingDAO.saveRating(4,firstDummyMovieId, userId);
+            long secondDummyRatingId = mSQLRatingDAO.saveRating(5,secondDummyMovieId, userId);
+            long thirdDummyRatingId = mSQLRatingDAO.saveRating(5,thirdDummyMovieId, userId);
+            long fourthDummyRatingId = mSQLRatingDAO.saveRating(4,fourthDummyMovieId, userId);
 
-            List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(3);
+            int desiredSizeOFList = 2;
+            List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(desiredSizeOFList);
 
-            assertEquals(3, communityTopPicksAllTime.size());
+            assertEquals(desiredSizeOFList,communityTopPicksAllTime.size());
 
-            //...now that we have the list, we need to make sure that the correct list has been given to us
+            //...now that we have the lists' size check out, we need to make sure that the correct list has been given to us
 
+            assertEquals("B",communityTopPicksAllTime.get(0).getTitle());
+            assertEquals("C",communityTopPicksAllTime.get(1).getTitle());
+            //assertEquals("D",communityTopPicksAllTime.get(2).getTitle());
     }
 
 
