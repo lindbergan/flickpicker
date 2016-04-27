@@ -15,10 +15,6 @@ public interface MovieDAO {
     int deleteMovie(Movie movie);
     List<Movie> searchMovieBy(String column, String searchTerm);
 
-    List<Movie> getCommunityTopPicks(int max);
-    List<Movie> getTopRecommendedMoviesThisYear(int max);
-    List<Movie> getMostDislikedMovies(int max);
-
     /*
     long createMovie(Movie movie);
     void updateMovie(Movie movie);
