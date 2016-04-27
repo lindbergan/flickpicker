@@ -38,7 +38,7 @@ public class SQLUserDAO {
         long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
         String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
         String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
-         return new User(id, username, password);
+         return new User(username, password);
     }
 
 /*
