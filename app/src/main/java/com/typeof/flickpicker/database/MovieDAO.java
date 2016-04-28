@@ -14,6 +14,7 @@ public interface MovieDAO {
     long saveMovie(Movie movie);
     int deleteMovie(Movie movie);
     List<Movie> searchMovieBy(String column, String searchTerm);
+    int numOfFriendsHasSeenMovie(long movieId, long userId);
 
     /*
     long createMovie(Movie movie);
