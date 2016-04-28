@@ -21,11 +21,13 @@ import java.util.List;
 public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     private SQLMovieDAO sqlMovieDAO;
+    private SQLiteDatabase db;
 
 
     public SQLRatingDAO(Context ctx) {
         super(ctx);
         sqlMovieDAO = new SQLMovieDAO(ctx);
+        db = getDatabase();
     }
 
     public List<Rating> getMovieRatings(long movieId){
@@ -48,11 +50,51 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     public long saveRating(double rating, long movieId, long userId) {
 
         // NOTE: determine if previous rating exists (same movie, same user) - in that case: updateRating()... must be impemented
+        Cursor cursor = db.rawQuery("SELECT * FROM ratings " +
+                "WHERE " + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = ? " +
+                "AND " + RatingTable.RatingEntry.COLUMN_NAME_USERID + " = ?",
+                new String[]{String.valueOf(movieId), String.valueOf(userId)});
+
+        if(cursor.getCount() == 0){
+            cursor.close();
+            return createRating(rating,movieId,userId);
+        }
+        return updateRating(rating, cursor);
+    }
+
+    private long createRating(double rating, long movieId, long userId){
+
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating);
         values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, movieId);
         values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, userId);
         return super.save(new Rating(rating,movieId,userId), "ratings", values);
+    }
+
+    private long updateRating(double newRating,Cursor cursor){
+        cursor.moveToFirst();
+        //get previous values from cursor
+        int afafaf = cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID);
+        long id = cursor.getLong(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
+        double rating = cursor.getDouble(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
+        int movieId = cursor.getInt(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        int userId = cursor.getInt(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+
+        //create a RatingObject of those values to give to supers update()
+        Rating ratingObject = new Rating(rating,movieId,userId);
+        ratingObject.setId(id);
+
+        //save new value via supers update()
+        ContentValues values = new ContentValues();
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_ID, id);
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, newRating);
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, movieId);
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, userId);
+
+        super.save(ratingObject, "ratings",values);
+        cursor.close();
+        return ratingObject.getId();
+
     }
 
     public Cursor searchRatingBy(String column, String searchString){
@@ -97,7 +139,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     public List<Movie> getCommunityAllTime(int max, String decOrInc){
 
         //Query the database of sorting the "int max" number of movies with the highest or lowest (decOrInc) rating from the rating table at the top of the table
-        Cursor c = getDatabase().rawQuery("SELECT * FROM ratings ORDER BY rating " + decOrInc + " LIMIT " + String.valueOf(max),null); //DESC
+        Cursor c = db.rawQuery("SELECT * FROM ratings ORDER BY rating " + decOrInc + " LIMIT " + String.valueOf(max),null); //DESC
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
