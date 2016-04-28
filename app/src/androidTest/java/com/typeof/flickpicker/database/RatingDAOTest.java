@@ -53,7 +53,7 @@ public class RatingDAOTest extends AndroidTestCase {
 
         List<Rating> ratingsToCompare = mSQLRatingDAO.getMovieRatings(5);
         int size = ratingsToCompare.size();
-        //compares the size of the auired array to the expected value:
+        //compares the size of the aquired array to the expected value:
         assertEquals(2, ratingsToCompare.size());
 
         //finally verifies the ids:
@@ -73,6 +73,14 @@ public class RatingDAOTest extends AndroidTestCase {
         Rating fetchedRating = mSQLRatingDAO.findRating(rateId);
 
         assertEquals(rateId, fetchedRating.getId() );
+
+        long rateIdUpdated = mSQLRatingDAO.saveRating(3,2,2);
+        Rating fetchedUpdatedRating = mSQLRatingDAO.findRating(rateIdUpdated);
+        assertEquals(fetchedRating.getId(),fetchedUpdatedRating.getId());
+        assertEquals(fetchedUpdatedRating.getMovieId(),fetchedRating.getMovieId());
+
+        //NOTE: need to test if saveRating can detemine createRating() && updateRating()
+
 
 
     }
@@ -167,6 +175,7 @@ public class RatingDAOTest extends AndroidTestCase {
 
 
     }
+
 
 }
 

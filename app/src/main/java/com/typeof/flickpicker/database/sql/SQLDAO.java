@@ -91,7 +91,6 @@ public abstract class SQLDAO {
                 new String[]{"%" + searchString + "%"});
     }
 
-    //alternative : public callDatabase(String str) --> rawQuery
     public SQLiteDatabase getDatabase(){
         return db;
     }
