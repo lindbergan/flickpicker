@@ -31,6 +31,13 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         db = dbhelper.getWritableDatabase();
     }
 
+    /**
+     * Adds the friends values to user1id and user2id columns
+     * Saves the friend to the database
+     * @param f
+     * @return
+     */
+
     @Override
     public long addFriend(Friend f) {
         ContentValues values = new ContentValues();
@@ -38,6 +45,14 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         values.put(FriendTable.FriendEntry.COLUMN_NAME_USER2ID, f.getGetUserIdTwo());
         return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
     }
+
+    /**
+     * A super SQL-question made by: SebbeTheMan
+     * If cursor count is 0 --> returns a empty list
+     * Otherwise adds all users and returns the list
+     * @param id
+     * @return
+     */
 
     @Override
     public List<User> getFriendsFromUserId(long id) {
@@ -64,6 +79,13 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
         return userFriends;
     }
+
+    /**
+     * Removes the friend values from the database
+     * @param userId1
+     * @param userId2
+     * @return
+     */
 
     @Override
     public long removeFriend(long userId1, long userId2) {
