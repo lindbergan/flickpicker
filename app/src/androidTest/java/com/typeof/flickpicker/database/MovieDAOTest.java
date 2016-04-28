@@ -3,6 +3,8 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.SQLMovieDAO;
 
 import junit.framework.Assert;
@@ -109,6 +111,14 @@ public class MovieDAOTest extends AndroidTestCase {
             assertTrue(true); // success!
         }
 
+    }
+
+    public void testNumOfFriendsHasSeenMovie() throws Exception {
+        Movie movie = new Movie("Reservoir Dogs");
+        long id = mMovieDAO.saveMovie(movie);
+
+        User user = new User("pelle", "password");
+        Rating rating = new Rating(5.0, id, user.getId());
     }
 
 }
