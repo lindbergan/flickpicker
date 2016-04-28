@@ -11,4 +11,5 @@ public interface PlaylistDAO {
     long savePlaylist(Playlist playlist);
     Playlist findPlaylistById(long id);
     List<Playlist> getUserPlaylists(long userId);
+    long removePlaylist(Playlist playlist);
 }

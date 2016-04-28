@@ -61,4 +61,11 @@ public class PlaylistDAOTest extends AndroidTestCase {
         long id = mPlaylistDAO.savePlaylist(playlist);
         assertTrue(id != 0);
     }
+
+    public void testRemovePlaylist() {
+        Playlist playlist = new Playlist("My favorites", 5);
+        long id = mPlaylistDAO.savePlaylist(playlist);
+        id = mPlaylistDAO.removePlaylist(playlist);
+        assertTrue(id != 0);
+    }
 }
