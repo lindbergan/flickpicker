@@ -28,7 +28,7 @@ public class FriendTable {
             return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME_USER1ID + INTEGER_TYPE + COMMA_SEP +
-                    COLUMN_NAME_USER2ID + INTEGER_TYPE + COMMA_SEP +
+                    COLUMN_NAME_USER2ID + INTEGER_TYPE +
                     " )";
         }
 
