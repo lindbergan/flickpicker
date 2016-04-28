@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.FriendDAO;
 
 import java.util.ArrayList;
