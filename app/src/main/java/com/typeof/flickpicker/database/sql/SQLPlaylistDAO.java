@@ -83,4 +83,17 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         }
         return playlists;
     }
+
+    /**
+     * Deletes the playlist
+     * @param playlist
+     * @return
+     */
+
+    @Override
+    public long removePlaylist(Playlist playlist) {
+
+        return super.delete(playlist, PlaylistTable.PlaylistEntry.TABLE_NAME);
+
+    }
 }
