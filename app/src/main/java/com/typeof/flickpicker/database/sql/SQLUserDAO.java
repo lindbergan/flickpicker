@@ -31,7 +31,6 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
      * @return new User created from cursor
      */
     public User createUserFromCursor(Cursor c){
-        c.moveToFirst();
         long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
         String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
         String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
@@ -69,6 +68,7 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
     public User getUserById(long userId) {
         try {
             Cursor c = this.find(userId, UserTable.UserEntry.TABLE_NAME);
+            c.moveToFirst();
             User user = this.createUserFromCursor(c);
             c.close();
             return user;

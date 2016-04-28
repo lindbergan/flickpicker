@@ -46,7 +46,6 @@ public class UserTableTest extends AndroidTestCase {
 
         assertEquals("Record created in database", 1, newRowId);
 
-        db.execSQL(UserTable.UserEntry.getSQLCreateTableQuery());
     }
 
     public void testTableDeletion() {
