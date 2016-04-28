@@ -2,8 +2,10 @@ package com.typeof.flickpicker.database.sql;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
 
@@ -17,8 +19,12 @@ import java.util.List;
  */
 public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
+    private SQLiteDatabase db;
+
     public SQLMovieDAO(Context ctx) {
         super(ctx);
+        SQLiteDatabaseHelper dbhelper = new SQLiteDatabaseHelper(ctx);
+        db = dbhelper.getWritableDatabase();
     }
 
     public Movie findMovie(long id) {
@@ -77,4 +83,65 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         }
         return results;
     }
+
+    @Override
+    public int numOfFriendsHasSeenMovie(long movieId, long userId) {
+
+        List<User> friends = getFriendsFromUserId(userId);
+
+        String query = "SELECT * FROM " + RatingTable.RatingEntry.TABLE_NAME  + "." +
+                RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " WHERE " + UserTable.UserEntry.COLUMN_NAME_ID
+                + "=' +" + String.valueOf(userId) + "'";
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
+
+        c.moveToFirst();
+
+        while (c.moveToNext()) {
+            friends.add(createUserFromCursor(c));
+        }
+
+        c.close();
+
+        return friends.size();
+    }
+
+    public List<User> getFriendsFromUserId(long id) {
+        List<User> userFriends = new ArrayList<>();
+
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME +
+                " INNER JOIN " + UserTable.UserEntry.TABLE_NAME + " " +
+                "ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = " + UserTable.UserEntry.TABLE_NAME+ "." +UserTable.UserEntry.COLUMN_NAME_ID + " " +
+                " WHERE "  + FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " = ? ";
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(id)});
+
+        c.moveToFirst();
+
+        if (c.getCount() < 1) return userFriends;
+
+        try {
+            do {
+                userFriends.add(createUserFromCursor(c));
+            } while (c.moveToNext());
+        } finally {
+            c.close();
+        }
+
+        return userFriends;
+    }
+
+    public User createUserFromCursor(Cursor c){
+        long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
+        String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
+        String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
+        int score = c.getInt(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_SCORE));
+
+        User u = new User(username, password);
+        u.setId(id);
+        u.setScore(score);
+
+        return u;
+    }
+
 }
