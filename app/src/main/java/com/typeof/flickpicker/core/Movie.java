@@ -3,32 +3,36 @@ public class Movie implements DatabaseObject {
 
     private long id = 0;
     private String title;
+    private int year;
     private String description;
     private String genre;
     private int numberOfVotes;
     private double communityRating;
 
-    public Movie(long id, String title, String description, String genre) {
+    public Movie(long id, String title, String description, int year, String genre) {
         this.id = id;
+        this.year = year;
         this.title = title;
         this.description = description;
         this.genre = genre;
     }
 
-    public Movie(String title, String description, String genre) {
-        this.id = id;
+    public Movie(String title, String description, int year, String genre) {
         this.title = title;
+        this.year = year;
         this.description = description;
         this.genre = genre;
     }
 
-    public Movie(long id, String title) {
+    public Movie(long id, String title,int year) {
         this.id = id;
         this.title = title;
+        this.year = year;
     }
 
-    public Movie(String title) {
+    public Movie(String title, int year) {
         this.title = title;
+        this.year = year;
     }
 
     //------------------GETTERS-----------------------
