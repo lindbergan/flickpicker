@@ -30,23 +30,6 @@ public class DatabaseSeed {
 
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
-
-
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
-        values.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Shawshank Redemption");
-        values.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "Derp");
-        values.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "Drama");
-        values.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 10);
-        values.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 5.5);
-
-        long newRowId;
-        newRowId = db.insert(
-                MovieTable.MovieEntry.TABLE_NAME,
-                MovieTable.MovieEntry.COLUMN_NAME_NULLABLE,
-                values);
-
                         //---RATING---
 
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());

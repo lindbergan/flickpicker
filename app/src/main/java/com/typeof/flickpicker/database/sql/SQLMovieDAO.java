@@ -36,7 +36,8 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         c.moveToFirst();
         String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
         long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
-        return new Movie(id, title);
+        int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
+        return new Movie(id, title, year);
     }
 
     public long saveMovie(Movie movie) {

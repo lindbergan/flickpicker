@@ -52,7 +52,7 @@ public class MovieDAOTest extends AndroidTestCase {
 
 
     public void testSave() throws Exception {
-        Movie movie = new Movie("Rocky");
+        Movie movie = new Movie("Rocky", 1976);
         long rowId = mMovieDAO.saveMovie(movie);
         assertFalse(rowId == -1);
     }
@@ -63,7 +63,7 @@ public class MovieDAOTest extends AndroidTestCase {
      */
 
     public void testUpdate() throws Exception {
-        Movie movie = new Movie("2001: A Space Odyssey");
+        Movie movie = new Movie("2001: A Space Odyssey", 1968);
         long movieId = mMovieDAO.saveMovie(movie);
 
         // We assert that the movie was saved and was given a unique ID;
@@ -85,7 +85,7 @@ public class MovieDAOTest extends AndroidTestCase {
      */
 
     public void testSearch() throws Exception {
-        Movie movie = new Movie("Pulp Fiction");
+        Movie movie = new Movie("Pulp Fiction", 1994);
         long id = mMovieDAO.saveMovie(movie);
 
         List<Movie> results = mMovieDAO.searchMovieBy("title", "Pulp");
@@ -97,7 +97,7 @@ public class MovieDAOTest extends AndroidTestCase {
     }
 
     public void testDelete() throws Exception {
-        Movie movie = new Movie("Reservoir Dogs");
+        Movie movie = new Movie("Reservoir Dogs", 1992);
         long id = mMovieDAO.saveMovie(movie);
         mMovieDAO.deleteMovie(movie);
 
