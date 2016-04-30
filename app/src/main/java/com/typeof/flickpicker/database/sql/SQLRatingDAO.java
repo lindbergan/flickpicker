@@ -49,21 +49,23 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     public long saveRating(double rating, long movieId, long userId) {
 
-        // NOTE: determine if previous rating exists (same movie, same user) - in that case: updateRating()... must be impemented
+        // determine if rating already exists (same movie, same user) - if not :  createRating() is called else updateRating()
         Cursor cursor = db.rawQuery("SELECT * FROM ratings " +
                 "WHERE " + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = ? " +
                 "AND " + RatingTable.RatingEntry.COLUMN_NAME_USERID + " = ?",
                 new String[]{String.valueOf(movieId), String.valueOf(userId)});
 
         if(cursor.getCount() == 0){
+            //Update movieTable with new communityRating and create rating
             cursor.close();
-            //Update movieTable with new rating
             setMovieTableRating(movieId, rating);
             return createRating(rating,movieId,userId);
         }
-        //Update movieTable with new rating
-        setMovieTableRating(movieId,rating);
-        return updateRating(rating, cursor);
+        else {
+            //Update movieTable with new communityRating and update rating
+            setMovieTableRating(movieId, rating);
+            return updateRating(rating, cursor);
+        }
     }
 
     private long createRating(double rating, long movieId, long userId){
@@ -76,9 +78,10 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     }
 
     private long updateRating(double newRating,Cursor cursor){
+
         cursor.moveToFirst();
+
         //get previous values from cursor
-        int afafaf = cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID);
         long id = cursor.getLong(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
         double rating = cursor.getDouble(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
         int movieId = cursor.getInt(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
@@ -148,18 +151,25 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     }
 
     public List<Movie> getCommunityTopPicks(int max){
-        return getCommunityAllTime(max,"DESC");
+        String sqlString = MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " " + "DESC";
+        return getCommunityFeedback(max,sqlString);
     }
 
 
     public List<Movie> getMostDislikedMovies(int max){
-        return getCommunityAllTime(max,"DESC");
+        String sqlString = MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " " + "ASC";
+        return getCommunityFeedback(max,sqlString);
     }
 
-    public List<Movie> getCommunityAllTime(int max, String decOrInc){
+    public List<Movie> getTopRecommendedMoviesThisYear(int max){
+        String sqlString = MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " AND " + MovieTable.MovieEntry.COLUMN_NAME_YEAR + " LIKE \'" + "2016" + "\'" + " DESC";
+        return getCommunityFeedback(max, sqlString);
+    }
 
-        //Query the database of sorting the "int max" number of movies with the highest or lowest (decOrInc) rating from the rating table at the top of the table
-        Cursor c = db.rawQuery("SELECT * FROM movies ORDER BY "+ MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " " + decOrInc + " LIMIT " + String.valueOf(max),null);
+    private List<Movie> getCommunityFeedback(int max, String requestedSorting){
+
+        //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
+        Cursor c = db.rawQuery("SELECT * FROM movies ORDER BY "+ requestedSorting + " LIMIT " + String.valueOf(max),null);
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
@@ -174,14 +184,10 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
             sortedMovies.add(movie);
             c.moveToNext();
         }
-
-        
-
         c.close();
         return sortedMovies;
     }
 
-    //public List<Movie> getTopRecommendedMoviesThisYear(int max){}
 
 
 

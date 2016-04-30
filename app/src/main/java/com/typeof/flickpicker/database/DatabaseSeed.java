@@ -30,6 +30,65 @@ public class DatabaseSeed {
 
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
+
+        //
+        // Create a new map of values, where column names are the keys
+        ContentValues firstMovieValues = new ContentValues();
+        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
+        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Terminator");
+        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1995);
+        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
+        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
+        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 3);
+        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 4.2);
+
+        long firstNewRowIdMovie = db.insert(
+                RatingTable.RatingEntry.TABLE_NAME,
+                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
+                firstMovieValues);
+
+        ContentValues secondMovieValues = new ContentValues();
+        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
+        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Speed");
+        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1994);
+        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
+        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
+        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 5);
+        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 3.8);
+
+        long secondNewRowIdMovie = db.insert(
+                RatingTable.RatingEntry.TABLE_NAME,
+                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
+                secondMovieValues);
+
+        ContentValues thirdMovieValues = new ContentValues();
+        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
+        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Robin Hood");
+        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1993);
+        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
+        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
+        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 1);
+        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 4.1);
+
+        long thirdNewRowIdMovie = db.insert(
+                RatingTable.RatingEntry.TABLE_NAME,
+                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
+                thirdMovieValues);
+
+        ContentValues fourthMovieValues = new ContentValues();
+        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
+        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Jaws");
+        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1993);
+        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
+        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
+        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 2);
+        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 4.4);
+
+        long fourthNewRowIdMovie = db.insert(
+                RatingTable.RatingEntry.TABLE_NAME,
+                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
+                fourthMovieValues);
+
                         //---RATING---
 
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
