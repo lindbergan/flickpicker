@@ -43,6 +43,12 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     public long saveMovie(Movie movie) {
         ContentValues values = new ContentValues();
         values.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, movie.getTitle());
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, movie.getYear());
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, movie.getDescription());
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, movie.getGenre());
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, movie.getNumberOfVotes());
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, movie.getCommunityRating());
+
         return super.save(movie, "movies", values);
     }
 

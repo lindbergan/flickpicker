@@ -61,6 +61,11 @@ public class Movie implements DatabaseObject {
         return communityRating;
     }
 
+    public int getYear() {
+        return year;
+    }
+
+
 //----------------------SETTERS-----------------------
 
     public void setTitle(String title) {
