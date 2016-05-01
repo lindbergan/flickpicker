@@ -37,7 +37,10 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
         long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
         int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
-        return new Movie(id, title, year);
+        double rating = c.getDouble(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING));
+        Movie m = new Movie(id, title, year);
+        m.setCommunityRating(rating);
+        return m;
     }
 
     public long saveMovie(Movie movie) {

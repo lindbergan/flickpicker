@@ -109,6 +109,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         double newCommunityRating = calculateCommunityRating(movie,rating);
         movie.setCommunityRating(newCommunityRating);
         int oldVotes = movie.getNumberOfVotes();
+        double getCommunityRating = movie.getCommunityRating();
         movie.setNumberOfVotes(oldVotes+1);
         sqlMovieDAO.saveMovie(movie);
 
@@ -176,7 +177,6 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         int cc = c.getCount();
 
         for (int i = 0; i < max; i++) {
-
             //get the top or bottom ratings and save their movieId:s. Find movie based on id and save it to ratedMovies
             Movie movie = sqlMovieDAO.createMovieFromCursor(c);
             String t = movie.getTitle();
@@ -187,9 +187,6 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         c.close();
         return sortedMovies;
     }
-
-
-
 
 
     /*

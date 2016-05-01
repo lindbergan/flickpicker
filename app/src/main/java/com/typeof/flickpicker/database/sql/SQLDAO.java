@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.typeof.flickpicker.core.DatabaseObject;
 import com.typeof.flickpicker.core.Movie;
@@ -46,12 +47,13 @@ public abstract class SQLDAO {
             } catch (DatabaseRecordNotFoundException e) {}
         }
 
-        long newRowId = db.insert(tableName, MovieTable.MovieEntry.COLUMN_NAME_NULLABLE, values);
+        long newRowId = db.insert(tableName, " ", values);
 
         // If there was an error saving the record, we return -1 as the id
         if (newRowId == -1) return -1;
 
         object.setId(newRowId);
+
 
         return newRowId;
     }
@@ -60,11 +62,18 @@ public abstract class SQLDAO {
         String selection = "id LIKE ?";
         String[] selectionArgs = { String.valueOf(object.getId()) };
 
-        int count = db.update(
-                tableName, 
-                values,
-                selection,
-                selectionArgs);
+        try {
+            db.beginTransaction();
+            int count = db.update(
+                    tableName,
+                    values,
+                    selection,
+                    selectionArgs);
+
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     /**

@@ -140,7 +140,7 @@ public class RatingDAOTest extends AndroidTestCase{
             List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(desiredSizeOFList);
 
         Movie mov = mSQLMovieDAO.findMovie(secondDummyMovieId);
-        assertEquals(3, mov.getCommunityRating());
+        assertEquals(3.0, mov.getCommunityRating());
 
             assertEquals(desiredSizeOFList,communityTopPicksAllTime.size());
             assertEquals("C", communityTopPicksAllTime.get(0).getTitle());
