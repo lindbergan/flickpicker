@@ -2,9 +2,11 @@ package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.sql.SQLFriendDAO;
 import com.typeof.flickpicker.database.sql.SQLMovieDAO;
 import com.typeof.flickpicker.database.sql.SQLRatingDAO;
 import com.typeof.flickpicker.database.sql.SQLUserDAO;
@@ -24,6 +26,7 @@ public class MovieDAOTest extends AndroidTestCase {
     private RatingDAO mRatingDAO;
     private DatabaseSeed mDatabaseSeed;
     private UserDAO mUserDAO;
+    private FriendDAO mFriendDAO;
 
     @Override
     protected void setUp() throws Exception {
@@ -32,6 +35,7 @@ public class MovieDAOTest extends AndroidTestCase {
         mRatingDAO = new SQLRatingDAO(getContext());
         mDatabaseSeed = new DatabaseSeed(getContext());
         mUserDAO = new SQLUserDAO(getContext());
+        mFriendDAO = new SQLFriendDAO(getContext());
         mDatabaseSeed.seedDatabase();
     }
 
@@ -127,6 +131,9 @@ public class MovieDAOTest extends AndroidTestCase {
         User user2 = new User("johan", "password");
         mUserDAO.saveUser(user);
         mUserDAO.saveUser(user2);
+
+        Friend f = new Friend(user.getId(), user2.getId());
+        mFriendDAO.addFriend(f);
 
         Rating rating = new Rating(5.0, id, user2.getId());
         mRatingDAO.saveRating(rating);

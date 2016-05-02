@@ -2,7 +2,7 @@ package com.typeof.flickpicker.database.sql;
 import android.provider.BaseColumns;
 
 public class RatingTable {
-    // Prevent instantiating - why not PRIVATE? :)
+
     public RatingTable() {}
 
     public static abstract class RatingEntry implements BaseColumns {

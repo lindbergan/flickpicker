@@ -89,10 +89,12 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
         List<User> friends = getFriendsFromUserId(userId);
 
-        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " INNER JOIN " + RatingTable.RatingEntry.TABLE_NAME + " ON " +
-                FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = " + RatingTable.RatingEntry.COLUMN_NAME_USERID
-                + " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " = ? AND WHERE "
-                + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = ?";
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " INNER JOIN " + RatingTable.RatingEntry.TABLE_NAME
+                 + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID +
+                " = " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID +
+                " WHERE " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID
+                 + " = ?";
+
 
         Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
 
