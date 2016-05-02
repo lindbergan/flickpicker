@@ -95,9 +95,8 @@ public class RatingDAOTest extends AndroidTestCase{
         //...if another user saves a rating for the same movie.
         long secondRating = mSQLRatingDAO.saveRating(new Rating(3.0, PrinceOfThievesId, 2 ));
         assertEquals(2.0, mSQLMovieDAO.findMovie(PrinceOfThievesId).getCommunityRating());
-
-
     }
+
 
     public void testRemoveRating() {
 
@@ -120,75 +119,6 @@ public class RatingDAOTest extends AndroidTestCase{
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!
         }
-    }
-
-    public void testGetCommunityTopPicks(){
-
-        //create a bunch of dummy data
-        createDummyData();
-
-        //specify the length of the list and confirm that the method returns a list of the
-        //specified size.
-        int desiredSizeOFList = 2;
-        List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(desiredSizeOFList);
-        assertEquals(desiredSizeOFList, communityTopPicksAllTime.size());
-
-        //confirm that the list return expected elements.
-        assertEquals("F", communityTopPicksAllTime.get(0).getTitle());
-        assertEquals("C", communityTopPicksAllTime.get(1).getTitle());
-    }
-
-
-    public void testGetMostDislikedMovies(){
-
-        //create a bunch of dummy data
-        createDummyData();
-
-        //specify the length of the list and confirm that the method returns a list of the
-        //specified size.
-        int desiredSizeOFList = 2;
-        List<Movie> mostDislikedMovies = mSQLRatingDAO.getMostDislikedMovies(desiredSizeOFList);
-        assertEquals(desiredSizeOFList, mostDislikedMovies.size());
-
-        //confirm that the list return expected elements.
-        assertEquals("A", mostDislikedMovies.get(0).getTitle());
-        assertEquals("D", mostDislikedMovies.get(1).getTitle());
-
-    }
-
-    public void testGetTopRecommendedMoviesThisYear(){
-
-        //create a bunch of dummy data
-        createDummyData();
-
-        //specify the length of the list and confirm that the method returns a list of the
-        //specified size.
-        int desiredSizeOFList = 2;
-        List<Movie> topRecommendedThisYear = mSQLRatingDAO.getTopRecommendedMoviesThisYear(desiredSizeOFList, 2016);
-        assertEquals(desiredSizeOFList,topRecommendedThisYear.size());
-
-        //confirm that the list return expected elements.
-        assertEquals("F", topRecommendedThisYear.get(0).getTitle());
-        assertEquals("B", topRecommendedThisYear.get(1).getTitle());
-    }
-
-    public void createDummyData(){
-
-        //create dummy-movies:
-        long firstDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("A", 2012));
-        long secondDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("B", 2016));
-        long thirdDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("C", 2015));
-        long fourthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("D", 2016));
-        long fifthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("E", 2014));
-        long sixthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("F", 2016));
-
-        //create dummy ratings for those movies:
-        long firstDummyRatingId = mSQLRatingDAO.saveRating(new Rating(2.2,firstDummyMovieId, 1));
-        long secondDummyRatingId = mSQLRatingDAO.saveRating(new Rating(3.1,secondDummyMovieId, 1));
-        long thirdDummyRatingId = mSQLRatingDAO.saveRating(new Rating(4.3,thirdDummyMovieId, 1));
-        long fourthDummyRatingId = mSQLRatingDAO.saveRating(new Rating(2.3,fourthDummyMovieId, 1));
-        long fifthDummyRatingId = mSQLRatingDAO.saveRating(new Rating(3.2,fifthDummyMovieId, 1));
-        long sixthDummyRatingId = mSQLRatingDAO.saveRating(new Rating(5.0,sixthDummyMovieId, 1));
     }
 }
 

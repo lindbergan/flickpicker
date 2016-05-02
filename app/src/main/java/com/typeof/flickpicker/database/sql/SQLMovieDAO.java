@@ -3,6 +3,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
@@ -204,6 +205,40 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         u.setScore(score);
 
         return u;
+    }
+
+    public List<Movie> getCommunityTopPicks(int max){
+        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
+        return getCommunityFeedback(max,sqlString);
+    }
+
+    public List<Movie> getMostDislikedMovies(int max){
+        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "ASC LIMIT " + max;
+        return getCommunityFeedback(max,sqlString);
+    }
+
+    public List<Movie> getTopRecommendedMoviesThisYear(int max, int year){
+        String sqlString = "SELECT * FROM movies WHERE  " + MovieTable.MovieEntry.COLUMN_NAME_YEAR +
+                " LIKE \'" + year + "\' ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " DESC LIMIT " + max;
+        return getCommunityFeedback(max, sqlString);
+    }
+
+    private List<Movie> getCommunityFeedback(int max, String query){
+        //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
+        Cursor c = db.rawQuery(query, null);
+        Log.v("Query Movies Sorted", query);
+        List<Movie> sortedMovies = new ArrayList<Movie>();
+        c.moveToFirst();
+
+        try {
+            do {
+                Movie movie = createMovieFromCursor(c);
+                sortedMovies.add(movie);
+            } while(c.moveToNext());
+        } finally {
+            c.close();
+        }
+        return sortedMovies;
     }
 
 }

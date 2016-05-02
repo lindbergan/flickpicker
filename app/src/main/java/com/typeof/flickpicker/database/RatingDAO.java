@@ -16,7 +16,5 @@ public interface RatingDAO {
     public long saveRating(Rating rating);
     public int removeRating(long ratingId);
 
-    //List<Movie> getCommunityTopPicks(int max);
-    //List<Movie> getTopRecommendedMoviesThisYear(int max);
-    //List<Movie> getMostDislikedMovies(int max);
+
 }

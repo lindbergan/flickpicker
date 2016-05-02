@@ -10,15 +10,21 @@ import java.util.List;
  * Created on 16-04-25.
  */
 public interface MovieDAO {
-    Movie findMovie(long id); //findById()
+
+    Movie findMovie(long id);
     long saveMovie(Movie movie);
     int deleteMovie(Movie movie);
     List<Movie> searchMovieBy(String column, String searchTerm);
     int numOfFriendsHasSeenMovie(long movieId, long userId);
+    List<Movie> getCommunityTopPicks(int max);
+    List<Movie> getTopRecommendedMoviesThisYear(int max, int year);
+    List<Movie> getMostDislikedMovies(int max);
 
     /*
     long createMovie(Movie movie);
     void updateMovie(Movie movie);
     Movie deleteMovie(Movie movie);
     */
+
+
 }
