@@ -13,7 +13,7 @@ import java.util.List;
 public interface RatingDAO {
 
     public List<Rating> getMovieRatings(long movieId);
-    public long saveRating(double RatingValue, long movieId, long userId);
+    public long saveRating(Rating rating);
     public int removeRating(long ratingId);
 
     //List<Movie> getCommunityTopPicks(int max);

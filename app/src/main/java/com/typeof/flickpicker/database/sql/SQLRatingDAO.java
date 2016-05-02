@@ -46,62 +46,15 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return ratingsForMovie;
 
     }
-
-    public long saveRating(double rating, long movieId, long userId) {
-
-        // determine if rating already exists (same movie, same user) - if not :  createRating() is called else updateRating()
-        Cursor cursor = db.rawQuery("SELECT * FROM ratings " +
-                "WHERE " + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = ? " +
-                "AND " + RatingTable.RatingEntry.COLUMN_NAME_USERID + " = ?",
-                new String[]{String.valueOf(movieId), String.valueOf(userId)});
-
-        if(cursor.getCount() == 0){
-            //Update movieTable with new communityRating and create rating
-            cursor.close();
-            setMovieTableRating(movieId, rating);
-            return createRating(rating,movieId,userId);
-        }
-        else {
-            //Update movieTable with new communityRating and update rating
-            setMovieTableRating(movieId, rating);
-            return updateRating(rating, cursor);
-        }
-    }
-
-    private long createRating(double rating, long movieId, long userId){
+    
+    public long saveRating(Rating rating){
+        setMovieTableRating(rating.getMovieId(), rating.getRating());
 
         ContentValues values = new ContentValues();
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating);
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, movieId);
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, userId);
-        return super.save(new Rating(rating,movieId,userId), "ratings", values);
-    }
-
-    private long updateRating(double newRating,Cursor cursor){
-
-        cursor.moveToFirst();
-
-        //get previous values from cursor
-        long id = cursor.getLong(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
-        double rating = cursor.getDouble(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
-        int movieId = cursor.getInt(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        int userId = cursor.getInt(cursor.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-
-        //create a RatingObject of those values to give to supers update()
-        Rating ratingObject = new Rating(rating,movieId,userId);
-        ratingObject.setId(id);
-
-        //save new value via supers update()
-        ContentValues values = new ContentValues();
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_ID, id);
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, newRating);
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, movieId);
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, userId);
-
-        super.save(ratingObject, "ratings",values);
-        cursor.close();
-        return ratingObject.getId();
-
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating.getRating());
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, rating.getMovieId());
+        values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, rating.getUserId());
+        return super.save(rating, "ratings", values);
     }
 
     private double setMovieTableRating(long movieId, double rating){

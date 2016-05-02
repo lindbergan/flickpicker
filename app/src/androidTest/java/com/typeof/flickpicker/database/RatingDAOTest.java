@@ -1,4 +1,5 @@
 package com.typeof.flickpicker.database;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
@@ -53,8 +54,8 @@ public class RatingDAOTest extends AndroidTestCase{
         long id = mSQLMovieDAO.saveMovie(new Movie("Gone with the wind", 1936));
 
         //different users rate the same movie with differen ratings
-        long ratingOneId = mSQLRatingDAO.saveRating(3,id,5);
-        long ratingTwoId = mSQLRatingDAO.saveRating(4,id,4);
+        long ratingOneId = mSQLRatingDAO.saveRating(new Rating(3, id, 5));
+        long ratingTwoId = mSQLRatingDAO.saveRating(new Rating(4, id, 4));
 
         List<Rating> ratingsToCompare = mSQLRatingDAO.getMovieRatings(id);
         int size = ratingsToCompare.size();
@@ -71,12 +72,12 @@ public class RatingDAOTest extends AndroidTestCase{
         //compare that ratings id of that object to the rating created in the beginning to verify that the object has been saved
 
         long id = mSQLMovieDAO.saveMovie(new Movie("Gone with the wind", 1936));
-        long rateId = mSQLRatingDAO.saveRating(2,id,2);
+        long rateId = mSQLRatingDAO.saveRating(new Rating(2,id,2));
         Rating fetchedRating = mSQLRatingDAO.findRating(rateId);
 
         assertEquals(rateId, fetchedRating.getId() );
 
-        long rateIdUpdated = mSQLRatingDAO.saveRating(3,id,2);
+        long rateIdUpdated = mSQLRatingDAO.saveRating(fetchedRating);
         Rating fetchedUpdatedRating = mSQLRatingDAO.findRating(rateIdUpdated);
         assertEquals(fetchedRating.getId(),fetchedUpdatedRating.getId());
         assertEquals(fetchedUpdatedRating.getMovieId(),fetchedRating.getMovieId());
@@ -93,7 +94,7 @@ public class RatingDAOTest extends AndroidTestCase{
         // call deleteRating() and verify that it has been deleted
 
         long id = mSQLMovieDAO.saveMovie(new Movie("Gone with the wind", 1936));
-        long ratingId = mSQLRatingDAO.saveRating(4, id, 4);
+        long ratingId = mSQLRatingDAO.saveRating(new Rating(4, id, 4));
         Rating ratingAfterSave = mSQLRatingDAO.findRating(ratingId);
 
         //confirms that the rating has been saved
@@ -125,10 +126,10 @@ public class RatingDAOTest extends AndroidTestCase{
 
             //dummy ratings for those movies
             int userId = 1;
-            long firstDummyRatingId = mSQLRatingDAO.saveRating(2.0,firstDummyMovieId, userId);
-            long secondDummyRatingId = mSQLRatingDAO.saveRating(3.0,secondDummyMovieId, userId);
-            long thirdDummyRatingId = mSQLRatingDAO.saveRating(4.0,thirdDummyMovieId, userId);
-            long fourthDummyRatingId = mSQLRatingDAO.saveRating(2.0,fourthDummyMovieId, userId);
+            long firstDummyRatingId = mSQLRatingDAO.saveRating(new Rating(2.0,firstDummyMovieId, userId));
+            long secondDummyRatingId = mSQLRatingDAO.saveRating(new Rating(3.0,secondDummyMovieId, userId));
+            long thirdDummyRatingId = mSQLRatingDAO.saveRating(new Rating(4.0,thirdDummyMovieId, userId));
+            long fourthDummyRatingId = mSQLRatingDAO.saveRating(new Rating(2.0,fourthDummyMovieId, userId));
 
         //..............
         double communityRating = mSQLMovieDAO.findMovie(firstDummyMovieId).getCommunityRating();
@@ -136,15 +137,24 @@ public class RatingDAOTest extends AndroidTestCase{
         //doesnt save the communityrating, thats why confusion in what movie to retrieve??
         //-----------
 
-            int desiredSizeOFList = 2;
-            List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(desiredSizeOFList);
+        int desiredSizeOFList = 2;
+        List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(desiredSizeOFList);
 
         Movie mov = mSQLMovieDAO.findMovie(secondDummyMovieId);
         assertEquals(3.0, mov.getCommunityRating());
 
-            assertEquals(desiredSizeOFList,communityTopPicksAllTime.size());
-            assertEquals("C", communityTopPicksAllTime.get(0).getTitle());
-            assertEquals("C", communityTopPicksAllTime.get(0).getTitle()); //the CURSOR ISSUE
+        long movieId = mSQLMovieDAO.saveMovie(new Movie("Ghostbusters", 1983));
+
+        Movie ghostBusters = mSQLMovieDAO.findMovie(movieId);
+        ghostBusters.setCommunityRating(4.0);
+
+        Rating r = new Rating(3.0, movieId, 10);
+
+        mSQLRatingDAO.saveRating(r);
+
+        assertEquals(desiredSizeOFList, communityTopPicksAllTime.size());
+        assertEquals("C", communityTopPicksAllTime.get(0).getTitle());
+        assertEquals("C", communityTopPicksAllTime.get(0).getTitle()); //the CURSOR ISSUE
 
 
         //...now that we have the lists' size check out, we need to make sure that the correct list has been given to us
@@ -169,10 +179,10 @@ public class RatingDAOTest extends AndroidTestCase{
 
         //dummy ratings for those movies
         int userId = 1;
-        long firstDummyRatingId = mSQLRatingDAO.saveRating(1,firstDummyMovieId, userId);
-        long secondDummyRatingId = mSQLRatingDAO.saveRating(2,secondDummyMovieId, userId);
-        long thirdDummyRatingId = mSQLRatingDAO.saveRating(1,thirdDummyMovieId, userId);
-        long fourthDummyRatingId = mSQLRatingDAO.saveRating(3,fourthDummyMovieId, userId);
+        long firstDummyRatingId = mSQLRatingDAO.saveRating(new Rating(1,firstDummyMovieId, userId));
+        long secondDummyRatingId = mSQLRatingDAO.saveRating(new Rating(2,secondDummyMovieId, userId));
+        long thirdDummyRatingId = mSQLRatingDAO.saveRating(new Rating(1,thirdDummyMovieId, userId));
+        long fourthDummyRatingId = mSQLRatingDAO.saveRating(new Rating(3,fourthDummyMovieId, userId));
 
         int desiredSizeOFList = 3;
         List<Movie> communityMostDislikedMovies = mSQLRatingDAO.getMostDislikedMovies(desiredSizeOFList);
@@ -201,10 +211,10 @@ public class RatingDAOTest extends AndroidTestCase{
 
         //dummy ratings for those movies
         int userId = 1;
-        long firstDummyRatingId = mSQLRatingDAO.saveRating(3,firstDummyMovieId, userId);
-        long secondDummyRatingId = mSQLRatingDAO.saveRating(3,secondDummyMovieId, userId);
-        long thirdDummyRatingId = mSQLRatingDAO.saveRating(4,thirdDummyMovieId, userId);
-        long fourthDummyRatingId = mSQLRatingDAO.saveRating(5,fourthDummyMovieId, userId);
+        long firstDummyRatingId = mSQLRatingDAO.saveRating(new Rating(3,firstDummyMovieId, userId));
+        long secondDummyRatingId = mSQLRatingDAO.saveRating(new Rating(3,secondDummyMovieId, userId));
+        long thirdDummyRatingId = mSQLRatingDAO.saveRating(new Rating(4,thirdDummyMovieId, userId));
+        long fourthDummyRatingId = mSQLRatingDAO.saveRating(new Rating(5,fourthDummyMovieId, userId));
 
         int desiredSizeOFList = 5;
         List<Movie> topRecommendedThisYear = mSQLRatingDAO.getTopRecommendedMoviesThisYear(desiredSizeOFList);
