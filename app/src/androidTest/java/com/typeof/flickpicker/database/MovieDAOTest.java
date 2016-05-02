@@ -41,8 +41,9 @@ public class MovieDAOTest extends AndroidTestCase {
 
 
     public void testFind() throws Exception {
-        Movie movie = mMovieDAO.findMovie(5); // This record is created via the DatabaseSeed
-        assertEquals("Checking if fetching movie is successful", "Shawshank Redemption", movie.getTitle());
+        long movieId = mMovieDAO.saveMovie(new Movie("Shawshank", 1994));
+        Movie movie = mMovieDAO.findMovie(movieId); // This record is created via the DatabaseSeed
+        assertEquals("Checking if fetching movie is successful", "Shawshank", movie.getTitle());
     }
 
     /**

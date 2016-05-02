@@ -68,12 +68,13 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         Cursor c = super.search("movies", column, searchString);
         c.moveToFirst();
 
-        while (c.moveToNext()) {
-            results.add(createMovieFromCursor(c));
+        try {
+            do {
+                results.add(createMovieFromCursor(c));
+            } while(c.moveToNext());
+        } finally {
+            c.close();
         }
-
-        c.close();
-
         return results;
     }
 }
