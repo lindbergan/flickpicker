@@ -27,6 +27,13 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         db = dbhelper.getWritableDatabase();
     }
 
+    /**
+     * Finds a movie with help of movieId
+     * Calls on createMovieFromCursor then returns a created movie
+     * @param id
+     * @return
+     */
+
     public Movie findMovie(long id) {
         try {
             Cursor c = super.find(id, "movies");
@@ -39,6 +46,13 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         }
     }
 
+    /**
+     * Collects information about a movie and samples them variables
+     * Then returns a newly created movie
+     * @param c
+     * @return
+     */
+
     public Movie createMovieFromCursor(Cursor c) {
         String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
         long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
@@ -48,6 +62,14 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         m.setCommunityRating(rating);
         return m;
     }
+
+    /**
+     * Creates a map (ContentValues)
+     * Puts information in the movie columns
+     * Saves the movie in the movies table
+     * @param movie
+     * @return
+     */
 
     public long saveMovie(Movie movie) {
         ContentValues values = new ContentValues();
@@ -69,6 +91,16 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return super.delete(movie, "movies");
     }
 
+    /**
+     * Creates a result array
+     * Create a cursor of all movies that contains the searchString
+     * Adds all movies to the result array
+     * Returns the result array
+     * @param column
+     * @param searchString
+     * @return
+     */
+
     public List<Movie> searchMovieBy(String column, String searchString) {
         List<Movie> results = new ArrayList<>();
         Cursor c = super.search("movies", column, searchString);
@@ -83,6 +115,18 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         }
         return results;
     }
+
+    /**
+     * Creates a friends list
+     * Friends join ratings table
+     * Looks for friends that have seen the movie
+     * Where friends.user2id = ratings.user1id
+     * Adds all friends to the list
+     * Returns the size of the list
+     * @param movieId
+     * @param userId
+     * @return
+     */
 
     @Override
     public int numOfFriendsHasSeenMovie(long movieId, long userId) {
@@ -109,6 +153,15 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return friends.size();
     }
 
+    /**
+     * Creates a userFriends
+     * Friends is joined with users
+     * Where friends.user2id = users.id
+     * Where friends.user1id = id param
+     * @param id
+     * @return
+     */
+
     public List<User> getFriendsFromUserId(long id) {
         List<User> userFriends = new ArrayList<>();
 
@@ -133,6 +186,12 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
         return userFriends;
     }
+
+    /**
+     * Same functionality as createMovieFromCursor
+     * @param c
+     * @return
+     */
 
     public User createUserFromCursor(Cursor c){
         long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
