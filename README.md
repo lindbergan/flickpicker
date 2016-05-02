@@ -9,7 +9,8 @@ A project made by Chalmers University of Technology students in course: TDA367 -
 - Jonatan Nylund
 - Jonathan Sundkvist
 
-###### Tools used: Gradle, SQLlite3, android platform tools
+###### Tools used: 
+Gradle, SQLlite3, android platform tools
 
 ### Contact us:
 * Sebastian: sebnils@student.chalmers.se
