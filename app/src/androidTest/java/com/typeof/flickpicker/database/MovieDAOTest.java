@@ -7,6 +7,7 @@ import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.SQLMovieDAO;
 import com.typeof.flickpicker.database.sql.SQLRatingDAO;
+import com.typeof.flickpicker.database.sql.SQLUserDAO;
 
 import junit.framework.Assert;
 
@@ -22,12 +23,15 @@ public class MovieDAOTest extends AndroidTestCase {
     private MovieDAO mMovieDAO;
     private RatingDAO mRatingDAO;
     private DatabaseSeed mDatabaseSeed;
+    private UserDAO mUserDAO;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mMovieDAO = new SQLMovieDAO(getContext());
+        mRatingDAO = new SQLRatingDAO(getContext());
         mDatabaseSeed = new DatabaseSeed(getContext());
+        mUserDAO = new SQLUserDAO(getContext());
         mDatabaseSeed.seedDatabase();
     }
 
@@ -120,7 +124,15 @@ public class MovieDAOTest extends AndroidTestCase {
         long id = mMovieDAO.saveMovie(movie);
 
         User user = new User("pelle", "password");
-        Rating rating = new Rating(5.0, id, user.getId());
+        User user2 = new User("johan", "password");
+        mUserDAO.saveUser(user);
+        mUserDAO.saveUser(user2);
+
+        Rating rating = new Rating(5.0, id, user2.getId());
+        mRatingDAO.saveRating(rating);
+
+        int nrOfFriends = mMovieDAO.numOfFriendsHasSeenMovie(id, user.getId());
+        assertEquals(1, nrOfFriends);
 
     }
 
