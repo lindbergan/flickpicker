@@ -116,7 +116,7 @@ public class MovieDAOTest extends AndroidTestCase {
     }
 
     public void testNumOfFriendsHasSeenMovie() throws Exception {
-        Movie movie = new Movie("Reservoir Dogs");
+        Movie movie = new Movie("Reservoir Dogs", 1992);
         long id = mMovieDAO.saveMovie(movie);
 
         User user = new User("pelle", "password");
