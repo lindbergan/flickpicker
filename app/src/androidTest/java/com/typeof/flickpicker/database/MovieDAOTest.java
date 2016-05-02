@@ -6,6 +6,7 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.SQLMovieDAO;
+import com.typeof.flickpicker.database.sql.SQLRatingDAO;
 
 import junit.framework.Assert;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class MovieDAOTest extends AndroidTestCase {
 
     private MovieDAO mMovieDAO;
+    private RatingDAO mRatingDAO;
     private DatabaseSeed mDatabaseSeed;
 
     @Override
@@ -119,6 +121,7 @@ public class MovieDAOTest extends AndroidTestCase {
 
         User user = new User("pelle", "password");
         Rating rating = new Rating(5.0, id, user.getId());
+
     }
 
 }
