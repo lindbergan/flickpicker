@@ -140,27 +140,10 @@ public class RatingDAOTest extends AndroidTestCase{
         int desiredSizeOFList = 2;
         List<Movie> communityTopPicksAllTime = mSQLRatingDAO.getCommunityTopPicks(desiredSizeOFList);
 
-        Movie mov = mSQLMovieDAO.findMovie(secondDummyMovieId);
-        assertEquals(3.0, mov.getCommunityRating());
-
-        long movieId = mSQLMovieDAO.saveMovie(new Movie("Ghostbusters", 1983));
-
-        Movie ghostBusters = mSQLMovieDAO.findMovie(movieId);
-        ghostBusters.setCommunityRating(4.0);
-
-        Rating r = new Rating(3.0, movieId, 10);
-
-        mSQLRatingDAO.saveRating(r);
-
+        //the CURSOR ISSUE
         assertEquals(desiredSizeOFList, communityTopPicksAllTime.size());
         assertEquals("C", communityTopPicksAllTime.get(0).getTitle());
-        assertEquals("C", communityTopPicksAllTime.get(0).getTitle()); //the CURSOR ISSUE
-
-
-        //...now that we have the lists' size check out, we need to make sure that the correct list has been given to us
-
-            //assertEquals("B",communityTopPicksAllTime.get(0).getTitle());
-            //assertEquals("C",communityTopPicksAllTime.get(1).getTitle());
+        assertEquals("B", communityTopPicksAllTime.get(1).getTitle());
     }
 
 
@@ -205,6 +188,8 @@ public class RatingDAOTest extends AndroidTestCase{
         long secondDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("B", 2016));
         long thirdDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("C", 2015));
         long fourthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("D", 2016));
+        long fifthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("E", 2016));
+        long sixthDummyMovieId = mSQLMovieDAO.saveMovie(new Movie("F", 2016));
 
         Movie testMovie = mSQLMovieDAO.findMovie(firstDummyMovieId);
         assertEquals(2016, testMovie.getYear());
@@ -217,10 +202,10 @@ public class RatingDAOTest extends AndroidTestCase{
         long fourthDummyRatingId = mSQLRatingDAO.saveRating(new Rating(5,fourthDummyMovieId, userId));
 
         int desiredSizeOFList = 5;
-        List<Movie> topRecommendedThisYear = mSQLRatingDAO.getTopRecommendedMoviesThisYear(desiredSizeOFList);
+        List<Movie> topRecommendedThisYear = mSQLRatingDAO.getTopRecommendedMoviesThisYear(desiredSizeOFList, 2016);
 
         assertEquals(desiredSizeOFList,topRecommendedThisYear.size());
-        //assertEquals(fourthDummyMovieId, topRecommendedThisYear.get(2).getId());
+        assertEquals("D", topRecommendedThisYear.get(0).getTitle());
 
     }
 

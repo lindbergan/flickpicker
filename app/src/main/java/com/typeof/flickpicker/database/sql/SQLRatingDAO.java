@@ -3,6 +3,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
@@ -101,46 +102,43 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     public int removeRating(long id){
 
         Rating ratingToDelete = findRating(id);
-        return super.delete(ratingToDelete,"ratings");
+        return super.delete(ratingToDelete, "ratings");
     }
 
     public List<Movie> getCommunityTopPicks(int max){
-        String sqlString = MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " " + "DESC";
+        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
         return getCommunityFeedback(max,sqlString);
     }
 
 
     public List<Movie> getMostDislikedMovies(int max){
-        String sqlString = MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " " + "ASC";
+        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "ASC LIMIT " + max;
         return getCommunityFeedback(max,sqlString);
     }
 
-    public List<Movie> getTopRecommendedMoviesThisYear(int max){
-        String sqlString = MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " AND " + MovieTable.MovieEntry.COLUMN_NAME_YEAR + " LIKE \'" + "2016" + "\'" + " DESC";
+    public List<Movie> getTopRecommendedMoviesThisYear(int max, int year){
+        String sqlString = "SELECT * FROM movies WHERE  " + MovieTable.MovieEntry.COLUMN_NAME_YEAR +
+                " LIKE \'" + year + "\' ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " DESC LIMIT " + max;
         return getCommunityFeedback(max, sqlString);
     }
 
-    private List<Movie> getCommunityFeedback(int max, String requestedSorting){
-
+    private List<Movie> getCommunityFeedback(int max, String query){
         //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
-        Cursor c = db.rawQuery("SELECT * FROM movies ORDER BY "+ requestedSorting + " LIMIT " + String.valueOf(max),null);
+        Cursor c = db.rawQuery(query, null);
+        Log.v("Query Movies Sorted", query);
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
-        int cc = c.getCount();
-
-        for (int i = 0; i < max; i++) {
-            //get the top or bottom ratings and save their movieId:s. Find movie based on id and save it to ratedMovies
-            Movie movie = sqlMovieDAO.createMovieFromCursor(c);
-            String t = movie.getTitle();
-            double r = movie.getCommunityRating();
-            sortedMovies.add(movie);
-            c.moveToNext();
+        try {
+             do {
+                Movie movie = sqlMovieDAO.createMovieFromCursor(c);
+                sortedMovies.add(movie);
+            } while(c.moveToNext());
+        } finally {
+            c.close();
         }
-        c.close();
         return sortedMovies;
     }
-
 
     /*
     public Rating find(long id) {

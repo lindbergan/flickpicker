@@ -24,6 +24,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     public Movie findMovie(long id) {
         try {
             Cursor c = super.find(id, "movies");
+            c.moveToFirst();
             Movie movie = createMovieFromCursor(c);
             c.close();
             return movie;
@@ -33,7 +34,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     }
 
     public Movie createMovieFromCursor(Cursor c) {
-        c.moveToFirst();
         String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
         long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
         int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
@@ -66,6 +66,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     public List<Movie> searchMovieBy(String column, String searchString) {
         List<Movie> results = new ArrayList<>();
         Cursor c = super.search("movies", column, searchString);
+        c.moveToFirst();
 
         while (c.moveToNext()) {
             results.add(createMovieFromCursor(c));
