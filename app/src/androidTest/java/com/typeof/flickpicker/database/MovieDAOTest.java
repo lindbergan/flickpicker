@@ -109,6 +109,14 @@ public class MovieDAOTest extends AndroidTestCase {
         assertEquals(id, foundMovie.getId());
     }
 
+    /**
+     * Test deletion of a movie
+     * Creates a movie, saves the movie
+     * Then deletes the movie
+     * Checks if the movie still exists in the database, expects it to fail
+     * @throws Exception
+     */
+
     public void testDelete() throws Exception {
         Movie movie = new Movie("Reservoir Dogs", 1992);
         long id = mMovieDAO.saveMovie(movie);
@@ -122,6 +130,14 @@ public class MovieDAOTest extends AndroidTestCase {
         }
 
     }
+
+    /**
+     * Testing how many of my friends has seen this movie
+     * Creates a movie
+     * Creates two users and a relation between user1 and user2
+     * User2 rates the movie in question
+     * @throws Exception
+     */
 
     public void testNumOfFriendsHasSeenMovie() throws Exception {
         Movie movie = new Movie("Reservoir Dogs", 1992);
