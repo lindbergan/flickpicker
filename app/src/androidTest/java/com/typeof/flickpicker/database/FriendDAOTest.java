@@ -22,18 +22,18 @@ import java.util.List;
 
 public class FriendDAOTest extends AndroidTestCase {
 
-    private FriendDAO fFriendDAO;
-    private DatabaseSeed fDatabaseSeed;
+    private FriendDAO mFriendDAO;
+    private DatabaseSeed mDatabaseSeed;
     private UserDAO mUserDAO;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        fFriendDAO = new SQLFriendDAO(getContext());
+        mFriendDAO = new SQLFriendDAO(getContext());
         mUserDAO = new SQLUserDAO(getContext());
 
-        fDatabaseSeed = new DatabaseSeed(getContext());
-        fDatabaseSeed.seedDatabase();
+        mDatabaseSeed = new DatabaseSeed(getContext());
+        mDatabaseSeed.seedDatabase();
 
         SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(getContext());
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -46,7 +46,7 @@ public class FriendDAOTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        fDatabaseSeed.clearDatabase();
+        mDatabaseSeed.clearDatabase();
     }
 
     /**
@@ -65,9 +65,9 @@ public class FriendDAOTest extends AndroidTestCase {
         long id2 = mUserDAO.saveUser(user2);
 
         Friend f = new Friend(user1.getId(), user2.getId());
-        fFriendDAO.addFriend(f);
+        mFriendDAO.addFriend(f);
 
-        List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
+        List<User> userFriends = mFriendDAO.getFriendsFromUserId(user1.getId());
 
         assertEquals(1, userFriends.size());
 
@@ -83,7 +83,7 @@ public class FriendDAOTest extends AndroidTestCase {
         User user1 = new User("pelle", "password");
         long id = mUserDAO.saveUser(user1);
 
-        List<User> userFriends = fFriendDAO.getFriendsFromUserId(id);
+        List<User> userFriends = mFriendDAO.getFriendsFromUserId(id);
         assertTrue(userFriends != null);
     }
 
@@ -104,9 +104,9 @@ public class FriendDAOTest extends AndroidTestCase {
         long id2 = mUserDAO.saveUser(user2);
 
         Friend f = new Friend(id1, id2);
-        long id = fFriendDAO.addFriend(f);
-        fFriendDAO.removeFriend(user1.getId(), user2.getId());
-        List<User> userFriends = fFriendDAO.getFriendsFromUserId(user1.getId());
+        long id = mFriendDAO.addFriend(f);
+        mFriendDAO.removeFriend(user1.getId(), user2.getId());
+        List<User> userFriends = mFriendDAO.getFriendsFromUserId(user1.getId());
 
         assertTrue(userFriends.size() == 0);
 
