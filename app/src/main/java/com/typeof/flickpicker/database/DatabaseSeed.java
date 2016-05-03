@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.sql.FriendTable;
 import com.typeof.flickpicker.database.sql.MovieTable;
 import com.typeof.flickpicker.database.sql.RatingTable;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
@@ -26,9 +27,11 @@ public class DatabaseSeed {
 
     public void seedDatabase() {
 
+        //-----Friends-----
+        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
+        db.execSQL(FriendTable.FriendEntry.getSQLCreateTableQuery());
 
-                        //-----Movie-----
-
+        //-----Movie-----
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
 
