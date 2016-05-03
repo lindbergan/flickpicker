@@ -206,4 +206,8 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return u;
     }
 
+    public List<User> getFriendsSeenMovie() {
+        return new ArrayList<>();
+    }
+
 }
