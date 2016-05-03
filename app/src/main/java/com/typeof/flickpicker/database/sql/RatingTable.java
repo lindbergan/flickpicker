@@ -26,7 +26,7 @@ public class RatingTable {
                     COLUMN_NAME_RATING + DOUBLE_TYPE + COMMA_SEP +
                     COLUMN_NAME_MOVIEID + INTEGER_TYPE + COMMA_SEP +
                     COLUMN_NAME_USERID + INTEGER_TYPE + COMMA_SEP +
-                    COLUMN_NAME_CREATED_AT + " DATETIME DEFAULT CURRENT_DATE" +
+                    COLUMN_NAME_CREATED_AT + " DATETIME DEFAULT (datetime('now','localtime'))" +
                     " )";
         }
 
