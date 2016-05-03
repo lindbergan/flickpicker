@@ -3,7 +3,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
@@ -150,14 +149,18 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     public List<User> getFriendsSeenMovie(long movieId, long userId) {
         List<User> friends = new ArrayList<>();
 
-        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " INNER JOIN " + RatingTable.RatingEntry.TABLE_NAME
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " JOIN " + RatingTable.RatingEntry.TABLE_NAME
                 + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID +
                 " = " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID +
-                " WHERE " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID
+                " JOIN " + UserTable.UserEntry.TABLE_NAME + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." +
+                FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = " + UserTable.UserEntry.TABLE_NAME + "." +
+                UserTable.UserEntry.COLUMN_NAME_ID + " WHERE " +
+                RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID
                 + " = ?";
 
 
         Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
+
 
         while (c.moveToNext()) {
             friends.add(createUserFromCursor(c));
