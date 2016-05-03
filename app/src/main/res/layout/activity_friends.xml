@@ -10,6 +10,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.typeof.flickpicker.activities.FriendsActivity">
 
+<<<<<<< bf7b6649d44ef20c2d9c9b5c7888361e87185f3a
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,4 +19,6 @@
         android:layout_centerHorizontal="true"
         tools:listitem="@android:layout/simple_list_item_1"/>
 
+=======
+>>>>>>> Added FriendsActivity
 </RelativeLayout>

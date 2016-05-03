@@ -14,7 +14,6 @@ import com.typeof.flickpicker.database.FriendDAO;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FriendsActivity extends AppCompatActivity {
 
     private FriendDAO mFriendDAO;
@@ -78,6 +77,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         mFriendsRecentActivity.add(r);
         mFriendsRecentActivity.add(r2);
+
     }
 
 }
