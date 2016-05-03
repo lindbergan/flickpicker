@@ -69,7 +69,11 @@ public class RatingDAOTest extends AndroidTestCase{
         //test to make sure that a rating does not get a new id when updated.
         rating.updateRating(3.2);
         long updatedRatingId = mSQLRatingDAO.saveRating(rating);
-        assertEquals(rating.getId(),updatedRatingId);
+        assertEquals(rating.getId(), updatedRatingId);
+
+        }
+
+    public void testSaveToMovieTable(){
 
         //Finally - saveRating() also saves information about the movies new rating to the
         // MovieTable. This needs to be checked so that the method works as supposed to.
@@ -77,9 +81,10 @@ public class RatingDAOTest extends AndroidTestCase{
         // create a new movie and a rating for that movie. Confirm that the movies communityRating
         // is the correct after a first rating has been given to that movie.
         long PrinceOfThievesId = mSQLMovieDAO.saveMovie(new Movie("Prince of Thieves", 1991));
-        long firstRating = mSQLRatingDAO.saveRating(new Rating(4.0, PrinceOfThievesId, 1 ));
-
+        Rating r1 = new Rating(4.0, PrinceOfThievesId, 1 );
+        long firstRating = mSQLRatingDAO.saveRating(r1);
         assertEquals(4.0, mSQLMovieDAO.findMovie(PrinceOfThievesId).getCommunityRating());
+
 
         //then update that rating and check its new value. (same user)
         Rating PrinceOfThievesRating = mSQLRatingDAO.findRating(firstRating);
@@ -87,10 +92,12 @@ public class RatingDAOTest extends AndroidTestCase{
         mSQLRatingDAO.saveRating(PrinceOfThievesRating);
         assertEquals(1.0, mSQLMovieDAO.findMovie(PrinceOfThievesId).getCommunityRating());
 
+
         //...if another user saves a rating for the same movie.
-        Rating r = new Rating(3.0, PrinceOfThievesId, 2 );
-        long secondRating = mSQLRatingDAO.saveRating(r);
+        Rating r2 = new Rating(3.0, PrinceOfThievesId, 2 );
+        long secondRating = mSQLRatingDAO.saveRating(r2);
         assertEquals(2.0, mSQLMovieDAO.findMovie(PrinceOfThievesId).getCommunityRating());
+
     }
 
 
