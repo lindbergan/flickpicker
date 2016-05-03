@@ -157,4 +157,33 @@ public class MovieDAOTest extends AndroidTestCase {
 
     }
 
+    public void testGetFriendsSeenMovie() throws Exception {
+        Movie movie = new Movie("Reservoir Dogs", 1992);
+        long id = mMovieDAO.saveMovie(movie);
+
+        User user = new User("pelle", "password");
+        User user2 = new User("johan", "password");
+        User user3 = new User("niklas", "password");
+        mUserDAO.saveUser(user);
+        mUserDAO.saveUser(user2);
+        mUserDAO.saveUser(user3);
+
+        Friend f = new Friend(user.getId(), user2.getId());
+        mFriendDAO.addFriend(f);
+
+        Friend f1 = new Friend(user.getId(), user3.getId());
+        mFriendDAO.addFriend(f1);
+
+        Rating rating = new Rating(5.0, id, user2.getId());
+        mRatingDAO.saveRating(rating);
+
+        Rating rating1 = new Rating(4.0, id, user3.getId());
+        mRatingDAO.saveRating(rating1);
+
+        List<User> friends = mMovieDAO.getFriendsSeenMovie();
+        assertTrue(friends.contains(user2) && friends.contains(user3));
+
+
+    }
+
 }
