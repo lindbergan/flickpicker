@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.sql.SQLMovieDAO;
@@ -21,18 +22,17 @@ import java.util.List;
  */
 public class RatingDAOTest extends AndroidTestCase{
 
-    private SQLRatingDAO mSQLRatingDAO;
-    private SQLMovieDAO mSQLMovieDAO;
+    private RatingDAO mSQLRatingDAO;
+    private MovieDAO mSQLMovieDAO;
     private DatabaseSeed mDatabaseSeed;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mSQLRatingDAO = new SQLRatingDAO(getContext());
-        mSQLMovieDAO = new SQLMovieDAO(getContext());
+        mSQLRatingDAO = App.getRatingDAO();
+        mSQLMovieDAO = App.getMovieDAO();
         mDatabaseSeed = new DatabaseSeed(getContext());
         mDatabaseSeed.seedDatabase();
-
     }
 
     @Override

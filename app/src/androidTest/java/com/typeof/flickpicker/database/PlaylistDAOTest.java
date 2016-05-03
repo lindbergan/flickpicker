@@ -3,6 +3,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.sql.PlaylistTable;
@@ -24,7 +25,7 @@ public class PlaylistDAOTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mPlaylistDAO = new SQLPlaylistDAO(getContext());
+        mPlaylistDAO = App.getPlaylistDAO();
         SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(getContext());
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());

@@ -3,6 +3,7 @@ package com.typeof.flickpicker.database;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.FriendTable;
@@ -29,8 +30,8 @@ public class FriendDAOTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mFriendDAO = new SQLFriendDAO(getContext());
-        mUserDAO = new SQLUserDAO(getContext());
+        mFriendDAO = App.getFriendDAO();
+        mUserDAO = App.getUserDAO();
 
         mDatabaseSeed = new DatabaseSeed(getContext());
         mDatabaseSeed.seedDatabase();

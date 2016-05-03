@@ -2,6 +2,7 @@ package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
@@ -31,11 +32,11 @@ public class MovieDAOTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mMovieDAO = new SQLMovieDAO(getContext());
-        mRatingDAO = new SQLRatingDAO(getContext());
+        mMovieDAO = App.getMovieDAO();
+        mRatingDAO = App.getRatingDAO();
         mDatabaseSeed = new DatabaseSeed(getContext());
-        mUserDAO = new SQLUserDAO(getContext());
-        mFriendDAO = new SQLFriendDAO(getContext());
+        mUserDAO = App.getUserDAO();
+        mFriendDAO = App.getFriendDAO();
         mDatabaseSeed.seedDatabase();
     }
 
