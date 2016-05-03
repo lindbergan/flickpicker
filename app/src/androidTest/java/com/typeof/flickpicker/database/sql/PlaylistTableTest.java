@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.database.Database;
+
 import junit.framework.TestCase;
 
 /**
@@ -14,15 +17,19 @@ import junit.framework.TestCase;
  */
 public class PlaylistTableTest extends AndroidTestCase {
 
+    private Database db;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        db = App.getDatabaseSeed();
+        db.setUpTables();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        db.dropTables();
     }
 
     public void testTableCreation() {
@@ -30,9 +37,5 @@ public class PlaylistTableTest extends AndroidTestCase {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'playlists'", null);
         assertEquals(1, cursor.getCount());
-    }
-
-    public void testRecordInsertion() {
-        assertTrue(true);
     }
 }
