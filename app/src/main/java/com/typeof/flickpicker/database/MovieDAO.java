@@ -19,12 +19,4 @@ public interface MovieDAO {
     List<Movie> getCommunityTopPicks(int max);
     List<Movie> getTopRecommendedMoviesThisYear(int max, int year);
     List<Movie> getMostDislikedMovies(int max);
-
-    /*
-    long createMovie(Movie movie);
-    void updateMovie(Movie movie);
-    Movie deleteMovie(Movie movie);
-    */
-
-
 }

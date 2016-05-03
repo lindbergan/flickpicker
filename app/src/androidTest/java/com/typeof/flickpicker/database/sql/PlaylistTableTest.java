@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
+import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.database.Database;
+
 import junit.framework.TestCase;
 
 /**
@@ -14,15 +17,19 @@ import junit.framework.TestCase;
  */
 public class PlaylistTableTest extends AndroidTestCase {
 
+    private Database mDatabase;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mDatabase = App.getDatabaseSeed();
+        mDatabase.setUpTables();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        mDatabase.dropTables();
     }
 
     public void testTableCreation() {

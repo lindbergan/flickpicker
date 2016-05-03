@@ -1,15 +1,11 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.SmallTest;
 
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.sql.SQLFriendDAO;
-import com.typeof.flickpicker.database.sql.SQLMovieDAO;
-import com.typeof.flickpicker.database.sql.SQLRatingDAO;
-import com.typeof.flickpicker.database.sql.SQLUserDAO;
 
 import junit.framework.Assert;
 
@@ -24,25 +20,27 @@ public class MovieDAOTest extends AndroidTestCase {
 
     private MovieDAO mMovieDAO;
     private RatingDAO mRatingDAO;
-    private DatabaseSeed mDatabaseSeed;
+    private Database mDatabase;
     private UserDAO mUserDAO;
     private FriendDAO mFriendDAO;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mMovieDAO = new SQLMovieDAO(getContext());
-        mRatingDAO = new SQLRatingDAO(getContext());
-        mDatabaseSeed = new DatabaseSeed(getContext());
-        mUserDAO = new SQLUserDAO(getContext());
-        mFriendDAO = new SQLFriendDAO(getContext());
-        mDatabaseSeed.seedDatabase();
+
+        mDatabase = App.getDatabaseSeed();
+        mDatabase.setUpTables();
+
+        mMovieDAO = App.getMovieDAO();
+        mRatingDAO = App.getRatingDAO();
+        mUserDAO = App.getUserDAO();
+        mFriendDAO = App.getFriendDAO();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabaseSeed.clearDatabase();
+        mDatabase.dropTables();
     }
 
 
@@ -54,7 +52,7 @@ public class MovieDAOTest extends AndroidTestCase {
 
     public void testFind() throws Exception {
         long movieId = mMovieDAO.saveMovie(new Movie("Shawshank", 1994));
-        Movie movie = mMovieDAO.findMovie(movieId); // This record is created via the DatabaseSeed
+        Movie movie = mMovieDAO.findMovie(movieId);
         assertEquals("Checking if fetching movie is successful", "Shawshank", movie.getTitle());
     }
 

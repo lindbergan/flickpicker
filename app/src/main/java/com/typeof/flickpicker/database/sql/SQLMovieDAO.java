@@ -59,8 +59,10 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
         int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
         double rating = c.getDouble(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING));
+        int votes = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_VOTES));
         Movie m = new Movie(id, title, year);
         m.setCommunityRating(rating);
+        m.setNumberOfVotes(votes);
         return m;
     }
 
@@ -214,7 +216,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
     public List<Movie> getMostDislikedMovies(int max){
         String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "ASC LIMIT " + max;
-        return getCommunityFeedback(max,sqlString);
+        return getCommunityFeedback(max, sqlString);
     }
 
     public List<Movie> getTopRecommendedMoviesThisYear(int max, int year){

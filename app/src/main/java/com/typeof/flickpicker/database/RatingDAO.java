@@ -15,6 +15,5 @@ public interface RatingDAO {
     public List<Rating> getMovieRatings(long movieId);
     public long saveRating(Rating rating);
     public int removeRating(long ratingId);
-
-
+    public Rating findRating(long ratingId);
 }

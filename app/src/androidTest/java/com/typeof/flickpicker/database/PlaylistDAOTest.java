@@ -1,13 +1,8 @@
 package com.typeof.flickpicker.database;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Playlist;
-import com.typeof.flickpicker.database.sql.PlaylistTable;
-import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
-import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +15,21 @@ import java.util.List;
 public class PlaylistDAOTest extends AndroidTestCase {
 
     private PlaylistDAO mPlaylistDAO;
+    private Database mDatabase;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mPlaylistDAO = new SQLPlaylistDAO(getContext());
-        SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(getContext());
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-        db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
-        db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
+        mPlaylistDAO = App.getPlaylistDAO();
+        mDatabase = App.getDatabaseSeed();
+        mDatabase.setUpTables();
+
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+        mDatabase.dropTables();
     }
 
     public void testGetUserPlaylists() {

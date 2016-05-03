@@ -55,15 +55,16 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating.getRating());
         values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, rating.getMovieId());
         values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, rating.getUserId());
+
         return super.save(rating, "ratings", values);
     }
 
     private double setMovieTableRating(long movieId, double rating){
         Movie movie = sqlMovieDAO.findMovie(movieId);
+
         double newCommunityRating = calculateCommunityRating(movie,rating);
         movie.setCommunityRating(newCommunityRating);
-        int oldVotes = movie.getNumberOfVotes();
-        movie.setNumberOfVotes(oldVotes+1);
+
         sqlMovieDAO.saveMovie(movie);
 
         return newCommunityRating;
@@ -71,7 +72,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     public double calculateCommunityRating(Movie movie, double rating){
         //expression for calculating new communityRating
-        return (movie.getNumberOfVotes()*movie.getCommunityRating()+rating)/(movie.getNumberOfVotes()+1);
+        return (movie.getNumberOfVotes()*movie.getCommunityRating()+rating)/(movie.getNumberOfVotes());
     }
 
     public Cursor searchRatingBy(String column, String searchString){

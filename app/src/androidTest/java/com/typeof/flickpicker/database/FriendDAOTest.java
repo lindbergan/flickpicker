@@ -1,16 +1,10 @@
 package com.typeof.flickpicker.database;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.sql.FriendTable;
-import com.typeof.flickpicker.database.sql.PlaylistTable;
-import com.typeof.flickpicker.database.sql.SQLFriendDAO;
-import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
-import com.typeof.flickpicker.database.sql.SQLUserDAO;
-import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 
 import java.util.List;
 
@@ -23,30 +17,22 @@ import java.util.List;
 public class FriendDAOTest extends AndroidTestCase {
 
     private FriendDAO mFriendDAO;
-    private DatabaseSeed mDatabaseSeed;
+    private Database mDatabase;
     private UserDAO mUserDAO;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mFriendDAO = new SQLFriendDAO(getContext());
-        mUserDAO = new SQLUserDAO(getContext());
-
-        mDatabaseSeed = new DatabaseSeed(getContext());
-        mDatabaseSeed.seedDatabase();
-
-        SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(getContext());
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-
-        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
-        db.execSQL(FriendTable.FriendEntry.getSQLCreateTableQuery());
-
+        mFriendDAO = App.getFriendDAO();
+        mUserDAO = App.getUserDAO();
+        mDatabase = App.getDatabaseSeed();
+        mDatabase.setUpTables();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabaseSeed.clearDatabase();
+        mDatabase.dropTables();
     }
 
     /**
