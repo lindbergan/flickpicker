@@ -2,7 +2,7 @@ package com.typeof.flickpicker.database;
 
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 
