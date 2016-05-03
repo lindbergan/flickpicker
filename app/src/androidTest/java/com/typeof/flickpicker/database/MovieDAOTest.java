@@ -181,7 +181,7 @@ public class MovieDAOTest extends AndroidTestCase {
         mRatingDAO.saveRating(rating1);
 
         List<User> friends = mMovieDAO.getFriendsSeenMovie(id, id1);
-        assertTrue(friends.contains(user2) && friends.contains(user3));
+        assertTrue(friends.get(0).getId() == id2 && friends.get(1).getId() == id3);
 
     }
 
