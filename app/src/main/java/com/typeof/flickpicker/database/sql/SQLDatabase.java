@@ -1,28 +1,64 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.sql;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.sql.FriendTable;
-import com.typeof.flickpicker.database.sql.MovieTable;
-import com.typeof.flickpicker.database.sql.RatingTable;
-import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
-import com.typeof.flickpicker.database.sql.UserTable;
+import com.typeof.flickpicker.database.Database;
 
 /**
  * FlickPicker
  * Group 22
  * Created on 16-04-19.
  */
-public class DatabaseSeed {
+public class SQLDatabase implements Database {
 
     private SQLiteDatabase db;
 
-    public DatabaseSeed(Context ctx) {
+    public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
         this.db = mDbHelper.getWritableDatabase();
+    }
+
+    @Override
+    public void setUpTables() {
+
+        dropTables();
+
+        //-----Movie-----
+        db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
+
+
+        //-----User-----
+        db.execSQL(UserTable.UserEntry.getSQLCreateTableQuery());
+
+        //-----Rating-----
+        db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
+
+
+        //-----Playlist-----
+        db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
+
+        //-----Friend-----
+        db.execSQL(FriendTable.FriendEntry.getSQLCreateTableQuery());
+    }
+
+    @Override
+    public void dropTables() {
+        //-----Movie-----
+        db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
+
+        //-----User------
+        db.execSQL(UserTable.UserEntry.getSQLDropTableQuery());
+
+        //-----Rating-----
+        db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
+
+        //-----Playlist----
+        db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
+
+        //-----Friend-----
+        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
     }
 
     public void seedDatabase() {

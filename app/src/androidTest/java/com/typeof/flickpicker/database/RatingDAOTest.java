@@ -1,18 +1,12 @@
 package com.typeof.flickpicker.database;
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
-import com.typeof.flickpicker.database.sql.SQLMovieDAO;
-import com.typeof.flickpicker.database.sql.SQLRatingDAO;
 
 import junit.framework.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,21 +18,21 @@ public class RatingDAOTest extends AndroidTestCase{
 
     private RatingDAO mSQLRatingDAO;
     private MovieDAO mSQLMovieDAO;
-    private DatabaseSeed mDatabaseSeed;
+    private Database mDatabase;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mSQLRatingDAO = App.getRatingDAO();
         mSQLMovieDAO = App.getMovieDAO();
-        mDatabaseSeed = new DatabaseSeed(getContext());
-        mDatabaseSeed.seedDatabase();
+        mDatabase = App.getDatabaseSeed();
+        mDatabase.setUpTables();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabaseSeed.clearDatabase();
+        mDatabase.dropTables();
     }
 
     public void testGetMovieRatings(){
@@ -210,71 +204,3 @@ public class RatingDAOTest extends AndroidTestCase{
     }
 
 }
-
-
-
-    //--------OLD DESIGN---------------------------
-
-    /**
-     * Tests if we can find a record in the database
-     * @throws Exception
-     */
-
-    /*
-    public void testFind() throws Exception {
-        Rating rating = mSQLRatingDAO.find(5); // This record is created via the DatabaseSeed
-        assertEquals("Checking if fetching rating is successful", 4.0, rating.getRating());
-    }
-    */
-
-    /**
-     * Tests if a record is saved in the database
-     * @throws Exception
-     */
-
-    /*
-    public void testSave() throws Exception {
-        Rating rating = new Rating(1.0,1,1); //int id, double rating, int movieId, int userId
-        long rowId = mSQLRatingDAO.save(rating);
-        assertFalse(rowId == -1);
-    }
-
-    /**
-     * Tests if we can create a record and then update it
-     * @throws Exception
-     */
-    /*
-    public void testUpdate() throws Exception {
-        Rating rating = new Rating(2.0,2,2);
-        long ratingId = mSQLRatingDAO.save(rating);
-
-        // We assert that the rating was saved and was given a unique ID;
-        assertFalse(ratingId == -1);
-
-        rating.updateRating(5.0);
-        mSQLRatingDAO.save(rating);
-
-        // We now look in our database for the record saved
-        Rating ratingFetched = mSQLRatingDAO.find(ratingId);
-
-        // Check if the rating has the new updated rating
-        assertEquals(ratingFetched.getRating(), 5.0);
-    }
-
-    public void testDelete() throws Exception {
-        Rating rating = new Rating(4.0,4,4);
-        long id = mSQLRatingDAO.save(rating);
-
-        mSQLRatingDAO.delete(rating);
-
-        try {
-            Rating foundRating = mSQLRatingDAO.find(id);
-        }
-        catch(DatabaseRecordNotFoundException e){
-            //catch exception - test successful
-        }
-
-    }
-    */
-
-

@@ -1,15 +1,15 @@
 package com.typeof.flickpicker;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.res.Configuration;
 
+import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
+import com.typeof.flickpicker.database.sql.SQLDatabase;
 import com.typeof.flickpicker.database.sql.SQLFriendDAO;
 import com.typeof.flickpicker.database.sql.SQLMovieDAO;
 import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
@@ -49,5 +49,9 @@ public class App extends Application {
 
     public static FriendDAO getFriendDAO() {
         return new SQLFriendDAO(mContext);
+    }
+
+    public static Database getDatabaseSeed() {
+        return new SQLDatabase(mContext);
     }
 }
