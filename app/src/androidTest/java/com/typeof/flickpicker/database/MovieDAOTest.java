@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
@@ -206,7 +206,7 @@ public class MovieDAOTest extends AndroidTestCase {
         assertEquals("B", topRecommendedThisYear.get(1).getTitle());
     }
 
-    public void createDummyData(){
+    public void createDummyData() {
 
         //create dummy-movies:
         long firstDummyMovieId = mMovieDAO.saveMovie(new Movie("A", 2012));
@@ -217,12 +217,39 @@ public class MovieDAOTest extends AndroidTestCase {
         long sixthDummyMovieId = mMovieDAO.saveMovie(new Movie("F", 2016));
 
         //create dummy ratings for those movies:
-        long firstDummyRatingId = mRatingDAO.saveRating(new Rating(2.2,firstDummyMovieId, 1));
-        long secondDummyRatingId = mRatingDAO.saveRating(new Rating(3.1,secondDummyMovieId, 1));
-        long thirdDummyRatingId = mRatingDAO.saveRating(new Rating(4.3,thirdDummyMovieId, 1));
-        long fourthDummyRatingId = mRatingDAO.saveRating(new Rating(2.3,fourthDummyMovieId, 1));
-        long fifthDummyRatingId = mRatingDAO.saveRating(new Rating(3.2,fifthDummyMovieId, 1));
-        long sixthDummyRatingId = mRatingDAO.saveRating(new Rating(5.0,sixthDummyMovieId, 1));
+        long firstDummyRatingId = mRatingDAO.saveRating(new Rating(2.2, firstDummyMovieId, 1));
+        long secondDummyRatingId = mRatingDAO.saveRating(new Rating(3.1, secondDummyMovieId, 1));
+        long thirdDummyRatingId = mRatingDAO.saveRating(new Rating(4.3, thirdDummyMovieId, 1));
+        long fourthDummyRatingId = mRatingDAO.saveRating(new Rating(2.3, fourthDummyMovieId, 1));
+        long fifthDummyRatingId = mRatingDAO.saveRating(new Rating(3.2, fifthDummyMovieId, 1));
+        long sixthDummyRatingId = mRatingDAO.saveRating(new Rating(5.0, sixthDummyMovieId, 1));
     }
 
+    public void testGetFriendsSeenMovie() throws Exception {
+        Movie movie = new Movie("Reservoir Dogs", 1992);
+        long id = mMovieDAO.saveMovie(movie);
+
+        User user = new User("pelle", "password");
+        User user2 = new User("johan", "password");
+        User user3 = new User("niklas", "password");
+        long id1 = mUserDAO.saveUser(user);
+        long id2 = mUserDAO.saveUser(user2);
+        long id3 = mUserDAO.saveUser(user3);
+
+        Friend f = new Friend(id1, id2);
+        mFriendDAO.addFriend(f);
+
+        Friend f1 = new Friend(id1, id3);
+        mFriendDAO.addFriend(f1);
+
+        Rating rating = new Rating(5.0, id, id2);
+        mRatingDAO.saveRating(rating);
+
+        Rating rating1 = new Rating(4.0, id, id3);
+        mRatingDAO.saveRating(rating1);
+
+        List<User> friends = mMovieDAO.getFriendsSeenMovie(id, id1);
+        assertTrue(friends.get(0).getId() == id2 && friends.get(1).getId() == id3);
+
+    }
 }

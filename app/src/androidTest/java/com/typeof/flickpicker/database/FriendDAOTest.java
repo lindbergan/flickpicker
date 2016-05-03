@@ -2,8 +2,10 @@ package com.typeof.flickpicker.database;
 
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
+import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 
 import java.util.List;
@@ -19,12 +21,16 @@ public class FriendDAOTest extends AndroidTestCase {
     private FriendDAO mFriendDAO;
     private Database mDatabase;
     private UserDAO mUserDAO;
+    private RatingDAO mRatingDAO;
+    private MovieDAO mMovieDAO;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mFriendDAO = App.getFriendDAO();
         mUserDAO = App.getUserDAO();
+        mMovieDAO = App.getMovieDAO();
+        mRatingDAO = App.getRatingDAO();
         mDatabase = App.getDatabaseSeed();
         mDatabase.setUpTables();
     }
@@ -95,6 +101,38 @@ public class FriendDAOTest extends AndroidTestCase {
         List<User> userFriends = mFriendDAO.getFriendsFromUserId(user1.getId());
 
         assertTrue(userFriends.size() == 0);
+
+    }
+
+    public void testGetFriendsLatestActivities() {
+
+        Movie terminator = new Movie("Terminator 2: Judgement Day", 1992);
+        long movieId = mMovieDAO.saveMovie(terminator);
+
+        User sebbe = new User("sebastian", "123");
+        User adde = new User("adrian", "321");
+        User jolo = new User("jolo", "321");
+        User sunken = new User("sunken", "321");
+        long userId1 = mUserDAO.saveUser(sebbe);
+        long userId2 = mUserDAO.saveUser(adde);
+        long userId3 = mUserDAO.saveUser(jolo);
+        long userId4 = mUserDAO.saveUser(sunken);
+
+        mFriendDAO.addFriend(new Friend(userId1, userId2));
+        mFriendDAO.addFriend(new Friend(userId1, userId3));
+        mFriendDAO.addFriend(new Friend(userId1, userId4));
+
+        Rating r1 = new Rating(5, terminator.getId(),userId1);
+        Rating r2 = new Rating(3, terminator.getId(),userId2);
+        Rating r3 = new Rating(5, terminator.getId(),userId3);
+
+        mRatingDAO.saveRating(r1);
+        mRatingDAO.saveRating(r2);
+        mRatingDAO.saveRating(r3);
+
+        List<Rating> friendsRating = mFriendDAO.getFriendsLatestActivities(userId1);
+
+        assertEquals(2, friendsRating.size());
 
     }
 }

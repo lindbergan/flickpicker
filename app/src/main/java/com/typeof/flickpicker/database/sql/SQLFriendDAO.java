@@ -6,8 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.core.Friend;
+import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
+import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +24,14 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
     private SQLUserDAO sql;
     private SQLiteDatabase db;
+    private SQLRatingDAO mRatingDAO;
 
     public SQLFriendDAO(Context ctx) {
         super(ctx);
         sql = new SQLUserDAO(ctx);
         SQLiteDatabaseHelper dbhelper = new SQLiteDatabaseHelper(ctx);
         db = dbhelper.getWritableDatabase();
+        mRatingDAO = new SQLRatingDAO(ctx);
     }
 
     /**
@@ -92,5 +96,35 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         return db.delete(FriendTable.FriendEntry.TABLE_NAME,
                 FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " = ? AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?",
                 new String[]{String.valueOf(userId1), String.valueOf(userId2)});
+    }
+
+    @Override
+    public List<Rating> getFriendsLatestActivities(long userId) {
+
+        List<Rating> ratings = new ArrayList<>();
+
+        String ratingsTable = RatingTable.RatingEntry.TABLE_NAME;
+        String friendsTable = FriendTable.FriendEntry.TABLE_NAME;
+        String ratingCreatedAt = ratingsTable + "." +RatingTable.RatingEntry.COLUMN_NAME_CREATED_AT;
+        String friendsUserId1 = friendsTable + "." + FriendTable.FriendEntry.COLUMN_NAME_USER1ID;
+        String friendsUserId2 = friendsTable + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID;
+        String ratingsUserId = ratingsTable + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID;
+
+        Cursor c = db.rawQuery("SELECT * FROM " + ratingsTable + " " +
+                "LEFT JOIN friends ON " + friendsUserId2 + " = " + ratingsUserId + " " +
+                "WHERE " + friendsUserId1 + " = ? " +
+                "ORDER BY " + ratingCreatedAt + " DESC", new String[]{String.valueOf(userId)});
+
+        c.moveToFirst();
+
+        try {
+            do {
+                ratings.add(mRatingDAO.createRatingFromCursor(c));
+            } while (c.moveToNext());
+        } finally {
+            c.close();
+        }
+
+        return ratings;
     }
 }

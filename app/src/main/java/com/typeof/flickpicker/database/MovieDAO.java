@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.database;
-import android.content.ContentValues;
-
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.User;
+
 import java.util.List;
 
 /**
@@ -19,4 +19,6 @@ public interface MovieDAO {
     List<Movie> getCommunityTopPicks(int max);
     List<Movie> getTopRecommendedMoviesThisYear(int max, int year);
     List<Movie> getMostDislikedMovies(int max);
+    List<User> getFriendsSeenMovie(long movieId, long userId);
+
 }
