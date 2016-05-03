@@ -164,25 +164,24 @@ public class MovieDAOTest extends AndroidTestCase {
         User user = new User("pelle", "password");
         User user2 = new User("johan", "password");
         User user3 = new User("niklas", "password");
-        mUserDAO.saveUser(user);
-        mUserDAO.saveUser(user2);
-        mUserDAO.saveUser(user3);
+        long id1 = mUserDAO.saveUser(user);
+        long id2 = mUserDAO.saveUser(user2);
+        long id3 = mUserDAO.saveUser(user3);
 
-        Friend f = new Friend(user.getId(), user2.getId());
+        Friend f = new Friend(id1, id2);
         mFriendDAO.addFriend(f);
 
-        Friend f1 = new Friend(user.getId(), user3.getId());
+        Friend f1 = new Friend(id1, id3);
         mFriendDAO.addFriend(f1);
 
-        Rating rating = new Rating(5.0, id, user2.getId());
+        Rating rating = new Rating(5.0, id, id2);
         mRatingDAO.saveRating(rating);
 
-        Rating rating1 = new Rating(4.0, id, user3.getId());
+        Rating rating1 = new Rating(4.0, id, id3);
         mRatingDAO.saveRating(rating1);
 
-        List<User> friends = mMovieDAO.getFriendsSeenMovie();
+        List<User> friends = mMovieDAO.getFriendsSeenMovie(id, id1);
         assertTrue(friends.contains(user2) && friends.contains(user3));
-
 
     }
 
