@@ -117,83 +117,13 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     }
 
     /**
-     * Creates a friends list
-     * Friends join ratings table
-     * Looks for friends that have seen the movie
-     * Where friends.user2id = ratings.user1id
-     * Adds all friends to the list
-     * Returns the size of the list
-     * @param movieId
-     * @param userId
-     * @return
-     */
-
-    @Override
-    public int numOfFriendsHasSeenMovie(long movieId, long userId) {
-
-        List<User> friends = getFriendsFromUserId(userId);
-
-        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " INNER JOIN " + RatingTable.RatingEntry.TABLE_NAME
-                 + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID +
-                " = " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID +
-                " WHERE " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID
-                 + " = ?";
-
-
-        Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
-
-        c.moveToFirst();
-
-        while (c.moveToNext()) {
-            friends.add(createUserFromCursor(c));
-        }
-
-        c.close();
-
-        return friends.size();
-    }
-
-    /**
-     * Creates a userFriends
-     * Friends is joined with users
-     * Where friends.user2id = users.id
-     * Where friends.user1id = id param
-     * @param id
-     * @return
-     */
-
-    public List<User> getFriendsFromUserId(long id) {
-        List<User> userFriends = new ArrayList<>();
-
-        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME +
-                " INNER JOIN " + UserTable.UserEntry.TABLE_NAME + " " +
-                "ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = " + UserTable.UserEntry.TABLE_NAME+ "." +UserTable.UserEntry.COLUMN_NAME_ID + " " +
-                " WHERE "  + FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " = ? ";
-
-        Cursor c = db.rawQuery(query, new String[]{String.valueOf(id)});
-
-        c.moveToFirst();
-
-        if (c.getCount() < 1) return userFriends;
-
-        try {
-            do {
-                userFriends.add(createUserFromCursor(c));
-            } while (c.moveToNext());
-        } finally {
-            c.close();
-        }
-
-        return userFriends;
-    }
-
-    /**
      * Same functionality as createMovieFromCursor
      * @param c
      * @return
      */
 
     public User createUserFromCursor(Cursor c){
+
         long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
         String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
         String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
@@ -206,8 +136,41 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return u;
     }
 
-    public List<User> getFriendsSeenMovie() {
-        return new ArrayList<>();
+    /**
+     * Creates a friends list
+     * Friends join ratings table
+     * Looks for friends that have seen the movie
+     * Where friends.user2id = ratings.user1id
+     * Adds all friends to the list
+     * @param movieId
+     * @param userId
+     * @return
+     */
+
+    public List<User> getFriendsSeenMovie(long movieId, long userId) {
+        List<User> friends = new ArrayList<>();
+
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " INNER JOIN " + RatingTable.RatingEntry.TABLE_NAME
+                + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID +
+                " = " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID +
+                " WHERE " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID
+                + " = ?";
+
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
+
+        while (c.moveToNext()) {
+            friends.add(createUserFromCursor(c));
+        }
+
+        c.close();
+
+        return friends;
+    }
+
+    @Override
+    public int numOfFriendsHasSeenMovie(long movieId, long userId) {
+        return getFriendsSeenMovie(movieId, userId).size();
     }
 
 }
