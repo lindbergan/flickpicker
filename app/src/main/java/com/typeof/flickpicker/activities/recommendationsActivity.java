@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class recommendationsActivity extends AppCompatActivity {
 
-    private ListView mMovieList;
+    private ListView mMovieListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,8 @@ public class recommendationsActivity extends AppCompatActivity {
 
 
     }
+
+
 
     /**
      * Method for getting movies recommended for the user.

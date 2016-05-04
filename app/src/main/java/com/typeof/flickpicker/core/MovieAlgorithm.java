@@ -17,7 +17,6 @@ public class MovieAlgorithm {
     public static List<Movie> getRecommendations(User user){
 
 
-
         return null;
     }
 
