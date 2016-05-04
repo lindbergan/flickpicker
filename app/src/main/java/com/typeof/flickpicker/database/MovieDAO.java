@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.database;
-import android.content.ContentValues;
-
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.User;
+
 import java.util.List;
 
 /**
@@ -10,15 +10,15 @@ import java.util.List;
  * Created on 16-04-25.
  */
 public interface MovieDAO {
-    Movie findMovie(long id); //findById()
+
+    Movie findMovie(long id);
     long saveMovie(Movie movie);
     int deleteMovie(Movie movie);
     List<Movie> searchMovieBy(String column, String searchTerm);
     int numOfFriendsHasSeenMovie(long movieId, long userId);
+    List<Movie> getCommunityTopPicks(int max);
+    List<Movie> getTopRecommendedMoviesThisYear(int max, int year);
+    List<Movie> getMostDislikedMovies(int max);
+    List<User> getFriendsSeenMovie(long movieId, long userId);
 
-    /*
-    long createMovie(Movie movie);
-    void updateMovie(Movie movie);
-    Movie deleteMovie(Movie movie);
-    */
 }

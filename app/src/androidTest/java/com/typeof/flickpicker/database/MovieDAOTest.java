@@ -157,4 +157,99 @@ public class MovieDAOTest extends AndroidTestCase {
 
     }
 
+    public void testGetCommunityTopPicks(){
+
+        //create a bunch of dummy data
+        createDummyData();
+
+        //specify the length of the list and confirm that the method returns a list of the
+        //specified size.
+        int desiredSizeOFList = 2;
+        List<Movie> communityTopPicksAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOFList);
+        assertEquals(desiredSizeOFList, communityTopPicksAllTime.size());
+
+        //confirm that the list return expected elements.
+        assertEquals("F", communityTopPicksAllTime.get(0).getTitle());
+        assertEquals("C", communityTopPicksAllTime.get(1).getTitle());
+    }
+
+    public void testGetMostDislikedMovies(){
+
+        //create a bunch of dummy data
+        createDummyData();
+
+        //specify the length of the list and confirm that the method returns a list of the
+        //specified size.
+        int desiredSizeOFList = 2;
+        List<Movie> mostDislikedMovies = mMovieDAO.getMostDislikedMovies(desiredSizeOFList);
+        assertEquals(desiredSizeOFList, mostDislikedMovies.size());
+
+        //confirm that the list return expected elements.
+        assertEquals("A", mostDislikedMovies.get(0).getTitle());
+        assertEquals("D", mostDislikedMovies.get(1).getTitle());
+
+    }
+
+    public void testGetTopRecommendedMoviesThisYear(){
+
+        //create a bunch of dummy data
+        createDummyData();
+
+        //specify the length of the list and confirm that the method returns a list of the
+        //specified size.
+        int desiredSizeOFList = 2;
+        List<Movie> topRecommendedThisYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOFList, 2016);
+        assertEquals(desiredSizeOFList,topRecommendedThisYear.size());
+
+        //confirm that the list return expected elements.
+        assertEquals("F", topRecommendedThisYear.get(0).getTitle());
+        assertEquals("B", topRecommendedThisYear.get(1).getTitle());
+    }
+
+    public void createDummyData() {
+
+        //create dummy-movies:
+        long firstDummyMovieId = mMovieDAO.saveMovie(new Movie("A", 2012));
+        long secondDummyMovieId = mMovieDAO.saveMovie(new Movie("B", 2016));
+        long thirdDummyMovieId = mMovieDAO.saveMovie(new Movie("C", 2015));
+        long fourthDummyMovieId = mMovieDAO.saveMovie(new Movie("D", 2016));
+        long fifthDummyMovieId = mMovieDAO.saveMovie(new Movie("E", 2014));
+        long sixthDummyMovieId = mMovieDAO.saveMovie(new Movie("F", 2016));
+
+        //create dummy ratings for those movies:
+        long firstDummyRatingId = mRatingDAO.saveRating(new Rating(2.2, firstDummyMovieId, 1));
+        long secondDummyRatingId = mRatingDAO.saveRating(new Rating(3.1, secondDummyMovieId, 1));
+        long thirdDummyRatingId = mRatingDAO.saveRating(new Rating(4.3, thirdDummyMovieId, 1));
+        long fourthDummyRatingId = mRatingDAO.saveRating(new Rating(2.3, fourthDummyMovieId, 1));
+        long fifthDummyRatingId = mRatingDAO.saveRating(new Rating(3.2, fifthDummyMovieId, 1));
+        long sixthDummyRatingId = mRatingDAO.saveRating(new Rating(5.0, sixthDummyMovieId, 1));
+    }
+
+    public void testGetFriendsSeenMovie() throws Exception {
+        Movie movie = new Movie("Reservoir Dogs", 1992);
+        long id = mMovieDAO.saveMovie(movie);
+
+        User user = new User("pelle", "password");
+        User user2 = new User("johan", "password");
+        User user3 = new User("niklas", "password");
+        long id1 = mUserDAO.saveUser(user);
+        long id2 = mUserDAO.saveUser(user2);
+        long id3 = mUserDAO.saveUser(user3);
+
+        Friend f = new Friend(id1, id2);
+        mFriendDAO.addFriend(f);
+
+        Friend f1 = new Friend(id1, id3);
+        mFriendDAO.addFriend(f1);
+
+        Rating rating = new Rating(5.0, id, id2);
+        mRatingDAO.saveRating(rating);
+
+        Rating rating1 = new Rating(4.0, id, id3);
+        mRatingDAO.saveRating(rating1);
+
+        List<User> friends = mMovieDAO.getFriendsSeenMovie(id, id1);
+        assertTrue(friends.get(0).getId() == id2 && friends.get(1).getId() == id3);
+
+    }
 }

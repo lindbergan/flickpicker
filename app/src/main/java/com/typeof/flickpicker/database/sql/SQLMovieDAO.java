@@ -3,7 +3,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
+import android.util.Log;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
@@ -58,8 +58,10 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
         int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
         double rating = c.getDouble(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING));
+        int votes = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_VOTES));
         Movie m = new Movie(id, title, year);
         m.setCommunityRating(rating);
+        m.setNumberOfVotes(votes);
         return m;
     }
 
@@ -117,83 +119,13 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     }
 
     /**
-     * Creates a friends list
-     * Friends join ratings table
-     * Looks for friends that have seen the movie
-     * Where friends.user2id = ratings.user1id
-     * Adds all friends to the list
-     * Returns the size of the list
-     * @param movieId
-     * @param userId
-     * @return
-     */
-
-    @Override
-    public int numOfFriendsHasSeenMovie(long movieId, long userId) {
-
-        List<User> friends = getFriendsFromUserId(userId);
-
-        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " INNER JOIN " + RatingTable.RatingEntry.TABLE_NAME
-                 + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID +
-                " = " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID +
-                " WHERE " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID
-                 + " = ?";
-
-
-        Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
-
-        c.moveToFirst();
-
-        while (c.moveToNext()) {
-            friends.add(createUserFromCursor(c));
-        }
-
-        c.close();
-
-        return friends.size();
-    }
-
-    /**
-     * Creates a userFriends
-     * Friends is joined with users
-     * Where friends.user2id = users.id
-     * Where friends.user1id = id param
-     * @param id
-     * @return
-     */
-
-    public List<User> getFriendsFromUserId(long id) {
-        List<User> userFriends = new ArrayList<>();
-
-        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME +
-                " INNER JOIN " + UserTable.UserEntry.TABLE_NAME + " " +
-                "ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = " + UserTable.UserEntry.TABLE_NAME+ "." +UserTable.UserEntry.COLUMN_NAME_ID + " " +
-                " WHERE "  + FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " = ? ";
-
-        Cursor c = db.rawQuery(query, new String[]{String.valueOf(id)});
-
-        c.moveToFirst();
-
-        if (c.getCount() < 1) return userFriends;
-
-        try {
-            do {
-                userFriends.add(createUserFromCursor(c));
-            } while (c.moveToNext());
-        } finally {
-            c.close();
-        }
-
-        return userFriends;
-    }
-
-    /**
      * Same functionality as createMovieFromCursor
      * @param c
      * @return
      */
 
     public User createUserFromCursor(Cursor c){
+
         long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
         String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
         String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
@@ -204,6 +136,81 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         u.setScore(score);
 
         return u;
+    }
+
+    /**
+     * Creates a friends list
+     * Friends join ratings table
+     * Looks for friends that have seen the movie
+     * Where friends.user2id = ratings.user1id
+     * Adds all friends to the list
+     * @param movieId
+     * @param userId
+     * @return
+     */
+
+    public List<User> getFriendsSeenMovie(long movieId, long userId) {
+        List<User> friends = new ArrayList<>();
+
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " JOIN " + RatingTable.RatingEntry.TABLE_NAME
+                + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID +
+                " = " + RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID +
+                " JOIN " + UserTable.UserEntry.TABLE_NAME + " ON " + FriendTable.FriendEntry.TABLE_NAME + "." +
+                FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = " + UserTable.UserEntry.TABLE_NAME + "." +
+                UserTable.UserEntry.COLUMN_NAME_ID + " WHERE " +
+                RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID
+                + " = ?";
+
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
+
+
+        while (c.moveToNext()) {
+            friends.add(createUserFromCursor(c));
+        }
+
+        c.close();
+
+        return friends;
+    }
+
+    @Override
+    public int numOfFriendsHasSeenMovie(long movieId, long userId) {
+        return getFriendsSeenMovie(movieId, userId).size();
+    }
+
+    public List<Movie> getCommunityTopPicks(int max){
+        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
+        return getCommunityFeedback(max,sqlString);
+    }
+
+    public List<Movie> getMostDislikedMovies(int max){
+        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "ASC LIMIT " + max;
+        return getCommunityFeedback(max, sqlString);
+    }
+
+    public List<Movie> getTopRecommendedMoviesThisYear(int max, int year){
+        String sqlString = "SELECT * FROM movies WHERE  " + MovieTable.MovieEntry.COLUMN_NAME_YEAR +
+                " LIKE \'" + year + "\' ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " DESC LIMIT " + max;
+        return getCommunityFeedback(max, sqlString);
+    }
+
+    private List<Movie> getCommunityFeedback(int max, String query){
+        //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
+        Cursor c = db.rawQuery(query, null);
+        Log.v("Query Movies Sorted", query);
+        List<Movie> sortedMovies = new ArrayList<Movie>();
+        c.moveToFirst();
+
+        try {
+            do {
+                Movie movie = createMovieFromCursor(c);
+                sortedMovies.add(movie);
+            } while(c.moveToNext());
+        } finally {
+            c.close();
+        }
+        return sortedMovies;
     }
 
 }

@@ -1,11 +1,9 @@
 package com.typeof.flickpicker.database.sql;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
-
-import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.database.Database;
+import com.typeof.flickpicker.activities.App;
 
 /**
  * FlickPicker
@@ -14,19 +12,19 @@ import com.typeof.flickpicker.database.Database;
  */
 public class PlaylistTableTest extends AndroidTestCase {
 
-    private Database db;
+    private Database mDatabase;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        db = App.getDatabaseSeed();
-        db.setUpTables();
+        mDatabase = App.getDatabaseSeed();
+        mDatabase.setUpTables();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        db.dropTables();
+        mDatabase.dropTables();
     }
 
     public void testTableCreation() {

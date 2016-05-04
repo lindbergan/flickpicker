@@ -49,30 +49,64 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     }
     
     public long saveRating(Rating rating){
-        setMovieTableRating(rating.getMovieId(), rating.getRating());
+
+        //Check if previous rating exists
+            String query = "SELECT * FROM ratings " +
+                    " WHERE " + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = " +
+                    String.valueOf(rating.getMovieId()) + " AND " +
+                    RatingTable.RatingEntry.COLUMN_NAME_USERID + " = " +
+                    String.valueOf(rating.getUserId());
+
+            Cursor c = db.rawQuery(query, null);
+            c.moveToFirst();
+
+        if(c.getCount() != 0) { //that is - rating for that movie by that user already exists
+                Rating r = createRatingFromCursor(c);
+                c.close();
+                double oldRatingValue = r.getRating();
+                setMovieTableRating(rating.getMovieId(), oldRatingValue, rating.getRating());
+
+            }
+            else{
+                c.close();
+                double oldValue = 0;
+                setMovieTableRating(rating.getMovieId(), oldValue, rating.getRating());
+            }
 
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating.getRating());
         values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, rating.getMovieId());
         values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, rating.getUserId());
+
         return super.save(rating, "ratings", values);
     }
 
-    private double setMovieTableRating(long movieId, double rating){
-        Movie movie = sqlMovieDAO.findMovie(movieId);
-        double newCommunityRating = calculateCommunityRating(movie,rating);
-        movie.setCommunityRating(newCommunityRating);
-        int oldVotes = movie.getNumberOfVotes();
-        double getCommunityRating = movie.getCommunityRating();
-        movie.setNumberOfVotes(oldVotes+1);
-        sqlMovieDAO.saveMovie(movie);
 
+    private double setMovieTableRating(long movieId, double oldRating, double newRating){
+
+        Movie movie = sqlMovieDAO.findMovie(movieId);
+        double newCommunityRating = calculateCommunityRating(movie,oldRating, newRating);
+        movie.setCommunityRating(newCommunityRating);
+
+        if(oldRating == 0){
+            int oldNumberOfVotes = movie.getNumberOfVotes();
+            int newNumberOfVotes = oldNumberOfVotes +1;
+            movie.setNumberOfVotes(newNumberOfVotes);
+        }
+
+        sqlMovieDAO.saveMovie(movie);
         return newCommunityRating;
     }
 
-    public double calculateCommunityRating(Movie movie, double rating){
+    public double calculateCommunityRating(Movie movie, double oldRating, double newRating){
+
         //expression for calculating new communityRating
-        return (movie.getNumberOfVotes()*movie.getCommunityRating()+rating)/(movie.getNumberOfVotes()+1);
+        if (oldRating != 0){ // that is - it exists an old rating
+            return (movie.getNumberOfVotes()*movie.getCommunityRating() - oldRating + newRating) / (movie.getNumberOfVotes());
+        }
+        else{
+            return (movie.getNumberOfVotes()*movie.getCommunityRating() + newRating) / (movie.getNumberOfVotes()+1);
+        }
     }
 
     public Cursor searchRatingBy(String column, String searchString){
@@ -83,8 +117,8 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
         long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
         double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
-        int movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        int userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
 
         Rating createdRating = new Rating(rating,movieId,userId);
         createdRating.setId(id);
@@ -104,99 +138,4 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete, "ratings");
     }
-
-    public List<Movie> getCommunityTopPicks(int max){
-        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
-        return getCommunityFeedback(max,sqlString);
-    }
-
-
-    public List<Movie> getMostDislikedMovies(int max){
-        String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "ASC LIMIT " + max;
-        return getCommunityFeedback(max,sqlString);
-    }
-
-    public List<Movie> getTopRecommendedMoviesThisYear(int max, int year){
-        String sqlString = "SELECT * FROM movies WHERE  " + MovieTable.MovieEntry.COLUMN_NAME_YEAR +
-                " LIKE \'" + year + "\' ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " DESC LIMIT " + max;
-        return getCommunityFeedback(max, sqlString);
-    }
-
-    private List<Movie> getCommunityFeedback(int max, String query){
-        //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
-        Cursor c = db.rawQuery(query, null);
-        Log.v("Query Movies Sorted", query);
-        List<Movie> sortedMovies = new ArrayList<Movie>();
-        c.moveToFirst();
-
-        try {
-             do {
-                Movie movie = sqlMovieDAO.createMovieFromCursor(c);
-                sortedMovies.add(movie);
-            } while(c.moveToNext());
-        } finally {
-            c.close();
-        }
-        return sortedMovies;
-    }
-
-    /*
-    public Rating find(long id) {
-        try {
-            Cursor c = super.find(id, "ratings");
-            Rating rating = createRatingCursor(c);
-            c.close();
-            return rating;
-        } catch (DatabaseRecordNotFoundException e) {
-            throw new DatabaseRecordNotFoundException(e.getMessage());
-        }
-    }
-
-    public Rating createRatingCursor(Cursor c) {
-        c.moveToFirst();
-        long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
-        Double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
-        int movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        int userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
-        Rating r = new Rating(rating, movieId,userId);
-        r.setId(id);
-        return r;
-    }
-
-    public long save(Rating rating) {
-        ContentValues values = new ContentValues();
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating.getRating());
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, rating.getMovieId());
-        values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, rating.getUserId());
-
-        return super.save(rating, "ratings", values);
-    }
-
-    /*
-    public void update(Rating rating, ContentValues values) {
-        super.update(rating, values);
-    }
-    */
-
-    /*
-
-    public void update(Rating rating, ContentValues values) {
-        super.update(rating, values, "ratings");
-    }
-
-    public long delete(Rating rating) {
-        super.delete(rating, "ratings");
-        return rating.getId();
-    }
-
-    /*
-    public List<Rating> getRatingFromUser(){
-
-    }
-
-    public List<Rating> getRatingFromMovie(){
-
-    }
-    */
-
 }

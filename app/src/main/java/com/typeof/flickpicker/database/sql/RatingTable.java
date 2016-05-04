@@ -16,6 +16,7 @@ public class RatingTable {
         public static final String COLUMN_NAME_RATING = "rating";
         public static final String COLUMN_NAME_MOVIEID = "movieId";
         public static final String COLUMN_NAME_USERID = "userId";
+        public static final String COLUMN_NAME_CREATED_AT = "created_at";
         public static final String COLUMN_NAME_NULLABLE = " NULL";
 
 
@@ -24,7 +25,8 @@ public class RatingTable {
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME_RATING + DOUBLE_TYPE + COMMA_SEP +
                     COLUMN_NAME_MOVIEID + INTEGER_TYPE + COMMA_SEP +
-                    COLUMN_NAME_USERID + INTEGER_TYPE +
+                    COLUMN_NAME_USERID + INTEGER_TYPE + COMMA_SEP +
+                    COLUMN_NAME_CREATED_AT + " DATETIME DEFAULT (datetime('now','localtime'))" +
                     " )";
         }
 
