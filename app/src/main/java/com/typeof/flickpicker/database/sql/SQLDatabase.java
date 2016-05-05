@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.Database;
+import com.typeof.flickpicker.database.MovieDAO;
 
 /**
  * FlickPicker
@@ -14,10 +16,12 @@ import com.typeof.flickpicker.database.Database;
 public class SQLDatabase implements Database {
 
     private SQLiteDatabase db;
+    private Context ctx;
 
     public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
         this.db = mDbHelper.getWritableDatabase();
+        this.ctx = ctx;
     }
 
     @Override
@@ -63,13 +67,8 @@ public class SQLDatabase implements Database {
 
     public void seedDatabase() {
 
-        //-----Friends-----
-        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
-        db.execSQL(FriendTable.FriendEntry.getSQLCreateTableQuery());
-
-        //-----Movie-----
-        db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
-        db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
+        dropTables();
+        setUpTables();
 
         //
         // Create a new map of values, where column names are the keys
@@ -81,6 +80,7 @@ public class SQLDatabase implements Database {
         firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
         firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 3);
         firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 4.2);
+
 
         long firstNewRowIdMovie = db.insert(
                 RatingTable.RatingEntry.TABLE_NAME,
@@ -177,6 +177,9 @@ public class SQLDatabase implements Database {
                 UserTable.UserEntry.COLUMN_NAME_NULLABLE,
                 userValues);
 
+
+        SQLMovieDAO movieDAO = new SQLMovieDAO(this.ctx);
+        movieDAO.saveMovie(new Movie("Pirates of the Caribbean", 2003));
 
     }
 

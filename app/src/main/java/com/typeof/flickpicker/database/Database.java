@@ -8,4 +8,5 @@ package com.typeof.flickpicker.database;
 public interface Database {
     void setUpTables();
     void dropTables();
+    void seedDatabase();
 }
