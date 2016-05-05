@@ -3,7 +3,9 @@ package com.typeof.flickpicker.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
@@ -12,12 +14,14 @@ import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.MovieDAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommunityActivity extends AppCompatActivity {
 
     //TODO: find out how to create a toggle at the bottom
     //TODO: find out how to create and teardown database after session ("dummyData")
+    //TODO: need to track which view user previusly was at
 
     //Instance variables
     private TextView mMovieText;
@@ -25,6 +29,9 @@ public class CommunityActivity extends AppCompatActivity {
     private int specifiedYear;
     MovieDAO mSQLMovieDAO = new App().getMovieDAO();
     TabHost mTabHost;
+    private ListView listViewTopMovies;
+    private ListView listViewWorstMovies;
+    private ListView listViewTopMoviesByYear;
     //SeedData mSeedData = new SeedData();
 
 
@@ -48,6 +55,11 @@ public class CommunityActivity extends AppCompatActivity {
 
         //Configure the tabs
         configureTabs();
+
+        listViewTopMovies = (ListView) findViewById(R.id.listViewTopMovies);
+        listViewWorstMovies = (ListView) findViewById(R.id.listViewWorstMovies);
+        listViewTopMoviesByYear = (ListView) findViewById(R.id.listViewTopMoviesByYear);
+
         mMovieText = (TextView) findViewById(R.id.showMovieText);
 
     }
@@ -80,8 +92,26 @@ public class CommunityActivity extends AppCompatActivity {
 
                     //TODO:
                     //List<Movie> topRatedAllTime = mSQLMovieDAO.getCommunityTopPicks(desiredSizeOfList);
-                    //call MovieCell.createMovieView()(...should return a list of Views of the same size as desiredSizeOfList: Arguments = List <Movie> movies)
+                    //call MovieCell.createMovieView()(...should return a list of Views of the same size as desiredSizeOfList: Arguments = List <Movie> movies) --> returns listOfViewCellsWeGotFromHelpClass
                     //Add each one of the Vies to created ListCell
+
+
+                    //Test to fill the listView with strings:
+                    String[] dummyStringArray = {"BraveHeart", "Speed"};
+                    List<String> dummyStringList = new ArrayList<String>();
+                    dummyStringList.add("BraveHeart");
+                    dummyStringList.add("Speed");
+
+
+                    //Test to fill the listView with other objects than strings:
+                    Button a = new Button(getApplicationContext());
+                    Button b = new Button(getApplicationContext());
+                    Button c = new Button(getApplicationContext());
+
+                    Object[] dummyObjects = {a,b,c};
+
+
+                    populateListView(listViewTopMovies, dummyStringList);
 
 
                 }
@@ -92,6 +122,9 @@ public class CommunityActivity extends AppCompatActivity {
                     //List<Movie> mostDislikedMovies = mSQLMovieDAO.getMostDislikedMovies(desiredSizeOfList);
                     //call MovieCell.createMovieView() class (...should return a list of Views of the same size as desiredSizeOfList: Arguments = List <Movie> movies)
                     //Add each one of the Vies to created ListCell
+
+                    //populateListView(listViewWorstMovies, listOfViewCellsWeGotFromHelpClass);
+
                 }
                 else{
 
@@ -101,6 +134,9 @@ public class CommunityActivity extends AppCompatActivity {
                     //List<Movie> topRatedThisYear = mSQLMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, specifiedYear);
                     //callMovieCellClass(); (...should return a list of Views of the corresponding movies)
                     //Add each one of the Vies to created ListCell
+
+                    //populateListView(listViewTopMoviesByYear, listOfViewCellsWeGotFromHelpClass);
+
                 }
 
             }
@@ -109,38 +145,21 @@ public class CommunityActivity extends AppCompatActivity {
 
     }
 
+    public void populateListView(ListView l, List<String> listOfViewCellsWeGotFromHelpClass){
+
+        int a = android.R.layout.simple_list_item_1;
+
+        //Code for populating elements in the listView;
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,a,listOfViewCellsWeGotFromHelpClass);
+        listViewTopMovies.setAdapter(adapter);
+
+        //TODO: Need to write methods onClicked for the different elements in the list;
+
+    }
+
     public void setUpListeners(){
 
-        /*
-        //setup listeners here
-        mTopMoviesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //List<Movie> topPicks = mSQLMovieDAO.getCommunityTopPicks(desiredSizeOfList);
-                //mMovieText.setText(topPicks.get(0).getTitle());
-                mMovieText.setText("TopMovies");
 
-            }
-        });
-        mWorstMoviesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //List<Movie> worstPick = mSQLMovieDAO.getMostDislikedMovies(desiredSizeOfList);
-                //mMovieText.setText(worstPick.get(0).getTitle());
-                mMovieText.setText("LeastLiked");
-
-            }
-        });
-        mTopThisYearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //List<Movie> topThisYear = mSQLMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, 2016);
-                //mMovieText.setText(topThisYear.get(0).getTitle());
-                mMovieText.setText("TopMoviesthisYear");
-
-            }
-        });
-        */
     }
 
 }
