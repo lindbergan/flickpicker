@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.CommunityActivity"></activity>
+        <activity android:name=".activities.recommendationsActivity"></activity>
     </application>
 
 </manifest>
+

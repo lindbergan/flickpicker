@@ -17,7 +17,7 @@ public class PlaylistTableTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mDatabase = App.getDatabaseSeed();
+        mDatabase = App.getDatabase();
         mDatabase.setUpTables();
     }
 

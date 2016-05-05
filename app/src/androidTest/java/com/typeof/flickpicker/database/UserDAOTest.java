@@ -22,7 +22,7 @@ public class UserDAOTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mUserDao = App.getUserDAO();
-        mDatabase = App.getDatabaseSeed();
+        mDatabase = App.getDatabase();
         mDatabase.setUpTables();
     }
 

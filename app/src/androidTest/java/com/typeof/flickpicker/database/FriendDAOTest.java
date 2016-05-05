@@ -31,7 +31,7 @@ public class FriendDAOTest extends AndroidTestCase {
         mUserDAO = App.getUserDAO();
         mMovieDAO = App.getMovieDAO();
         mRatingDAO = App.getRatingDAO();
-        mDatabase = App.getDatabaseSeed();
+        mDatabase = App.getDatabase();
         mDatabase.setUpTables();
     }
 

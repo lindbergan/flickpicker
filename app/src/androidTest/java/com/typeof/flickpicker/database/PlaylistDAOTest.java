@@ -21,7 +21,7 @@ public class PlaylistDAOTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         mPlaylistDAO = App.getPlaylistDAO();
-        mDatabase = App.getDatabaseSeed();
+        mDatabase = App.getDatabase();
         mDatabase.setUpTables();
 
     }
