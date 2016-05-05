@@ -29,6 +29,15 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+        Database db = getDatabase();
+        db.seedDatabase();
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        Database db = getDatabase();
+        db.dropTables();
     }
 
     public static MovieDAO getMovieDAO() {
@@ -51,7 +60,7 @@ public class App extends Application {
         return new SQLFriendDAO(mContext);
     }
 
-    public static Database getDatabaseSeed() {
+    public static Database getDatabase() {
         return new SQLDatabase(mContext);
     }
 }

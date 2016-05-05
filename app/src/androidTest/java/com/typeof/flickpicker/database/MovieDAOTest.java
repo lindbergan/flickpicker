@@ -28,7 +28,7 @@ public class MovieDAOTest extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        mDatabase = App.getDatabaseSeed();
+        mDatabase = App.getDatabase();
         mDatabase.setUpTables();
 
         mMovieDAO = App.getMovieDAO();
