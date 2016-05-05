@@ -2,13 +2,18 @@ package com.typeof.flickpicker.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.MovieAlgorithm;
 import com.typeof.flickpicker.core.User;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -25,6 +30,12 @@ public class recommendationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommendations);
+
+        //Populate list with MovieCells
+        mMovieListView = (ListView) findViewById(R.id.recommendationsListView);
+        List<Movie> movies = new ArrayList<Movie>();
+        movies = getRecommendations(App.getActiveUser);
+        Adapter adapter = new ArrayAdapter<Movie>(this, android.R.layout.simple_list_item_1, movies);
 
 
     }

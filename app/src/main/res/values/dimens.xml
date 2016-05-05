@@ -3,4 +3,13 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <!-- Defining header and tab bar sizes -->
+
+
+    <dimen name="header_height">32dp</dimen>
+
+
+
+
 </resources>
