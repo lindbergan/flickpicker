@@ -25,7 +25,7 @@ public class RatingDAOTest extends AndroidTestCase{
         super.setUp();
         mSQLRatingDAO = App.getRatingDAO();
         mSQLMovieDAO = App.getMovieDAO();
-        mDatabase = App.getDatabaseSeed();
+        mDatabase = App.getDatabase();
         mDatabase.setUpTables();
     }
 
