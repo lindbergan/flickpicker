@@ -2,10 +2,7 @@ package com.typeof.flickpicker.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,7 +12,8 @@ import com.typeof.flickpicker.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mButton;
+    private Button mButtonCommunity;
+    private Button mButtonMyCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +33,34 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         */
+
+        //Hook up views (Buttons, TextFields Cells etc...)
         hookUpViews();
+
+        //Connect the listeners to the relevant views
         setUpClickListeners();
 
     }
 
     public void hookUpViews(){
-        mButton = (Button) findViewById(R.id.changeViewButton);
-        mButton.setText("ToCommunityTab");
+        mButtonCommunity = (Button) findViewById(R.id.goToCommunityTab);
+        mButtonCommunity.setText("CommunityTab");
+        mButtonMyCollection = (Button) findViewById(R.id.goToMyCollectionTab);
+        mButtonMyCollection.setText("MyCollectionTab");
     }
 
     public void setUpClickListeners(){
         //setup listeners here
-        mButton.setOnClickListener(new View.OnClickListener() {
+        mButtonCommunity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), CommunityActivity.class));
+            }
+        });
+        mButtonMyCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), MyCollectionActivity.class));
             }
         });
     }
