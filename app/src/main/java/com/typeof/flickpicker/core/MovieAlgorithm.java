@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,8 +17,10 @@ public class MovieAlgorithm {
      */
     public static List<Movie> getRecommendations(User user){
 
+        List<Movie> results = new ArrayList<>();
+        //algorithm
 
-        return null;
+        return results;
     }
 
 }

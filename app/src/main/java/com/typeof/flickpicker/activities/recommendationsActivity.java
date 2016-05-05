@@ -27,10 +27,7 @@ public class recommendationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recommendations);
 
 
-
     }
-
-
 
     /**
      * Method for getting movies recommended for the user.
