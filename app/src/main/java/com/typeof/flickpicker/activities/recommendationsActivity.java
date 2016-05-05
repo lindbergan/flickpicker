@@ -34,7 +34,7 @@ public class recommendationsActivity extends AppCompatActivity {
         //Populate list with MovieCells
         mMovieListView = (ListView) findViewById(R.id.recommendationsListView);
         List<Movie> movies = new ArrayList<Movie>();
-        movies = getRecommendations(App.getActiveUser);
+        //movies = getRecommendations(App.getActiveUser);
         Adapter adapter = new ArrayAdapter<Movie>(this, android.R.layout.simple_list_item_1, movies);
 
 

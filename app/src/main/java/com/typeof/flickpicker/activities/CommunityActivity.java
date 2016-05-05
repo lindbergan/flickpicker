@@ -22,9 +22,9 @@ import java.util.List;
 
 public class CommunityActivity extends AppCompatActivity {
 
-    //TODO: find out how to create a toggle at the bottom
-    //TODO: find out how to create and teardown database after session ("dummyData")
-    //TODO: need to track which view user previusly was at
+    //TODO: find out how to create a toggle at the bottom for the whole app
+    //TODO: find out how to create and teardown database after session ("dummyData") (sloved by Sebert?)
+    //TODO: need to track which tab user previously was at
 
     //Instance variables
     private int desiredSizeOfList = 3;
@@ -35,6 +35,7 @@ public class CommunityActivity extends AppCompatActivity {
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
     private int thisYear = 2016; //NOTE: need to be changed into a dynamic fetch -> Date.getYear() or something similar
+    private String currentTab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class CommunityActivity extends AppCompatActivity {
         //Hook up views (Buttons, TextFields Cells etc...)
         hookUpViews();
 
-        //Connect the listsners to the relevant views
+        //Connect the listeners to the relevant views
         setUpListeners();
 
     }
@@ -105,7 +106,7 @@ public class CommunityActivity extends AppCompatActivity {
 
 
                     /*
-                    //Test to fill the listView with other objects than strings:
+                    //Test to fill the listView with objects other than strings:
                     Button a = new Button(getApplicationContext());
                     Button b = new Button(getApplicationContext());
                     Button c = new Button(getApplicationContext());
@@ -205,7 +206,7 @@ public class CommunityActivity extends AppCompatActivity {
 
                 populateListView(listViewTopMoviesByYear,dummyStringList);
 
-                //TODO: Thnk about how the user should "go back" to the year screen
+                //TODO: Thnk about how the user should "go back" to the "year" screen
             }
         });
     }
