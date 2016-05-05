@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void hookUpViews(){
         mButton = (Button) findViewById(R.id.changeViewButton);
+        mButton.setText("ToCommunityTab");
     }
 
     public void setUpClickListeners(){

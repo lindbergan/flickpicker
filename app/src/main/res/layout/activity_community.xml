@@ -10,16 +10,6 @@
     tools:context="com.typeof.flickpicker.activities.CommunityActivity"
     android:background="#51b54d">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="NameOfMovieTest"
-        android:id="@+id/showMovieText"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="149dp"
-        android:textSize="30dp" />
-
     <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
