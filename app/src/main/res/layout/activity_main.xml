@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="\@string/app_name"
+            android:text="@string/app_name"
             android:id="@+id/flickPickerText"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
@@ -63,25 +63,25 @@
                     android:layout_height="match_parent">
 
                     <LinearLayout
-                        android:id="@+id/linearLayout"
+                        android:id="@+id/tabRecommendations"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"></LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/linearLayout2"
+                        android:id="@+id/tabCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"></LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/linearLayout3"
+                        android:id="@+id/tabFriendsActivities"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"></LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/linearLayout4"
+                        android:id="@+id/tabMyMovies"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"></LinearLayout>
