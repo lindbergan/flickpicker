@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".activities.CommunityActivity"></activity>
         <activity android:name=".activities.recommendationsActivity"></activity>
+        <meta-data android:name="database_type" android:value="sql"></meta-data>
     </application>
 
 </manifest>
