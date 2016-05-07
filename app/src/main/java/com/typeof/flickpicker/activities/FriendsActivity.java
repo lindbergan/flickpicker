@@ -23,7 +23,7 @@ public class FriendsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Database db = App.getDatabaseSeed();
+        Database db = App.getDatabase();
         db.dropTables();
         db.setUpTables();
         super.onCreate(savedInstanceState);
