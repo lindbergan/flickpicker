@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.TabActivity;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,8 +42,8 @@ public class recommendationsActivity extends AppCompatActivity {
         mMovieListView = (ListView) findViewById(R.id.recommendationsListView);
         List<Movie> movies = new ArrayList<Movie>();
         //movies = getRecommendations(App.getActiveUser);
-        //Adapter adapter = new ArrayAdapter<Movie>(this, android.R.layout.simple_list_item_1, movies);
 
+        Adapter adapter = new ArrayAdapter<Movie>(this, android.R.layout.simple_list_item_1, movies);
 
     }
 

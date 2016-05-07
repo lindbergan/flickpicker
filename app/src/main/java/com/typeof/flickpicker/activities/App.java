@@ -15,6 +15,7 @@ import com.typeof.flickpicker.database.sql.SQLMovieDAO;
 import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
 import com.typeof.flickpicker.database.sql.SQLRatingDAO;
 import com.typeof.flickpicker.database.sql.SQLUserDAO;
+import com.typeof.flickpicker.utils.MetaData;
 
 /**
  * FlickPicker
@@ -24,13 +25,16 @@ import com.typeof.flickpicker.database.sql.SQLUserDAO;
 public class App extends Application {
 
     private static Context mContext;
+    private static String databaseType;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+        // Fetch the database type from the AndroidManifest.xml file
+        databaseType = MetaData.getMetaData(mContext, "database_type");
         Database db = getDatabase();
-        db.seedDatabase();
+//        db.seedDatabase();
     }
 
     @Override
@@ -41,26 +45,57 @@ public class App extends Application {
     }
 
     public static MovieDAO getMovieDAO() {
-        return new SQLMovieDAO(mContext);
+        switch (databaseType) {
+            case "sql":
+                return new SQLMovieDAO(mContext);
+            default:
+                return new SQLMovieDAO(mContext);
+        }
     }
 
     public static UserDAO getUserDAO() {
-        return new SQLUserDAO(mContext);
+        switch (databaseType) {
+            case "sql":
+                return new SQLUserDAO(mContext);
+            default:
+                return new SQLUserDAO(mContext);
+        }
     }
 
     public static RatingDAO getRatingDAO() {
-        return new SQLRatingDAO(mContext);
+        switch (databaseType) {
+            case "sql":
+                return new SQLRatingDAO(mContext);
+            default:
+                return new SQLRatingDAO(mContext);
+        }
     }
 
     public static PlaylistDAO getPlaylistDAO() {
-        return new SQLPlaylistDAO(mContext);
+        switch (databaseType) {
+            case "sql":
+                return new SQLPlaylistDAO(mContext);
+            default:
+                return new SQLPlaylistDAO(mContext);
+        }
     }
 
     public static FriendDAO getFriendDAO() {
-        return new SQLFriendDAO(mContext);
+        switch (databaseType) {
+            case "sql":
+                return new SQLFriendDAO(mContext);
+            default:
+                return new SQLFriendDAO(mContext);
+        }
     }
 
     public static Database getDatabase() {
-        return new SQLDatabase(mContext);
+
+        switch (databaseType) {
+            case "sql":
+                return new SQLDatabase(mContext);
+            default:
+                return new SQLDatabase(mContext);
+        }
     }
 }

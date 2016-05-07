@@ -1,7 +1,10 @@
 package com.typeof.flickpicker.activities;
 
 import android.content.Intent;
+
 import android.content.res.Resources;
+
+
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,8 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.widget.TabHost;
 import android.widget.TextView;
+
+import android.widget.Button;
+
 
 import com.typeof.flickpicker.R;
 
@@ -20,7 +27,11 @@ import java.lang.reflect.Type;
 public class MainActivity extends AppCompatActivity {
 
 
+
     TabHost tabHost;
+
+
+    private Button mButton;
 
 
     @Override
@@ -28,21 +39,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        tabHost = (TabHost)findViewById(R.id.tabHost);
+        tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
         configureTabs();
+        //hookUpViews();
 
-        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-            @Override
-            public void onTabChanged(String tabId) {
-
-
-
-            }
-        });
+        //setUpClickListeners();
 
     }
+
 
     public void configureTabs() {
 
@@ -67,9 +72,45 @@ public class MainActivity extends AppCompatActivity {
         mTabSpecMyMovies.setIndicator("My Movies");
         tabHost.addTab(mTabSpecMyMovies);
 
+
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+
+                if(tabId != tabHost.getCurrentTabTag()){
+
+                    if(tabId == "Recommendations"){
+                        startActivity(new Intent(getApplicationContext(), recommendationsActivity.class));
+                    }
+                    if(tabId == "Community"){
+                        startActivity(new Intent(getApplicationContext(), CommunityActivity.class));
+                    }
+
+                    }
+
+
+
+            }
+        });
     }
 
-    //Unnecessary since we don't have a action bar???
+
+    public void hookUpViews(){
+        mButton = (Button) findViewById(R.id.changeViewButton);
+        mButton.setText("ToCommunityTab");
+    }
+
+    public void setUpClickListeners(){
+        //setup listeners here
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), CommunityActivity.class));
+            }
+        });
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
