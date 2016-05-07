@@ -29,7 +29,7 @@ public class CommunityActivity extends AppCompatActivity {
     //Instance variables
     private int desiredSizeOfList = 3;
     private int specifiedYear = 2016;
-    MovieDAO mSQLMovieDAO = new App().getMovieDAO();
+    MovieDAO mMovieDAO;
     TabHost mTabHost;
     private ListView listViewTopMovies;
     private ListView listViewWorstMovies;
@@ -41,6 +41,7 @@ public class CommunityActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
+        mMovieDAO = App.getMovieDAO();
 
         //Feed the database with dummy Data
         //mSeedData.seed();

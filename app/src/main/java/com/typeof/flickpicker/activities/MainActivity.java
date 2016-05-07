@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void hookUpViews(){
         mButtonCommunity = (Button) findViewById(R.id.goToCommunityTab);
-        mButtonCommunity.setText("CommunityTab");
+        mButtonCommunity.setText("Community Tab");
         mButtonMyCollection = (Button) findViewById(R.id.goToMyCollectionTab);
-        mButtonMyCollection.setText("MyCollectionTab");
+        mButtonMyCollection.setText("My Collection Tab");
     }
 
     public void setUpClickListeners(){
