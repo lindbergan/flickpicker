@@ -3,6 +3,7 @@ package com.typeof.flickpicker.activities;
 import android.app.Application;
 import android.content.Context;
 
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
@@ -24,12 +25,18 @@ import com.typeof.flickpicker.database.sql.SQLUserDAO;
 public class App extends Application {
 
     private static Context mContext;
+    private static User mCurrentUser;
 
     @Override
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+        mCurrentUser = new User("pelle", "password");
+        mCurrentUser.setScore(0);
+        getUserDAO().saveUser(mCurrentUser);
     }
+
+    public static User getCurrentUser() {return mCurrentUser;}
 
     public static MovieDAO getMovieDAO() {
         return new SQLMovieDAO(mContext);
