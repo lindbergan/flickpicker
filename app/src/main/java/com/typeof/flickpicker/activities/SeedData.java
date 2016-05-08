@@ -11,9 +11,9 @@ import com.typeof.flickpicker.database.sql.SQLMovieDAO;
  * Created on 2016-05-03.
  */
 public class SeedData {
-    MovieDAO mMovieDAO = App.getMovieDAO();
+    static MovieDAO mMovieDAO = App.getMovieDAO();
 
-    public void seed(){
+    public static void seedCommunityData(){
 
         //create dummy-movies, set a rating directly for them and save them to the database:
         Movie GoneWithTheWind = new Movie("GoneWithTheWind", 2012);
@@ -40,7 +40,30 @@ public class SeedData {
         KarateKid.setCommunityRating(3.6);
         long movieIdKarateKid = mMovieDAO.saveMovie(KarateKid);
 
-    }
+        Movie theBigLebowski = new Movie("TheBigLebowski", 1998);
+        theBigLebowski.setCommunityRating(4.4);
+        long movieIdTheBigLebowski = mMovieDAO.saveMovie(theBigLebowski);
 
+        Movie rocky = new Movie("Rocky", 1976);
+        KarateKid.setCommunityRating(3.6);
+        long movieIdRocky = mMovieDAO.saveMovie(rocky);
+
+        Movie whiplash = new Movie("Whiplash", 2014);
+        whiplash.setCommunityRating(3.9);
+        long movieIdWhiplash = mMovieDAO.saveMovie(whiplash);
+
+        Movie guardianOfTheGalaxy = new Movie("Guardian of the Galaxy", 2014);
+        guardianOfTheGalaxy.setCommunityRating(4.1);
+        long movieIdGuardianOfTheGalaxy = mMovieDAO.saveMovie(guardianOfTheGalaxy);
+
+        Movie birdman = new Movie("Birdman", 2014);
+        birdman.setCommunityRating(3.3);
+        long movieIdBirdman = mMovieDAO.saveMovie(birdman);
+
+        Movie interstellar = new Movie("Interstellar", 2014);
+        interstellar.setCommunityRating(4.6);
+        long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
+
+    }
 
 }

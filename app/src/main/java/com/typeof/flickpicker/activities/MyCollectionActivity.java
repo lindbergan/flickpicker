@@ -25,14 +25,6 @@ import java.util.List;
  * Created on 2016-05-05.
  */
 
-    //Ide:
-    //Two tabs
-    // ---tab 1:---
-    // a searchView in the header to add movies
-    // a listView to show all movies in my collection
-    // ---tab2:----
-    // "To-watch-list", a list of your playlist
-
 public class MyCollectionActivity extends AppCompatActivity {
 
     private TabHost mTabHostMyCollection;
@@ -49,6 +41,10 @@ public class MyCollectionActivity extends AppCompatActivity {
         mMovieDAO = App.getMovieDAO();
         mRatingDAO = App.getRatingDAO();
         mUserDAO = App.getUserDAO();
+
+        //reboot the database
+        App.getDatabase().dropTables();
+        App.getDatabase().setUpTables();
 
         //Hook up views (Buttons, TextFields Cells etc...)
         hookUpViews();

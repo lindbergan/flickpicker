@@ -198,7 +198,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     private List<Movie> getCommunityFeedback(int max, String query){
         //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
         Cursor c = db.rawQuery(query, null);
-        Log.v("Query Movies Sorted", query);
+        //Log.v("Query Movies Sorted", query);
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 

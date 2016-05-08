@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.MovieDAO;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ public class CommunityActivity extends AppCompatActivity {
     //TODO: need to track which tab user previously was at
 
     //Instance variables
-    private int desiredSizeOfList = 3;
+    private int desiredSizeOfList = 6;
     private int specifiedYear = 2016;
     MovieDAO mMovieDAO;
     TabHost mTabHost;
@@ -36,6 +38,7 @@ public class CommunityActivity extends AppCompatActivity {
     private ListView listViewTopMoviesByYear;
     private int thisYear = 2016; //NOTE: need to be changed into a dynamic fetch -> Date.getYear() or something similar
     private String currentTab;
+    private boolean isYearListCurrent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,12 @@ public class CommunityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_community);
         mMovieDAO = App.getMovieDAO();
 
+        //reboot the database
+        App.getDatabase().dropTables();
+        App.getDatabase().setUpTables();
+
         //Feed the database with dummy Data
-        //mSeedData.seed();
+        SeedData.seedCommunityData();
 
         //Hook up views (Buttons, TextFields Cells etc...)
         hookUpViews();
@@ -90,63 +97,36 @@ public class CommunityActivity extends AppCompatActivity {
 
                 if(tabId == mTabSpecTopMovies.getTag()){
 
-                    //TODO:
-                    //List<Movie> topRatedAllTime = mSQLMovieDAO.getCommunityTopPicks(desiredSizeOfList);
-                    //call MovieCell.createMovieView()(...should return a list of Views of the same size as desiredSizeOfList: Arguments = List <Movie> movies) --> returns listOfViewCellsWeGotFromHelpClass
-                    //Add each one of the Vies to created ListCell
-
-
-                    //Test to fill the listView with strings:
-                    List<String> dummyStringList = new ArrayList<String>();
-                    dummyStringList.add("BraveHeart");
-                    dummyStringList.add("Gone with the Wind");
-                    dummyStringList.add("Jurassic Park");
-                    dummyStringList.add("Back to the Future II");
-                    dummyStringList.add("Karate Kid");
-                    dummyStringList.add("Oblivion");
-
-
-                    /*
-                    //Test to fill the listView with objects other than strings:
-                    Button a = new Button(getApplicationContext());
-                    Button b = new Button(getApplicationContext());
-                    Button c = new Button(getApplicationContext());
-
-                    Object[] dummyObjects = {a,b,c};
-                    */
-
-                    populateListView(listViewTopMovies, dummyStringList);
-
+                    List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
+                    populateListView(listViewTopMovies, topMoviesAllTime);
                 }
                 else if(tabId == mTabSpecWorstMovies.getTag()){
 
-                    //TODO:
-                    //List<Movie> mostDislikedMovies = mSQLMovieDAO.getMostDislikedMovies(desiredSizeOfList);
-                    //call MovieCell.createMovieView() class (...should return a list of Views of the same size as desiredSizeOfList: Arguments = List <Movie> movies)
-                    //Add each one of the Vies to created ListCell
-
-                    List<String> dummyStringList = new ArrayList<String>();
-                    dummyStringList.add("Sharknado");
-                    dummyStringList.add("Scream IV");
-                    dummyStringList.add("Jurassic World");
-
-                    populateListView(listViewWorstMovies, dummyStringList);
+                    List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
+                    populateListView(listViewWorstMovies, worstMoviesAllTime);
 
                 }
                 else{
-
-                    //TODO:
-                    //List<Movie> topRatedThisYear = mSQLMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, specifiedYear);
-                    //callMovieCellClass(); (...should return a list of Views of the corresponding movies)
-                    //Add each one of the Vies to created ListCell
-
                     List<String> yearList = generateYearList();
-                    populateListView(listViewTopMoviesByYear,yearList);
-
+                    populateListWithYears(listViewTopMoviesByYear,yearList);
                 }
-
             }
         });
+    }
+
+    public void populateListWithYears(ListView listView, List<String> yearList){
+
+        isYearListCurrent = true;
+        int layout = android.R.layout.simple_list_item_1; //default
+        ListAdapter yearAdapter = new ArrayAdapter(this,layout,yearList);
+        listView.setAdapter(yearAdapter);
+    }
+
+    public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
+
+        //Code for populating elements in the listView;
+        ListAdapter adapter = new MovieAdapter(this,listOfViewCellsWeGotFromHelpClass.toArray());
+        listView.setAdapter(adapter);
     }
 
     public List<String> generateYearList(){
@@ -157,17 +137,6 @@ public class CommunityActivity extends AppCompatActivity {
             years.add(i+"");
         }
         return years;
-    }
-
-    public void populateListView(ListView listView, List<String> listOfViewCellsWeGotFromHelpClass){
-
-        int layout = android.R.layout.simple_list_item_1;
-
-        //Code for populating elements in the listView;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,layout,listOfViewCellsWeGotFromHelpClass);
-        listView.setAdapter(adapter);
-
-        //TODO: Need to write methods onClicked for the different elements in the list;
     }
 
     public void setUpListeners(){
@@ -190,24 +159,25 @@ public class CommunityActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //Go into another subMenu: A list of Movies by that year:
+                //Determine if yearList or MovieList of that year is currently displayed
+                if (isYearListCurrent){
 
-                //...Fetch that year and call:
-                //List<Movie> topRatedThisYear = mSQLMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, specifiedYear);
+                    //TODO: need to find the input year from user
 
-                //then re-populate the listview by calling the HelpClass with the list above and sending that list to populateList()
-                // In this case dummyMovies - 2014 no matter what year the user clicks:
+                    int chosenYear = 2014;
 
-                //dummyMovies 2014
-                List<String> dummyStringList = new ArrayList<String>();
-                dummyStringList.add("Whiplash (2014)");
-                dummyStringList.add("Guardian of the Galaxy (2014)");
-                dummyStringList.add("Birdman (2014)");
-                dummyStringList.add("Interstellar (2014)");
+                    //get the MovieList for the year in question
+                    List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList,chosenYear);
 
-                populateListView(listViewTopMoviesByYear,dummyStringList);
-
-                //TODO: Thnk about how the user should "go back" to the "year" screen
+                    //poulate the list and set isYearListCurrent to false
+                    populateListView(listViewTopMoviesByYear,topMoviesByYear);
+                    isYearListCurrent = false;
+                }
+                else{
+                    //in that case - we are presently at the specific year movie list:
+                    //TODO: detalied view of the movie
+                    //TODO: Thnk about how the user should "go back" to the "year" screen
+                }
             }
         });
     }
