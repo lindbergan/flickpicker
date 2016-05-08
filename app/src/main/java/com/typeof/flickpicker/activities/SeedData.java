@@ -1,9 +1,17 @@
 package com.typeof.flickpicker.activities;
 
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.PlaylistDAO;
+import com.typeof.flickpicker.database.RatingDAO;
+import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.SQLMovieDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FlickPicker
@@ -12,6 +20,10 @@ import com.typeof.flickpicker.database.sql.SQLMovieDAO;
  */
 public class SeedData {
     static MovieDAO mMovieDAO = App.getMovieDAO();
+    static RatingDAO mRatingDAO = App.getRatingDAO();
+    static UserDAO mUserDAO = App.getUserDAO();
+    static PlaylistDAO mPlaylistDAO = App.getPlaylistDAO();
+    private static long userId;
 
     public static void seedCommunityData(){
 
@@ -64,6 +76,53 @@ public class SeedData {
         interstellar.setCommunityRating(4.6);
         long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
 
+    }
+
+    public static void seedMyCollectionData(){
+
+        Movie Oblivion = new Movie("Oblivion", 2016);
+        Oblivion.setCommunityRating(3.3);
+        long movieIdOblivion = mMovieDAO.saveMovie(Oblivion);
+
+        Movie BraveHeart = new Movie("BraveHeart", 2014);
+        BraveHeart.setCommunityRating(4.1);
+        long movieIdBraveHeart = mMovieDAO.saveMovie(BraveHeart);
+
+        Movie KarateKid = new Movie("KarateKid", 2016);
+        KarateKid.setCommunityRating(3.6);
+        long movieIdKarateKid = mMovieDAO.saveMovie(KarateKid);
+
+        Movie guardianOfTheGalaxy = new Movie("Guardian of the Galaxy", 2014);
+        guardianOfTheGalaxy.setCommunityRating(4.1);
+        long movieIdGuardianOfTheGalaxy = mMovieDAO.saveMovie(guardianOfTheGalaxy);
+
+        Movie birdman = new Movie("Birdman", 2014);
+        birdman.setCommunityRating(3.3);
+        long movieIdBirdman = mMovieDAO.saveMovie(birdman);
+
+        Movie interstellar = new Movie("Interstellar", 2014);
+        interstellar.setCommunityRating(4.6);
+        long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
+
+        userId = mUserDAO.saveUser(new User("olle","password"));
+
+        //let the user rate a couple of movies and save those ratings:
+        long ratingid1 = mRatingDAO.saveRating(new Rating(3.5,movieIdOblivion, userId));
+        long ratingid2 = mRatingDAO.saveRating(new Rating(2.0,movieIdKarateKid, userId));
+        long ratingid3 = mRatingDAO.saveRating(new Rating(4.5,movieIdBraveHeart, userId));
+
+        //create a playlist for user and make sure that the correct movies are displayed
+        List<Number> usersPlayListItems = new ArrayList<Number>();
+        usersPlayListItems.add(movieIdBirdman);
+        usersPlayListItems.add(movieIdGuardianOfTheGalaxy);
+        usersPlayListItems.add(movieIdInterstellar);
+
+        long playlist = mPlaylistDAO.savePlaylist(new Playlist("TrippleA", userId,usersPlayListItems));
+
+    }
+
+    public static long getUserId(){
+        return userId;
     }
 
 }

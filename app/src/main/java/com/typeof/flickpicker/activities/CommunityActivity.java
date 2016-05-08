@@ -26,11 +26,11 @@ public class CommunityActivity extends AppCompatActivity {
 
     //TODO: find out how to create a toggle at the bottom for the whole app
     //TODO: find out how to create and teardown database after session ("dummyData") (sloved by Sebert?)
-    //TODO: need to track which tab user previously was at
+    //TODO: need to track which tab user previously was at (thus: currentTab)
+    //TODO: create new cell: MovieCell (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
 
     //Instance variables
     private int desiredSizeOfList = 6;
-    private int specifiedYear = 2016;
     MovieDAO mMovieDAO;
     TabHost mTabHost;
     private ListView listViewTopMovies;
@@ -117,8 +117,8 @@ public class CommunityActivity extends AppCompatActivity {
     public void populateListWithYears(ListView listView, List<String> yearList){
 
         isYearListCurrent = true;
-        int layout = android.R.layout.simple_list_item_1; //default
-        ListAdapter yearAdapter = new ArrayAdapter(this,layout,yearList);
+        int defaultLayout = android.R.layout.simple_list_item_1; //default
+        ListAdapter yearAdapter = new ArrayAdapter(this,defaultLayout,yearList);
         listView.setAdapter(yearAdapter);
     }
 

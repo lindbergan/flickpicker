@@ -252,4 +252,6 @@ public class MovieDAOTest extends AndroidTestCase {
         assertTrue(friends.get(0).getId() == id2 && friends.get(1).getId() == id3);
 
     }
+
+    //TODO: Need to create testMethod testGetUsersMovieCollection();
 }

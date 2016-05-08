@@ -3,6 +3,8 @@ package com.typeof.flickpicker.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -10,6 +12,7 @@ import android.widget.TabHost;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.MovieDAO;
@@ -17,6 +20,7 @@ import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,20 +35,20 @@ public class MyCollectionActivity extends AppCompatActivity {
     private ListView listViewMyCollection;
     private ListView listViewMyPlaylist;
     private MovieDAO mMovieDAO;
-    private RatingDAO mRatingDAO;
-    private UserDAO mUserDAO;
+    private int desireSizeOfList = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collection);
         mMovieDAO = App.getMovieDAO();
-        mRatingDAO = App.getRatingDAO();
-        mUserDAO = App.getUserDAO();
 
         //reboot the database
         App.getDatabase().dropTables();
         App.getDatabase().setUpTables();
+
+        //Feed the database with dummy Data
+        SeedData.seedMyCollectionData();
 
         //Hook up views (Buttons, TextFields Cells etc...)
         hookUpViews();
@@ -82,79 +86,57 @@ public class MyCollectionActivity extends AppCompatActivity {
 
                 if(tabId == mTabSpecMyCollectionTab.getTag()){
 
-                    //TODO: need to create method getMyMovieCollection(int max) in SQLMovieDAO that return all movies that ive seen;
-                    //List<Movie> ratedByMe = mSQLMovieDAO.getMyMovieCollection(desiredSizeOfList);
-                    //call MovieCell.createMovieView()(...should return a list of Views of the same size as desiredSizeOfList: Arguments = List <Movie> movies) --> returns listOfViewCellsWeGotFromHelpClass
-                    //Add each one of the Vies to created ListCell
-
-
-                    //Test to fill the listView with strings:
-                    List<String> dummyStringList = new ArrayList<String>();
-                    dummyStringList.add("BraveHeart");
-                    dummyStringList.add("Gone with the Wind");
-                    dummyStringList.add("Jurassic Park");
-                    dummyStringList.add("Back to the Future II");
-                    dummyStringList.add("Karate Kid");
-                    dummyStringList.add("Oblivion");
-
-                    List<Movie> dummyRatings = createDummyRating();
-                    populateListView(listViewMyCollection, dummyRatings);
-
+                    List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, SeedData.getUserId());
+                    populateListView(listViewMyCollection, userMovieCollection);
                 }
                 else{
 
-                    //TODO:
-                    //List<Movie> myPlayList = mSQLPlaylistDAO.getUserPlaylists(long userId);
-                    //call MovieCell.createMovieView() class (...should return a list of Views of the same size as desiredSizeOfList: Arguments = List <Movie> movies)
-                    //Add each one of the Vies to created ListCell
+                    //get user's playlists, loop through them and save the movies in them to a new array:
+                    List<Playlist> usersPlaylist = App.getPlaylistDAO().getUserPlaylists(SeedData.getUserId());
 
-                    List<String> dummyStringList = new ArrayList<String>();
-                    dummyStringList.add("Sharknado");
-                    dummyStringList.add("Scream IV");
-                    dummyStringList.add("Jurassic World");
+                    List<Movie> usersPlaylistMovies = new ArrayList<Movie>();
+                    Iterator<Playlist> playlistIterator = usersPlaylist.iterator();
 
-                    List<Movie> dummyRatings = createDummyRating();
-                    populateListView(listViewMyPlaylist, dummyRatings);
+                    while(playlistIterator.hasNext()){
 
+                        Playlist currentPlaylist = playlistIterator.next();
+
+                        for(int i = 0; i < currentPlaylist.getMovieIds().size(); i++){
+
+                            long movieId = currentPlaylist.getMovieIds().get(i).longValue();
+                            usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
+                        }
+                    }
+
+                    //...send that array along with the specified listview to populate it
+                    populateListView(listViewMyPlaylist, usersPlaylistMovies);
                 }
 
             }
         });
-
     }
 
-    public List<Movie> createDummyRating(){
-
-        List<Movie> dummyRatings = new ArrayList<Movie>();
-
-        long userId = mUserDAO.saveUser(new User("Hebert", "password"));
-        long movieId = mMovieDAO.saveMovie(new Movie("Gone with the Wind", 1939));
-        long movieId2 = mMovieDAO.saveMovie(new Movie("Rocky", 1976));
-        Movie goneWithTheWind = mMovieDAO.findMovie(movieId);
-        Movie rocky = mMovieDAO.findMovie(movieId2);
-
-        Rating r = new Rating(4.0, movieId,userId);
-        mRatingDAO.saveRating(r);
-        dummyRatings.add(goneWithTheWind);
-        dummyRatings.add(rocky);
-
-        return dummyRatings;
-    }
     public void setUpListeners(){
 
+        listViewMyCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO: Movie Detailed view
+            }
+        });
+        listViewMyPlaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO: Movie Detailed view
+            }
+        });
     }
 
     public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
 
-        //int layout = android.R.layout.simple_list_item_1;
-
         //Code for populating elements in the listView;
-        //ArrayAdapter<Object> adapter = new RatingAdapter(getApplicationContext(),listOfViewCellsWeGotFromHelpClass);
         ListAdapter adapter = new MovieAdapter(this,listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
-
-        //TODO: Need to write methods onClicked for the different elements in the list;
-
     }
 
 }
