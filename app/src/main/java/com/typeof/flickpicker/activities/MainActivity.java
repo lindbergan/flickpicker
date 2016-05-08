@@ -1,10 +1,7 @@
 package com.typeof.flickpicker.activities;
 
 import android.content.Intent;
-
 import android.content.res.Resources;
-
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,23 +10,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.widget.TabHost;
 import android.widget.TextView;
-
 import android.widget.Button;
-
-
 import com.typeof.flickpicker.R;
-
 import java.lang.reflect.Type;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
     TabHost tabHost;
-
 
     private Button mButton;
 
@@ -46,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
         //setUpClickListeners();
 
+        //Start recommendationsActivity
+        //startActivity(new Intent(getApplicationContext(), recommendationsActivity.class));
     }
 
 
@@ -62,35 +53,44 @@ public class MainActivity extends AppCompatActivity {
         mTabSpecCommunity.setIndicator("Community");
         tabHost.addTab(mTabSpecCommunity);
 
-        final TabHost.TabSpec mTabSpecFriendsActivities = tabHost.newTabSpec("FriendsActivities");
+        final TabHost.TabSpec mTabSpecFriendsActivities = tabHost.newTabSpec("Friends");
         mTabSpecFriendsActivities.setContent(R.id.tabFriendsActivities);
         mTabSpecFriendsActivities.setIndicator("Friends' activities");
         tabHost.addTab(mTabSpecFriendsActivities);
 
-        final TabHost.TabSpec mTabSpecMyMovies = tabHost.newTabSpec("MyMovies");
+        final TabHost.TabSpec mTabSpecMyMovies = tabHost.newTabSpec("MyCollection");
         mTabSpecMyMovies.setContent(R.id.tabMyMovies);
-        mTabSpecMyMovies.setIndicator("My Movies");
+        mTabSpecMyMovies.setIndicator("My Collection");
         tabHost.addTab(mTabSpecMyMovies);
+
 
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId != tabHost.getCurrentTabTag()){
+                //if(tabId != tabHost.()){
 
                     if(tabId == "Recommendations"){
+
                         startActivity(new Intent(getApplicationContext(), recommendationsActivity.class));
                     }
                     if(tabId == "Community"){
                         startActivity(new Intent(getApplicationContext(), CommunityActivity.class));
                     }
-
+//                    if(tabId == "Friends"){
+//
+//                    startActivity(new Intent(getApplicationContext(), FriendsActivity.class));
+//                    }
+//                    if(tabId == "MyCollection"){
+//
+//                    startActivity(new Intent(getApplicationContext(), MyCollectionActivity.class));
+//                }
                     }
 
 
 
-            }
+            //}
         });
     }
 
