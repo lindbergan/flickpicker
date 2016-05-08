@@ -33,7 +33,7 @@ public class RatingAdapter extends CustomAdapter {
         Rating r = (Rating) getItem(position);
         username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
         moviename.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
-        movieyear.setText(App.getMovieDAO().findMovie(r.getMovieId()).getYear());
+        movieyear.setText(App.getMovieDAO().findMovie(r.getMovieId()).getYear()+"");
         ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
         return customView;
     }

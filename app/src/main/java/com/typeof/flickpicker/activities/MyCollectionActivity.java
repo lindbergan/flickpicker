@@ -4,11 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.RatingDAO;
+import com.typeof.flickpicker.database.UserDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +39,16 @@ public class MyCollectionActivity extends AppCompatActivity {
     private ListView listViewMyCollection;
     private ListView listViewMyPlaylist;
     private MovieDAO mMovieDAO;
+    private RatingDAO mRatingDAO;
+    private UserDAO mUserDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_collection);
         mMovieDAO = App.getMovieDAO();
+        mRatingDAO = App.getRatingDAO();
+        mUserDAO = App.getUserDAO();
 
         //Hook up views (Buttons, TextFields Cells etc...)
         hookUpViews();
@@ -91,7 +101,8 @@ public class MyCollectionActivity extends AppCompatActivity {
                     dummyStringList.add("Karate Kid");
                     dummyStringList.add("Oblivion");
 
-                    populateListView(listViewMyCollection, dummyStringList);
+                    List<Movie> dummyRatings = createDummyRating();
+                    populateListView(listViewMyCollection, dummyRatings);
 
                 }
                 else{
@@ -106,7 +117,8 @@ public class MyCollectionActivity extends AppCompatActivity {
                     dummyStringList.add("Scream IV");
                     dummyStringList.add("Jurassic World");
 
-                    populateListView(listViewMyPlaylist, dummyStringList);
+                    List<Movie> dummyRatings = createDummyRating();
+                    populateListView(listViewMyPlaylist, dummyRatings);
 
                 }
 
@@ -114,16 +126,35 @@ public class MyCollectionActivity extends AppCompatActivity {
         });
 
     }
+
+    public List<Movie> createDummyRating(){
+
+        List<Movie> dummyRatings = new ArrayList<Movie>();
+
+        long userId = mUserDAO.saveUser(new User("Hebert", "password"));
+        long movieId = mMovieDAO.saveMovie(new Movie("Gone with the Wind", 1939));
+        long movieId2 = mMovieDAO.saveMovie(new Movie("Rocky", 1976));
+        Movie goneWithTheWind = mMovieDAO.findMovie(movieId);
+        Movie rocky = mMovieDAO.findMovie(movieId2);
+
+        Rating r = new Rating(4.0, movieId,userId);
+        mRatingDAO.saveRating(r);
+        dummyRatings.add(goneWithTheWind);
+        dummyRatings.add(rocky);
+
+        return dummyRatings;
+    }
     public void setUpListeners(){
 
     }
 
-    public void populateListView(ListView listView, List<String> listOfViewCellsWeGotFromHelpClass){
+    public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
 
-        int layout = android.R.layout.simple_list_item_1;
+        //int layout = android.R.layout.simple_list_item_1;
 
         //Code for populating elements in the listView;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,layout,listOfViewCellsWeGotFromHelpClass);
+        //ArrayAdapter<Object> adapter = new RatingAdapter(getApplicationContext(),listOfViewCellsWeGotFromHelpClass);
+        ListAdapter adapter = new MovieAdapter(this,listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
 
         //TODO: Need to write methods onClicked for the different elements in the list;

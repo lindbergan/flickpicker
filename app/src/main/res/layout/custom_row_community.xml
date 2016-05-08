@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:weightSum="1"
+        >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView_movieCell"
+            android:src="@drawable/no_user_profile"
+            android:layout_weight="1.0"
+            android:layout_gravity="left|top"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="297dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|top">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Movie"
+                    android:id="@+id/moviename_textview_movieCell"
+                    android:layout_gravity="center_horizontal|left"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text=" (year)"
+                    android:id="@+id/movie_year_textview_movieCell"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="&lt;--Movie pic here"
+                android:id="@+id/textView"/>
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ratingBar_movieCell"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
