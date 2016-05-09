@@ -26,6 +26,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView movieTitle;
     private RatingBar ratingBar;
     private Button rateButton;
+    private TextView movieDescription;
 
 
     @Override
@@ -42,12 +43,14 @@ public class MovieDetailFragment extends Fragment {
 
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
 
-        movieImage = (ImageView) getView().findViewById(R.id.movieDetailImageView);
-
         //TODO: add icons to Movies
+        movieImage = (ImageView) getView().findViewById(R.id.movieDetailImageView);
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
-
+        //setting up text views
+        movieTitle = (TextView) getView().findViewById(R.id.movieDetailTitleTextField);
+        movieDescription = (TextView) getView().findViewById(R.id.descriptionTextField);
+        ratingBar = (RatingBar) getView().findViewById(R.id.movieDetailRatingBar);
 
         //setting up button
         rateButton = (Button) getView().findViewById(R.id.movieDetailRateButton);
@@ -57,17 +60,26 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+                //TODO: handle case where user presses button before choosing a rating
                 long userId = App.getCurrentUser().getId();
                 long movieId = 0;
 
-                double numStars = (double)ratingBar.getNumStars();
+                double numStars = (double) ratingBar.getNumStars();
                 Rating newRating = new Rating(numStars, movieId, userId);
-
 
             }
         });
 
         return movieDetailView;
     }
+
+    public void setMovieTextFields(){
+
+        //TODO how to get information (the movie object) from pressed movie cell
+        //movieTitle.setText(movie.getTitle());
+
+    }
+
 
 }
