@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     TabHost tabHost;
     private Button mButtonCommunity;
     private Button mButtonMyCollection;
+    private FragmentManager fragmentManager = getFragmentManager();
 
 
     @Override
@@ -54,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabChanged(String tabId) {
-
                 if(tabId.equals("Recommendations")){
-                    startActivity(new Intent(getApplicationContext(), recommendationsActivity.class));
+                    RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
+                    loadFragment(recommendationsFragment, R.id.contentWrap);
                 }
                 if(tabId.equals("Community")){
                     CommunityFragment communityFragment = new CommunityFragment();
@@ -67,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment(Fragment fragment, int containerViewId) {
-        FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(containerViewId, fragment);
+        fragmentTransaction.replace(containerViewId, fragment);
+        fragmentTransaction.addToBackStack(null); // last fragment used can be reached with the back button
         fragmentTransaction.commit();
     }
 

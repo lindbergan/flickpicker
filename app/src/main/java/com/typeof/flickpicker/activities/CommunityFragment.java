@@ -58,8 +58,6 @@ public class CommunityFragment extends Fragment {
         SeedData.seedCommunityData();
 
         //Hook up views (Buttons, TextFields Cells etc...)
-
-
         //Connect the listeners to the relevant views
 
     }

@@ -1,9 +1,14 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.Fragment;
 import android.app.TabActivity;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -27,24 +32,26 @@ import java.util.List;
  * Group 22
  * Created on 03/05/16.
  */
-public class recommendationsActivity extends AppCompatActivity {
+public class RecommendationsFragment extends Fragment {
 
     private ListView mMovieListView;
 
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommendations);
+    }
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Populate list with MovieCells
-        mMovieListView = (ListView) findViewById(R.id.recommendationsListView);
+        View recommendationsView = inflater.inflate(R.layout.activity_recommendations, container, false);
+        mMovieListView = (ListView) recommendationsView.findViewById(R.id.recommendationsListView);
+
         List<Movie> movies = new ArrayList<Movie>();
-        //movies = getRecommendations(App.getActiveUser);
+        Adapter adapter = new ArrayAdapter<Movie>(getActivity(), android.R.layout.simple_list_item_1, movies);
 
-        Adapter adapter = new ArrayAdapter<Movie>(this, android.R.layout.simple_list_item_1, movies);
-
+        return recommendationsView;
     }
 
     /**
