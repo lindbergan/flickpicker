@@ -1,11 +1,12 @@
 package com.typeof.flickpicker.activities;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Fragment;
+import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -13,11 +14,7 @@ import android.widget.TabHost;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
-import com.typeof.flickpicker.core.Rating;
-import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.RatingDAO;
-import com.typeof.flickpicker.database.UserDAO;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,7 +26,7 @@ import java.util.List;
  * Created on 2016-05-05.
  */
 
-public class MyCollectionActivity extends AppCompatActivity {
+public class MyCollectionFragment extends Fragment {
 
     private TabHost mTabHostMyCollection;
     private ListView listViewMyCollection;
@@ -38,9 +35,8 @@ public class MyCollectionActivity extends AppCompatActivity {
     private int desireSizeOfList = 3;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_collection);
         mMovieDAO = App.getMovieDAO();
 
         //reboot the database
@@ -49,25 +45,25 @@ public class MyCollectionActivity extends AppCompatActivity {
 
         //Feed the database with dummy Data
         SeedData.seedMyCollectionData();
+    }
 
-        //Hook up views (Buttons, TextFields Cells etc...)
-        hookUpViews();
-
-        //Connect the listeners to the relevant views
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View myCollectionView = inflater.inflate(R.layout.activity_my_collection, container, false);
+        hookUpViews(myCollectionView);
+        configureTabs(myCollectionView);
         setUpListeners();
+        return myCollectionView;
     }
 
-    public void hookUpViews(){
-
-        //Configure the tabs
-        configureTabs();
-
-        listViewMyCollection = (ListView) findViewById(R.id.listViewMyCollection);
-        listViewMyPlaylist = (ListView) findViewById(R.id.listViewMyPlaylist);
+    public void hookUpViews(View view){
+        listViewMyCollection = (ListView) view.findViewById(R.id.listViewMyCollection);
+        listViewMyPlaylist = (ListView) view.findViewById(R.id.listViewMyPlaylist);
     }
 
-    public void configureTabs(){
-        mTabHostMyCollection = (TabHost) findViewById(R.id.tabHostMyCollection);
+    public void configureTabs(View view){
+        mTabHostMyCollection = (TabHost) view.findViewById(R.id.tabHostMyCollection);
         mTabHostMyCollection.setup();
 
         final TabHost.TabSpec mTabSpecMyCollectionTab = mTabHostMyCollection.newTabSpec("myCollection");
@@ -135,7 +131,7 @@ public class MyCollectionActivity extends AppCompatActivity {
     public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
 
         //Code for populating elements in the listView;
-        ListAdapter adapter = new MovieAdapter(this,listOfViewCellsWeGotFromHelpClass.toArray());
+        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
     }
 

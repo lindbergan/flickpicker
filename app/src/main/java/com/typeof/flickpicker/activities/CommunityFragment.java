@@ -2,28 +2,22 @@ package com.typeof.flickpicker.activities;
 
 import android.app.Fragment;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.MovieDAO;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CommunityFragment extends Fragment {
