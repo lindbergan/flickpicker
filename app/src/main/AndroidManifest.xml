@@ -21,11 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CommunityActivity"/>
-        <activity android:name=".activities.recommendationsActivity"/>
-        <activity android:name=".activities.MyCollectionActivity"/>
-        <activity android:name=".activities.FriendsActivity">
-        </activity>
+        <activity android:name=".activities.CommunityActivity"></activity>
+        <activity android:name=".activities.recommendationsActivity"></activity>
+        <activity android:name=".activities.MyCollectionActivity"></activity>
+        <activity android:name=".activities.FriendsActivity"></activity>
+        <meta-data android:name="database_type" android:value="sql"></meta-data>
     </application>
 
 </manifest>
