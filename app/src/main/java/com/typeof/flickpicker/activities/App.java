@@ -37,6 +37,9 @@ public class App extends Application {
         databaseType = MetaData.getMetaData(mContext, "database_type");
         Database db = getDatabase();
         db.seedDatabase();
+        mCurrentUser = new User("pelle", "password");
+        mCurrentUser.setScore(0);
+        getUserDAO().saveUser(mCurrentUser);
     }
 
     @Override
