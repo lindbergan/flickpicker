@@ -68,26 +68,26 @@ public class MyCollectionFragment extends Fragment {
 
         final TabHost.TabSpec mTabSpecMyCollectionTab = mTabHostMyCollection.newTabSpec("myCollection");
         mTabSpecMyCollectionTab.setContent(R.id.tabMyCollection);
-        mTabSpecMyCollectionTab.setIndicator("my Collection");
+        mTabSpecMyCollectionTab.setIndicator("My Collection");
         mTabHostMyCollection.addTab(mTabSpecMyCollectionTab);
 
         final TabHost.TabSpec mTabSpecMyPlaylistTab = mTabHostMyCollection.newTabSpec("myPlaylist");
         mTabSpecMyPlaylistTab.setContent(R.id.tabMyPlaylist);
-        mTabSpecMyPlaylistTab.setIndicator("my Playlist");
+        mTabSpecMyPlaylistTab.setIndicator("My Playlist");
         mTabHostMyCollection.addTab(mTabSpecMyPlaylistTab);
 
         mTabHostMyCollection.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId == mTabSpecMyCollectionTab.getTag()){
+                if(tabId.equals("myPlaylist")){
 
                     List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, SeedData.getUserId());
                     populateListView(listViewMyCollection, userMovieCollection);
                 }
                 else{
 
-                    //get user's playlists, loop through them and save the movies in them to a new array:
+                    //get user's playlists, loop through them and save the movies in a new array:
                     List<Playlist> usersPlaylist = App.getPlaylistDAO().getUserPlaylists(SeedData.getUserId());
 
                     List<Movie> usersPlaylistMovies = new ArrayList<Movie>();

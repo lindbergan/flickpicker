@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.typeof.flickpicker">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
@@ -20,8 +21,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FriendsActivity"></activity>
-        <activity android:name=".activities.MyCollectionActivity"></activity>
-        <meta-data android:name="database_type" android:value="sql"></meta-data>
+        <activity android:name=".activities.FriendsActivity"/>
+        <activity android:name=".activities.MyCollectionActivity"/>
+
+        <meta-data
+            android:name="database_type"
+            android:value="sql"/>
+
+        <activity android:name=".activities.SearchFragment">
+        </activity>
     </application>
+
 </manifest>

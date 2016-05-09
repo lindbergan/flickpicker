@@ -35,8 +35,8 @@ public class CommunityFragment extends Fragment {
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
     private int thisYear = 2016; //NOTE: need to be changed into a dynamic fetch -> Date.getYear() or something similar
-    private String currentTab;
     private boolean isYearListCurrent;
+    SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
 
 
     @Override
@@ -50,10 +50,6 @@ public class CommunityFragment extends Fragment {
 
         //Feed the database with dummy Data
         SeedData.seedCommunityData();
-
-        //Hook up views (Buttons, TextFields Cells etc...)
-        //Connect the listeners to the relevant views
-
     }
 
     @Nullable
@@ -62,6 +58,7 @@ public class CommunityFragment extends Fragment {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
         hookUpViews(communityView);
         configureTabs(communityView);
+        detemineCurrentView();
         setUpListeners();
         return communityView;
     }
@@ -96,23 +93,49 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId == mTabSpecTopMovies.getTag()){
-
-                    List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
-                    populateListView(listViewTopMovies, topMoviesAllTime);
+                if(tabId.equals("topMovies")){
+                    setTopMoviesAsCurrentView();
                 }
-                else if(tabId == mTabSpecWorstMovies.getTag()){
-
-                    List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
-                    populateListView(listViewWorstMovies, worstMoviesAllTime);
-
+                else if(tabId.equals("worstMovies")){
+                    setWorstMoviesAsCurrentView();
                 }
                 else{
-                    List<String> yearList = generateYearList();
-                    populateListWithYears(listViewTopMoviesByYear,yearList);
+                    setTopMoviesByYearAsCurrentView();
                 }
             }
         });
+    }
+
+    public void setTopMoviesAsCurrentView(){
+        List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
+        populateListView(listViewTopMovies, topMoviesAllTime);
+        viewTracker.setCurrentCommunityTab("topMovies");
+    }
+    public void setWorstMoviesAsCurrentView(){
+        List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
+        populateListView(listViewWorstMovies, worstMoviesAllTime);
+        viewTracker.setCurrentCommunityTab("worstMovies");
+    }
+    public void setTopMoviesByYearAsCurrentView(){
+        List<String> yearList = generateYearList();
+        populateListWithYears(listViewTopMoviesByYear,yearList);
+        viewTracker.setCurrentCommunityTab("topMoviesByYear");
+    }
+
+    //Maybe better with an ENUM solution
+    public void detemineCurrentView(){
+
+        String currentTab = viewTracker.getCurrentCommunityTab();
+
+        if(currentTab.equals("topMovies")){
+            setTopMoviesAsCurrentView();
+        }
+        else if (currentTab.equals("worstMovies")) {
+            setWorstMoviesAsCurrentView();
+        }
+        else{
+            setTopMoviesByYearAsCurrentView();
+        }
     }
 
     public void populateListWithYears(ListView listView, List<String> yearList){
@@ -137,7 +160,7 @@ public class CommunityFragment extends Fragment {
         List<String> years = new ArrayList<String>();
 
         for (int i = thisYear; i >= 1900; i--){
-            years.add(i+"");
+            years.add(String.valueOf(i));
         }
         return years;
     }

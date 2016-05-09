@@ -104,7 +104,7 @@ public class SeedData {
         interstellar.setCommunityRating(4.6);
         long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
 
-        userId = mUserDAO.saveUser(new User("olle","password"));
+        userId = mUserDAO.saveUser(new User("Olle","password"));
 
         //let the user rate a couple of movies and save those ratings:
         long ratingid1 = mRatingDAO.saveRating(new Rating(3.5,movieIdOblivion, userId));

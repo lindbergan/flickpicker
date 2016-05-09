@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity {
         mTabSpecMyMovies.setIndicator("My Collection");
         tabHost.addTab(mTabSpecMyMovies);
 
+        final TabHost.TabSpec mTabSpecSearch = tabHost.newTabSpec("Search");
+        mTabSpecSearch.setContent(R.id.tabSearch);
+        mTabSpecSearch.setIndicator("Search");
+        tabHost.addTab(mTabSpecSearch);
+
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 
             @Override
@@ -66,6 +71,10 @@ public class MainActivity extends AppCompatActivity {
                 if (tabId.equals("MyCollection")){
                     MyCollectionFragment myColletionFragment = new MyCollectionFragment();
                     loadFragment(myColletionFragment, R.id.contentWrap);
+                }
+                if (tabId.equals("Search")){
+                    SearchFragment searchFragment = new SearchFragment();
+                    loadFragment(searchFragment, R.id.contentWrap);
                 }
             }
         });

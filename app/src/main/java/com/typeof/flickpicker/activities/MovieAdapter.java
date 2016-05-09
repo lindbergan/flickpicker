@@ -32,7 +32,7 @@ public class MovieAdapter extends CustomAdapter {
 
         Movie mov = (Movie) getItem(position);
         movieName.setText(App.getMovieDAO().findMovie(mov.getId()).getTitle());
-        movieYear.setText(App.getMovieDAO().findMovie(mov.getId()).getYear()+"");
+        movieYear.setText(String.valueOf(App.getMovieDAO().findMovie(mov.getId()).getYear()));
         ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
         return customView;
     }
