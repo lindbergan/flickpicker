@@ -12,11 +12,9 @@ import com.typeof.flickpicker.core.Rating;
 
 public class RatingAdapter extends CustomAdapter {
 
-    Object[] obj;
 
     public RatingAdapter(Context context, Object[] obj) {
         super(context, obj);
-        this.obj = obj;
     }
 
     @Override
@@ -33,7 +31,7 @@ public class RatingAdapter extends CustomAdapter {
         Rating r = (Rating) getItem(position);
         username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
         moviename.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
-        movieyear.setText(App.getMovieDAO().findMovie(r.getMovieId()).getYear()+"");
+        movieyear.setText(String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()));
         ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
         return customView;
     }
