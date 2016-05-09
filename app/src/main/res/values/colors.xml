@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#759D34</color>
-    <color name="colorPrimaryDark">#2A3E08</color>
-    <color name="colorAccent">#A0CC59</color>
-    <color name="textColor">#FFFFFFFF</color>
-    <color name="colorBackdrop">#FBFFF0</color>
+    <color name="color_primary">#759D34</color>
+    <color name="color_primary_dark">#2A3E08</color>
+    <color name="color_accent">#A0CC59</color>
+    <color name="color_text">#FFFFFFFF</color>
+    <color name="color_backdrop">#FBFFF0</color>
+
+    <color name="color_rating_button">#8D2F5D</color>
 
 
 </resources>

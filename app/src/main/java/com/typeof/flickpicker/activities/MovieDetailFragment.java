@@ -42,6 +42,12 @@ public class MovieDetailFragment extends Fragment {
 
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
 
+        movieImage = (ImageView) getView().findViewById(R.id.movieDetailImageView);
+
+        //TODO: add icons to Movies
+        movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
+
+
 
         //setting up button
         rateButton = (Button) getView().findViewById(R.id.movieDetailRateButton);

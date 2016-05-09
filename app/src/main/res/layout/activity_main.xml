@@ -15,7 +15,7 @@
         android:layout_height="64dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorPrimary"
+        android:background="@color/color_primary"
         android:id="@+id/relativeLayout">
 
         <TextView
@@ -25,7 +25,7 @@
             android:id="@+id/flickPickerText"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/textColor"/>
+            android:textColor="@color/color_text"/>
 
 
     </RelativeLayout>
@@ -54,7 +54,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/colorPrimary"></TabWidget>
+                    android:background="@color/color_primary"></TabWidget>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
