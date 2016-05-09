@@ -12,8 +12,10 @@
 
     <!-- Defining dimensions for movie detail view -->
 
-    <dimen name="movie_image_height">250dp</dimen>
-    <dimen name="movie_image_width">160dp</dimen>
-    <dimen name="movie_image_padding">15dp</dimen>
+    <dimen name="movie_detail_image_height">250dp</dimen>
+    <dimen name="movie_detail_image_width">160dp</dimen>
+    <dimen name="movie_detail_image_padding">15dp</dimen>
+
+    <dimen name="movie_detail_rate_button_padding">15dp</dimen>
 
 </resources>

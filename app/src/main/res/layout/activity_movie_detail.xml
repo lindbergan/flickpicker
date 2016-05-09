@@ -8,9 +8,9 @@
     >
 
     <FrameLayout
-        android:layout_width="@dimen/movie_image_width"
-        android:layout_height="@dimen/movie_image_height"
-        android:padding="@dimen/movie_image_padding"
+        android:layout_width="@dimen/movie_detail_image_width"
+        android:layout_height="@dimen/movie_detail_image_height"
+        android:padding="@dimen/movie_detail_image_padding"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:background="@color/colorAccent"
@@ -30,4 +30,13 @@
         android:id="@+id/textView2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rate!"
+        android:id="@+id/movieDetailRateButton"
+        android:padding="@dimen/movie_detail_rate_button_padding"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
