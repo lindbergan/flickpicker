@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,12 +8,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#7e7e7e">
+    tools:context="com.typeof.flickpicker.activities.MyCollectionActivity"
+    android:background="#7E7E7E">
 
     <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tabHost">
+        android:id="@+id/tabHostMyCollection"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,20 +36,27 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/tabTopMovies"
+                    android:id="@+id/tabMyCollection"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <ListView
+                    <SearchView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listViewTopMovies"
-                        android:layout_gravity="center_horizontal" />
+                        android:id="@+id/searchView"
+                        android:layout_gravity="center_horizontal"
+                        android:queryHint="Add a Movie to Collection"/>
+
+                    <ListView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewMyCollection"/>
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tabWorstMovies"
+                    android:id="@+id/tabMyPlaylist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -53,23 +64,10 @@
                     <ListView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listViewWorstMovies" />
+                        android:id="@+id/listViewMyPlaylist"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/tabTopMoviesYear"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/listViewTopMoviesByYear" />
-                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-
 </RelativeLayout>
-

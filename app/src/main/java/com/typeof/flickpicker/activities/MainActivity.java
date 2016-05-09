@@ -1,26 +1,22 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Button;
 import com.typeof.flickpicker.R;
-import java.lang.reflect.Type;
 
 public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
-
-    private Button mButton;
+    private Button mButtonCommunity;
+    private Button mButtonMyCollection;
 
 
     @Override
@@ -31,18 +27,9 @@ public class MainActivity extends AppCompatActivity {
         tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
         configureTabs();
-        //hookUpViews();
-
-        //setUpClickListeners();
-
-        //Start recommendationsActivity
-        //startActivity(new Intent(getApplicationContext(), recommendationsActivity.class));
     }
 
-
     public void configureTabs() {
-
-
         final TabHost.TabSpec mTabSpecRecommendations = tabHost.newTabSpec("Recommendations");
         mTabSpecRecommendations.setContent(R.id.tabRecommendations);
         mTabSpecRecommendations.setIndicator("Recommendations");
@@ -63,53 +50,28 @@ public class MainActivity extends AppCompatActivity {
         mTabSpecMyMovies.setIndicator("My Collection");
         tabHost.addTab(mTabSpecMyMovies);
 
-
-
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+
             @Override
             public void onTabChanged(String tabId) {
 
-                //if(tabId != tabHost.()){
-
-                    if(tabId == "Recommendations"){
-
-                        startActivity(new Intent(getApplicationContext(), recommendationsActivity.class));
-                    }
-                    if(tabId == "Community"){
-                        startActivity(new Intent(getApplicationContext(), CommunityActivity.class));
-                    }
-//                    if(tabId == "Friends"){
-//
-//                    startActivity(new Intent(getApplicationContext(), FriendsActivity.class));
-//                    }
-//                    if(tabId == "MyCollection"){
-//
-//                    startActivity(new Intent(getApplicationContext(), MyCollectionActivity.class));
-//                }
-                    }
-
-
-
-            //}
-        });
-    }
-
-
-    public void hookUpViews(){
-        mButton = (Button) findViewById(R.id.changeViewButton);
-        mButton.setText("ToCommunityTab");
-    }
-
-    public void setUpClickListeners(){
-        //setup listeners here
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CommunityActivity.class));
+                if(tabId.equals("Recommendations")){
+                    startActivity(new Intent(getApplicationContext(), recommendationsActivity.class));
+                }
+                if(tabId.equals("Community")){
+                    CommunityFragment communityFragment = new CommunityFragment();
+                    loadFragment(communityFragment, R.id.contentWrap);
+                }
             }
         });
     }
 
+    private void loadFragment(Fragment fragment, int containerViewId) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(containerViewId, fragment);
+        fragmentTransaction.commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

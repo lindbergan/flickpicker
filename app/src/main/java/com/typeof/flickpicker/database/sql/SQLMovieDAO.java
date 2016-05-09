@@ -4,12 +4,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -198,7 +204,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     private List<Movie> getCommunityFeedback(int max, String query){
         //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
         Cursor c = db.rawQuery(query, null);
-        Log.v("Query Movies Sorted", query);
+        //Log.v("Query Movies Sorted", query);
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
@@ -212,5 +218,67 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         }
         return sortedMovies;
     }
+
+    public List<Movie> getUsersMovieCollection(int max, long userId) {
+
+        //1)SQL: find all ratings by user (sorted by "created at") and save to a list
+        List<Rating> userRatings = getUserRatings(max,userId);
+
+        // loop through that rating list by calling findMovie() with rating.findMovie(rating.getMovieId()); and save those movies in another list
+        //return that list
+        List<Movie> usersMovieCollection = new ArrayList<Movie>();
+
+        Iterator<Rating> ratingIterator = userRatings.iterator();
+
+        while(ratingIterator.hasNext()){
+
+            long movieId = ratingIterator.next().getMovieId();
+            usersMovieCollection.add(findMovie(movieId));
+        }
+
+        return usersMovieCollection;
+
+        //Finally:
+        //create suitable method in Seed class to have the neccessary data
+        //finally - test to make sure that the method works ass supposed to.
+    }
+
+
+
+        public List<Rating> getUserRatings(int max, long userId){
+
+        //Query the database to get the neccessary ratings
+            //TODO: Does not have a createdAt at the moment - need to fix this in createRatingFromCursor, saverating() etc...
+        String sqlString = "SELECT * FROM ratings WHERE  " + RatingTable.RatingEntry.COLUMN_NAME_USERID +
+                " LIKE \'" + userId + "\' ORDER BY " + RatingTable.RatingEntry.COLUMN_NAME_CREATED_AT + " DESC LIMIT " + max;
+
+        Cursor c = db.rawQuery(sqlString, null);
+
+        List<Rating> userRatings = new ArrayList<Rating>();
+
+        c.moveToFirst();
+        try {
+            do {
+                Rating rating = createRatingFromCursor(c);
+                userRatings.add(rating);
+            } while(c.moveToNext());
+        } finally {
+            c.close();
+        }
+        return userRatings;
+    }
+
+    public Rating createRatingFromCursor(Cursor c) {
+
+        long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
+        double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
+        long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+
+        Rating createdRating = new Rating(rating,movieId,userId);
+        createdRating.setId(id);
+        return createdRating;
+    }
+
 
 }
