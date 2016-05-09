@@ -6,11 +6,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.core.Rating;
 
 
 /**
@@ -23,6 +25,7 @@ public class MovieDetailFragment extends Fragment {
     private ImageView movieImage;
     private TextView movieTitle;
     private RatingBar ratingBar;
+    private Button rateButton;
 
 
     @Override
@@ -36,11 +39,29 @@ public class MovieDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //Populate list with MovieCells
+
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
+
+
+        //setting up button
+        rateButton = (Button) getView().findViewById(R.id.movieDetailRateButton);
+
+        //creates and saves new rating when rate button is clicked
+        rateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                long userId = App.getCurrentUser().getId();
+                long movieId = 0;
+
+                double numStars = (double)ratingBar.getNumStars();
+                Rating newRating = new Rating(numStars, movieId, userId);
+
+
+            }
+        });
 
         return movieDetailView;
     }
-
 
 }
