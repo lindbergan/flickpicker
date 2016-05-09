@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
@@ -21,6 +22,8 @@ public class MovieDetailFragment extends Fragment {
 
     private ImageView movieImage;
     private TextView movieTitle;
+    private RatingBar ratingBar;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

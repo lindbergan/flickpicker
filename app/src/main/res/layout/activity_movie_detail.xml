@@ -39,4 +39,12 @@
         android:padding="@dimen/movie_detail_rate_button_padding"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar2"
+        android:layout_alignTop="@+id/movieDetailRateButton"
+        android:layout_toStartOf="@+id/movieDetailRateButton"
+        android:layout_marginEnd="27dp" />
 </RelativeLayout>
