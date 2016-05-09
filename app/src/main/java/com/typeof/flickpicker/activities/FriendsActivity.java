@@ -9,11 +9,9 @@ import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class FriendsActivity extends AppCompatActivity {
 
@@ -23,11 +21,9 @@ public class FriendsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Database db = App.getDatabase();
-        db.dropTables();
-        db.setUpTables();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
+        App.getDatabase().seedDatabase();
 
         // mFriendDAO = App.getFriendDAO();
         mFeed = (ListView) findViewById(R.id.mFeed);
@@ -37,8 +33,6 @@ public class FriendsActivity extends AppCompatActivity {
         initMFeed();
 
     }
-
-    // Insert real userId
 
     public void initMFeed() {
         ListAdapter ratingListAdapter = new RatingAdapter(this, mFriendsRecentActivity.toArray());
@@ -78,6 +72,7 @@ public class FriendsActivity extends AppCompatActivity {
 
         mFriendsRecentActivity.add(r);
         mFriendsRecentActivity.add(r2);
+
     }
 
 }
