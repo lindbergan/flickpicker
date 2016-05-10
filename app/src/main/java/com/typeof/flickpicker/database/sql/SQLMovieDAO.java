@@ -13,7 +13,9 @@ import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.RatingDAO;
+import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -208,14 +210,25 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
+        ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
+
+        executionTimeLogger.startTimer();
+        db.beginTransaction();
         try {
             do {
                 Movie movie = createMovieFromCursor(c);
                 sortedMovies.add(movie);
             } while(c.moveToNext());
+            db.setTransactionSuccessful();
         } finally {
+            db.endTransaction();
             c.close();
         }
+
+        Log.d("EXECUTION TIME", sortedMovies.size() + "");
+
+
+        executionTimeLogger.stopTimerAndLogResults();
         return sortedMovies;
     }
 
