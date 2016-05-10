@@ -10,6 +10,7 @@
     <string name="movie_detail_community_rating_label">Community rating</string>
     <string name="movie_detail_community_rating_default">2,5</string>
     <string name="movie_detail_description_default">Lorem ago in a galaxy far, far away....</string>
+    <string name="movie_detail_add_to_watchlist_button">+</string>
     <string name="movie_detail_rate_button">Rate!</string>
 
 

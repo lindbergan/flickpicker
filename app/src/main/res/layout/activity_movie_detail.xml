@@ -139,7 +139,7 @@
     //--- BOTTOM: Rate button, rate bar ---//
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/color_backdrop"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -168,6 +168,26 @@
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/movie_detail_default_margin"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_detail_add_to_watchlist_button"
+            android:id="@+id/movieDetailAddToWatchListButton"
+            android:background="@color/color_button_secondary"
+            android:textColor="@color/color_text"
+            android:layout_above="@+id/movieDetailRateButton"
+            android:textSize="25sp"
+            android:layout_alignEnd="@+id/movieDetailRateButton"
+            android:layout_alignStart="@+id/movieDetailRateButton" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add movie to watchlist"
+            android:id="@+id/textView2"
+            android:textSize="25sp"
+            android:layout_above="@+id/movieDetailRateButton"
+            android:layout_alignStart="@+id/movieDetailRatingBar" />
 
 
     </RelativeLayout>
