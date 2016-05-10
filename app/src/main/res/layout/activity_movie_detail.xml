@@ -30,10 +30,11 @@
         android:text="@string/movie_detail_rate_button"
         android:id="@+id/movieDetailRateButton"
         android:background="@color/color_rating_button"
-        android:layout_marginBottom="@dimen/movie_detail_default_margin"
-        android:layout_marginEnd="@dimen/movie_detail_default_margin"
+        android:padding="5dp"
+        android:textSize="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/movie_detail_default_margin"/>
 
     <RatingBar
         android:layout_width="wrap_content"

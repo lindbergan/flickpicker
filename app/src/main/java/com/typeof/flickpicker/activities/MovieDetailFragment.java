@@ -59,20 +59,10 @@ public class MovieDetailFragment extends Fragment {
 
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
 
-        //TODO: add icons to Movies
-        movieImage = (ImageView) getView().findViewById(R.id.movieDetailImageView);
+        hookUpViews();
+        setMovieTextFields();
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
-        //setting up text views
-        movieTitle = (TextView) getView().findViewById(R.id.movieDetailTitleTextField);
-        movieGenre = (TextView) getView().findViewById(R.id.movieDetailGenreTextField);
-        friendsRating = (TextView) getView().findViewById(R.id.movieDetailFriendsRating);
-        communityRating = (TextView) getView().findViewById(R.id.movieDetailCommunityRating);
-        movieDescription = (TextView) getView().findViewById(R.id.descriptionTextField);
-        ratingBar = (RatingBar) getView().findViewById(R.id.movieDetailRatingBar);
-
-        //setting up button
-        rateButton = (Button) getView().findViewById(R.id.movieDetailRateButton);
 
         //creates and saves new rating when rate button is clicked
         rateButton.setOnClickListener(new View.OnClickListener() {
@@ -92,12 +82,35 @@ public class MovieDetailFragment extends Fragment {
             }
         });
 
-        //TEST
-        setMovieTextFields();
-
         return movieDetailView;
     }
 
+    /**
+     * method to assign variables to their different combonents in the layout.
+     */
+    public void hookUpViews(){
+
+        //TODO: add icons to Movies
+        //setting up image view
+        movieImage = (ImageView) getView().findViewById(R.id.movieDetailImageView);
+
+        //setting up text views
+        movieTitle = (TextView) getView().findViewById(R.id.movieDetailTitleTextField);
+        movieGenre = (TextView) getView().findViewById(R.id.movieDetailGenreTextField);
+        friendsRating = (TextView) getView().findViewById(R.id.movieDetailFriendsRating);
+        communityRating = (TextView) getView().findViewById(R.id.movieDetailCommunityRating);
+        movieDescription = (TextView) getView().findViewById(R.id.descriptionTextField);
+        ratingBar = (RatingBar) getView().findViewById(R.id.movieDetailRatingBar);
+
+        //setting up button
+        rateButton = (Button) getView().findViewById(R.id.movieDetailRateButton);
+
+
+    }
+
+    /**
+     * method for adding the information about the selected movie to the correct text views
+     */
     public void setMovieTextFields(){
 
         //TODO: how to get information (the movie object) from pressed movie cell (set/getArgument?)
