@@ -253,5 +253,22 @@ public class MovieDAOTest extends AndroidTestCase {
 
     }
 
-    //TODO: Need to create testMethod testGetUsersMovieCollection();
+    public void testGetUsersMovieCollection() {
+
+        //create a user and three movies which that user rates. Then confirm that the size of that list == 3.
+
+        long userId = mUserDAO.saveUser(new User("Laban", "admin"));
+        long firstMovieId = mMovieDAO.saveMovie(new Movie("Frost", 2013));
+        long secondMovieId = mMovieDAO.saveMovie(new Movie("12 Years a Slave", 2013));
+        long thirdMovieId = mMovieDAO.saveMovie(new Movie("Gravity", 2013));
+
+        mRatingDAO.saveRating(new Rating(3.7,firstMovieId,userId));
+        mRatingDAO.saveRating(new Rating(4.2, secondMovieId,userId));
+        mRatingDAO.saveRating(new Rating(3.4, thirdMovieId,userId));
+
+        int desireSizeOfList = 4;
+        List<Movie> usersMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, userId);
+        assertEquals(3, usersMovieCollection.size());
+
+    }
 }
