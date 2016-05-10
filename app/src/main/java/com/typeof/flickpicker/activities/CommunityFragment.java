@@ -1,8 +1,12 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.Activity;
+import android.app.Application;
 import android.app.Fragment;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +20,10 @@ import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +40,19 @@ public class CommunityFragment extends Fragment {
     private int thisYear = 2016; //TODO: need to be changed into a dynamic fetch -> Date.getYear() or something similar
     private boolean isYearListCurrent;
     SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
-
+    //--------------------------------
+    private SQLiteDatabase db;
+    //--------------------------------
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMovieDAO = App.getMovieDAO();
+
+        //--------------------------------
+        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
+        db = dbhelper.getWritableDatabase();
+        //--------------------------------
 
         //reboot the database
         App.getDatabase().dropTables();
@@ -149,9 +163,23 @@ public class CommunityFragment extends Fragment {
 
     public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
 
+        //--------------------------------
+        ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
+        executionTimeLogger.startTimer();
+        db.beginTransaction();
+        db.setTransactionSuccessful();
+        //--------------------------------
+
         //Code for populating elements in the listView;
         ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
+
+        //--------------------------------
+        db.endTransaction();
+        Log.d("EXECUTION TIME FOR LW:", listOfViewCellsWeGotFromHelpClass.size() + "");
+        executionTimeLogger.stopTimerAndLogResults();
+        //--------------------------------
+
     }
 
     public List<String> generateYearList(){

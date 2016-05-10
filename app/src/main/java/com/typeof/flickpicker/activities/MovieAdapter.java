@@ -1,20 +1,13 @@
 package com.typeof.flickpicker.activities;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Rating;
-
-import java.util.zip.Inflater;
-
 
 public class MovieAdapter extends CustomAdapter {
 

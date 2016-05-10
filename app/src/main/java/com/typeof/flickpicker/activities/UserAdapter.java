@@ -4,11 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.typeof.flickpicker.R;
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 
 /**
@@ -16,27 +13,38 @@ import com.typeof.flickpicker.core.User;
  * Group 22
  * Created on 2016-05-10.
  */
-public class UserAdapter extends CustomAdapter {
 
-    Object[] obj;
+public class UserAdapter extends CustomAdapter {
 
     public UserAdapter(Context context, Object[] obj) {
         super(context, obj);
-        this.obj = obj;
+    }
+
+    private static class ViewHolder {
+        TextView userName;
+        TextView userScore;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View customView = inflater.inflate(R.layout.custom_row_search_users, parent, false);
-
-        TextView userName = (TextView) customView.findViewById(R.id.username_textview);
-        TextView userScore = (TextView) customView.findViewById(R.id.userScore_textview);
-
         User user = (User) getItem(position);
-        userName.setText(user.getUsername());
-        userScore.setText(String.valueOf(user.getScore()) + "(icon/idiom)");
-        return customView;
+        ViewHolder viewHolder;
+
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            LayoutInflater inflator = LayoutInflater.from(getContext());
+            convertView = inflator.inflate(R.layout.custom_row_search_users, parent, false);
+            viewHolder.userName = (TextView) convertView.findViewById(R.id.username_textview);
+            viewHolder.userScore = (TextView) convertView.findViewById(R.id.userScore_textview);
+            convertView.setTag(viewHolder);
+        }
+        else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        viewHolder.userName.setText(user.getUsername());
+        viewHolder.userScore.setText(String.valueOf(user.getScore()) + "(icon/idiom)");
+        return convertView;
     }
 }
