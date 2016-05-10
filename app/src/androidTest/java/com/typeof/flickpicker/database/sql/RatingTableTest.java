@@ -21,7 +21,7 @@ public class RatingTableTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(getContext());
+        SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(getContext());
         db = mDbHelper.getWritableDatabase();
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());

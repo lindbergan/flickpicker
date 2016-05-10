@@ -23,7 +23,7 @@ public abstract class SQLDAO {
     private SQLiteDatabase db;
 
     public SQLDAO(Context ctx) {
-        SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
+        SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = mDbHelper.getWritableDatabase();
     }
 

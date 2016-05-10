@@ -29,7 +29,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
     public SQLFriendDAO(Context ctx) {
         super(ctx);
         sql = new SQLUserDAO(ctx);
-        SQLiteDatabaseHelper dbhelper = new SQLiteDatabaseHelper(ctx);
+        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = dbhelper.getWritableDatabase();
         mRatingDAO = new SQLRatingDAO(ctx);
     }

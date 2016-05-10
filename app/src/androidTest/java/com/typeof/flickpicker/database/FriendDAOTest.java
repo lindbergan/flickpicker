@@ -27,12 +27,14 @@ public class FriendDAOTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        mDatabase = App.getDatabase();
+        mDatabase.setUpTables();
+
         mFriendDAO = App.getFriendDAO();
         mUserDAO = App.getUserDAO();
         mMovieDAO = App.getMovieDAO();
         mRatingDAO = App.getRatingDAO();
-        mDatabase = App.getDatabase();
-        mDatabase.setUpTables();
+
     }
 
     @Override
