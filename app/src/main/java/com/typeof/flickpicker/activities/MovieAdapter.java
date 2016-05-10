@@ -14,15 +14,17 @@ import com.typeof.flickpicker.core.Rating;
 public class MovieAdapter extends CustomAdapter {
 
     Object[] obj;
+    LayoutInflater inflater;
 
     public MovieAdapter(Context context, Object[] obj) {
         super(context, obj);
+        inflater = LayoutInflater.from(getContext());
         this.obj = obj;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
+
 
         View customView = inflater.inflate(R.layout.custom_row_community, parent, false);
 
@@ -31,8 +33,8 @@ public class MovieAdapter extends CustomAdapter {
         RatingBar ratingBar = (RatingBar) customView.findViewById(R.id.ratingBar_movieCell);
 
         Movie mov = (Movie) getItem(position);
-        movieName.setText(App.getMovieDAO().findMovie(mov.getId()).getTitle());
-        movieYear.setText(App.getMovieDAO().findMovie(mov.getId()).getYear()+"");
+        movieName.setText(mov.getTitle());
+        movieYear.setText(String.valueOf(mov.getYear()));
         ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
         return customView;
     }
