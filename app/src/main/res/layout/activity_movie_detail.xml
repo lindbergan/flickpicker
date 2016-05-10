@@ -49,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/movieDetailRatingBar"
+        android:stepSize="1"
         android:layout_alignTop="@+id/movieDetailRateButton"
         android:layout_toStartOf="@+id/movieDetailRateButton"
         android:layout_marginEnd="@dimen/movie_detail_default_margin"

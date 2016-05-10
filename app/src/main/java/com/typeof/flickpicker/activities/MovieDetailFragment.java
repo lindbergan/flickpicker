@@ -60,7 +60,7 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
+                //TODO: finnish up method..
                 //TODO: handle case where user presses button before choosing a rating
                 long userId = App.getCurrentUser().getId();
                 long movieId = 0;
