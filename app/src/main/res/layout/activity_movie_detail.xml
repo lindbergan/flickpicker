@@ -32,6 +32,7 @@
         android:background="@color/color_rating_button"
         android:padding="5dp"
         android:textSize="20dp"
+        android:textColor="@color/color_text"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="@dimen/movie_detail_default_margin"/>
@@ -53,7 +54,10 @@
         android:id="@+id/descriptionTextField"
         android:layout_below="@+id/frameLayout"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="@dimen/movie_detail_default_margin"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/movie_detail_default_margin"
+        android:layout_marginEnd="@dimen/movie_detail_default_margin"
+        android:layout_above="@+id/movieDetailRatingBar" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -101,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="5,0"
-            android:id="@+id/movieDetailFriendsRating"
+            android:id="@+id/movieDetailNumOfFriendsSeen"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/movie_detail_default_margin"
@@ -139,7 +143,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Friends rating"
+            android:text="num of friends seen"
             android:id="@+id/textView6"
             android:layout_alignTop="@+id/movieDetailFriendsRating"
             android:layout_alignParentStart="true"

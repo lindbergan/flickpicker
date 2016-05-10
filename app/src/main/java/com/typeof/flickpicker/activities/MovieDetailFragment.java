@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,7 +29,7 @@ public class MovieDetailFragment extends Fragment {
     private ImageView movieImage;
     private TextView movieTitle;
     private TextView movieGenre;
-    private TextView friendsRating;
+    private TextView numOfFriendsSeen;
     private TextView communityRating;
     private RatingBar ratingBar;
     private Button rateButton;
@@ -38,11 +39,9 @@ public class MovieDetailFragment extends Fragment {
     long movieId;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         //TODO: write setArguments in CommunityFragment
         mMovieDAO = App.getMovieDAO();
@@ -63,6 +62,11 @@ public class MovieDetailFragment extends Fragment {
         setMovieTextFields();
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
+        boolean seenMovie = hasUserRatedMovie();
+
+        if(seenMovie){
+            int rating;
+        }
 
         //creates and saves new rating when rate button is clicked
         rateButton.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +81,6 @@ public class MovieDetailFragment extends Fragment {
                 double numStars = (double) ratingBar.getNumStars();
                 Rating newRating = new Rating(numStars, movieId, userId);
                 ratingDAO.saveRating(newRating);
-
 
             }
         });
@@ -97,7 +100,7 @@ public class MovieDetailFragment extends Fragment {
         //setting up text views
         movieTitle = (TextView) getView().findViewById(R.id.movieDetailTitleTextField);
         movieGenre = (TextView) getView().findViewById(R.id.movieDetailGenreTextField);
-        friendsRating = (TextView) getView().findViewById(R.id.movieDetailFriendsRating);
+        numOfFriendsSeen = (TextView) getView().findViewById(R.id.movieDetailNumOfFriendsSeen);
         communityRating = (TextView) getView().findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) getView().findViewById(R.id.descriptionTextField);
         ratingBar = (RatingBar) getView().findViewById(R.id.movieDetailRatingBar);
@@ -105,25 +108,39 @@ public class MovieDetailFragment extends Fragment {
         //setting up button
         rateButton = (Button) getView().findViewById(R.id.movieDetailRateButton);
 
-
     }
 
     /**
      * method for adding the information about the selected movie to the correct text views
      */
+    @SuppressLint("SetTextI18n")
     public void setMovieTextFields(){
 
         //TODO: how to get information (the movie object) from pressed movie cell (set/getArgument?)
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
-        movieGenre.setText(movie.getGenre());
-        //TODO: get friends rating for movie
-        friendsRating.setText("2,5");
+        movieGenre.setText("Genre:    " + movie.getGenre());
+
+        //TODO: improve exception handling?
+        try {
+            numOfFriendsSeen.setText("" + mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId()));
+        }catch(NullPointerException e){
+            numOfFriendsSeen.setText("n/a");
+        }
+
         communityRating.setText("" + movie.getCommunityRating());
+
+        //TODO: handle descriptions with amount of text that does not fit text view?
         movieDescription.setText(movie.getDescription());
 
+    }
+
+    public boolean hasUserRatedMovie(){
+
+        //TODO: best way to decide if user have seen movie?
 
 
+        return false;
     }
 
 
