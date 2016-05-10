@@ -26,7 +26,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
     public SQLPlaylistDAO(Context ctx) {
         super(ctx);
-        SQLiteDatabaseHelper databaseHelper = new SQLiteDatabaseHelper(ctx);
+        SQLiteDatabaseHelper databaseHelper = SQLiteDatabaseHelper.getInstance(ctx);
         this.db = databaseHelper.getReadableDatabase();
     }
 
