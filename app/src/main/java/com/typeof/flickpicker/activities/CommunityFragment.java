@@ -1,6 +1,8 @@
 package com.typeof.flickpicker.activities;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,6 +47,10 @@ public class CommunityFragment extends Fragment {
     private boolean isYearListCurrent;
 
 
+    //TESTING
+    private FragmentManager fragmentManager = getFragmentManager();
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +78,13 @@ public class CommunityFragment extends Fragment {
         return communityView;
     }
 
-    public void hookUpViews(View view){
+    public void hookUpViews(View view) {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
         listViewWorstMovies = (ListView) view.findViewById(R.id.listViewWorstMovies);
         listViewTopMoviesByYear = (ListView) view.findViewById(R.id.listViewTopMoviesByYear);
     }
 
-    public void configureTabs(View view){
+    public void configureTabs(View view) {
 
         mTabHost = (TabHost) view.findViewById(R.id.tabHost);
         mTabHost.setup();
@@ -102,26 +108,24 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId == mTabSpecTopMovies.getTag()){
+                if (tabId == mTabSpecTopMovies.getTag()) {
 
-                    List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
+                    List<Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
                     populateListView(listViewTopMovies, topMoviesAllTime);
-                }
-                else if(tabId == mTabSpecWorstMovies.getTag()){
+                } else if (tabId == mTabSpecWorstMovies.getTag()) {
 
                     List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
                     populateListView(listViewWorstMovies, worstMoviesAllTime);
 
-                }
-                else{
+                } else {
                     List<String> yearList = generateYearList();
-                    populateListWithYears(listViewTopMoviesByYear,yearList);
+                    populateListWithYears(listViewTopMoviesByYear, yearList);
                 }
             }
         });
     }
 
-    public void populateListWithYears(ListView listView, List<String> yearList){
+    public void populateListWithYears(ListView listView, List<String> yearList) {
 
         if (this.getActivity() != null) {
             isYearListCurrent = true;
@@ -131,24 +135,24 @@ public class CommunityFragment extends Fragment {
         }
     }
 
-    public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
+    public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass) {
 
         //Code for populating elements in the listView;
-        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
     }
 
-    public List<String> generateYearList(){
+    public List<String> generateYearList() {
 
         List<String> years = new ArrayList<String>();
 
-        for (int i = thisYear; i >= 1900; i--){
-            years.add(i+"");
+        for (int i = thisYear; i >= 1900; i--) {
+            years.add(i + "");
         }
         return years;
     }
 
-    public void setUpListeners(){
+    public void setUpListeners() {
 
         listViewTopMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -169,20 +173,19 @@ public class CommunityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //Determine if yearList or MovieList of that year is currently displayed
-                if (isYearListCurrent){
+                if (isYearListCurrent) {
 
                     //TODO: need to find the input year from user
 
                     int chosenYear = 2014;
 
                     //get the MovieList for the year in question
-                    List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList,chosenYear);
+                    List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
 
                     //poulate the list and set isYearListCurrent to false
-                    populateListView(listViewTopMoviesByYear,topMoviesByYear);
+                    populateListView(listViewTopMoviesByYear, topMoviesByYear);
                     isYearListCurrent = false;
-                }
-                else{
+                } else {
                     //in that case - we are presently at the specific year movie list:
                     //TODO: detalied view of the movie
                     //TODO: Thnk about how the user should "go back" to the "year" screen
@@ -190,7 +193,6 @@ public class CommunityFragment extends Fragment {
             }
         });
     }
-
 }
 
 

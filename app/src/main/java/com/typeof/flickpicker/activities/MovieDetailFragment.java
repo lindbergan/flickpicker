@@ -12,7 +12,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.database.MovieDAO;
 
 
 /**
@@ -28,11 +30,21 @@ public class MovieDetailFragment extends Fragment {
     private Button rateButton;
     private TextView movieDescription;
 
+    MovieDAO mMovieDAO;
+    private long movieId;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        //TEST
+        mMovieDAO = App.getMovieDAO();
+        Bundle bundle = getArguments();
+        long id = bundle.getLong("movieId");
+        movieId = id;
 
     }
 
@@ -71,13 +83,18 @@ public class MovieDetailFragment extends Fragment {
             }
         });
 
+
+        //TEST
+        setMovieTextFields();
+
         return movieDetailView;
     }
 
     public void setMovieTextFields(){
 
         //TODO how to get information (the movie object) from pressed movie cell
-        //movieTitle.setText(movie.getTitle());
+        Movie movie = mMovieDAO.findMovie(movieId);
+        movieTitle.setText(movie.getTitle());
 
     }
 
