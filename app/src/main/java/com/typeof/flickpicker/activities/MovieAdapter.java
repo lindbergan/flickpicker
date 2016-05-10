@@ -31,9 +31,9 @@ public class MovieAdapter extends CustomAdapter {
         RatingBar ratingBar = (RatingBar) customView.findViewById(R.id.ratingBar_movieCell);
 
         Movie mov = (Movie) getItem(position);
-        movieName.setText(App.getMovieDAO().findMovie(mov.getId()).getTitle());
-        movieYear.setText(String.valueOf(App.getMovieDAO().findMovie(mov.getId()).getYear()));
+        movieName.setText(mov.getTitle());
+        movieYear.setText(String.valueOf(mov.getYear()));
         ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
-        return customView;
+        return new CreateListCellTask().doInBackground(customView); //customView;
     }
 }

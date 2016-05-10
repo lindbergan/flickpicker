@@ -49,6 +49,7 @@ public class SearchFragment extends Fragment {
         listViewSearchFriend = (ListView) view.findViewById(R.id.listViewSearchFriend);
         mSearchViewMovie = (SearchView) view.findViewById(R.id.searchViewMovie);
         mSearchViewFriend = (SearchView) view.findViewById(R.id.searchViewFriend);
+        mSearchViewMovie.setSubmitButtonEnabled(false);
 
     }
     public void configureTabs(View view){
@@ -85,6 +86,24 @@ public class SearchFragment extends Fragment {
         mSearchViewMovie.setIconifiedByDefault(false);
         mSearchViewFriend.setIconifiedByDefault(false);
        // mSearchViewMovie.setOnSearchClickListener(View.OnClickListener listener)
+
+        //String str = String.valueOf(mSearchViewMovie.getQuery());
+        //System.out.println(str);
+
+        mSearchViewMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                System.out.println(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                System.out.println(s);
+                return true;
+            }
+        });
+
 
 
     }
