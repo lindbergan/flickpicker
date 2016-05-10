@@ -33,27 +33,27 @@ public class MainActivity extends AppCompatActivity {
     public void configureTabs() {
         final TabHost.TabSpec mTabSpecRecommendations = tabHost.newTabSpec("Recommendations");
         mTabSpecRecommendations.setContent(R.id.tabRecommendations);
-        mTabSpecRecommendations.setIndicator("Recommendations");
+        mTabSpecRecommendations.setIndicator("R");
         tabHost.addTab(mTabSpecRecommendations);
 
         final TabHost.TabSpec mTabSpecCommunity = tabHost.newTabSpec("Community");
         mTabSpecCommunity.setContent(R.id.tabCommunity);
-        mTabSpecCommunity.setIndicator("Community");
+        mTabSpecCommunity.setIndicator("C");
         tabHost.addTab(mTabSpecCommunity);
 
         final TabHost.TabSpec mTabSpecFriendsActivities = tabHost.newTabSpec("Friends");
         mTabSpecFriendsActivities.setContent(R.id.tabFriendsActivities);
-        mTabSpecFriendsActivities.setIndicator("Friends' activities");
+        mTabSpecFriendsActivities.setIndicator("F");
         tabHost.addTab(mTabSpecFriendsActivities);
 
         final TabHost.TabSpec mTabSpecMyMovies = tabHost.newTabSpec("MyCollection");
         mTabSpecMyMovies.setContent(R.id.tabMyMovies);
-        mTabSpecMyMovies.setIndicator("My Collection");
+        mTabSpecMyMovies.setIndicator("M");
         tabHost.addTab(mTabSpecMyMovies);
 
         final TabHost.TabSpec mTabSpecSearch = tabHost.newTabSpec("Search");
         mTabSpecSearch.setContent(R.id.tabSearch);
-        mTabSpecSearch.setIndicator("Search");
+        mTabSpecSearch.setIndicator("S");
         tabHost.addTab(mTabSpecSearch);
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {

@@ -8,11 +8,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.sql.MovieTable;
+import com.typeof.flickpicker.database.sql.UserTable;
+
+import java.util.List;
 
 public class SearchFragment extends Fragment {
 
@@ -31,7 +39,7 @@ public class SearchFragment extends Fragment {
         App.getDatabase().setUpTables();
 
         //Feed the database with dummy Data
-        SeedData.seedCommunityData();
+        SeedData.seedSearchData();
     }
 
     @Nullable
@@ -83,29 +91,71 @@ public class SearchFragment extends Fragment {
 
     public void setUpListeners(){
 
+        //these two line should be implemented in the XML-file, not the actual code:
         mSearchViewMovie.setIconifiedByDefault(false);
         mSearchViewFriend.setIconifiedByDefault(false);
-       // mSearchViewMovie.setOnSearchClickListener(View.OnClickListener listener)
-
-        //String str = String.valueOf(mSearchViewMovie.getQuery());
-        //System.out.println(str);
 
         mSearchViewMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                System.out.println(s);
+                List<Movie> matches = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, s);
+
+                if(matches.size() != 0){
+                    populateMovieListView(listViewSearchMovies, matches);
+                }
+                else{
+                    Toast message = Toast.makeText(getActivity(), "No such movie in database", Toast.LENGTH_SHORT);
+                    message.show();
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                System.out.println(s);
+                List<Movie> matches = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, s);
+                populateMovieListView(listViewSearchMovies, matches);
                 return true;
             }
         });
 
 
+        mSearchViewFriend.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                List<User> matches = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, s);
 
+                if(matches.size() != 0){
+                    populateUserListView(listViewSearchFriend, matches);
+                }
+                else{
+                    Toast message = Toast.makeText(getActivity(), "No such user in database", Toast.LENGTH_SHORT);
+                    message.show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                List<User> matches = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, s);
+                populateUserListView(listViewSearchFriend, matches);
+                return true;
+            }
+        });
+
+    }
+
+    public void populateMovieListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
+
+        //Code for populating elements in the listView;
+
+        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        listView.setAdapter(adapter);
+    }
+
+    public void populateUserListView(ListView listView, List<User> listOfViewCellsWeGotFromHelpClass){
+
+        ListAdapter adapter = new UserAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        listView.setAdapter(adapter);
     }
 
 }
