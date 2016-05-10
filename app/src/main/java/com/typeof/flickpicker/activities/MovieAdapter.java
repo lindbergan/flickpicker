@@ -15,6 +15,7 @@ import com.typeof.flickpicker.core.Rating;
 
 import java.util.zip.Inflater;
 
+
 public class MovieAdapter extends CustomAdapter {
 
     public MovieAdapter(Context context, Object[] obj) {
@@ -22,12 +23,11 @@ public class MovieAdapter extends CustomAdapter {
     }
 
     private static class ViewHolder {
-
         TextView movieName;
         TextView movieYear;
         RatingBar ratingBar;
-
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -52,5 +52,4 @@ public class MovieAdapter extends CustomAdapter {
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
         return convertView;
     }
-
 }

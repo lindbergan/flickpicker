@@ -47,9 +47,6 @@ public class App extends Application {
         super.onTerminate();
         Database db = getDatabase();
         db.dropTables();
-        mCurrentUser = new User("pelle", "password");
-        mCurrentUser.setScore(0);
-        getUserDAO().saveUser(mCurrentUser);
     }
 
     public static User getCurrentUser() {return mCurrentUser;}
