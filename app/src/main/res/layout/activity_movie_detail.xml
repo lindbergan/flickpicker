@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
-    android:background="@color/color_backdrop"
-    >
+    android:background="@color/color_backdrop">
 
+
+
+    //--- UPPER LEFT: Movie image ---//
     <FrameLayout
         android:layout_width="@dimen/movie_detail_image_width"
         android:layout_height="@dimen/movie_detail_image_height"
@@ -24,41 +26,9 @@
             android:layout_gravity="center" />
     </FrameLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/movie_detail_rate_button"
-        android:id="@+id/movieDetailRateButton"
-        android:background="@color/color_rating_button"
-        android:padding="5dp"
-        android:textSize="20dp"
-        android:textColor="@color/color_text"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/movie_detail_default_margin"/>
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/movieDetailRatingBar"
-        android:stepSize="1"
-        android:layout_alignTop="@+id/movieDetailRateButton"
-        android:layout_toStartOf="@+id/movieDetailRateButton"
-        android:layout_marginEnd="@dimen/movie_detail_default_margin"
-        android:layout_marginStart="@dimen/movie_detail_default_margin"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Movie description/plot goes here..."
-        android:id="@+id/descriptionTextField"
-        android:layout_below="@+id/frameLayout"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="@dimen/movie_detail_default_margin"
-        android:layout_marginEnd="@dimen/movie_detail_default_margin"
-        android:layout_above="@+id/movieDetailRatingBar" />
-
+    //--- UPPER RIGHT: Title, genre, numOfFriendsSeen, community rating ---//
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -149,5 +119,54 @@
             android:layout_alignParentStart="true"
             android:textSize="15dp"
             android:textIsSelectable="false" />
+    </RelativeLayout>
+
+
+
+    //--- CENTER: Movie plot/description ---//
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Movie description/plot goes here..."
+        android:id="@+id/descriptionTextField"
+        android:layout_below="@+id/frameLayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/movie_detail_default_margin"
+        android:layout_marginEnd="@dimen/movie_detail_default_margin" />
+
+
+    
+    //--- BOTTOM: Rate button, rate bar ---//
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_backdrop"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/descriptionTextField">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_detail_rate_button"
+            android:id="@+id/movieDetailRateButton"
+            android:background="@color/color_rating_button"
+            android:padding="5dp"
+            android:textSize="20dp"
+            android:textColor="@color/color_text"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/movie_detail_default_margin"/>
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movieDetailRatingBar"
+            android:stepSize="1"
+            android:layout_alignTop="@+id/movieDetailRateButton"
+            android:layout_toStartOf="@+id/movieDetailRateButton"
+            android:layout_marginEnd="@dimen/movie_detail_default_margin"
+            android:layout_marginStart="@dimen/movie_detail_default_margin"/>
     </RelativeLayout>
 </RelativeLayout>
