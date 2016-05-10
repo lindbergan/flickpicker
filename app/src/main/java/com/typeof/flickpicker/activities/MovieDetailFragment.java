@@ -43,11 +43,11 @@ public class MovieDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //should this code be in onCreateView?
         //TODO: write setArguments in CommunityFragment
         mMovieDAO = App.getMovieDAO();
         Bundle bundle = getArguments();
-        long id = bundle.getLong("movieId");
-        movieId = id;
+        movieId = bundle.getLong("movieId");
 
     }
 
@@ -116,7 +116,6 @@ public class MovieDetailFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     public void setMovieTextFields(){
 
-        //TODO: how to get information (the movie object) from pressed movie cell (set/getArgument?)
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
         movieGenre.setText("Genre:    " + movie.getGenre());
