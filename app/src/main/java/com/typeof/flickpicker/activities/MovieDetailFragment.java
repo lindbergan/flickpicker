@@ -40,7 +40,7 @@ public class MovieDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
 
-        //TEST
+        //TODO: write setArguments in CommunityFragment
         mMovieDAO = App.getMovieDAO();
         Bundle bundle = getArguments();
         long id = bundle.getLong("movieId");
@@ -92,7 +92,7 @@ public class MovieDetailFragment extends Fragment {
 
     public void setMovieTextFields(){
 
-        //TODO how to get information (the movie object) from pressed movie cell
+        //TODO how to get information (the movie object) from pressed movie cell (set/getArgument?)
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
 
