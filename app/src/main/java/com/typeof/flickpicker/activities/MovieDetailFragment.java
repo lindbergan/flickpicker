@@ -15,6 +15,7 @@ import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.RatingDAO;
 
 
 /**
@@ -26,12 +27,15 @@ public class MovieDetailFragment extends Fragment {
 
     private ImageView movieImage;
     private TextView movieTitle;
+    private TextView movieGenre;
+    private TextView friendsRating;
+    private TextView communityRating;
     private RatingBar ratingBar;
     private Button rateButton;
     private TextView movieDescription;
 
     MovieDAO mMovieDAO;
-    private long movieId;
+    long movieId;
 
 
 
@@ -61,6 +65,9 @@ public class MovieDetailFragment extends Fragment {
 
         //setting up text views
         movieTitle = (TextView) getView().findViewById(R.id.movieDetailTitleTextField);
+        movieGenre = (TextView) getView().findViewById(R.id.movieDetailGenreTextField);
+        friendsRating = (TextView) getView().findViewById(R.id.movieDetailFriendsRating);
+        communityRating = (TextView) getView().findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) getView().findViewById(R.id.descriptionTextField);
         ratingBar = (RatingBar) getView().findViewById(R.id.movieDetailRatingBar);
 
@@ -72,17 +79,18 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                RatingDAO ratingDAO = App.getRatingDAO();
                 //TODO: finnish up method..
                 //TODO: handle case where user presses button before choosing a rating
                 long userId = App.getCurrentUser().getId();
-                long movieId = 0;
 
                 double numStars = (double) ratingBar.getNumStars();
                 Rating newRating = new Rating(numStars, movieId, userId);
+                ratingDAO.saveRating(newRating);
+
 
             }
         });
-
 
         //TEST
         setMovieTextFields();
@@ -92,9 +100,16 @@ public class MovieDetailFragment extends Fragment {
 
     public void setMovieTextFields(){
 
-        //TODO how to get information (the movie object) from pressed movie cell (set/getArgument?)
+        //TODO: how to get information (the movie object) from pressed movie cell (set/getArgument?)
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
+        movieGenre.setText(movie.getGenre());
+        //TODO: get friends rating for movie
+        friendsRating.setText("2,5");
+        communityRating.setText("" + movie.getCommunityRating());
+        movieDescription.setText(movie.getDescription());
+
+
 
     }
 
