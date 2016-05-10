@@ -19,7 +19,7 @@ public class SQLDatabase implements Database {
     private Context ctx;
 
     public SQLDatabase(Context ctx) {
-        SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(ctx);
+        SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         this.db = mDbHelper.getWritableDatabase();
         this.ctx = ctx;
     }

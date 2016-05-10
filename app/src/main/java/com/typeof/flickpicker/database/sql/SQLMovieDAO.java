@@ -29,7 +29,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
     public SQLMovieDAO(Context ctx) {
         super(ctx);
-        SQLiteDatabaseHelper dbhelper = new SQLiteDatabaseHelper(ctx);
+        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = dbhelper.getWritableDatabase();
     }
 

@@ -16,7 +16,7 @@ import com.typeof.flickpicker.database.sql.UserTable;
 public class UserTableTest extends AndroidTestCase {
 
     public void testTableCreation() {
-        SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(getContext());
+        SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'movies'", null);
@@ -26,7 +26,7 @@ public class UserTableTest extends AndroidTestCase {
 
     public void testRecordInsertion() {
 
-        SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(getContext());
+        SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         db.execSQL(UserTable.UserEntry.getSQLDropTableQuery());
@@ -49,7 +49,7 @@ public class UserTableTest extends AndroidTestCase {
     }
 
     public void testTableDeletion() {
-        SQLiteDatabaseHelper mDbHelper = new SQLiteDatabaseHelper(getContext());
+        SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
 
