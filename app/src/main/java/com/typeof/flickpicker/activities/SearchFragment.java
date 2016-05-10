@@ -1,9 +1,7 @@
 package com.typeof.flickpicker.activities;
 
 import android.app.Fragment;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,7 +55,6 @@ public class SearchFragment extends Fragment {
         listViewSearchFriend = (ListView) view.findViewById(R.id.listViewSearchFriend);
         mSearchViewMovie = (SearchView) view.findViewById(R.id.searchViewMovie);
         mSearchViewFriend = (SearchView) view.findViewById(R.id.searchViewFriend);
-        mSearchViewMovie.setSubmitButtonEnabled(false);
 
     }
     public void configureTabs(View view){

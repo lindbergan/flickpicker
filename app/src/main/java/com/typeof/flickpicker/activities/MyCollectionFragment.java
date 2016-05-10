@@ -26,7 +26,13 @@ import java.util.List;
  * Created on 2016-05-05.
  */
 
-//TODO: different cellCalls (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
+    //TODO: Fix the nameingConvention for the XML-files
+    //TODO: Fix the databse loadtime latency
+    //TODO: Fix a good solution on how to track which tab user was previously at when returning from another "outer tab" (avoid SingletonPattern)
+    //TODO: Replace notes with real JavaDoc
+    //TODO: different cellCalls (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
+    //TODO: Thnk about how the user should "go back" to the "year" screen [CommunityTab - TopMoviesByYear]
+
 
 public class MyCollectionFragment extends Fragment {
 
@@ -135,6 +141,8 @@ public class MyCollectionFragment extends Fragment {
         //Code for populating elements in the listView;
         ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
+
+        //TODO: Different cells for different tab
     }
 
 }

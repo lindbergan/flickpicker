@@ -1,7 +1,6 @@
 package com.typeof.flickpicker.activities;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +12,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
@@ -25,16 +23,14 @@ import java.util.List;
 
 public class CommunityFragment extends Fragment {
 
-    //TODO: need to track which tab user previously was at (thus: currentTab)
-
     //Instance variables
-    private int desiredSizeOfList = 6;
+    private int desiredSizeOfList = 10;
     MovieDAO mMovieDAO;
     TabHost mTabHost;
     private ListView listViewTopMovies;
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
-    private int thisYear = 2016; //NOTE: need to be changed into a dynamic fetch -> Date.getYear() or something similar
+    private int thisYear = 2016; //TODO: need to be changed into a dynamic fetch -> Date.getYear() or something similar
     private boolean isYearListCurrent;
     SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
 
@@ -213,7 +209,6 @@ public class CommunityFragment extends Fragment {
                 else{
                     //in that case - we are presently at the specific year movie list:
                     //TODO: detalied view of the movie
-                    //TODO: Thnk about how the user should "go back" to the "year" screen
                 }
             }
         });
