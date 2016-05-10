@@ -208,13 +208,16 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
-        try {
-            do {
-                Movie movie = createMovieFromCursor(c);
-                sortedMovies.add(movie);
-            } while(c.moveToNext());
-        } finally {
-            c.close();
+        if(c.getCount() != 0) {
+
+            try {
+                do {
+                    Movie movie = createMovieFromCursor(c);
+                    sortedMovies.add(movie);
+                } while (c.moveToNext());
+            } finally {
+                c.close();
+            }
         }
         return sortedMovies;
     }

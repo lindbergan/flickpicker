@@ -5,7 +5,7 @@ public class SingletonViewTracker {
     private static SingletonViewTracker instance = new SingletonViewTracker();
 
     private SingletonViewTracker(){}
-    private String currentCommunityTab;
+    private String currentCommunityTab = "topMovies";
 
     public static SingletonViewTracker getInstance(){
         return instance;

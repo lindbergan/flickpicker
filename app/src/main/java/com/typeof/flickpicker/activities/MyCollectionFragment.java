@@ -26,6 +26,8 @@ import java.util.List;
  * Created on 2016-05-05.
  */
 
+//TODO: different cellCalls (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
+
 public class MyCollectionFragment extends Fragment {
 
     private TabHost mTabHostMyCollection;

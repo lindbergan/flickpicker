@@ -1,6 +1,7 @@
 package com.typeof.flickpicker.activities;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,8 @@ public class MovieAdapter extends CustomAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
 
+        LayoutInflater inflater = LayoutInflater.from(getContext());
         View customView = inflater.inflate(R.layout.custom_row_community, parent, false);
 
         TextView movieName = (TextView) customView.findViewById(R.id.moviename_textview_movieCell);
@@ -34,6 +35,36 @@ public class MovieAdapter extends CustomAdapter {
         movieName.setText(mov.getTitle());
         movieYear.setText(String.valueOf(mov.getYear()));
         ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
-        return new CreateListCellTask().doInBackground(customView); //customView;
+        return customView;
     }
+
+    /*
+    private class CreateListCellTask extends AsyncTask<Integer, Void, View> {
+        protected void onPreExecute() {
+            // Runs on the UI thread before doInBackground
+            // Good for toggling visibility of a progress indicator
+            //progressBar.setVisibility(ProgressBar.VISIBLE);
+        }
+
+        protected View doInBackground(Integer... ints) {
+            // Some long-running task like downloading an image.
+            Bitmap = downloadImageFromUrl(ints[0]);
+            return someBitmap;
+        }
+
+        protected void onProgressUpdate(Progress... values) {
+            // Executes whenever publishProgress is called from doInBackground
+            // Used to update the progress indicator
+            progressBar.setProgress(values[0]);
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            // This method is executed in the UIThread
+            // with access to the result of the long running task
+            imageView.setImageBitmap(result);
+            // Hide the progress bar
+            progressBar.setVisibility(ProgressBar.INVISIBLE);
+        }
+    }
+    */
 }

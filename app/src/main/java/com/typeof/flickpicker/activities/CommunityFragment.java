@@ -1,6 +1,7 @@
 package com.typeof.flickpicker.activities;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
@@ -22,10 +25,7 @@ import java.util.List;
 
 public class CommunityFragment extends Fragment {
 
-    //TODO: find out how to create a toggle at the bottom for the whole app
-    //TODO: find out how to create and teardown database after session ("dummyData") (sloved by Sebert?)
     //TODO: need to track which tab user previously was at (thus: currentTab)
-    //TODO: create new cell: MovieCell (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
 
     //Instance variables
     private int desiredSizeOfList = 6;
@@ -141,10 +141,13 @@ public class CommunityFragment extends Fragment {
     public void populateListWithYears(ListView listView, List<String> yearList){
 
         if (this.getActivity() != null) {
-            isYearListCurrent = true;
+
             int defaultLayout = android.R.layout.simple_list_item_1; //default
             ListAdapter yearAdapter = new ArrayAdapter(getActivity(), defaultLayout, yearList);
             listView.setAdapter(yearAdapter);
+
+            isYearListCurrent = true;
+
         }
     }
 
@@ -188,16 +191,24 @@ public class CommunityFragment extends Fragment {
                 //Determine if yearList or MovieList of that year is currently displayed
                 if (isYearListCurrent){
 
-                    //TODO: need to find the input year from user
-
-                    int chosenYear = 2014;
+                    //get users input
+                    String selectedYearAsString = (String) listViewTopMoviesByYear.getItemAtPosition(position);
+                    int chosenYear = Integer.parseInt(selectedYearAsString);
 
                     //get the MovieList for the year in question
                     List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList,chosenYear);
 
-                    //poulate the list and set isYearListCurrent to false
-                    populateListView(listViewTopMoviesByYear,topMoviesByYear);
-                    isYearListCurrent = false;
+                    if(topMoviesByYear.size() != 0) {
+                        //populate the list and set isYearListCurrent to false
+                        populateListView(listViewTopMoviesByYear, topMoviesByYear);
+                        isYearListCurrent = false;
+                    }
+                    else{
+                        //Display a message to user why no movies show up for specified year
+                        Toast message = Toast.makeText(getActivity(), "No movies in database for that year", Toast.LENGTH_SHORT);
+                        message.show();
+                    }
+
                 }
                 else{
                     //in that case - we are presently at the specific year movie list:
