@@ -38,6 +38,38 @@
         android:background="@color/color_backdrop"
         android:layout_alignParentEnd="false">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_detail_title_default"
+            android:id="@+id/movieDetailTitleTextField"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/movie_detail_default_margin"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:paddingEnd="@dimen/movie_detail_default_margin"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_detail_genre_default"
+            android:id="@+id/movieDetailGenreTextField"
+            android:layout_below="@+id/movieDetailTitleTextField"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/movie_detail_default_margin"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_detail_num_of_friends_seen_label"
+            android:id="@+id/textView6"
+            android:layout_alignTop="@+id/movieDetailNumOfFriendsSeen"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp"
+            android:textIsSelectable="false" />
+
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,37 +81,23 @@
             android:layout_toStartOf="@+id/movieDetailCommunityRating" />
 
         <TextView
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Movie title here..."
-            android:id="@+id/movieDetailTitleTextField"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/movie_detail_default_margin"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_alignParentEnd="true"
-            android:paddingEnd="@dimen/movie_detail_default_margin"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Genre goes here..."
-            android:id="@+id/movieDetailGenreTextField"
-            android:layout_below="@+id/movieDetailTitleTextField"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="@dimen/movie_detail_default_margin"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5,0"
+            android:text="@string/movie_detail_num_of_friends_seen_default"
             android:id="@+id/movieDetailNumOfFriendsSeen"
             android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/movie_detail_default_margin"
-            android:textSize="20dp" />
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_detail_community_rating_label"
+            android:id="@+id/communityRatingLabel"
+            android:layout_alignTop="@+id/movieDetailCommunityRating"
+            android:layout_alignParentStart="true"
+            android:textSize="15sp" />
 
         <RatingBar
             android:layout_width="wrap_content"
@@ -94,31 +112,13 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4,8"
+            android:text="@string/movie_detail_community_rating_default"
             android:id="@+id/movieDetailCommunityRating"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_below="@+id/movieDetailRatingIcon"
             android:layout_marginTop="@dimen/movie_detail_default_margin"
             android:layout_alignStart="@+id/movieDetailNumOfFriendsSeen" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Community rating"
-            android:id="@+id/textView5"
-            android:layout_alignTop="@+id/movieDetailCommunityRating"
-            android:layout_alignParentStart="true"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="num of friends seen"
-            android:id="@+id/textView6"
-            android:layout_alignTop="@+id/movieDetailNumOfFriendsSeen"
-            android:layout_alignParentStart="true"
-            android:textSize="15dp"
-            android:textIsSelectable="false" />
     </RelativeLayout>
 
 
@@ -127,7 +127,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Movie description/plot goes here..."
+        android:text="@string/movie_detail_description_default"
         android:id="@+id/descriptionTextField"
         android:layout_below="@+id/frameLayout"
         android:layout_alignParentStart="true"
@@ -136,7 +136,7 @@
         android:layout_marginEnd="@dimen/movie_detail_default_margin" />
 
 
-    
+
     //--- BOTTOM: Rate button, rate bar ---//
     <RelativeLayout
         android:layout_width="match_parent"
@@ -145,19 +145,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/descriptionTextField">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/movie_detail_rate_button"
-            android:id="@+id/movieDetailRateButton"
-            android:background="@color/color_rating_button"
-            android:padding="5dp"
-            android:textSize="20dp"
-            android:textColor="@color/color_text"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/movie_detail_default_margin"/>
 
         <RatingBar
             android:layout_width="wrap_content"
@@ -168,5 +155,21 @@
             android:layout_toStartOf="@+id/movieDetailRateButton"
             android:layout_marginEnd="@dimen/movie_detail_default_margin"
             android:layout_marginStart="@dimen/movie_detail_default_margin"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/movie_detail_rate_button"
+            android:id="@+id/movieDetailRateButton"
+            android:background="@color/color_rating_button"
+            android:padding="5dp"
+            android:textSize="20sp"
+            android:textColor="@color/color_text"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/movie_detail_default_margin"/>
+
+        
+
     </RelativeLayout>
 </RelativeLayout>

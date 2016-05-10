@@ -3,5 +3,14 @@
     <string name="app_name">FlickPicker</string>
     <string name="action_settings">Settings</string>
 
+    <string name="movie_detail_title_default">A great movie</string>
+    <string name="movie_detail_genre_default">Genre: n/a</string>
+    <string name="movie_detail_num_of_friends_seen_label">Number of friends</string>
+    <string name="movie_detail_num_of_friends_seen_default">0</string>
+    <string name="movie_detail_community_rating_label">Community rating</string>
+    <string name="movie_detail_community_rating_default">2,5</string>
+    <string name="movie_detail_description_default">Lorem ago in a galaxy far, far away....</string>
     <string name="movie_detail_rate_button">Rate!</string>
+
+
 </resources>
