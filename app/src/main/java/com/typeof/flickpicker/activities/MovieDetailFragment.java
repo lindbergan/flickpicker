@@ -66,17 +66,24 @@ public class MovieDetailFragment extends Fragment {
         setMovieTextFields();
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
-        boolean seenMovie = hasUserSeenMovie();
+        final boolean seenMovie = hasUserSeenMovie();
 
-            if(seenMovie){
-                int rating = (int)getUserRating();
-                ratingBar.setNumStars(rating);
-                rateButton.setBackgroundResource(R.color.color_rating_button_inactive);
-
+        ratingBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setRateButtonActive();
             }
+        });
+
+        if(seenMovie){
+            int rating = (int)getUserRating();
+            ratingBar.setNumStars(rating);
+            setRateButtonInactive();
+        }
 
 
         //creates and saves new rating when rate button is clicked
+        //if user have rated movie it does nothing
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +195,16 @@ public class MovieDetailFragment extends Fragment {
             }
         }
         return rating;
+    }
+
+    public void setRateButtonActive(){
+
+        rateButton.setBackgroundResource(R.color.color_rating_button);
+        rateButton.setClickable(true);
+    }
+    public void setRateButtonInactive(){
+        rateButton.setBackgroundResource(R.color.color_rating_button_inactive);
+        rateButton.setClickable(false);
     }
 
 

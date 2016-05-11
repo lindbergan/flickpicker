@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.FriendsActivity"/>
-        <activity android:name=".activities.MyCollectionActivity"/>
+        <activity android:name=".activities.MyCollectionFragment"/>
 
         <meta-data
             android:name="database_type"

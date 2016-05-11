@@ -59,7 +59,9 @@
             android:layout_below="@+id/movieDetailTitleTextField"
             android:layout_alignParentStart="true"
             android:layout_marginTop="@dimen/movie_detail_default_margin"
-            android:layout_marginBottom="@dimen/movie_detail_default_margin"/>
+            android:layout_marginBottom="@dimen/movie_detail_default_margin"
+            android:textSize="12sp"
+            android:textIsSelectable="true" />
 
         <TextView
             android:layout_width="wrap_content"
