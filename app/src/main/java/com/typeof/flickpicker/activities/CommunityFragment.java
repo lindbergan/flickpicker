@@ -177,7 +177,7 @@ public class CommunityFragment extends Fragment {
 
         //--------------------------------
         db.endTransaction();
-        Log.d("EXECUTION TIME FOR LW:", listOfViewCellsWeGotFromHelpClass.size() + "");
+        Log.d("EXECUTION TIME FOR LV:", listOfViewCellsWeGotFromHelpClass.size() + "");
         executionTimeLogger.stopTimerAndLogResults();
         //--------------------------------
 
