@@ -143,6 +143,8 @@ public class MovieDetailFragment extends Fragment {
         movieDescription.setText(movie.getDescription());
 
     }
+
+
     //TODO: best way to decide if user have seen movie?
     public boolean hasUserSeenMovie(){
 
@@ -159,6 +161,7 @@ public class MovieDetailFragment extends Fragment {
         }
         return hasSeen;
     }
+
 
     /**
      * method to get user's rating for specific movie
