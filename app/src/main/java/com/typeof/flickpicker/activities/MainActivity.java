@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
                     CommunityFragment communityFragment = new CommunityFragment();
                     loadFragment(communityFragment, R.id.contentWrap);
                 }
+                if(tabId.equals("Friends' activities")){
+                    FriendsFragment friendsFragment = new FriendsFragment();
+                    loadFragment(friendsFragment, R.id.contentWrap);
+                }
             }
         });
     }
