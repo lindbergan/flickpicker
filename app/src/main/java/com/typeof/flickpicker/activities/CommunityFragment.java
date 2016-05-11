@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -48,7 +49,6 @@ public class CommunityFragment extends Fragment {
 
     //TESTING
     private FragmentManager fragmentManager = getFragmentManager();
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

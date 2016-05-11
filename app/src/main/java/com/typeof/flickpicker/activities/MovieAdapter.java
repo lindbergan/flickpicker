@@ -1,6 +1,11 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +16,11 @@ import com.typeof.flickpicker.core.Movie;
 
 public class MovieAdapter extends CustomAdapter {
 
+    private Context mContext;
+
     public MovieAdapter(Context context, Object[] obj) {
         super(context, obj);
+        mContext = context;
     }
 
     private static class ViewHolder {
@@ -24,7 +32,7 @@ public class MovieAdapter extends CustomAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Movie mov = (Movie) getItem(position);
+        final Movie mov = (Movie) getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -39,6 +47,17 @@ public class MovieAdapter extends CustomAdapter {
         else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
+                Bundle args = new Bundle();
+                args.putLong("movieId", mov.getId());
+                movieDetailFragment.setArguments(args);
+                MainActivity.loadFragment(movieDetailFragment);
+            }
+        });
 
         viewHolder.movieName.setText(mov.getTitle());
         viewHolder.movieYear.setText(String.valueOf(mov.getYear()));
