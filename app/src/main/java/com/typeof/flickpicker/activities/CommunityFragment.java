@@ -3,6 +3,8 @@ package com.typeof.flickpicker.activities;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -44,6 +46,10 @@ public class CommunityFragment extends Fragment {
     private SQLiteDatabase db;
     //--------------------------------
 
+    //TESTING
+    private FragmentManager fragmentManager = getFragmentManager();
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,13 +72,13 @@ public class CommunityFragment extends Fragment {
         return communityView;
     }
 
-    public void hookUpViews(View view){
+    public void hookUpViews(View view) {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
         listViewWorstMovies = (ListView) view.findViewById(R.id.listViewWorstMovies);
         listViewTopMoviesByYear = (ListView) view.findViewById(R.id.listViewTopMoviesByYear);
     }
 
-    public void configureTabs(View view){
+    public void configureTabs(View view) {
 
         mTabHost = (TabHost) view.findViewById(R.id.tabHost);
         mTabHost.setup();
@@ -104,6 +110,7 @@ public class CommunityFragment extends Fragment {
                 }
                 else{
                     setTopMoviesByYearAsCurrentView();
+
                 }
             }
         });
@@ -143,6 +150,7 @@ public class CommunityFragment extends Fragment {
 
     public void populateListWithYears(ListView listView, List<String> yearList){
 
+
         if (this.getActivity() != null) {
 
             int defaultLayout = android.R.layout.simple_list_item_1; //default
@@ -154,7 +162,7 @@ public class CommunityFragment extends Fragment {
         }
     }
 
-    public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
+    public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass) {
 
         //--------------------------------
         ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
@@ -164,7 +172,7 @@ public class CommunityFragment extends Fragment {
         //--------------------------------
 
         //Code for populating elements in the listView;
-        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
 
         //--------------------------------
@@ -181,11 +189,12 @@ public class CommunityFragment extends Fragment {
 
         for (int i = thisYear; i >= 1900; i--){
             years.add(String.valueOf(i));
+
         }
         return years;
     }
 
-    public void setUpListeners(){
+    public void setUpListeners() {
 
         listViewTopMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -206,14 +215,20 @@ public class CommunityFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 //Determine if yearList or MovieList of that year is currently displayed
-                if (isYearListCurrent){
+                if (isYearListCurrent) {
 
                     //get users input
                     String selectedYearAsString = (String) listViewTopMoviesByYear.getItemAtPosition(position);
                     int chosenYear = Integer.parseInt(selectedYearAsString);
 
                     //get the MovieList for the year in question
-                    List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList,chosenYear);
+                    List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
+
+
+                    //poulate the list and set isYearListCurrent to false
+                    populateListView(listViewTopMoviesByYear, topMoviesByYear);
+                    isYearListCurrent = false;
+
 
                     if(topMoviesByYear.size() != 0) {
                         //populate the list and set isYearListCurrent to false
@@ -228,13 +243,13 @@ public class CommunityFragment extends Fragment {
 
                 }
                 else{
+
                     //in that case - we are presently at the specific year movie list:
                     //TODO: detalied view of the movie
                 }
             }
         });
     }
-
 }
 
 
