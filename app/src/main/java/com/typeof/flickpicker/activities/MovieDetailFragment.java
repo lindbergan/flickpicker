@@ -69,8 +69,7 @@ public class MovieDetailFragment extends Fragment {
         boolean seenMovie = hasUserSeenMovie();
 
             if(seenMovie){
-                RatingDAO ratingDAO = App.getRatingDAO();
-                List<Rating> ratings = ratingDAO.getMovieRatings(movieId);
+                getUserRating();
             }
 
 
@@ -158,6 +157,33 @@ public class MovieDetailFragment extends Fragment {
             }
         }
         return hasSeen;
+    }
+
+    /**
+     * method to get user's rating for specific movie
+     * @return rating
+     */
+    public double getUserRating(){
+
+        //save user id to compare against the movie's ratings
+        long userId = App.getCurrentUser().getId();
+
+        //creates list with movie's ratings and iterator
+        double rating = -1;
+        RatingDAO ratingDAO = App.getRatingDAO();
+        List<Rating> ratings = ratingDAO.getMovieRatings(movieId);
+        Iterator<Rating> iterator = ratings.iterator();
+
+        //iterates list to see if any of the ratings is made by the active user
+        //if so the rating is saved and the loop breaks
+        while(iterator.hasNext()){
+            Rating r = iterator.next();
+            if(r.getUserId() == userId){
+                rating = r.getRating();
+                break;
+            }
+        }
+        return rating;
     }
 
 
