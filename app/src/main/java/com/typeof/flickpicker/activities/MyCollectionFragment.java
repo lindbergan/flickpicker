@@ -46,13 +46,6 @@ public class MyCollectionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMovieDAO = App.getMovieDAO();
-
-        //reboot the database
-        App.getDatabase().dropTables();
-        App.getDatabase().setUpTables();
-
-        //Feed the database with dummy Data
-        SeedData.seedMyCollectionData();
     }
 
     @Nullable
@@ -90,13 +83,13 @@ public class MyCollectionFragment extends Fragment {
 
                 if(tabId.equals("myPlaylist")){
 
-                    List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, SeedData.getUserId());
+                    List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, App.getCurrentUser().getId());
                     populateListView(listViewMyCollection, userMovieCollection);
                 }
                 else{
 
                     //get user's playlists, loop through them and save the movies in a new array:
-                    List<Playlist> usersPlaylist = App.getPlaylistDAO().getUserPlaylists(SeedData.getUserId());
+                    List<Playlist> usersPlaylist = App.getPlaylistDAO().getUserPlaylists(App.getCurrentUser().getId());
 
                     List<Movie> usersPlaylistMovies = new ArrayList<Movie>();
                     Iterator<Playlist> playlistIterator = usersPlaylist.iterator();

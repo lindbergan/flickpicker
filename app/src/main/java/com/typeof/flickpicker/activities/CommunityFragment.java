@@ -59,13 +59,6 @@ public class CommunityFragment extends Fragment {
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
         db = dbhelper.getWritableDatabase();
         //--------------------------------
-
-        //reboot the database
-        App.getDatabase().dropTables();
-        App.getDatabase().setUpTables();
-
-        //Feed the database with dummy Data
-        SeedData.seedCommunityData();
     }
 
     @Nullable
