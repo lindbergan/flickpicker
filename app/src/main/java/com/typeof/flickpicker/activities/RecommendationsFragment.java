@@ -33,6 +33,7 @@ import java.util.List;
  * Group 22
  * Created on 03/05/16.
  */
+
 public class RecommendationsFragment extends Fragment {
 
     private ListView mMovieListView;
@@ -60,6 +61,7 @@ public class RecommendationsFragment extends Fragment {
     public void populateListView(){
         List<Movie> recommendedMovies = getRecommendations(App.getCurrentUser());
         ListAdapter adapter = new MovieAdapter(getActivity(), recommendedMovies.toArray());
+        mMovieListView.setAdapter(adapter);
     }
 
     /**

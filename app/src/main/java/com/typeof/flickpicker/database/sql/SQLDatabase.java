@@ -211,6 +211,31 @@ public class SQLDatabase implements Database {
         mUserDAO.saveUser(new User("whatever", "admin"));
         mUserDAO.saveUser(new User("Karim", "admin"));
 
+
+        //RECOMMENDATONDATA
+
+        User primaryUser = App.getCurrentUser();
+
+        Movie savingPrivateRyan = new Movie("Saving Private Ryan", 1995);
+        Movie fireWalkWithMe = new Movie("Fire Walk with Me", 1991);
+        savingPrivateRyan.setCommunityRating(2);
+        fireWalkWithMe.setCommunityRating(4);
+        long savingPrivateRyanMovieId = mMovieDAO.saveMovie(savingPrivateRyan);
+        long fireWalkWithMeMovieId = mMovieDAO.saveMovie(fireWalkWithMe);
+
+        //Add two friends that rate the same movies:
+        User firstFriend = new User("Ada", "admin");
+        User secondFriend = new User("Eva", "password");
+        long firstFriendId = mUserDAO.saveUser(firstFriend);
+        long secondFriendId = mUserDAO.saveUser(secondFriend);
+
+        //let them rate the two movies:
+        long firstFriendRatingId = mRatingDAO.saveRating(new Rating(5, savingPrivateRyanMovieId, firstFriendId));
+        long secondFriendRatingId = mRatingDAO.saveRating(new Rating(1, fireWalkWithMeMovieId, secondFriendId));
+
+        //finally... ad the as friends to primaryUser
+        mFriendDAO.addFriend(new Friend(primaryUser.getId(), firstFriendId));
+        mFriendDAO.addFriend(new Friend(primaryUser.getId(), secondFriendId));
     }
 
     public void clearDatabase() {

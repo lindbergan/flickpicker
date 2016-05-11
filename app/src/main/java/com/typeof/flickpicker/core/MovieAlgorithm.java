@@ -14,6 +14,9 @@ import java.util.List;
  * Group 22
  * Created on 03/05/16.
  */
+
+//TODO: Need to check to make sure that there arent any duplicates of movies returned. HAve to take this into consideration - that several friends have different ratings to same movie
+
 public class MovieAlgorithm {
 
     /**
@@ -32,7 +35,7 @@ public class MovieAlgorithm {
         List<Movie> friendsLatestMovies = new ArrayList<Movie>();
 
         //loop through the ratings and extract the movies:
-        for (int i = 0; i<friendsLatestMovies.size(); i++){
+        for (int i = 0; i<friendsRecommendations.size(); i++){
 
             long currentMovieId = friendsRecommendations.get(i).getMovieId();
             Movie currentMovie = App.getMovieDAO().findMovie(currentMovieId);
@@ -46,14 +49,20 @@ public class MovieAlgorithm {
         for(int i = 0; i<friendsLatestMovies.size(); i++){
 
             Movie currentMovie = friendsLatestMovies.get(i);
-            double movieScore = currentMovie.getCommunityRating() + friendsRecommendations.get(i).getRating();
-            score.add(movieScore);
+
+            if(currentMovie.getCommunityRating() != 0) {
+                double movieScore = (currentMovie.getCommunityRating() + friendsRecommendations.get(i).getRating()) / 2;
+                score.add(movieScore);
+            }
+            else{
+                score.add(friendsRecommendations.get(i).getRating());
+            }
         }
 
         //...then place the movies - based on score - in a correctly ordered list and return it:
-        for (int i = 0; i<friendsLatestMovies.size(); i++){
+        for (int i = 0; i<friendsLatestMovies.size()-1; i++){
 
-            for (int j = 0; j<friendsLatestMovies.size(); j++){
+            for (int j = 0; j<friendsLatestMovies.size()-1; j++){
 
                 if(score.get(j+1) < score.get(j)) {
 
@@ -62,15 +71,15 @@ public class MovieAlgorithm {
                     Movie lesserScoredMovie = friendsLatestMovies.get(j+1);
                     Movie higherScoredMovie = friendsLatestMovies.get(j);
 
-                    results.set(j, lesserScoredMovie);
-                    results.set(j+1, higherScoredMovie);
+                    friendsLatestMovies.set(j, lesserScoredMovie);
+                    friendsLatestMovies.set(j+1, higherScoredMovie);
                     score.set(j, score.get(j + 1));
                     score.set(j + 1, score.get(j));
                 }
             }
         }
 
-        return results;
+        return friendsLatestMovies;
     }
 
 }
