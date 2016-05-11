@@ -18,6 +18,7 @@
     <dimen name="movie_detail_image_width">160dp</dimen>
     <dimen name="movie_detail_image_padding">15dp</dimen>
 
+    <dimen name="movie_detail_rate_bar_margin">10dp</dimen>
     <dimen name="movie_detail_rate_button_padding">15dp</dimen>
 
 </resources>

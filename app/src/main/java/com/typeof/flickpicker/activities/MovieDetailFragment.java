@@ -14,9 +14,12 @@ import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
+import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
 
 import java.util.Iterator;
 import java.util.List;
@@ -34,10 +37,12 @@ public class MovieDetailFragment extends Fragment {
     private TextView movieGenre;
     private TextView numOfFriendsSeen;
     private TextView communityRating;
+    private TextView movieDescription;
+    private Button addToWatchListButton;
     private RatingBar ratingBar;
     private Button rateButton;
-    private Button addToWatchListButton;
-    private TextView movieDescription;
+
+
 
     MovieDAO mMovieDAO;
     long movieId;
@@ -61,25 +66,26 @@ public class MovieDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
-
         hookUpViews(movieDetailView);
         setMovieTextFields();
+        setAddToPlaylistWidgets();
+        setRateWidgets();
+
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
-        final boolean seenMovie = hasUserSeenMovie();
 
-        ratingBar.setOnClickListener(new View.OnClickListener() {
+
+        //TODO: clickListener or ratingBarChangedListener???
+        //ensures that rate button is clickable if user wants to rate movie
+        //or if user wants to update an rating
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 setRateButtonActive();
             }
         });
 
-        if(seenMovie){
-            int rating = (int)getUserRating();
-            ratingBar.setNumStars(rating);
-            setRateButtonInactive();
-        }
+
 
 
         //creates and saves new rating when rate button is clicked
@@ -120,9 +126,10 @@ public class MovieDetailFragment extends Fragment {
         numOfFriendsSeen = (TextView) view.findViewById(R.id.movieDetailNumOfFriendsSeen);
         communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
-        ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
 
-        //setting up button
+        //setting up rate bar and button and add-to-playlist button
+        addToWatchListButton = (Button) view.findViewById(R.id.movieDetailAddToPlaylistButton);
+        ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
         rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
 
     }
@@ -153,6 +160,12 @@ public class MovieDetailFragment extends Fragment {
 
 
     //TODO: best way to decide if user have seen movie?
+
+
+    /**
+     * method that checks if the user have seen the movie or not
+     * @return hasSeen true if user have seen movie, false if not
+     */
     public boolean hasUserSeenMovie(){
 
         boolean hasSeen = false;
@@ -197,15 +210,53 @@ public class MovieDetailFragment extends Fragment {
         return rating;
     }
 
+    //TODO: change Playlist so it just handles the one playlist
+    public void setAddToPlaylistWidgets(){
+        PlaylistDAO playlistDAO = App.getPlaylistDAO();
+
+        //List<Movie> movies = playlistDAO.getUserPlaylist(App.getCurrentUser().getId());
+        //Iterator<Movie> iterator = movies.iterator();
+        //while(iterator.hasNext()){
+        //....
+
+
+    }
+
+    /**
+     * method used in onCreateView to set rating bar and button to correct states
+     * depending on if the user have already rated the movie or not
+     */
+    public void setRateWidgets(){
+
+        boolean seenMovie = hasUserSeenMovie();
+
+        if(seenMovie){
+            int rating = (int)getUserRating();
+            ratingBar.setRating(rating);
+            setRateButtonInactive();
+        }else{
+            ratingBar.setRating(0);
+            setRateButtonActive();
+        }
+    }
+    /**
+     * method to activate rate button and change its appearance
+     */
     public void setRateButtonActive(){
 
         rateButton.setBackgroundResource(R.color.color_rating_button);
         rateButton.setClickable(true);
     }
+
+    /**
+     * method to inactivate rate button and change its appearance
+     */
     public void setRateButtonInactive(){
         rateButton.setBackgroundResource(R.color.color_rating_button_inactive);
         rateButton.setClickable(false);
     }
+
+
 
 
 }
