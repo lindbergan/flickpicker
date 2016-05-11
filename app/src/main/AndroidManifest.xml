@@ -21,13 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.FriendsActivity"/>
-        <activity android:name=".activities.MyCollectionActivity"/>
-
         <meta-data
             android:name="database_type"
             android:value="sql"/>
-
+        <activity android:name=".activities.FriendsActivity"/>
+        <activity android:name=".activities.MyCollectionFragment"/>
         <activity android:name=".activities.SearchFragment">
         </activity>
     </application>
