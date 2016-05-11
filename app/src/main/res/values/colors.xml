@@ -7,6 +7,7 @@
     <color name="color_backdrop">#FBFFF0</color>
 
     <color name="color_rating_button">#DBB546</color>
+    <color name="color_rating_button_inactive">#FFE69E</color>
     <color name="color_button_secondary">#FFD760</color>
 
 

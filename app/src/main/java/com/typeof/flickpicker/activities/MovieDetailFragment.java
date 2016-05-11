@@ -18,6 +18,9 @@ import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 
+import java.util.Iterator;
+import java.util.List;
+
 
 /**
  * FlickPicker
@@ -33,6 +36,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView communityRating;
     private RatingBar ratingBar;
     private Button rateButton;
+    private Button addToWatchListButton;
     private TextView movieDescription;
 
     MovieDAO mMovieDAO;
@@ -62,16 +66,22 @@ public class MovieDetailFragment extends Fragment {
         setMovieTextFields();
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
-        boolean seenMovie = hasUserRatedMovie();
+        boolean seenMovie = hasUserSeenMovie();
 
-        if(seenMovie){
-            int rating;
-        }
+            if(seenMovie){
+                RatingDAO ratingDAO = App.getRatingDAO();
+                List<Rating> ratings = ratingDAO.getMovieRatings(movieId);
+            }
+
+
+
+
 
         //creates and saves new rating when rate button is clicked
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 RatingDAO ratingDAO = App.getRatingDAO();
                 //TODO: finnish up method..
@@ -133,13 +143,21 @@ public class MovieDetailFragment extends Fragment {
         movieDescription.setText(movie.getDescription());
 
     }
+    //TODO: best way to decide if user have seen movie?
+    public boolean hasUserSeenMovie(){
 
-    public boolean hasUserRatedMovie(){
+        boolean hasSeen = false;
+        List<Movie> userCollection = mMovieDAO.getUsersMovieCollection(10000, App.getCurrentUser().getId());
+        Iterator<Movie> iterator = userCollection.iterator();
 
-        //TODO: best way to decide if user have seen movie?
-
-
-        return false;
+        while(iterator.hasNext()){
+            Movie movie = iterator.next();
+            if(movie.getId() == movieId){
+                hasSeen = true;
+                break;
+            }
+        }
+        return hasSeen;
     }
 
 
