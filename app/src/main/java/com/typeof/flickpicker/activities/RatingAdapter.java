@@ -20,7 +20,7 @@ public class RatingAdapter extends CustomAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
 
-        View customView = inflater.inflate(R.layout.custom_row, parent, false);
+        View customView = inflater.inflate(R.layout.custom_row_rating, parent, false);
 
         TextView username = (TextView) customView.findViewById(R.id.username_textview);
         TextView moviename = (TextView) customView.findViewById(R.id.moviename_textview);
