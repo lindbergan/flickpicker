@@ -3,6 +3,7 @@ package com.typeof.flickpicker.activities;
 import android.app.Application;
 import android.content.Context;
 
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;
@@ -28,6 +29,12 @@ public class App extends Application {
     private static Context mContext;
     private static User mCurrentUser;
     private static String databaseType;
+    private static MovieDAO sMovieDAO;
+    private static UserDAO sUserDAO;
+    private static RatingDAO sRatingDAO;
+    private static PlaylistDAO sPlaylistDAO;
+    private static FriendDAO sFriendDAO;
+    private static Database sDatabase;
 
     @Override
     public void onCreate() {
@@ -35,11 +42,35 @@ public class App extends Application {
         mContext = getApplicationContext();
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(mContext, "database_type");
+        setupDAO();
+
         Database db = getDatabase();
-        db.seedDatabase();
+        db.dropTables();
+        db.setUpTables();
+
         mCurrentUser = new User("pelle", "password");
-        mCurrentUser.setScore(0);
         getUserDAO().saveUser(mCurrentUser);
+
+        db.seedDatabase();
+    }
+
+    private void setupDAO() {
+        switch (databaseType) {
+            case "sql":
+                sMovieDAO = new SQLMovieDAO(mContext);
+                sUserDAO = new SQLUserDAO(mContext);
+                sRatingDAO = new SQLRatingDAO(mContext);
+                sPlaylistDAO = new SQLPlaylistDAO(mContext);
+                sFriendDAO = new SQLFriendDAO(mContext);
+                sDatabase = new SQLDatabase(mContext);
+            default:
+                sMovieDAO = new SQLMovieDAO(mContext);
+                sUserDAO = new SQLUserDAO(mContext);
+                sRatingDAO = new SQLRatingDAO(mContext);
+                sPlaylistDAO = new SQLPlaylistDAO(mContext);
+                sFriendDAO = new SQLFriendDAO(mContext);
+                sDatabase = new SQLDatabase(mContext);
+        }
     }
 
     @Override
@@ -52,57 +83,26 @@ public class App extends Application {
     public static User getCurrentUser() {return mCurrentUser;}
 
     public static MovieDAO getMovieDAO() {
-        switch (databaseType) {
-            case "sql":
-                return new SQLMovieDAO(mContext);
-            default:
-                return new SQLMovieDAO(mContext);
-        }
+        return sMovieDAO;
     }
 
     public static UserDAO getUserDAO() {
-        switch (databaseType) {
-            case "sql":
-                return new SQLUserDAO(mContext);
-            default:
-                return new SQLUserDAO(mContext);
-        }
+        return sUserDAO;
     }
 
     public static RatingDAO getRatingDAO() {
-        switch (databaseType) {
-            case "sql":
-                return new SQLRatingDAO(mContext);
-            default:
-                return new SQLRatingDAO(mContext);
-        }
+        return sRatingDAO;
     }
 
     public static PlaylistDAO getPlaylistDAO() {
-        switch (databaseType) {
-            case "sql":
-                return new SQLPlaylistDAO(mContext);
-            default:
-                return new SQLPlaylistDAO(mContext);
-        }
+        return sPlaylistDAO;
     }
 
     public static FriendDAO getFriendDAO() {
-        switch (databaseType) {
-            case "sql":
-                return new SQLFriendDAO(mContext);
-            default:
-                return new SQLFriendDAO(mContext);
-        }
+        return sFriendDAO;
     }
 
     public static Database getDatabase() {
-
-        switch (databaseType) {
-            case "sql":
-                return new SQLDatabase(mContext);
-            default:
-                return new SQLDatabase(mContext);
-        }
+        return sDatabase;
     }
 }

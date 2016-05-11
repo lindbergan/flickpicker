@@ -4,9 +4,21 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Playlist;
+import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
+import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.PlaylistDAO;
+import com.typeof.flickpicker.database.RatingDAO;
+import com.typeof.flickpicker.database.UserDAO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FlickPicker
@@ -16,22 +28,17 @@ import com.typeof.flickpicker.database.MovieDAO;
 public class SQLDatabase implements Database {
 
     private SQLiteDatabase db;
-    private Context ctx;
 
     public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         this.db = mDbHelper.getWritableDatabase();
-        this.ctx = ctx;
     }
 
     @Override
     public void setUpTables() {
 
-        dropTables();
-
         //-----Movie-----
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
-
 
         //-----User-----
         db.execSQL(UserTable.UserEntry.getSQLCreateTableQuery());
@@ -67,122 +74,144 @@ public class SQLDatabase implements Database {
 
     public void seedDatabase() {
 
-        dropTables();
-        setUpTables();
+        MovieDAO mMovieDAO = App.getMovieDAO();
+        UserDAO mUserDAO = App.getUserDAO();
+        RatingDAO mRatingDAO = App.getRatingDAO();
+        FriendDAO mFriendDAO = App.getFriendDAO();
+        PlaylistDAO mPlaylistDAO = App.getPlaylistDAO();
 
-        //
-        // Create a new map of values, where column names are the keys
-        ContentValues firstMovieValues = new ContentValues();
-        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
-        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Terminator");
-        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1995);
-        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
-        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
-        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 3);
-        firstMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 4.2);
+        long userId = App.getCurrentUser().getId();
 
+        //create dummy-movies, set a rating directly for them and save them to the database:
+        Movie GoneWithTheWind = new Movie("GoneWithTheWind", 2012);
+        GoneWithTheWind.setCommunityRating(2.2);
+        long movieIdGoneWithTheWind = mMovieDAO.saveMovie(GoneWithTheWind);
 
-        long firstNewRowIdMovie = db.insert(
-                RatingTable.RatingEntry.TABLE_NAME,
-                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                firstMovieValues);
+        Movie Jaws = new Movie("Jaws", 2016);
+        Jaws.setCommunityRating(4.3);
+        long movieIdJaws = mMovieDAO.saveMovie(Jaws);
 
-        ContentValues secondMovieValues = new ContentValues();
-        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
-        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Speed");
-        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1994);
-        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
-        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
-        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 5);
-        secondMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 3.8);
+        Movie JurassicPark = new Movie("JurassicPark", 2015);
+        JurassicPark.setCommunityRating(3.7);
+        long movieIdJurassicPark = mMovieDAO.saveMovie(JurassicPark);
 
-        long secondNewRowIdMovie = db.insert(
-                RatingTable.RatingEntry.TABLE_NAME,
-                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                secondMovieValues);
+        Movie Oblivion = new Movie("Oblivion", 2016);
+        Oblivion.setCommunityRating(3.3);
+        long movieIdOblivion = mMovieDAO.saveMovie(Oblivion);
 
-        ContentValues thirdMovieValues = new ContentValues();
-        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
-        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Robin Hood");
-        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1993);
-        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
-        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
-        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 1);
-        thirdMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 4.1);
+        Movie BraveHeart = new Movie("BraveHeart", 2014);
+        BraveHeart.setCommunityRating(4.1);
+        long movieIdBraveHeart = mMovieDAO.saveMovie(BraveHeart);
 
-        long thirdNewRowIdMovie = db.insert(
-                RatingTable.RatingEntry.TABLE_NAME,
-                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                thirdMovieValues);
+        Movie KarateKid = new Movie("KarateKid", 2016);
+        KarateKid.setCommunityRating(3.6);
+        long movieIdKarateKid = mMovieDAO.saveMovie(KarateKid);
 
-        ContentValues fourthMovieValues = new ContentValues();
-        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_ID, 5);
-        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "Jaws");
-        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, 1993);
-        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, "whatever");
-        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, "action");
-        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, 2);
-        fourthMovieValues.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, 4.4);
+        Movie theBigLebowski = new Movie("TheBigLebowski", 1998);
+        theBigLebowski.setCommunityRating(4.4);
+        long movieIdTheBigLebowski = mMovieDAO.saveMovie(theBigLebowski);
 
-        long fourthNewRowIdMovie = db.insert(
-                RatingTable.RatingEntry.TABLE_NAME,
-                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                fourthMovieValues);
+        Movie rocky = new Movie("Rocky", 1976);
+        rocky.setCommunityRating(3.6);
+        long movieIdRocky = mMovieDAO.saveMovie(rocky);
 
-                        //---RATING---
+        Movie whiplash = new Movie("Whiplash", 2014);
+        whiplash.setCommunityRating(3.9);
+        long movieIdWhiplash = mMovieDAO.saveMovie(whiplash);
 
-        db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
-        db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
+        Movie guardianOfTheGalaxy = new Movie("Guardian of the Galaxy", 2014);
+        guardianOfTheGalaxy.setCommunityRating(4.1);
+        long movieIdGuardianOfTheGalaxy = mMovieDAO.saveMovie(guardianOfTheGalaxy);
+
+        Movie birdman = new Movie("Birdman", 2014);
+        birdman.setCommunityRating(3.3);
+        long movieIdBirdman = mMovieDAO.saveMovie(birdman);
+
+        Movie interstellar = new Movie("Interstellar", 2014);
+        interstellar.setCommunityRating(4.6);
+        long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
 
 
-        //
-        // Create a new map of values, where column names are the keys
-        ContentValues firstRatingValues = new ContentValues();
-        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 5);
-        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 3.0);
-        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 3);
-        firstRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 2);
 
-        long firstNewRowIdRating = db.insert(
-                RatingTable.RatingEntry.TABLE_NAME,
-                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                firstRatingValues);
+        // users
+        //let the user rate a couple of movies and save those ratings:
+        long ratingid1 = mRatingDAO.saveRating(new Rating(3.5,movieIdOblivion, userId));
+        long ratingid2 = mRatingDAO.saveRating(new Rating(2.0,movieIdKarateKid, userId));
+        long ratingid3 = mRatingDAO.saveRating(new Rating(4.5,movieIdBraveHeart, userId));
 
-        ContentValues SecondRatingValues = new ContentValues();
-        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_ID, 4);
-        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, 3.0);
-        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID, 2);
-        SecondRatingValues.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, 1);
+        //create a playlist for user and make sure that the correct movies are displayed
+        List<Number> usersPlayListItems = new ArrayList<Number>();
+        usersPlayListItems.add(movieIdBirdman);
+        usersPlayListItems.add(movieIdGuardianOfTheGalaxy);
+        usersPlayListItems.add(movieIdInterstellar);
 
-        long secondNewRowIdRating = db.insert(
-                RatingTable.RatingEntry.TABLE_NAME,
-                RatingTable.RatingEntry.COLUMN_NAME_NULLABLE,
-                SecondRatingValues);
+        long playlist = mPlaylistDAO.savePlaylist(new Playlist("TrippleA", userId,usersPlayListItems));
 
 
-        //---USER---
+        // Test users that will be added as friends to the main user
 
-        db.execSQL(UserTable.UserEntry.getSQLDropTableQuery());
-        db.execSQL(UserTable.UserEntry.getSQLCreateTableQuery());
+        User testUser1 = new User("Karin", "admin");
+        User testUser2 = new User("Linn", "admin");
+        User testUser3 = new User("Sara", "admin");
+        User testUser4 = new User("Erik", "admin");
+        User testUser5 = new User("Kent", "admin");
+        User testUser6 = new User("Sibelius", "admin");
 
-        // Create a new map of values, where column names are the keys
-        ContentValues userValues = new ContentValues();
-        userValues.put(UserTable.UserEntry.COLUMN_NAME_ID, 12);
-        userValues.put(UserTable.UserEntry.COLUMN_NAME_USERNAME, "Frodo");
-        userValues.put(UserTable.UserEntry.COLUMN_NAME_PASSWORD, "TheRing");
-        userValues.put(UserTable.UserEntry.COLUMN_NAME_SCORE, 0);
+        long user1Id = mUserDAO.saveUser(testUser1);
+        long user2Id = mUserDAO.saveUser(testUser2);
+        long user3Id = mUserDAO.saveUser(testUser3);
+        long user4Id = mUserDAO.saveUser(testUser4);
+        long user5Id = mUserDAO.saveUser(testUser5);
+        long user6Id = mUserDAO.saveUser(testUser6);
 
-        long newRowIdUser = db.insert(
-                UserTable.UserEntry.TABLE_NAME,
-                UserTable.UserEntry.COLUMN_NAME_NULLABLE,
-                userValues);
+        // Test movie
 
+        Movie testMovie = new Movie("Interstellar", 2014);
+        long movieId = mMovieDAO.saveMovie(testMovie);
 
-        SQLMovieDAO movieDAO = new SQLMovieDAO(this.ctx);
-        movieDAO.saveMovie(new Movie("Pirates of the Caribbean", 2003));
+        // Test ratings
+
+        Rating testRating1 = new Rating(5.0, movieId, user1Id);
+        Rating testRating2 = new Rating(5.0, movieId, user2Id);
+        Rating testRating3 = new Rating(5.0, movieId, user3Id);
+        Rating testRating4 = new Rating(5.0, movieId, user4Id);
+        Rating testRating5 = new Rating(5.0, movieId, user5Id);
+        Rating testRating6 = new Rating(5.0, movieId, user6Id);
+
+        mRatingDAO.saveRating(testRating1);
+        mRatingDAO.saveRating(testRating2);
+        mRatingDAO.saveRating(testRating3);
+        mRatingDAO.saveRating(testRating4);
+        mRatingDAO.saveRating(testRating5);
+        mRatingDAO.saveRating(testRating6);
+
+        // Test friends
+
+        long currentUserId = App.getCurrentUser().getId();
+        mFriendDAO.addFriend(new Friend(currentUserId, user1Id));
+        mFriendDAO.addFriend(new Friend(currentUserId, user2Id));
+        mFriendDAO.addFriend(new Friend(currentUserId, user3Id));
+        mFriendDAO.addFriend(new Friend(currentUserId, user4Id));
+        mFriendDAO.addFriend(new Friend(currentUserId, user5Id));
+        mFriendDAO.addFriend(new Friend(currentUserId, user6Id));
+
+        //add users to be able to search for them:
+        mUserDAO.saveUser(new User("Karin", "admin"));
+        mUserDAO.saveUser(new User("Linn", "admin"));
+        mUserDAO.saveUser(new User("Sara", "admin"));
+        mUserDAO.saveUser(new User("Erik", "admin"));
+        mUserDAO.saveUser(new User("Kent", "admin"));
+        mUserDAO.saveUser(new User("Sibelius", "admin"));
+        mUserDAO.saveUser(new User("Albert", "admin"));
+        mUserDAO.saveUser(new User("Hebert", "admin"));
+        mUserDAO.saveUser(new User("Kalle", "admin"));
+        mUserDAO.saveUser(new User("Lisa", "admin"));
+        mUserDAO.saveUser(new User("Jocke1989", "admin"));
+        mUserDAO.saveUser(new User("MovieFanBoy2016", "admin"));
+        mUserDAO.saveUser(new User("whatever", "admin"));
+        mUserDAO.saveUser(new User("Karim", "admin"));
 
     }
-
 
     public void clearDatabase() {
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());

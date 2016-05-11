@@ -110,19 +110,22 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         String friendsUserId2 = friendsTable + "." + FriendTable.FriendEntry.COLUMN_NAME_USER2ID;
         String ratingsUserId = ratingsTable + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID;
 
-        Cursor c = db.rawQuery("SELECT * FROM " + ratingsTable + " " +
+        String query = "SELECT * FROM " + ratingsTable + " " +
                 "LEFT JOIN friends ON " + friendsUserId2 + " = " + ratingsUserId + " " +
-                "WHERE " + friendsUserId1 + " = ? " +
-                "ORDER BY " + ratingCreatedAt + " DESC", new String[]{String.valueOf(userId)});
+                "WHERE " + friendsUserId1 + " = " + String.valueOf(userId) + " " +
+                "ORDER BY " + ratingCreatedAt + " DESC";
+
+        Cursor c = db.rawQuery(query, null);
 
         c.moveToFirst();
-
-        try {
-            do {
-                ratings.add(mRatingDAO.createRatingFromCursor(c));
-            } while (c.moveToNext());
-        } finally {
-            c.close();
+        if (c.getCount() != 0) {
+            try {
+                do {
+                    ratings.add(mRatingDAO.createRatingFromCursor(c));
+                } while (c.moveToNext());
+            } finally {
+                c.close();
+            }
         }
 
         return ratings;

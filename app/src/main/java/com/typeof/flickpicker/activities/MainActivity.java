@@ -3,7 +3,6 @@ package com.typeof.flickpicker.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -60,21 +59,25 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabChanged(String tabId) {
-                if(tabId.equals("Recommendations")){
+                if (tabId.equals("Recommendations")) {
                     RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
                     loadFragment(recommendationsFragment, R.id.contentWrap);
                 }
-                if(tabId.equals("Community")){
+                if (tabId.equals("Community")) {
                     CommunityFragment communityFragment = new CommunityFragment();
                     loadFragment(communityFragment, R.id.contentWrap);
                 }
-                if (tabId.equals("MyCollection")){
+                if (tabId.equals("MyCollection")) {
                     MyCollectionFragment myColletionFragment = new MyCollectionFragment();
                     loadFragment(myColletionFragment, R.id.contentWrap);
                 }
-                if (tabId.equals("Search")){
+                if (tabId.equals("Search")) {
                     SearchFragment searchFragment = new SearchFragment();
                     loadFragment(searchFragment, R.id.contentWrap);
+                }
+                if (tabId.equals("Friends")) {
+                    FriendsFragment friendsFragment = new FriendsFragment();
+                    loadFragment(friendsFragment, R.id.contentWrap);
                 }
             }
         });
