@@ -6,36 +6,43 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Rating;
 
 public class MovieAdapter extends CustomAdapter {
 
-    Object[] obj;
-    LayoutInflater inflater;
-
     public MovieAdapter(Context context, Object[] obj) {
         super(context, obj);
-        inflater = LayoutInflater.from(getContext());
-        this.obj = obj;
+    }
+
+    private static class ViewHolder {
+        TextView movieName;
+        TextView movieYear;
+        RatingBar ratingBar;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-
-        View customView = inflater.inflate(R.layout.custom_row_community, parent, false);
-
-        TextView movieName = (TextView) customView.findViewById(R.id.moviename_textview_movieCell);
-        TextView movieYear = (TextView) customView.findViewById(R.id.movie_year_textview_movieCell);
-        RatingBar ratingBar = (RatingBar) customView.findViewById(R.id.ratingBar_movieCell);
-
         Movie mov = (Movie) getItem(position);
-        movieName.setText(mov.getTitle());
-        movieYear.setText(String.valueOf(mov.getYear()));
-        ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
-        return customView;
+        ViewHolder viewHolder;
+
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            LayoutInflater inflator = LayoutInflater.from(getContext());
+            convertView = inflator.inflate(R.layout.custom_row_community, parent, false);
+            viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview_movieCell);
+            viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview_movieCell);
+            viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar_movieCell);
+            convertView.setTag(viewHolder);
+        }
+        else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        viewHolder.movieName.setText(mov.getTitle());
+        viewHolder.movieYear.setText(String.valueOf(mov.getYear()));
+        viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
+        return convertView;
     }
 }

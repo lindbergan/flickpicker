@@ -11,27 +11,41 @@ import com.typeof.flickpicker.core.Rating;
 
 public class RatingAdapter extends CustomAdapter {
 
-
     public RatingAdapter(Context context, Object[] obj) {
         super(context, obj);
     }
 
+    private static class ViewHolder {
+        TextView username;
+        TextView moviename;
+        TextView movieyear;
+        RatingBar ratingBar;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-
-        View customView = inflater.inflate(R.layout.custom_row, parent, false);
-
-        TextView username = (TextView) customView.findViewById(R.id.username_textview);
-        TextView moviename = (TextView) customView.findViewById(R.id.moviename_textview);
-        TextView movieyear = (TextView) customView.findViewById(R.id.movie_year_textview);
-        RatingBar ratingBar = (RatingBar) customView.findViewById(R.id.ratingBar);
 
         Rating r = (Rating) getItem(position);
-        username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
-        moviename.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
-        movieyear.setText(String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()));
-        ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
-        return customView;
+        ViewHolder viewHolder;
+
+        if (convertView == null) {
+            viewHolder = new ViewHolder();
+            LayoutInflater inflator = LayoutInflater.from(getContext());
+            convertView = inflator.inflate(R.layout.custom_row, parent, false);
+            viewHolder.username = (TextView) convertView.findViewById(R.id.username_textview);
+            viewHolder.moviename = (TextView) convertView.findViewById(R.id.moviename_textview);
+            viewHolder.movieyear = (TextView) convertView.findViewById(R.id.movie_year_textview);
+            viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
+            convertView.setTag(viewHolder);
+        }
+        else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
+        viewHolder.moviename.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
+        viewHolder.movieyear.setText(String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()));
+        viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
+        return convertView;
     }
 }

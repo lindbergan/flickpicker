@@ -116,12 +116,14 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         Cursor c = super.search("movies", column, searchString);
         c.moveToFirst();
 
-        try {
-            do {
-                results.add(createMovieFromCursor(c));
-            } while(c.moveToNext());
-        } finally {
-            c.close();
+        if(c.getCount() != 0) {
+            try {
+                do {
+                    results.add(createMovieFromCursor(c));
+                } while (c.moveToNext());
+            } finally {
+                c.close();
+            }
         }
         return results;
     }
@@ -210,25 +212,28 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         List<Movie> sortedMovies = new ArrayList<Movie>();
         c.moveToFirst();
 
-        ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
+        if(c.getCount() != 0) {
+            ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
 
-        executionTimeLogger.startTimer();
-        db.beginTransaction();
-        try {
-            do {
-                Movie movie = createMovieFromCursor(c);
-                sortedMovies.add(movie);
-            } while(c.moveToNext());
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-            c.close();
+            executionTimeLogger.startTimer();
+            db.beginTransaction();
+            try {
+                do {
+                    Movie movie = createMovieFromCursor(c);
+                    sortedMovies.add(movie);
+                } while (c.moveToNext());
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+                c.close();
+
+            }
+
+            Log.d("EXECUTION TIME", sortedMovies.size() + "");
+
+
+            executionTimeLogger.stopTimerAndLogResults();
         }
-
-        Log.d("EXECUTION TIME", sortedMovies.size() + "");
-
-
-        executionTimeLogger.stopTimerAndLogResults();
         return sortedMovies;
     }
 

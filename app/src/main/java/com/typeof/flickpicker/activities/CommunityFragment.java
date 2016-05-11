@@ -1,51 +1,50 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.Activity;
+import android.app.Application;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CommunityFragment extends Fragment {
 
-    //TODO: find out how to create a toggle at the bottom for the whole app
-    //TODO: find out how to create and teardown database after session ("dummyData") (sloved by Sebert?)
-    //TODO: need to track which tab user previously was at (thus: currentTab)
-    //TODO: create new cell: MovieCell (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
-
     //Instance variables
-    private int desiredSizeOfList = 6;
+    private int desiredSizeOfList = 10;
     MovieDAO mMovieDAO;
     TabHost mTabHost;
     private ListView listViewTopMovies;
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
-    private int thisYear = 2016; //NOTE: need to be changed into a dynamic fetch -> Date.getYear() or something similar
-    private String currentTab;
+    private int thisYear = 2016; //TODO: need to be changed into a dynamic fetch -> Date.getYear() or something similar
     private boolean isYearListCurrent;
-
+    SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
+    //--------------------------------
+    private SQLiteDatabase db;
+    //--------------------------------
 
     //TESTING
     private FragmentManager fragmentManager = getFragmentManager();
@@ -56,16 +55,17 @@ public class CommunityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mMovieDAO = App.getMovieDAO();
 
+        //--------------------------------
+        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
+        db = dbhelper.getWritableDatabase();
+        //--------------------------------
+
         //reboot the database
         App.getDatabase().dropTables();
         App.getDatabase().setUpTables();
 
         //Feed the database with dummy Data
         SeedData.seedCommunityData();
-
-        //Hook up views (Buttons, TextFields Cells etc...)
-        //Connect the listeners to the relevant views
-
     }
 
     @Nullable
@@ -74,6 +74,7 @@ public class CommunityFragment extends Fragment {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
         hookUpViews(communityView);
         configureTabs(communityView);
+        detemineCurrentView();
         setUpListeners();
         return communityView;
     }
@@ -108,46 +109,94 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
-                if (tabId == mTabSpecTopMovies.getTag()) {
+                if(tabId.equals("topMovies")){
+                    setTopMoviesAsCurrentView();
+                }
+                else if(tabId.equals("worstMovies")){
+                    setWorstMoviesAsCurrentView();
+                }
+                else{
+                    setTopMoviesByYearAsCurrentView();
 
-                    List<Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
-                    populateListView(listViewTopMovies, topMoviesAllTime);
-                } else if (tabId == mTabSpecWorstMovies.getTag()) {
-
-                    List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
-                    populateListView(listViewWorstMovies, worstMoviesAllTime);
-
-                } else {
-                    List<String> yearList = generateYearList();
-                    populateListWithYears(listViewTopMoviesByYear, yearList);
                 }
             }
         });
     }
 
-    public void populateListWithYears(ListView listView, List<String> yearList) {
+    public void setTopMoviesAsCurrentView(){
+        List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
+        populateListView(listViewTopMovies, topMoviesAllTime);
+        viewTracker.setCurrentCommunityTab("topMovies");
+    }
+    public void setWorstMoviesAsCurrentView(){
+        List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
+        populateListView(listViewWorstMovies, worstMoviesAllTime);
+        viewTracker.setCurrentCommunityTab("worstMovies");
+    }
+    public void setTopMoviesByYearAsCurrentView(){
+        List<String> yearList = generateYearList();
+        populateListWithYears(listViewTopMoviesByYear,yearList);
+        viewTracker.setCurrentCommunityTab("topMoviesByYear");
+    }
+
+    //Maybe better with an ENUM solution
+    public void detemineCurrentView(){
+
+        String currentTab = viewTracker.getCurrentCommunityTab();
+
+        if(currentTab.equals("topMovies")){
+            setTopMoviesAsCurrentView();
+        }
+        else if (currentTab.equals("worstMovies")) {
+            setWorstMoviesAsCurrentView();
+        }
+        else{
+            setTopMoviesByYearAsCurrentView();
+        }
+    }
+
+    public void populateListWithYears(ListView listView, List<String> yearList){
+
 
         if (this.getActivity() != null) {
-            isYearListCurrent = true;
+
             int defaultLayout = android.R.layout.simple_list_item_1; //default
             ListAdapter yearAdapter = new ArrayAdapter(getActivity(), defaultLayout, yearList);
             listView.setAdapter(yearAdapter);
+
+            isYearListCurrent = true;
+
         }
     }
 
     public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass) {
 
+        //--------------------------------
+        ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
+        executionTimeLogger.startTimer();
+        db.beginTransaction();
+        db.setTransactionSuccessful();
+        //--------------------------------
+
         //Code for populating elements in the listView;
         ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
+
+        //--------------------------------
+        db.endTransaction();
+        Log.d("EXECUTION TIME FOR LW:", listOfViewCellsWeGotFromHelpClass.size() + "");
+        executionTimeLogger.stopTimerAndLogResults();
+        //--------------------------------
+
     }
 
-    public List<String> generateYearList() {
+    public List<String> generateYearList(){
 
         List<String> years = new ArrayList<String>();
 
-        for (int i = thisYear; i >= 1900; i--) {
-            years.add(i + "");
+        for (int i = thisYear; i >= 1900; i--){
+            years.add(String.valueOf(i));
+
         }
         return years;
     }
@@ -175,20 +224,35 @@ public class CommunityFragment extends Fragment {
                 //Determine if yearList or MovieList of that year is currently displayed
                 if (isYearListCurrent) {
 
-                    //TODO: need to find the input year from user
-
-                    int chosenYear = 2014;
+                    //get users input
+                    String selectedYearAsString = (String) listViewTopMoviesByYear.getItemAtPosition(position);
+                    int chosenYear = Integer.parseInt(selectedYearAsString);
 
                     //get the MovieList for the year in question
                     List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
 
+
                     //poulate the list and set isYearListCurrent to false
                     populateListView(listViewTopMoviesByYear, topMoviesByYear);
                     isYearListCurrent = false;
-                } else {
+
+
+                    if(topMoviesByYear.size() != 0) {
+                        //populate the list and set isYearListCurrent to false
+                        populateListView(listViewTopMoviesByYear, topMoviesByYear);
+                        isYearListCurrent = false;
+                    }
+                    else{
+                        //Display a message to user why no movies show up for specified year
+                        Toast message = Toast.makeText(getActivity(), "No movies in database for that year", Toast.LENGTH_SHORT);
+                        message.show();
+                    }
+
+                }
+                else{
+
                     //in that case - we are presently at the specific year movie list:
                     //TODO: detalied view of the movie
-                    //TODO: Thnk about how the user should "go back" to the "year" screen
                 }
             }
         });

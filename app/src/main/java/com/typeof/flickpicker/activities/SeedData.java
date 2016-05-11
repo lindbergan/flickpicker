@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.activities;
 
+import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
@@ -57,7 +58,7 @@ public class SeedData {
         long movieIdTheBigLebowski = mMovieDAO.saveMovie(theBigLebowski);
 
         Movie rocky = new Movie("Rocky", 1976);
-        KarateKid.setCommunityRating(3.6);
+        rocky.setCommunityRating(3.6);
         long movieIdRocky = mMovieDAO.saveMovie(rocky);
 
         Movie whiplash = new Movie("Whiplash", 2014);
@@ -104,7 +105,7 @@ public class SeedData {
         interstellar.setCommunityRating(4.6);
         long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
 
-        userId = mUserDAO.saveUser(new User("olle","password"));
+        userId = mUserDAO.saveUser(new User("Olle","password"));
 
         //let the user rate a couple of movies and save those ratings:
         long ratingid1 = mRatingDAO.saveRating(new Rating(3.5,movieIdOblivion, userId));
@@ -118,6 +119,29 @@ public class SeedData {
         usersPlayListItems.add(movieIdInterstellar);
 
         long playlist = mPlaylistDAO.savePlaylist(new Playlist("TrippleA", userId,usersPlayListItems));
+
+    }
+
+    public static void seedSearchData(){
+
+        //get all the movies from SeedCommunityData();
+        seedCommunityData();
+
+        //add users to be able to search for them:
+        mUserDAO.saveUser(new User("Karin", "admin"));
+        mUserDAO.saveUser(new User("Linn", "admin"));
+        mUserDAO.saveUser(new User("Sara", "admin"));
+        mUserDAO.saveUser(new User("Erik", "admin"));
+        mUserDAO.saveUser(new User("Kent", "admin"));
+        mUserDAO.saveUser(new User("Sibelius", "admin"));
+        mUserDAO.saveUser(new User("Albert", "admin"));
+        mUserDAO.saveUser(new User("Hebert", "admin"));
+        mUserDAO.saveUser(new User("Kalle", "admin"));
+        mUserDAO.saveUser(new User("Lisa", "admin"));
+        mUserDAO.saveUser(new User("Jocke1989", "admin"));
+        mUserDAO.saveUser(new User("MovieFanBoy2016", "admin"));
+        mUserDAO.saveUser(new User("whatever", "admin"));
+        mUserDAO.saveUser(new User("Karim", "admin"));
 
     }
 

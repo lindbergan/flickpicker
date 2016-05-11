@@ -8,15 +8,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.typeof.flickpicker.activities.MyCollectionFragment"
-    android:background="#7E7E7E">
+    tools:context="com.typeof.flickpicker.activities.SearchFragment"
+    android:background="#7e7e7e">
 
     <TabHost
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/tabHostMyCollection"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
+        android:id="@+id/tabHostSearch"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/tabMyCollection"
+                    android:id="@+id/tabSearchMovie"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -44,27 +44,34 @@
                     <SearchView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/searchView"
-                        android:layout_gravity="center_horizontal"
-                        android:queryHint="Add a Movie to Collection"/>
+                        android:id="@+id/searchViewMovie"
+                        android:visibility="visible"
+                        android:queryHint="Search Movie"/>
 
                     <ListView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listViewMyCollection"/>
-
+                        android:id="@+id/listViewSearchMovie"
+                        android:visibility="visible"/>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tabMyPlaylist"
+                    android:id="@+id/tabSearchFriend"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <ListView
-                        android:layout_width="wrap_content"
+                    <SearchView
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/listViewMyPlaylist"/>
+                        android:id="@+id/searchViewFriend"
+                        android:queryHint="Search Friend"/>
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/listViewSearchFriend"
+                        android:visibility="visible"/>
                 </LinearLayout>
 
             </FrameLayout>
