@@ -40,11 +40,19 @@ public class MovieAlgorithm {
         }
 
         //...now do the magic:
+
+        //first create a score log
+        List<Double> score = new ArrayList<Double>();
         for(int i = 0; i<friendsLatestMovies.size(); i++){
 
             Movie currentMovie = friendsLatestMovies.get(i);
-            //currentMovie
+            double movieScore = currentMovie.getCommunityRating() + friendsRecommendations.get(i).getRating();
+            score.add(movieScore);
+        }
 
+        //...then place the movies - based on score - in a correctly ordered list:
+        for (int i = 0; i<friendsLatestMovies.size(); i++){
+            //sortScores
         }
 
         return results;
