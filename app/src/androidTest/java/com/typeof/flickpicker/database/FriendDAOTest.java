@@ -137,4 +137,33 @@ public class FriendDAOTest extends AndroidTestCase {
         assertEquals(2, friendsRating.size());
 
     }
+
+    public void testUpdateFriendMatches(){
+
+        //create two friends
+        long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
+        long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
+
+        //add kalle as a friend to pelle
+        Friend friendShip = new Friend(primaryUser,secondaryUser);
+        long friendshipId = mFriendDAO.addFriend(friendShip);
+
+        //let them rate two movies each (same movies):
+        long americanHistoryXId = mMovieDAO.saveMovie(new Movie("American History X", 2000));
+        long planetOfTheApes = mMovieDAO.saveMovie(new Movie("Planet of the apes", 1998));
+
+        long firstRatingPelle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,primaryUser));
+        long secondRatingPelle = mRatingDAO.saveRating(new Rating(3, planetOfTheApes, primaryUser));
+        long firstRatingKalle = mRatingDAO.saveRating(new Rating(5, americanHistoryXId,secondaryUser));
+        long secondRatingKalle = mRatingDAO.saveRating(new Rating(5, planetOfTheApes, secondaryUser));
+
+        Rating kallesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingKalle);
+
+        mFriendDAO.updateFriendMatches(kallesRatingOnAmericanHistoryX);
+
+        //if implemented correctly - should return 2; (# diffs [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2)
+        //assertEquals();
+
+
+    }
 }

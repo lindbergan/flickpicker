@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
@@ -129,5 +130,53 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         }
 
         return ratings;
+    }
+
+    @Override
+    public void updateFriendMatches(Rating rating){
+
+        // from the rating -> extract the movie && user.
+        // get that users friends.
+        // compare the users rating with friends' and see if they have a rating of the same movieId with a sql question
+        // from that cursor - update the corresponding dismatch value in friendTable (Freind.setMatch())
+        long currentMovieId = rating.getMovieId();
+        long currentUserId = rating.getUserId();
+
+        List<User> friends = getFriendsFromUserId(currentUserId);
+
+        String ratingsTable = RatingTable.RatingEntry.TABLE_NAME;
+        String ratingMovieId = ratingsTable + "." +RatingTable.RatingEntry.COLUMN_NAME_MOVIEID;
+        String ratingUserId = ratingsTable + "." +RatingTable.RatingEntry.COLUMN_NAME_USERID;
+
+
+        for (int i = 0; i<friends.size(); i++) {
+
+            //the SQL-question to get disMatchValue:
+            long currentFriendsId = friends.get(i).getId();
+            double disMatchValue = getPreviousDisMatchValue(currentUserId, currentFriendsId); //needs to be an SQL question
+
+            String query = "SELECT * FROM " + ratingsTable + " " +
+                    "WHERE " + ratingMovieId +
+                    " LIKE \'" + currentMovieId + "\' " + " AND " + ratingUserId +
+                    " LIKE \'" + currentFriendsId + "\' ";
+
+            Cursor c = db.rawQuery(query, null);
+
+            c.moveToFirst();
+            double friendsRatingValue = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
+            disMatchValue = disMatchValue + calculateNewMatchValue(c);
+            c.close();
+
+        }
+
+
+    }
+
+    public double getPreviousDisMatchValue(long userId1, long userId2){
+
+    }
+
+    public double calculateNewMatchValue(Cursor c){
+
     }
 }

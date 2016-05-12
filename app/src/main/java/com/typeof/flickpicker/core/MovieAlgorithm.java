@@ -15,6 +15,7 @@ import java.util.List;
  * Created on 03/05/16.
  */
 
+// TODO: weight: have user and friends seen same movies - and rated them equally (--> make a score of this users impact on movie recommendation)
 //TODO: Need to check to make sure that there arent any duplicates of movies returned. HAve to take this into consideration - that several friends have different ratings to same movie
 
 public class MovieAlgorithm {
@@ -51,19 +52,18 @@ public class MovieAlgorithm {
 
         //first create a score log
         List<Double> score = new ArrayList<Double>();
-        for(int i = 0; i<friendsLatestMovies.size(); i++){
+        for(int i = 0; i<friendsLatestMovies.size(); i++) {
 
             Movie currentMovie = friendsLatestMovies.get(i);
 
-            if(currentMovie.getNumberOfVotes() != 0) {
+            if (currentMovie.getNumberOfVotes() != 0) {
                 double friendsScore = friendsRecommendations.get(i).getRating();
                 double communityScore = currentMovie.getCommunityRating();
                 String currentMovieName = currentMovie.getTitle();
-                double movieScore = ( communityScore + friendsScore ) / 2;
+                double movieScore = (communityScore + friendsScore) / 2;
 
                 score.add(movieScore);
-            }
-            else{
+            } else {
                 score.add(friendsRecommendations.get(i).getRating());
             }
         }
@@ -87,8 +87,6 @@ public class MovieAlgorithm {
                 }
             }
         }
-
         return friendsLatestMovies;
     }
-
 }
