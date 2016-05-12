@@ -40,9 +40,6 @@ public class RecommendationsFragment extends Fragment {
         mView = recommendationsView;
         mListViewFeed = (ListView) mView.findViewById(R.id.recommendationsListView);
 
-        List<Movie> movies = new ArrayList<>();
-        Adapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, movies);
-
         return recommendationsView;
     }
 

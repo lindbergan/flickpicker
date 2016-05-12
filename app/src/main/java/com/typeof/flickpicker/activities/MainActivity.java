@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.ArrayMap;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
@@ -15,13 +16,19 @@ import android.widget.TextView;
 import com.typeof.flickpicker.R;
 
 import java.lang.reflect.Type;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
 
     public static FragmentManager fragmentManager;
+    public static Fragment currentFragment;
 
+    private static Map<String, Bundle> fragmentArguments = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,35 +87,52 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabChanged(String tabId) {
-                if (tabId.equals("Recommendations")) {
-                    RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
-                    loadFragment(recommendationsFragment);
-                }
-                if (tabId.equals("Community")) {
-                    CommunityFragment communityFragment = new CommunityFragment();
-                    loadFragment(communityFragment);
-                }
-                if (tabId.equals("MyCollection")) {
-                    MyCollectionFragment myCollectionFragment = new MyCollectionFragment();
-                    loadFragment(myCollectionFragment);
-                }
-                if (tabId.equals("Search")) {
-                    SearchFragment searchFragment = new SearchFragment();
-                    loadFragment(searchFragment);
-                }
-                if (tabId.equals("Friends")) {
-                    FriendsFragment friendsFragment = new FriendsFragment();
-                    loadFragment(friendsFragment);
-                }
+
+            if (tabId.equals("Recommendations")) {
+                RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
+                loadFragment(recommendationsFragment, "recommendations");
+            }
+            if (tabId.equals("Community")) {
+                CommunityFragment communityFragment = new CommunityFragment();
+                loadFragment(communityFragment, "community");
+            }
+            if (tabId.equals("MyCollection")) {
+                MyCollectionFragment myColletionFragment = new MyCollectionFragment();
+                loadFragment(myColletionFragment, "myCollection");
+            }
+            if (tabId.equals("Search")) {
+                SearchFragment searchFragment = new SearchFragment();
+                loadFragment(searchFragment, "search");
+            }
+            if (tabId.equals("Friends")) {
+                FriendsFragment friendsFragment = new FriendsFragment();
+                loadFragment(friendsFragment, "friends");
+            }
             }
         });
     }
 
-    public static void loadFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.contentWrap, fragment);
-        fragmentTransaction.addToBackStack(null); // last fragment used can be reached with the back button
-        fragmentTransaction.commit();
+    public static void loadFragment(Fragment fragment, String fragmentTag) {
+
+        if (currentFragment != null) {
+            String abc = currentFragment.getTag();
+            fragmentArguments.put(currentFragment.getTag(), currentFragment.getArguments());
+        }
+
+        Bundle args = fragmentArguments.get(fragmentTag);
+
+        if (args != null) {
+            fragment.setArguments(args);
+        }
+
+        fragmentManager.beginTransaction()
+        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        .replace(R.id.contentWrap, fragment, fragmentTag)
+        .addToBackStack(null)
+        .commit();
+
+        currentFragment = fragment;
+
     }
 
     @Override

@@ -36,7 +36,7 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMoviesByYear;
     private int thisYear;
     private boolean isYearListCurrent;
-    SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
+    private String currentTab;
     //--------------------------------
     private SQLiteDatabase db;
     //--------------------------------
@@ -47,6 +47,8 @@ public class CommunityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+
         mMovieDAO = App.getMovieDAO();
 
         //--------------------------------
@@ -55,12 +57,23 @@ public class CommunityFragment extends Fragment {
         //--------------------------------
 
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        if (getArguments() != null) {
+            currentTab = getArguments().getString("currentTab");
+        } else {
+            currentTab = "topMovies";
+        }
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
+
+        if (savedInstanceState != null) {
+            String abc = savedInstanceState.getString("currentTab");
+        }
+
         hookUpViews(communityView);
         configureTabs(communityView);
         determineCurrentView();
@@ -108,34 +121,32 @@ public class CommunityFragment extends Fragment {
                         break;
                     default:
                         setTopMoviesByYearAsCurrentView();
-
                         break;
 
                 }
             }
         });
+
     }
 
     public void setTopMoviesAsCurrentView(){
         List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
-        viewTracker.setCurrentCommunityTab("topMovies");
+        currentTab = "topMovies";
     }
     public void setWorstMoviesAsCurrentView(){
         List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
         populateListView(listViewWorstMovies, worstMoviesAllTime);
-        viewTracker.setCurrentCommunityTab("worstMovies");
+        currentTab = "worstMovies";
     }
     public void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
-        populateListWithYears(listViewTopMoviesByYear,yearList);
-        viewTracker.setCurrentCommunityTab("topMoviesByYear");
+        populateListWithYears(listViewTopMoviesByYear, yearList);
+        currentTab = "topMoviesByYear";
     }
 
     //Maybe better with an ENUM solution
     public void determineCurrentView(){
-
-        String currentTab = viewTracker.getCurrentCommunityTab();
 
         if(currentTab.equals("topMovies")){
             setTopMoviesAsCurrentView();
@@ -196,19 +207,6 @@ public class CommunityFragment extends Fragment {
 
     public void setUpListeners() {
 
-        listViewTopMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Go to MovieView/DetailedView
-            }
-        });
-
-        listViewWorstMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Go to MovieView/DetailedView
-            }
-        });
 
         listViewTopMoviesByYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -249,6 +247,24 @@ public class CommunityFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public String getCurrentTab() {
+        return currentTab;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("currentTab", this.getCurrentTab());
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.currentTab = savedInstanceState.getString("currentTab");
+        }
     }
 }
 

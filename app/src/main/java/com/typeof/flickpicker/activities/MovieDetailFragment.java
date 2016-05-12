@@ -22,7 +22,6 @@ import com.typeof.flickpicker.utils.RatingHelper;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * FlickPicker
  * Group 22
