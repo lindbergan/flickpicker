@@ -10,6 +10,13 @@
     <dimen name="header_height">32dp</dimen>
 
 
+
+    <!-- List cell dimensions -->
+
+    <dimen name="list_cell_image_width">100dp</dimen>
+    <dimen name="list_cell_content_holder_width">300dp</dimen>
+
+
     <!-- Defining dimensions for movie detail view -->
 
     <dimen name="movie_detail_default_margin">15dp</dimen>

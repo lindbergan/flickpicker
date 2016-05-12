@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:background="@color/color_backdrop"
         android:divider="@color/color_backdrop"
-        android:dividerHeight="5sp"
+        android:dividerHeight="7dp"
         tools:listitem="@android:layout/simple_list_item_1"/>
 
 </RelativeLayout>

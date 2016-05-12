@@ -44,7 +44,7 @@ public class FriendsActivityAdapter extends CustomAdapter {
 
         viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
         viewHolder.moviename.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
-        viewHolder.movieyear.setText("(" + String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()) + ")");
+        viewHolder.movieyear.setText(" (" + String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()) + ")");
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
         return convertView;
     }
