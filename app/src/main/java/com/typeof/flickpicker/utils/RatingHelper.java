@@ -1,6 +1,7 @@
 package com.typeof.flickpicker.utils;
 
 import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.RatingDAO;
 
 /**
@@ -11,13 +12,19 @@ import com.typeof.flickpicker.database.RatingDAO;
 public class RatingHelper {
 
 
-    public static void createNewRating(long userId, long movieId, double rating){
+    public static void createNewRating(double rating, long movieId, long userId){
 
         RatingDAO ratingDAO = App.getRatingDAO();
-
+        Rating newRating = new Rating(rating, movieId, userId);
+        ratingDAO.saveRating(newRating);
 
     }
 
+
+    public static void updateUserMatchings(){
+
+
+    }
 
 
 }

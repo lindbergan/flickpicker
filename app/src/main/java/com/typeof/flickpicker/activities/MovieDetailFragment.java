@@ -20,6 +20,7 @@ import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
+import com.typeof.flickpicker.utils.RatingHelper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -98,13 +99,8 @@ public class MovieDetailFragment extends Fragment {
                 if(hasUserSeenMovie()){
                     return;
                 }else {
-
-                    RatingDAO ratingDAO = App.getRatingDAO();
-                    long userId = App.getCurrentUser().getId();
-
                     double numStars = (double) ratingBar.getNumStars();
-                    Rating newRating = new Rating(numStars, movieId, userId);
-                    ratingDAO.saveRating(newRating);
+                    RatingHelper.createNewRating(numStars, movieId, App.getCurrentUser().getId());
                 }
             }
         });
