@@ -16,13 +16,14 @@ public class MainActivity extends AppCompatActivity {
     TabHost tabHost;
     private Button mButtonCommunity;
     private Button mButtonMyCollection;
-    private FragmentManager fragmentManager = getFragmentManager();
+    public static FragmentManager fragmentManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fragmentManager = getFragmentManager();
 
         tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void configureTabs() {
+
         final TabHost.TabSpec mTabSpecRecommendations = tabHost.newTabSpec("Recommendations");
         mTabSpecRecommendations.setContent(R.id.tabRecommendations);
         mTabSpecRecommendations.setIndicator("R");
@@ -61,31 +63,31 @@ public class MainActivity extends AppCompatActivity {
             public void onTabChanged(String tabId) {
                 if (tabId.equals("Recommendations")) {
                     RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
-                    loadFragment(recommendationsFragment, R.id.contentWrap);
+                    loadFragment(recommendationsFragment);
                 }
                 if (tabId.equals("Community")) {
                     CommunityFragment communityFragment = new CommunityFragment();
-                    loadFragment(communityFragment, R.id.contentWrap);
+                    loadFragment(communityFragment);
                 }
                 if (tabId.equals("MyCollection")) {
                     MyCollectionFragment myColletionFragment = new MyCollectionFragment();
-                    loadFragment(myColletionFragment, R.id.contentWrap);
+                    loadFragment(myColletionFragment);
                 }
                 if (tabId.equals("Search")) {
                     SearchFragment searchFragment = new SearchFragment();
-                    loadFragment(searchFragment, R.id.contentWrap);
+                    loadFragment(searchFragment);
                 }
                 if (tabId.equals("Friends")) {
                     FriendsFragment friendsFragment = new FriendsFragment();
-                    loadFragment(friendsFragment, R.id.contentWrap);
+                    loadFragment(friendsFragment);
                 }
             }
         });
     }
 
-    private void loadFragment(Fragment fragment, int containerViewId) {
+    public static void loadFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(containerViewId, fragment);
+        fragmentTransaction.replace(R.id.contentWrap, fragment);
         fragmentTransaction.addToBackStack(null); // last fragment used can be reached with the back button
         fragmentTransaction.commit();
     }

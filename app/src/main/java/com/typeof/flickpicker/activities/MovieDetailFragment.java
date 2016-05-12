@@ -58,7 +58,7 @@ public class MovieDetailFragment extends Fragment {
 
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
 
-        hookUpViews();
+        hookUpViews(movieDetailView);
         setMovieTextFields();
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
@@ -91,22 +91,22 @@ public class MovieDetailFragment extends Fragment {
     /**
      * method to assign variables to their different combonents in the layout.
      */
-    public void hookUpViews(){
+    public void hookUpViews(View view){
 
         //TODO: add icons to Movies
         //setting up image view
-        movieImage = (ImageView) getView().findViewById(R.id.movieDetailImageView);
+        movieImage = (ImageView) view.findViewById(R.id.movieDetailImageView);
 
         //setting up text views
-        movieTitle = (TextView) getView().findViewById(R.id.movieDetailTitleTextField);
-        movieGenre = (TextView) getView().findViewById(R.id.movieDetailGenreTextField);
-        numOfFriendsSeen = (TextView) getView().findViewById(R.id.movieDetailNumOfFriendsSeen);
-        communityRating = (TextView) getView().findViewById(R.id.movieDetailCommunityRating);
-        movieDescription = (TextView) getView().findViewById(R.id.descriptionTextField);
-        ratingBar = (RatingBar) getView().findViewById(R.id.movieDetailRatingBar);
+        movieTitle = (TextView) view.findViewById(R.id.movieDetailTitleTextField);
+        movieGenre = (TextView) view.findViewById(R.id.movieDetailGenreTextField);
+        numOfFriendsSeen = (TextView) view.findViewById(R.id.movieDetailNumOfFriendsSeen);
+        communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
+        movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
+        ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
 
         //setting up button
-        rateButton = (Button) getView().findViewById(R.id.movieDetailRateButton);
+        rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
 
     }
 
