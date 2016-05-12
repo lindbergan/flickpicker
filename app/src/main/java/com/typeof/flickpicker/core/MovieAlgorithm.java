@@ -25,7 +25,6 @@ public class MovieAlgorithm {
      */
     public static List<Movie> getRecommendations(User user){
 
-        //algorithm
         List<Movie> results = new ArrayList<>();
 
         //fetch friends latest movie ratings;
@@ -33,13 +32,19 @@ public class MovieAlgorithm {
 
         //convert them into movies:
         List<Movie> friendsLatestMovies = new ArrayList<Movie>();
+        List<Double> friendsCombinedRecommendations = new ArrayList<Double>();
 
-        //loop through the ratings and extract the movies:
+        //loop through the ratings and extract the  uniqe movies and save the users friends' recommendations for those movies:
         for (int i = 0; i<friendsRecommendations.size(); i++){
 
             long currentMovieId = friendsRecommendations.get(i).getMovieId();
             Movie currentMovie = App.getMovieDAO().findMovie(currentMovieId);
-            friendsLatestMovies.add(currentMovie);
+            String name = currentMovie.getTitle();
+
+            //adds current movie if not previously in the list
+            if(!(friendsLatestMovies.contains(currentMovie))){
+                friendsLatestMovies.add(currentMovie);
+            }
         }
 
         //...now do the magic:
@@ -50,8 +55,12 @@ public class MovieAlgorithm {
 
             Movie currentMovie = friendsLatestMovies.get(i);
 
-            if(currentMovie.getCommunityRating() != 0) {
-                double movieScore = (currentMovie.getCommunityRating() + friendsRecommendations.get(i).getRating()) / 2;
+            if(currentMovie.getNumberOfVotes() != 0) {
+                double friendsScore = friendsRecommendations.get(i).getRating();
+                double communityScore = currentMovie.getCommunityRating();
+                String currentMovieName = currentMovie.getTitle();
+                double movieScore = ( communityScore + friendsScore ) / 2;
+
                 score.add(movieScore);
             }
             else{
@@ -64,15 +73,15 @@ public class MovieAlgorithm {
 
             for (int j = 0; j<friendsLatestMovies.size()-1; j++){
 
-                if(score.get(j+1) < score.get(j)) {
+                if(score.get(j+1) > score.get(j)) {
 
-                    double lesserScore = score.get(j + 1);
-                    double higherScore = score.get(j);
-                    Movie lesserScoredMovie = friendsLatestMovies.get(j+1);
-                    Movie higherScoredMovie = friendsLatestMovies.get(j);
+                    double lesserScore = score.get(j);
+                    double higherScore = score.get(j+1);
+                    Movie lesserScoredMovie = friendsLatestMovies.get(j);
+                    Movie higherScoredMovie = friendsLatestMovies.get(j+1);
 
-                    friendsLatestMovies.set(j, lesserScoredMovie);
-                    friendsLatestMovies.set(j+1, higherScoredMovie);
+                    friendsLatestMovies.set(j, higherScoredMovie);
+                    friendsLatestMovies.set(j+1, lesserScoredMovie);
                     score.set(j, score.get(j + 1));
                     score.set(j + 1, score.get(j));
                 }

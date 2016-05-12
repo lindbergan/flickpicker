@@ -128,7 +128,7 @@ public class SQLDatabase implements Database {
         long movieIdBirdman = mMovieDAO.saveMovie(birdman);
 
         Movie interstellar = new Movie("Interstellar", 2014);
-        interstellar.setCommunityRating(4.6);
+        interstellar.setCommunityRating(4.0);
         long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
 
 
@@ -186,7 +186,6 @@ public class SQLDatabase implements Database {
         mRatingDAO.saveRating(testRating6);
 
         // Test friends
-
         long currentUserId = App.getCurrentUser().getId();
         mFriendDAO.addFriend(new Friend(currentUserId, user1Id));
         mFriendDAO.addFriend(new Friend(currentUserId, user2Id));
@@ -212,14 +211,16 @@ public class SQLDatabase implements Database {
         mUserDAO.saveUser(new User("Karim", "admin"));
 
 
-        //RECOMMENDATONDATA
+        //RECOMMENDATION_DATA
 
         User primaryUser = App.getCurrentUser();
 
         Movie savingPrivateRyan = new Movie("Saving Private Ryan", 1995);
         Movie fireWalkWithMe = new Movie("Fire Walk with Me", 1991);
         savingPrivateRyan.setCommunityRating(2);
-        fireWalkWithMe.setCommunityRating(4);
+        fireWalkWithMe.setCommunityRating(5);
+        savingPrivateRyan.setNumberOfVotes(1);
+        fireWalkWithMe.setNumberOfVotes(1);
         long savingPrivateRyanMovieId = mMovieDAO.saveMovie(savingPrivateRyan);
         long fireWalkWithMeMovieId = mMovieDAO.saveMovie(fireWalkWithMe);
 
@@ -230,8 +231,8 @@ public class SQLDatabase implements Database {
         long secondFriendId = mUserDAO.saveUser(secondFriend);
 
         //let them rate the two movies:
-        long firstFriendRatingId = mRatingDAO.saveRating(new Rating(5, savingPrivateRyanMovieId, firstFriendId));
-        long secondFriendRatingId = mRatingDAO.saveRating(new Rating(1, fireWalkWithMeMovieId, secondFriendId));
+        long firstFriendRatingId = mRatingDAO.saveRating(new Rating(3, savingPrivateRyanMovieId, firstFriendId));
+        long secondFriendRatingId = mRatingDAO.saveRating(new Rating(2.1, fireWalkWithMeMovieId, secondFriendId));
 
         //finally... ad the as friends to primaryUser
         mFriendDAO.addFriend(new Friend(primaryUser.getId(), firstFriendId));
