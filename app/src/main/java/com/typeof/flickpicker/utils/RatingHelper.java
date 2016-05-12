@@ -12,16 +12,26 @@ import com.typeof.flickpicker.database.RatingDAO;
 public class RatingHelper {
 
 
+
+    /**
+     * static helper method for creating a new rating
+     * @param rating
+     * @param movieId
+     * @param userId
+     */
     public static void createNewRating(double rating, long movieId, long userId){
 
         RatingDAO ratingDAO = App.getRatingDAO();
         Rating newRating = new Rating(rating, movieId, userId);
         ratingDAO.saveRating(newRating);
 
+
+        updateUserMatching();
     }
 
 
-    public static void updateUserMatchings(){
+
+    private static void updateUserMatching(){
 
 
     }
