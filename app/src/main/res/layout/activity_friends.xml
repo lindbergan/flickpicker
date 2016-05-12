@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/color_backdrop"
     tools:context=".activities.FriendsFragment">
 
     <ListView
@@ -16,6 +17,9 @@
         android:id="@+id/mFeed"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:background="@color/color_backdrop"
+        android:divider="@color/color_backdrop"
+        android:dividerHeight="5sp"
         tools:listitem="@android:layout/simple_list_item_1"/>
 
 </RelativeLayout>

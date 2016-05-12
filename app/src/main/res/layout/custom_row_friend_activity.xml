@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_backdrop"
+    android:background="@drawable/list_cell"
     android:weightSum="1">
 
     <ImageView
@@ -18,7 +18,8 @@
         android:orientation="vertical"
         android:layout_width="297dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right|top">
+        android:layout_gravity="right|top"
+        android:padding="2dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -28,16 +29,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="User"
-                android:id="@+id/username_textview"/>
+                android:id="@+id/username_textview"
+                android:textStyle="bold"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" just watched.."
-                android:id="@+id/textView4"/>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=" just watched..."
+                android:id="@+id/textView4"
+                android:textStyle="italic"
+                android:textSize="14dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -48,18 +53,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Movie"
                 android:id="@+id/moviename_textview"
-                android:layout_gravity="center_horizontal|left"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text=" (year)"
-                android:id="@+id/movie_year_textview"
-                android:layout_gravity="center_horizontal|left"/>
+                android:id="@+id/movie_year_textview" />
         </LinearLayout>
 
         <TextView
@@ -68,14 +72,16 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="...and rated it: "
             android:id="@+id/textView3"
-            />
+            android:textStyle="italic"
+            android:textSize="13sp" />
 
         <RatingBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ratingBar"
             android:isIndicator="true"
-            />
+            android:scaleX="0.8"
+            android:scaleY="0.8" />
 
     </LinearLayout>
 

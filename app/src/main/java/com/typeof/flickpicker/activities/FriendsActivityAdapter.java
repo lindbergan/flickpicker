@@ -9,9 +9,9 @@ import android.widget.TextView;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Rating;
 
-public class RatingAdapter extends CustomAdapter {
+public class FriendsActivityAdapter extends CustomAdapter {
 
-    public RatingAdapter(Context context, Object[] obj) {
+    public FriendsActivityAdapter(Context context, Object[] obj) {
         super(context, obj);
     }
 
@@ -31,7 +31,7 @@ public class RatingAdapter extends CustomAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflator = LayoutInflater.from(getContext());
-            convertView = inflator.inflate(R.layout.custom_row_rating, parent, false);
+            convertView = inflator.inflate(R.layout.custom_row_friend_activity, parent, false);
             viewHolder.username = (TextView) convertView.findViewById(R.id.username_textview);
             viewHolder.moviename = (TextView) convertView.findViewById(R.id.moviename_textview);
             viewHolder.movieyear = (TextView) convertView.findViewById(R.id.movie_year_textview);
@@ -44,7 +44,7 @@ public class RatingAdapter extends CustomAdapter {
 
         viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
         viewHolder.moviename.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
-        viewHolder.movieyear.setText(String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()));
+        viewHolder.movieyear.setText("(" + String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()) + ")");
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
         return convertView;
     }
