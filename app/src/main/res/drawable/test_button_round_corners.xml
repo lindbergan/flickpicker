@@ -4,21 +4,21 @@
         <shape android:shape="rectangle"  >
             <corners android:radius="5dip" />
             <stroke android:width="1dip" android:color="@color/color_primary_dark" />
-            <gradient android:angle="-90" android:startColor="@color/color_rating_button_inactive" android:endColor="@color/color_backdrop"  />
+            <gradient android:angle="-90" android:startColor="@color/color_rating_button_2" android:endColor="@color/color_rating_button_2_secondary"  />
         </shape>
     </item>
     <item android:state_focused="true">
         <shape android:shape="rectangle"  >
             <corners android:radius="5dip" />
             <stroke android:width="1dip" android:color="@color/color_primary_dark" />
-            <solid android:color="@color/color_rating_button_inactive"/>
+            <solid android:color="@color/color_rating_button_2_secondary"/>
         </shape>
     </item>
     <item >
         <shape android:shape="rectangle"  >
             <corners android:radius="5dip" />
             <stroke android:width="1dip" android:color="@color/color_primary_dark" />
-            <gradient android:angle="-90" android:startColor="@color/color_rating_button_inactive" android:endColor="@color/color_backdrop" />
+            <gradient android:angle="-90" android:startColor="@color/color_rating_button_2" android:endColor="@color/color_rating_button_2_secondary" />
         </shape>
     </item>
 </selector>
