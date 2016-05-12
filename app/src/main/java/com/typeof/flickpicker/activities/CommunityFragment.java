@@ -5,6 +5,7 @@ import android.app.Application;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -49,7 +50,6 @@ public class CommunityFragment extends Fragment {
     //TESTING
     private FragmentManager fragmentManager = getFragmentManager();
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +59,6 @@ public class CommunityFragment extends Fragment {
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
         db = dbhelper.getWritableDatabase();
         //--------------------------------
-
-        //reboot the database
-        App.getDatabase().dropTables();
-        App.getDatabase().setUpTables();
-
-        //Feed the database with dummy Data
-        SeedData.seedCommunityData();
     }
 
     @Nullable

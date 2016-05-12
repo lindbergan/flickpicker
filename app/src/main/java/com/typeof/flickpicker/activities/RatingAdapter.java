@@ -31,7 +31,7 @@ public class RatingAdapter extends CustomAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflator = LayoutInflater.from(getContext());
-            convertView = inflator.inflate(R.layout.custom_row, parent, false);
+            convertView = inflator.inflate(R.layout.custom_row_rating, parent, false);
             viewHolder.username = (TextView) convertView.findViewById(R.id.username_textview);
             viewHolder.moviename = (TextView) convertView.findViewById(R.id.moviename_textview);
             viewHolder.movieyear = (TextView) convertView.findViewById(R.id.movie_year_textview);

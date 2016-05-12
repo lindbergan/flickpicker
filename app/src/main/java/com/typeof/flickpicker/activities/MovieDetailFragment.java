@@ -66,6 +66,7 @@ public class MovieDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
+
         hookUpViews(movieDetailView);
         setMovieTextFields();
         setAddToPlaylistWidgets();
@@ -130,6 +131,9 @@ public class MovieDetailFragment extends Fragment {
         //setting up rate bar and button and add-to-playlist button
         addToWatchListButton = (Button) view.findViewById(R.id.movieDetailAddToPlaylistButton);
         ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
+
+
+        //setting up button
         rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
 
     }
@@ -244,7 +248,7 @@ public class MovieDetailFragment extends Fragment {
      */
     public void setRateButtonActive(){
 
-        rateButton.setBackgroundResource(R.color.color_rating_button);
+        rateButton.setBackgroundResource(R.drawable.test_button_round_corners);
         rateButton.setClickable(true);
     }
 
@@ -252,7 +256,7 @@ public class MovieDetailFragment extends Fragment {
      * method to inactivate rate button and change its appearance
      */
     public void setRateButtonInactive(){
-        rateButton.setBackgroundResource(R.color.color_rating_button_inactive);
+        rateButton.setBackgroundResource(R.drawable.button_inactive);
         rateButton.setClickable(false);
     }
 

@@ -32,12 +32,6 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //reboot the database
-        App.getDatabase().dropTables();
-        App.getDatabase().setUpTables();
-
-        //Feed the database with dummy Data
-        SeedData.seedSearchData();
     }
 
     @Nullable
