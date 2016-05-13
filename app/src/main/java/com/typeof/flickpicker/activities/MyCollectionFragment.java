@@ -88,21 +88,14 @@ public class MyCollectionFragment extends Fragment {
                 }
                 else{
 
-                    //get user's playlists, loop through them and save the movies in a new array:
-                    List<Playlist> usersPlaylist = App.getPlaylistDAO().getUserPlaylists(App.getCurrentUser().getId());
+                    Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
 
                     List<Movie> usersPlaylistMovies = new ArrayList<Movie>();
-                    Iterator<Playlist> playlistIterator = usersPlaylist.iterator();
 
-                    while(playlistIterator.hasNext()){
+                    for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
 
-                        Playlist currentPlaylist = playlistIterator.next();
-
-                        for(int i = 0; i < currentPlaylist.getMovieIds().size(); i++){
-
-                            long movieId = currentPlaylist.getMovieIds().get(i).longValue();
-                            usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
-                        }
+                        long movieId = usersPlaylist.getMovieIds().get(i).longValue();
+                        usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
                     }
 
                     //...send that array along with the specified listview to populate it

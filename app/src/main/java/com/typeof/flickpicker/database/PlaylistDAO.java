@@ -10,6 +10,6 @@ import java.util.List;
 public interface PlaylistDAO {
     long savePlaylist(Playlist playlist);
     Playlist findPlaylistById(long id);
-    List<Playlist> getUserPlaylists(long userId);
+    Playlist getPlaylist(long userId);
     long removePlaylist(Playlist playlist);
 }

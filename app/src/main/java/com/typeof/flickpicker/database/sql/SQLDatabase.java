@@ -46,7 +46,6 @@ public class SQLDatabase implements Database {
         //-----Rating-----
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
 
-
         //-----Playlist-----
         db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
 

@@ -53,11 +53,12 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
     }
 
     private Playlist createPlaylistFromCursor(Cursor c) {
+
         Gson gson = new Gson();
-        long id = c.getLong(c.getColumnIndex(PlaylistTable.PlaylistEntry.COLUMN_NAME_ID));
-        String title = c.getString(c.getColumnIndex(PlaylistTable.PlaylistEntry.COLUMN_NAME_TITLE));
-        long userId = c.getLong(c.getColumnIndex(PlaylistTable.PlaylistEntry.COLUMN_NAME_USER_ID));
-        String moviesListJSON = c.getString(c.getColumnIndex(PlaylistTable.PlaylistEntry.COLUMN_NAME_MOVIES_LIST));
+        long id = c.getLong(c.getColumnIndex("id"));
+        String title = c.getString(c.getColumnIndex("title"));
+        long userId = c.getLong(c.getColumnIndex("user_id"));
+        String moviesListJSON = c.getString(c.getColumnIndex("movies_list"));
         List<Number> moviesFromDB = gson.fromJson(moviesListJSON, new TypeToken<ArrayList<Number>>(){}.getType());
 
         Playlist playlist = new Playlist(title, userId, moviesFromDB);
@@ -69,19 +70,16 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
     }
 
     @Override
-    public List<Playlist> getUserPlaylists(long userId) {
-        List<Playlist> playlists = new ArrayList<>();
-        Cursor c = db.rawQuery("SELECT * FROM playlists WHERE user_id = ?", new String[]{String.valueOf(userId)});
+    public Playlist getPlaylist(long userId) {
+
+        String query = "select * from playlists where playlists.user_id = ?";
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(userId)});
         c.moveToFirst();
-        try {
-            do {
-                playlists.add(createPlaylistFromCursor(c));
-            }
-            while(c.moveToNext());
-        } finally {
-            c.close();
-        }
-        return playlists;
+        Playlist p = createPlaylistFromCursor(c);
+        c.close();
+
+        return p;
     }
 
     /**
