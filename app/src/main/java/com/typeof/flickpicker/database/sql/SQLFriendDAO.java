@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
@@ -26,6 +27,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
     private SQLUserDAO sql;
     private SQLiteDatabase db;
     private SQLRatingDAO mRatingDAO;
+    private SQLMovieDAO mMovieDAO;
 
     public SQLFriendDAO(Context ctx) {
         super(ctx);
@@ -33,6 +35,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = dbhelper.getWritableDatabase();
         mRatingDAO = new SQLRatingDAO(ctx);
+        mMovieDAO = new SQLMovieDAO(ctx);
     }
 
     /**
@@ -132,51 +135,58 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         return ratings;
     }
 
-    @Override
-    public void updateFriendMatches(Rating rating){
 
+    @Override
+    public void updateFriendMatches(Rating rating){}
+
+/*
         // from the rating -> extract the movie && user.
         // get that users friends.
         // compare the users rating with friends' and see if they have a rating of the same movieId with a sql question
         // from that cursor - update the corresponding dismatch value in friendTable (Freind.setMatch())
+
         long currentMovieId = rating.getMovieId();
         long currentUserId = rating.getUserId();
-
+        int desiredSizeIfList = 100;
+        List<Movie> usersMovieCollection = mMovieDAO.getUsersMovieCollection(desiredSizeIfList, currentUserId);
         List<User> friends = getFriendsFromUserId(currentUserId);
 
-        String ratingsTable = RatingTable.RatingEntry.TABLE_NAME;
-        String ratingMovieId = ratingsTable + "." +RatingTable.RatingEntry.COLUMN_NAME_MOVIEID;
-        String ratingUserId = ratingsTable + "." +RatingTable.RatingEntry.COLUMN_NAME_USERID;
+        String[] movieTitles = extractMovieTitlesFromMovies(usersMovieCollection);
 
 
         for (int i = 0; i<friends.size(); i++) {
 
             //the SQL-question to get disMatchValue:
             long currentFriendsId = friends.get(i).getId();
-            double disMatchValue = getPreviousDisMatchValue(currentUserId, currentFriendsId); //needs to be an SQL question
 
-            String query = "SELECT * FROM " + ratingsTable + " " +
-                    "WHERE " + ratingMovieId +
-                    " LIKE \'" + currentMovieId + "\' " + " AND " + ratingUserId +
-                    " LIKE \'" + currentFriendsId + "\' ";
+            String query = "SELECT e.rating AS firstPersonsRating, e.movieId As firstPersonsMovie," +
+                    " m.rating AS secondPersonsRating, m.seconPersonsMovie " + "FROM ratings e "
+                    + "INNER JOIN ratings m ON m.userId LIKE 1 AND m.movieId like 15 and e.userId like 22 and e.MovieId like 15";
 
-            Cursor c = db.rawQuery(query, null);
+            Cursor c = db.rawQuery(query, movieTitles);
 
-            c.moveToFirst();
-            double friendsRatingValue = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
-            disMatchValue = disMatchValue + calculateNewMatchValue(c);
+            //testvalues:
+            int testINt = c.getCount();
+            //c.getDouble(e.ra)
+
             c.close();
 
         }
-
-
     }
 
-    public double getPreviousDisMatchValue(long userId1, long userId2){
+    public String[] extractMovieTitlesFromMovies(List<Movie> movies){
 
+        //exctract the titles
+        String[] movieTitles = new String[movies.size()];
+        for (int i = 0; i < movies.size(); i++){
+
+            String title = movies.get(i).getTitle();
+            movieTitles[i] = title;
+        }
+
+        return movieTitles;
     }
+    */
 
-    public double calculateNewMatchValue(Cursor c){
 
-    }
 }
