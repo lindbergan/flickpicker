@@ -19,5 +19,8 @@
         android:background="@color/color_backdrop"
         android:divider="@color/color_backdrop"
         android:dividerHeight="7dp"
+        android:paddingTop="7dp"
+        android:paddingBottom="7dp"
+        android:clipToPadding="false"
         tools:listitem="@android:layout/simple_list_item_1"/>
 </RelativeLayout>
