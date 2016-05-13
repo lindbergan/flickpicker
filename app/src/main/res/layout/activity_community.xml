@@ -20,7 +20,8 @@
                 android:id="@android:id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/color_accent">
+                android:background="@color/color_accent"
+                >
             </TabWidget>
 
             <FrameLayout
@@ -35,7 +36,8 @@
                     android:id="@+id/tabTopMovies"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    >
 
                     <ListView
                         android:layout_width="match_parent"
