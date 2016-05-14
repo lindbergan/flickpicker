@@ -1,12 +1,9 @@
 package com.typeof.flickpicker.database;
 
-import android.test.AndroidTestCase;
 import android.test.ApplicationTestCase;
-
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.UserTable;
-
 import java.util.List;
 
 /**
@@ -72,7 +69,7 @@ public class UserDAOTest extends ApplicationTestCase<App> {
      */
     public void testSearchUser() throws Exception {
         long userId = mUserDao.saveUser(new User("Frodo", "123"));
-        User createdUser = mUserDao.getUserById(userId);
+        mUserDao.getUserById(userId);
 
         //creates list with search hits with search string "Fro"
         List<User> results = mUserDao.searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, "Fro");

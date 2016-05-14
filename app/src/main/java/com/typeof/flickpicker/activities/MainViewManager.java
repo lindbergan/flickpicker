@@ -1,6 +1,5 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.Activity;
 import android.app.Fragment;
 
 /**

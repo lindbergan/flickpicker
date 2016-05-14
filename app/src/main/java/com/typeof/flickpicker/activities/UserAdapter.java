@@ -33,8 +33,8 @@ public class UserAdapter extends CustomAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            LayoutInflater inflator = LayoutInflater.from(getContext());
-            convertView = inflator.inflate(R.layout.custom_row_search_users, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.custom_row_search_users, parent, false);
             viewHolder.userName = (TextView) convertView.findViewById(R.id.username_textview);
             viewHolder.userScore = (TextView) convertView.findViewById(R.id.userScore_textview);
             convertView.setTag(viewHolder);

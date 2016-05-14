@@ -7,7 +7,8 @@
                   android:background="#7e7e7e">
 
         <ImageView
-            android:layout_width="fill_parent"
+            android:contentDescription="@string/no_user_profile_desc"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:id="@+id/imageView_movieCell"
             android:src="@drawable/no_user_profile"
@@ -36,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Movie"
+                    android:text="@string/movieTextView"
                     android:id="@+id/moviename_textview_movieCell"
                     android:layout_gravity="center_horizontal|left"/>
 
@@ -44,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text=" (year)"
+                    android:text="@string/yearTextView"
                     android:id="@+id/movie_year_textview_movieCell"
                     />
             </LinearLayout>

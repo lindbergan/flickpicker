@@ -21,7 +21,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Community"
+        android:text="@string/communityButton"
         android:id="@+id/goToCommunityTab"
         android:layout_above="@+id/goToMyCollectionTab"
         android:layout_alignParentStart="true"/>
@@ -29,7 +29,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="MyCollection"
+        android:text="@string/myCollectionButton"
         android:id="@+id/goToMyCollectionTab"
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/goToCommunityTab"/>

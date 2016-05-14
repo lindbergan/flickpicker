@@ -1,9 +1,7 @@
 package com.typeof.flickpicker.database.sql;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
@@ -139,7 +137,7 @@ public class SQLDatabase implements Database {
         long ratingid3 = mRatingDAO.saveRating(new Rating(4.5,movieIdBraveHeart, userId));
 
         //create a playlist for user and make sure that the correct movies are displayed
-        List<Number> usersPlayListItems = new ArrayList<Number>();
+        List<Number> usersPlayListItems = new ArrayList<>();
         usersPlayListItems.add(movieIdBirdman);
         usersPlayListItems.add(movieIdGuardianOfTheGalaxy);
         usersPlayListItems.add(movieIdInterstellar);

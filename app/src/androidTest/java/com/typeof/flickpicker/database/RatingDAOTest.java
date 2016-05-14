@@ -1,5 +1,4 @@
 package com.typeof.flickpicker.database;
-import android.test.AndroidTestCase;
 import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
@@ -121,7 +120,7 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
         mSQLRatingDAO.removeRating(ratingId);
 
         try {
-            Rating foundRating = mSQLRatingDAO.findRating(ratingId);
+            mSQLRatingDAO.findRating(ratingId);
             Assert.fail("Throw record not found exception");
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!

@@ -18,7 +18,6 @@ public class FriendsFragment extends Fragment {
     private FriendDAO mFriendDAO;
     private List<Rating> mFriendsRecentActivity;
     private ListView mListViewFeed;
-    private View mView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -31,8 +30,7 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View communityView = inflater.inflate(R.layout.activity_friends, container, false);
 
-        mView = communityView;
-        mListViewFeed = (ListView) mView.findViewById(R.id.mFeed);
+        mListViewFeed = (ListView) communityView.findViewById(R.id.mFeed);
 
         updateFriendsRecentActivity();
         initAdapters();
@@ -47,7 +45,7 @@ public class FriendsFragment extends Fragment {
     }
 
     public void updateFriendsRecentActivity() {
-        long asd = App.getCurrentUser().getId();
+        App.getCurrentUser().getId();
         mFriendsRecentActivity = mFriendDAO.getFriendsLatestActivities(App.getCurrentUser().getId());
     }
 

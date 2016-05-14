@@ -13,5 +13,15 @@
     <string name="movie_detail_add_to_watchlist_button">+</string>
     <string name="movie_detail_rate_button">Rate!</string>
 
+    <string name="no_user_profile_desc">User has not selected a profile picture</string>
+    <string name="communityButton">Community</string>
+    <string name="userTextView">User</string>
+    <string name="myCollectionButton">MyCollection</string>
+    <string name="has_watchedTextView">has watched..</string>
+    <string name="movieTextView">Movie</string>
+    <string name="just_watchedTextView">just watched..</string>
+    <string name="yearTextView">(year)</string>
+    <string name="and_rated_it_Textview">...and rated it:</string>
+    <string name="add_movie_to_playlist">Add movie to playlist</string>
 
 </resources>

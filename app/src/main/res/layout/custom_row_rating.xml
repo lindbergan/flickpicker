@@ -7,7 +7,8 @@
     android:weightSum="1">
 
     <ImageView
-        android:layout_width="fill_parent"
+        android:contentDescription="@string/no_user_profile_desc"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:id="@+id/imageView"
         android:src="@drawable/no_user_profile"
@@ -29,14 +30,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="User"
+                android:text="@string/userTextView"
                 android:id="@+id/username_textview"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text=" just watched.."
+                android:text="@string/just_watchedTextView"
                 android:id="@+id/textView4"/>
         </LinearLayout>
 
@@ -49,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Movie"
+                android:text="@string/movieTextView"
                 android:id="@+id/moviename_textview"
                 android:layout_gravity="center_horizontal|left"/>
 
@@ -57,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text=" (year)"
+                android:text="@string/yearTextView"
                 android:id="@+id/movie_year_textview"
                 android:layout_gravity="center_horizontal|left"/>
         </LinearLayout>
@@ -66,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="...and rated it: "
+            android:text="@string/and_rated_it_Textview"
             android:id="@+id/textView3"
             />
 

@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
         App.getDatabase().seedDatabase();
 
         tabHost = (TabHost) findViewById(R.id.tabHost);
-        tabHost.setup();
+        if (tabHost != null) {
+            tabHost.setup();
+        }
         configureTabs();
     }
 
@@ -72,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(communityFragment);
                 }
                 if (tabId.equals("MyCollection")) {
-                    MyCollectionFragment myColletionFragment = new MyCollectionFragment();
-                    loadFragment(myColletionFragment);
+                    MyCollectionFragment myCollectionFragment = new MyCollectionFragment();
+                    loadFragment(myCollectionFragment);
                 }
                 if (tabId.equals("Search")) {
                     SearchFragment searchFragment = new SearchFragment();

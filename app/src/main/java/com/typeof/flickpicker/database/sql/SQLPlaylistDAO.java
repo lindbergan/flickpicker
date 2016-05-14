@@ -3,15 +3,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.typeof.flickpicker.core.DatabaseObject;
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.PlaylistDAO;
-
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

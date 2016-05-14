@@ -1,15 +1,12 @@
 package com.typeof.flickpicker.database;
-import android.test.AndroidTestCase;
-import android.test.ApplicationTestCase;
 
+import android.test.ApplicationTestCase;
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-
 import junit.framework.Assert;
-
 import java.util.List;
 
 /**
@@ -123,7 +120,7 @@ public class MovieDAOTest extends ApplicationTestCase<App> {
         mMovieDAO.deleteMovie(movie);
 
         try {
-            Movie foundMovie = mMovieDAO.findMovie(id);
+            mMovieDAO.findMovie(id);
             Assert.fail("Throw record not found exception");
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!
@@ -219,12 +216,12 @@ public class MovieDAOTest extends ApplicationTestCase<App> {
         long sixthDummyMovieId = mMovieDAO.saveMovie(new Movie("F", 2016));
 
         //create dummy ratings for those movies:
-        long firstDummyRatingId = mRatingDAO.saveRating(new Rating(2.2, firstDummyMovieId, 1));
-        long secondDummyRatingId = mRatingDAO.saveRating(new Rating(3.1, secondDummyMovieId, 1));
-        long thirdDummyRatingId = mRatingDAO.saveRating(new Rating(4.3, thirdDummyMovieId, 1));
-        long fourthDummyRatingId = mRatingDAO.saveRating(new Rating(2.3, fourthDummyMovieId, 1));
-        long fifthDummyRatingId = mRatingDAO.saveRating(new Rating(3.2, fifthDummyMovieId, 1));
-        long sixthDummyRatingId = mRatingDAO.saveRating(new Rating(5.0, sixthDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(2.2, firstDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(3.1, secondDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(4.3, thirdDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(2.3, fourthDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(3.2, fifthDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(5.0, sixthDummyMovieId, 1));
     }
 
     public void testGetFriendsSeenMovie() throws Exception {

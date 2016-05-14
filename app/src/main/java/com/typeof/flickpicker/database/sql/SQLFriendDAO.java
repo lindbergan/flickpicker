@@ -4,13 +4,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
-import com.typeof.flickpicker.database.RatingDAO;
-
 import java.util.ArrayList;
 import java.util.List;
 

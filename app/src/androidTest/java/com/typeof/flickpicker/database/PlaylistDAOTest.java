@@ -1,11 +1,12 @@
 package com.typeof.flickpicker.database;
-import android.test.AndroidTestCase;
 import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.User;
+
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,14 @@ public class PlaylistDAOTest extends ApplicationTestCase<App> {
     public void testRemovePlaylist() {
         Playlist playlist = new Playlist("My favorites", 5);
         long id = mPlaylistDAO.savePlaylist(playlist);
-        id = mPlaylistDAO.removePlaylist(playlist);
-        assertTrue(id != 0);
+        mPlaylistDAO.removePlaylist(playlist);
+
+        try {
+            mPlaylistDAO.findPlaylistById(id);
+            Assert.fail();
+        }
+        catch (DatabaseRecordNotFoundException e) {
+            assertTrue("Playlist removed!", true);
+        }
     }
 }

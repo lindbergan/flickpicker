@@ -1,6 +1,5 @@
 package com.typeof.flickpicker.database;
 import com.typeof.flickpicker.core.Playlist;
-import java.util.List;
 
 /**
  * FlickPicker

@@ -1,6 +1,5 @@
 package com.typeof.flickpicker.database;
 
-import android.test.AndroidTestCase;
 import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;

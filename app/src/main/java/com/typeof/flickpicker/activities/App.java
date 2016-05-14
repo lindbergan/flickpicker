@@ -3,7 +3,6 @@ package com.typeof.flickpicker.activities;
 import android.app.Application;
 import android.content.Context;
 
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;

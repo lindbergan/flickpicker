@@ -1,11 +1,7 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.Activity;
-import android.app.Application;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -20,17 +16,13 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
-
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 import com.typeof.flickpicker.utils.ExecutionTimeLogger;
-
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class CommunityFragment extends Fragment {
@@ -71,7 +63,7 @@ public class CommunityFragment extends Fragment {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
         hookUpViews(communityView);
         configureTabs(communityView);
-        detemineCurrentView();
+        determineCurrentView();
         setUpListeners();
         return communityView;
     }
@@ -106,15 +98,17 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId.equals("topMovies")){
-                    setTopMoviesAsCurrentView();
-                }
-                else if(tabId.equals("worstMovies")){
-                    setWorstMoviesAsCurrentView();
-                }
-                else{
-                    setTopMoviesByYearAsCurrentView();
+                switch (tabId) {
+                    case "topMovies":
+                        setTopMoviesAsCurrentView();
+                        break;
+                    case "worstMovies":
+                        setWorstMoviesAsCurrentView();
+                        break;
+                    default:
+                        setTopMoviesByYearAsCurrentView();
 
+                        break;
                 }
             }
         });
@@ -137,7 +131,7 @@ public class CommunityFragment extends Fragment {
     }
 
     //Maybe better with an ENUM solution
-    public void detemineCurrentView(){
+    public void determineCurrentView(){
 
         String currentTab = viewTracker.getCurrentCommunityTab();
 
@@ -189,7 +183,7 @@ public class CommunityFragment extends Fragment {
 
     public List<String> generateYearList(){
 
-        List<String> years = new ArrayList<String>();
+        List<String> years = new ArrayList<>();
 
         for (int i = thisYear; i >= 1900; i--){
             years.add(String.valueOf(i));
@@ -229,7 +223,7 @@ public class CommunityFragment extends Fragment {
                     List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
 
 
-                    //poulate the list and set isYearListCurrent to false
+                    //populate the list and set isYearListCurrent to false
                     populateListView(listViewTopMoviesByYear, topMoviesByYear);
                     isYearListCurrent = false;
 
@@ -249,7 +243,7 @@ public class CommunityFragment extends Fragment {
                 else{
 
                     //in that case - we are presently at the specific year movie list:
-                    //TODO: detalied view of the movie
+                    //TODO: detailed view of the movie
                 }
             }
         });
