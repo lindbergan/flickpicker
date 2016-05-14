@@ -17,7 +17,6 @@ import java.util.List;
 public class UserDAOTest extends ApplicationTestCase<App> {
 
     private UserDAO mUserDao;
-    private Database mDatabase;
 
     public UserDAOTest() {
         super(App.class);
@@ -30,7 +29,6 @@ public class UserDAOTest extends ApplicationTestCase<App> {
         createApplication();
 
         mUserDao = App.getUserDAO();
-        mDatabase = App.getDatabase();
     }
 
     @Override

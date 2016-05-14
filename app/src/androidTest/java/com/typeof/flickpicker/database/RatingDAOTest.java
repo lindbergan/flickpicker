@@ -19,7 +19,6 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
 
     private RatingDAO mSQLRatingDAO;
     private MovieDAO mSQLMovieDAO;
-    private Database mDatabase;
 
     public RatingDAOTest() {
         super(App.class);
@@ -46,8 +45,8 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
         long GoneWithTheWindId = mSQLMovieDAO.saveMovie(new Movie("Gone with the wind", 1939));
 
         //two users rate that movie but with different ratings
-        long ratingOneId = mSQLRatingDAO.saveRating(new Rating(3, GoneWithTheWindId, 5));
-        long ratingTwoId = mSQLRatingDAO.saveRating(new Rating(4, GoneWithTheWindId, 4));
+        mSQLRatingDAO.saveRating(new Rating(3, GoneWithTheWindId, 5));
+        mSQLRatingDAO.saveRating(new Rating(4, GoneWithTheWindId, 4));
 
         //save all ratings for specified movie
         List<Rating> ratingList = mSQLRatingDAO.getMovieRatings(GoneWithTheWindId);
@@ -100,7 +99,7 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
 
         //...if another user saves a rating for the same movie.
         Rating r2 = new Rating(3.0, PrinceOfThievesId, 2 );
-        long secondRating = mSQLRatingDAO.saveRating(r2);
+        mSQLRatingDAO.saveRating(r2);
         assertEquals(2.0, mSQLMovieDAO.findMovie(PrinceOfThievesId).getCommunityRating());
 
     }

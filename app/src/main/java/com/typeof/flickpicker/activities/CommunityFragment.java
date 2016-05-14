@@ -29,6 +29,8 @@ import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CommunityFragment extends Fragment {
@@ -40,7 +42,7 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMovies;
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
-    private int thisYear = 2016; //TODO: need to be changed into a dynamic fetch -> Date.getYear() or something similar
+    private int thisYear;
     private boolean isYearListCurrent;
     SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
     //--------------------------------
@@ -59,6 +61,8 @@ public class CommunityFragment extends Fragment {
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
         db = dbhelper.getWritableDatabase();
         //--------------------------------
+
+        thisYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
     @Nullable

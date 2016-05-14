@@ -58,8 +58,8 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
         User user1 = new User("pelle", "password");
         User user2 = new User("johan", "password");
 
-        long id1 = mUserDAO.saveUser(user1);
-        long id2 = mUserDAO.saveUser(user2);
+        mUserDAO.saveUser(user1);
+        mUserDAO.saveUser(user2);
 
         Friend f = new Friend(user1.getId(), user2.getId());
         mFriendDAO.addFriend(f);
@@ -101,7 +101,7 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
         long id2 = mUserDAO.saveUser(user2);
 
         Friend f = new Friend(id1, id2);
-        long id = mFriendDAO.addFriend(f);
+        mFriendDAO.addFriend(f);
         mFriendDAO.removeFriend(user1.getId(), user2.getId());
         List<User> userFriends = mFriendDAO.getFriendsFromUserId(user1.getId());
 
@@ -112,7 +112,7 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
     public void testGetFriendsLatestActivities() {
 
         Movie terminator = new Movie("Terminator 2: Judgement Day", 1992);
-        long movieId = mMovieDAO.saveMovie(terminator);
+        mMovieDAO.saveMovie(terminator);
 
         User sebbe = new User("sebastian", "123");
         User adde = new User("adrian", "321");
