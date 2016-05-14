@@ -1,6 +1,7 @@
 package com.typeof.flickpicker.database;
 
 import android.test.AndroidTestCase;
+import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
@@ -16,19 +17,22 @@ import java.util.List;
  * Created on 16-04-25.
  */
 
-public class FriendDAOTest extends AndroidTestCase {
+public class FriendDAOTest extends ApplicationTestCase<App> {
 
     private FriendDAO mFriendDAO;
-    private Database mDatabase;
     private UserDAO mUserDAO;
     private RatingDAO mRatingDAO;
     private MovieDAO mMovieDAO;
 
+    public FriendDAOTest() {
+        super(App.class);
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mDatabase = App.getDatabase();
-        mDatabase.setUpTables();
+
+        createApplication();
 
         mFriendDAO = App.getFriendDAO();
         mUserDAO = App.getUserDAO();
@@ -40,7 +44,6 @@ public class FriendDAOTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabase.dropTables();
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
+import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
@@ -14,18 +15,21 @@ import java.util.List;
  * Group 22
  * Created on 16-04-26.
  */
-public class PlaylistDAOTest extends AndroidTestCase {
+public class PlaylistDAOTest extends ApplicationTestCase<App> {
 
     private PlaylistDAO mPlaylistDAO;
     private MovieDAO mMovieDAO;
-    private Database mDatabase;
+
+    public PlaylistDAOTest() {
+        super(App.class);
+    }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mDatabase = App.getDatabase();
-        mDatabase.dropTables();
-        mDatabase.setUpTables();
+
+        createApplication();
+
         mPlaylistDAO = App.getPlaylistDAO();
         mMovieDAO = App.getMovieDAO();
 
@@ -34,7 +38,6 @@ public class PlaylistDAOTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabase.dropTables();
     }
 
     public void testGetUserPlaylist() {

@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.database;
 import android.test.AndroidTestCase;
+import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
@@ -14,25 +15,29 @@ import java.util.List;
  * Group 22
  * Created on 16-04-21.
  */
-public class RatingDAOTest extends AndroidTestCase{
+public class RatingDAOTest extends ApplicationTestCase<App>{
 
     private RatingDAO mSQLRatingDAO;
     private MovieDAO mSQLMovieDAO;
     private Database mDatabase;
 
+    public RatingDAOTest() {
+        super(App.class);
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        createApplication();
+
         mSQLRatingDAO = App.getRatingDAO();
         mSQLMovieDAO = App.getMovieDAO();
-        mDatabase = App.getDatabase();
-        mDatabase.setUpTables();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabase.dropTables();
     }
 
     public void testGetMovieRatings(){
