@@ -137,56 +137,79 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
 
     @Override
-    public void updateFriendMatches(Rating rating){}
+    public void updateFriendMatches(Rating rating){
 
-/*
-        // from the rating -> extract the movie && user.
-        // get that users friends.
-        // compare the users rating with friends' and see if they have a rating of the same movieId with a sql question
-        // from that cursor - update the corresponding dismatch value in friendTable (Freind.setMatch())
-
-        long currentMovieId = rating.getMovieId();
         long currentUserId = rating.getUserId();
-        int desiredSizeIfList = 100;
+        int desiredSizeIfList = 100; //maybe getUsersMovieCollection() really shouldnt have a "int max" as an argument...
+
         List<Movie> usersMovieCollection = mMovieDAO.getUsersMovieCollection(desiredSizeIfList, currentUserId);
-        List<User> friends = getFriendsFromUserId(currentUserId);
+        List<User> usersFriends = getFriendsFromUserId(currentUserId);
 
-        String[] movieTitles = extractMovieTitlesFromMovies(usersMovieCollection);
+        String[] movieIds = extractMovieIdsFromMovies(usersMovieCollection);
+        double matchValue = 0; //default
+        int nmbrOfMovieBothSeen = 0; //default
 
+        for (int i = 0; i<usersFriends.size(); i++) {
 
-        for (int i = 0; i<friends.size(); i++) {
+            //check all friends
 
-            //the SQL-question to get disMatchValue:
-            long currentFriendsId = friends.get(i).getId();
+            long currentFriendsId = usersFriends.get(i).getId();
 
-            String query = "SELECT e.rating AS firstPersonsRating, e.movieId As firstPersonsMovie," +
-                    " m.rating AS secondPersonsRating, m.seconPersonsMovie " + "FROM ratings e "
-                    + "INNER JOIN ratings m ON m.userId LIKE 1 AND m.movieId like 15 and e.userId like 22 and e.MovieId like 15";
+            for (int j = 0; j < usersMovieCollection.size(); j++) {
 
-            Cursor c = db.rawQuery(query, movieTitles);
+                //compare to user's movies
 
-            //testvalues:
-            int testINt = c.getCount();
-            //c.getDouble(e.ra)
+                String query = "SELECT e.movieId AS MOVIEID, e.userId AS USER, e.rating USERRATING, m.userId AS FRIEND, m.rating AS FRIENDRATING FROM ratings e " +
+                        "INNER JOIN ratings m ON e.userId LIKE " + currentUserId + " AND e.movieId = ? " +
+                        "AND m.userId like " + currentFriendsId + " AND m.movieId = ? ";
 
-            c.close();
+                Cursor c = db.rawQuery(query, new String[]{movieIds[j],movieIds[j]});
+                c.moveToFirst();
 
+                if (c.getCount() != 0) {
+                    nmbrOfMovieBothSeen++;
+                    matchValue = calculateNewMatchValue(c, matchValue, nmbrOfMovieBothSeen);
+                }
+                c.close();
+
+            }
         }
+        int test1 = nmbrOfMovieBothSeen;
+        double test2 = matchValue;
+
     }
 
-    public String[] extractMovieTitlesFromMovies(List<Movie> movies){
+    public double calculateNewMatchValue(Cursor c, double matchValue, int nmbrOfMovieBothSeen){
 
-        //exctract the titles
-        String[] movieTitles = new String[movies.size()];
+        //testing data - delete when confirmed working... "<--" marks where the delete ends
+        int testINt = c.getCount();
+        int testColCount = c.getColumnCount();
+        String[] allColumnNames = c.getColumnNames();
+        String movieId = c.getColumnName(0);
+        // <--
+
+
+        double usersRating = c.getLong(2);
+        double friendRating = c.getLong(4);
+        double oldMatchValue = matchValue;
+        double diff = Math.abs(usersRating - friendRating);
+        double newMatchValue = (oldMatchValue + diff)/nmbrOfMovieBothSeen;
+
+        return newMatchValue;
+    }
+
+    public String[] extractMovieIdsFromMovies(List<Movie> movies){
+
+        //extract the ids
+        String[] movieIds = new String[movies.size()];
+
         for (int i = 0; i < movies.size(); i++){
 
-            String title = movies.get(i).getTitle();
-            movieTitles[i] = title;
+            long movieId = movies.get(i).getId();
+            String movieIdAsString = String.valueOf(movieId);
+            movieIds[i] = movieIdAsString;
         }
 
-        return movieTitles;
+        return movieIds;
     }
-    */
-
-
 }

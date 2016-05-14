@@ -150,16 +150,16 @@ public class FriendDAOTest extends AndroidTestCase {
 
         //let them rate two movies each (same movies):
         long americanHistoryXId = mMovieDAO.saveMovie(new Movie("American History X", 2000));
-        long planetOfTheApes = mMovieDAO.saveMovie(new Movie("Planet of the apes", 1998));
+        long planetOfTheApesId = mMovieDAO.saveMovie(new Movie("Planet of the apes", 1998));
 
         long firstRatingPelle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,primaryUser));
-        long secondRatingPelle = mRatingDAO.saveRating(new Rating(3, planetOfTheApes, primaryUser));
+        long secondRatingPelle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId, primaryUser));
         long firstRatingKalle = mRatingDAO.saveRating(new Rating(5, americanHistoryXId,secondaryUser));
-        long secondRatingKalle = mRatingDAO.saveRating(new Rating(5, planetOfTheApes, secondaryUser));
+        long secondRatingKalle = mRatingDAO.saveRating(new Rating(5, planetOfTheApesId, secondaryUser));
 
-        Rating kallesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingKalle);
+        Rating pellesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingPelle);
 
-        mFriendDAO.updateFriendMatches(kallesRatingOnAmericanHistoryX);
+        mFriendDAO.updateFriendMatches(pellesRatingOnAmericanHistoryX);
 
         //if implemented correctly - should return 2; (# diffs [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2)
         //assertEquals();
