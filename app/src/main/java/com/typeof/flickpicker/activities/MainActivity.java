@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fragmentManager = getFragmentManager();
 
+        App.getDatabase().seedDatabase();
+
         tabHost = (TabHost) findViewById(R.id.tabHost);
         tabHost.setup();
         configureTabs();
