@@ -23,5 +23,6 @@
     <string name="yearTextView">(year)</string>
     <string name="and_rated_it_Textview">...and rated it:</string>
     <string name="add_movie_to_playlist">Add movie to playlist</string>
+    <string name="search_for_a_friend_hint">Search for a friend...</string>
 
 </resources>
