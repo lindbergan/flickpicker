@@ -1,9 +1,7 @@
 package com.typeof.flickpicker.database.sql;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
@@ -18,6 +16,7 @@ import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -46,7 +45,6 @@ public class SQLDatabase implements Database {
         //-----Rating-----
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
 
-
         //-----Playlist-----
         db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
 
@@ -74,169 +72,91 @@ public class SQLDatabase implements Database {
 
     public void seedDatabase() {
 
-        MovieDAO mMovieDAO = App.getMovieDAO();
-        UserDAO mUserDAO = App.getUserDAO();
-        RatingDAO mRatingDAO = App.getRatingDAO();
-        FriendDAO mFriendDAO = App.getFriendDAO();
-        PlaylistDAO mPlaylistDAO = App.getPlaylistDAO();
+        Movie m1 = new Movie("M1", 1995);
+        Movie m2 = new Movie("M2", 1996);
+        Movie m3 = new Movie("M3", 1997);
+        Movie m4 = new Movie("M4", 1998);
+        Movie m5 = new Movie("M5", 1999);
+        Movie m6 = new Movie("M6", 2000);
+        Movie m7 = new Movie("M7", 2001);
+        Movie m8 = new Movie("M8", 2002);
+        Movie m9 = new Movie("M9", 2003);
+        Movie m10 = new Movie("M10", 2003);
+        Movie m11 = new Movie("M11", 2004);
+        Movie m12 = new Movie("M12", 2005);
+        Movie m13 = new Movie("M13", 2006);
 
-        long userId = App.getCurrentUser().getId();
+        MovieDAO movieDAO = App.getMovieDAO();
+        movieDAO.saveMovie(m1);
+        movieDAO.saveMovie(m2);
+        movieDAO.saveMovie(m3);
+        movieDAO.saveMovie(m4);
+        movieDAO.saveMovie(m5);
+        movieDAO.saveMovie(m6);
+        movieDAO.saveMovie(m7);
+        movieDAO.saveMovie(m8);
+        movieDAO.saveMovie(m9);
+        movieDAO.saveMovie(m10);
+        movieDAO.saveMovie(m11);
+        movieDAO.saveMovie(m12);
+        movieDAO.saveMovie(m13);
 
-        //create dummy-movies, set a rating directly for them and save them to the database:
-        Movie GoneWithTheWind = new Movie("GoneWithTheWind", 2012);
-        GoneWithTheWind.setCommunityRating(2.2);
-        long movieIdGoneWithTheWind = mMovieDAO.saveMovie(GoneWithTheWind);
+        User u1 = new User("U1", "P1");
+        User u2 = new User("U2", "P2");
+        User u3 = new User("U3", "P3");
+        User u4 = new User("U4", "P4");
+        User u5 = new User("U5", "P5");
+        User u6 = new User("U6", "P6");
 
-        Movie Jaws = new Movie("Jaws", 2016);
-        Jaws.setCommunityRating(4.3);
-        long movieIdJaws = mMovieDAO.saveMovie(Jaws);
+        UserDAO userDAO = App.getUserDAO();
+        userDAO.saveUser(u1);
+        userDAO.saveUser(u2);
+        userDAO.saveUser(u3);
+        userDAO.saveUser(u4);
+        userDAO.saveUser(u5);
+        userDAO.saveUser(u6);
 
-        Movie JurassicPark = new Movie("JurassicPark", 2015);
-        JurassicPark.setCommunityRating(3.7);
-        long movieIdJurassicPark = mMovieDAO.saveMovie(JurassicPark);
-
-        Movie Oblivion = new Movie("Oblivion", 2016);
-        Oblivion.setCommunityRating(3.3);
-        long movieIdOblivion = mMovieDAO.saveMovie(Oblivion);
-
-        Movie BraveHeart = new Movie("BraveHeart", 2014);
-        BraveHeart.setCommunityRating(4.1);
-        long movieIdBraveHeart = mMovieDAO.saveMovie(BraveHeart);
-
-        Movie KarateKid = new Movie("KarateKid", 2016);
-        KarateKid.setCommunityRating(3.6);
-        long movieIdKarateKid = mMovieDAO.saveMovie(KarateKid);
-
-        Movie theBigLebowski = new Movie("TheBigLebowski", 1998);
-        theBigLebowski.setCommunityRating(4.4);
-        long movieIdTheBigLebowski = mMovieDAO.saveMovie(theBigLebowski);
-
-        Movie rocky = new Movie("Rocky", 1976);
-        rocky.setCommunityRating(3.6);
-        long movieIdRocky = mMovieDAO.saveMovie(rocky);
-
-        Movie whiplash = new Movie("Whiplash", 2014);
-        whiplash.setCommunityRating(3.9);
-        long movieIdWhiplash = mMovieDAO.saveMovie(whiplash);
-
-        Movie guardianOfTheGalaxy = new Movie("Guardian of the Galaxy", 2014);
-        guardianOfTheGalaxy.setCommunityRating(4.1);
-        long movieIdGuardianOfTheGalaxy = mMovieDAO.saveMovie(guardianOfTheGalaxy);
-
-        Movie birdman = new Movie("Birdman", 2014);
-        birdman.setCommunityRating(3.3);
-        long movieIdBirdman = mMovieDAO.saveMovie(birdman);
-
-        Movie interstellar = new Movie("Interstellar", 2014);
-        interstellar.setCommunityRating(4.0);
-        long movieIdInterstellar = mMovieDAO.saveMovie(interstellar);
-
-
-
-        // users
-        //let the user rate a couple of movies and save those ratings:
-        long ratingid1 = mRatingDAO.saveRating(new Rating(3.5,movieIdOblivion, userId));
-        long ratingid2 = mRatingDAO.saveRating(new Rating(2.0,movieIdKarateKid, userId));
-        long ratingid3 = mRatingDAO.saveRating(new Rating(4.5,movieIdBraveHeart, userId));
-
-        //create a playlist for user and make sure that the correct movies are displayed
-        List<Number> usersPlayListItems = new ArrayList<Number>();
-        usersPlayListItems.add(movieIdBirdman);
-        usersPlayListItems.add(movieIdGuardianOfTheGalaxy);
-        usersPlayListItems.add(movieIdInterstellar);
-
-        long playlist = mPlaylistDAO.savePlaylist(new Playlist("TrippleA", userId,usersPlayListItems));
-
-
-        // Test users that will be added as friends to the main user
-
-        User testUser1 = new User("Karin", "admin");
-        User testUser2 = new User("Linn", "admin");
-        User testUser3 = new User("Sara", "admin");
-        User testUser4 = new User("Erik", "admin");
-        User testUser5 = new User("Kent", "admin");
-        User testUser6 = new User("Sibelius", "admin");
-
-        long user1Id = mUserDAO.saveUser(testUser1);
-        long user2Id = mUserDAO.saveUser(testUser2);
-        long user3Id = mUserDAO.saveUser(testUser3);
-        long user4Id = mUserDAO.saveUser(testUser4);
-        long user5Id = mUserDAO.saveUser(testUser5);
-        long user6Id = mUserDAO.saveUser(testUser6);
-
-        // Test movie
-
-        Movie testMovie = new Movie("Interstellar", 2014);
-        long movieId = mMovieDAO.saveMovie(testMovie);
-
-        // Test ratings
-
-        Rating testRating1 = new Rating(5.0, movieId, user1Id);
-        Rating testRating2 = new Rating(5.0, movieId, user2Id);
-        Rating testRating3 = new Rating(5.0, movieId, user3Id);
-        Rating testRating4 = new Rating(5.0, movieId, user4Id);
-        Rating testRating5 = new Rating(5.0, movieId, user5Id);
-        Rating testRating6 = new Rating(5.0, movieId, user6Id);
-
-        mRatingDAO.saveRating(testRating1);
-        mRatingDAO.saveRating(testRating2);
-        mRatingDAO.saveRating(testRating3);
-        mRatingDAO.saveRating(testRating4);
-        mRatingDAO.saveRating(testRating5);
-        mRatingDAO.saveRating(testRating6);
-
-        // Test friends
         long currentUserId = App.getCurrentUser().getId();
-        mFriendDAO.addFriend(new Friend(currentUserId, user1Id));
-        mFriendDAO.addFriend(new Friend(currentUserId, user2Id));
-        mFriendDAO.addFriend(new Friend(currentUserId, user3Id));
-        mFriendDAO.addFriend(new Friend(currentUserId, user4Id));
-        mFriendDAO.addFriend(new Friend(currentUserId, user5Id));
-        mFriendDAO.addFriend(new Friend(currentUserId, user6Id));
 
-        //add users to be able to search for them:
-        mUserDAO.saveUser(new User("Karin", "admin"));
-        mUserDAO.saveUser(new User("Linn", "admin"));
-        mUserDAO.saveUser(new User("Sara", "admin"));
-        mUserDAO.saveUser(new User("Erik", "admin"));
-        mUserDAO.saveUser(new User("Kent", "admin"));
-        mUserDAO.saveUser(new User("Sibelius", "admin"));
-        mUserDAO.saveUser(new User("Albert", "admin"));
-        mUserDAO.saveUser(new User("Hebert", "admin"));
-        mUserDAO.saveUser(new User("Kalle", "admin"));
-        mUserDAO.saveUser(new User("Lisa", "admin"));
-        mUserDAO.saveUser(new User("Jocke1989", "admin"));
-        mUserDAO.saveUser(new User("MovieFanBoy2016", "admin"));
-        mUserDAO.saveUser(new User("whatever", "admin"));
-        mUserDAO.saveUser(new User("Karim", "admin"));
+        Rating r1 = new Rating(1.0, m1.getId(), u1.getId());
+        Rating r2 = new Rating(2.0, m2.getId(), u2.getId());
+        Rating r3 = new Rating(3.0, m3.getId(), u3.getId());
+        Rating r4 = new Rating(4.0, m4.getId(), u4.getId());
+        Rating r5 = new Rating(5.0, m5.getId(), u5.getId());
+        Rating r6 = new Rating(1.0, m6.getId(), u6.getId());
+        Rating r7 = new Rating(2.0, m7.getId(), u1.getId());
+        Rating r8 = new Rating(3.0, m8.getId(), u2.getId());
+        Rating r9 = new Rating(5.0, m9.getId(), u3.getId());
+        Rating r10 = new Rating(1.0, m10.getId(), currentUserId);
+        Rating r11 = new Rating(1.0, m10.getId(), currentUserId);
+        Rating r12 = new Rating(1.0, m10.getId(), currentUserId);
+        Rating r13 = new Rating(1.0, m10.getId(), currentUserId);
 
+        RatingDAO ratingDAO = App.getRatingDAO();
+        ratingDAO.saveRating(r1);
+        ratingDAO.saveRating(r2);
+        ratingDAO.saveRating(r3);
+        ratingDAO.saveRating(r4);
+        ratingDAO.saveRating(r5);
+        ratingDAO.saveRating(r6);
+        ratingDAO.saveRating(r7);
+        ratingDAO.saveRating(r8);
+        ratingDAO.saveRating(r9);
+        ratingDAO.saveRating(r10);
+        ratingDAO.saveRating(r11);
+        ratingDAO.saveRating(r12);
+        ratingDAO.saveRating(r13);
 
-        //RECOMMENDATION_DATA
+        FriendDAO friendDAO = App.getFriendDAO();
+        friendDAO.addFriend(new Friend(currentUserId, u1.getId()));
+        friendDAO.addFriend(new Friend(currentUserId, u2.getId()));
+        friendDAO.addFriend(new Friend(currentUserId, u3.getId()));
+        friendDAO.addFriend(new Friend(currentUserId, u4.getId()));
+        friendDAO.addFriend(new Friend(currentUserId, u5.getId()));
 
-        User primaryUser = App.getCurrentUser();
+        PlaylistDAO playlistDAO = App.getPlaylistDAO();
+        playlistDAO.savePlaylist(new Playlist("Watchlist", currentUserId));
 
-        Movie savingPrivateRyan = new Movie("Saving Private Ryan", 1995);
-        Movie fireWalkWithMe = new Movie("Fire Walk with Me", 1991);
-        savingPrivateRyan.setCommunityRating(2);
-        fireWalkWithMe.setCommunityRating(5);
-        savingPrivateRyan.setNumberOfVotes(1);
-        fireWalkWithMe.setNumberOfVotes(1);
-        long savingPrivateRyanMovieId = mMovieDAO.saveMovie(savingPrivateRyan);
-        long fireWalkWithMeMovieId = mMovieDAO.saveMovie(fireWalkWithMe);
-
-        //Add two friends that rate the same movies:
-        User firstFriend = new User("Ada", "admin");
-        User secondFriend = new User("Eva", "password");
-        long firstFriendId = mUserDAO.saveUser(firstFriend);
-        long secondFriendId = mUserDAO.saveUser(secondFriend);
-
-        //let them rate the two movies:
-        long firstFriendRatingId = mRatingDAO.saveRating(new Rating(3, savingPrivateRyanMovieId, firstFriendId));
-        long secondFriendRatingId = mRatingDAO.saveRating(new Rating(2.1, fireWalkWithMeMovieId, secondFriendId));
-
-        //finally... ad the as friends to primaryUser
-        mFriendDAO.addFriend(new Friend(primaryUser.getId(), firstFriendId));
-        mFriendDAO.addFriend(new Friend(primaryUser.getId(), secondFriendId));
     }
 
     public void clearDatabase() {

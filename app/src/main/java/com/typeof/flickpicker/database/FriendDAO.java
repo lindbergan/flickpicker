@@ -5,7 +5,6 @@ import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * FlickPicker
@@ -17,7 +16,6 @@ public interface FriendDAO {
     long addFriend(Friend f);
     List<User> getFriendsFromUserId(long id);
     long removeFriend(long userId1, long userId2);
-
     List<Rating> getFriendsLatestActivities(long userId);
     void updateFriendMatches(Rating rating);
 }

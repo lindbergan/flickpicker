@@ -1,11 +1,15 @@
 <resources>
 
     <string name="app_name">FlickPicker</string>
+    <string name="my_profile_icon">&#xf007;</string>
+
+
+
     <string name="action_settings">Settings</string>
 
     <string name="movie_detail_title_default">A great movie</string>
     <string name="movie_detail_genre_default">Genre: n/a</string>
-    <string name="movie_detail_num_of_friends_seen_label">Number of friends</string>
+    <string name="movie_detail_num_of_friends_seen_label">Number of friends who have seen this</string>
     <string name="movie_detail_num_of_friends_seen_default">0</string>
     <string name="movie_detail_community_rating_label">Community rating</string>
     <string name="movie_detail_community_rating_default">2,5</string>
@@ -13,5 +17,16 @@
     <string name="movie_detail_add_to_watchlist_button">+</string>
     <string name="movie_detail_rate_button">Rate!</string>
 
+    <string name="no_user_profile_desc">User has not selected a profile picture</string>
+    <string name="communityButton">Community</string>
+    <string name="userTextView">User</string>
+    <string name="myCollectionButton">MyCollection</string>
+    <string name="has_watchedTextView">has watched..</string>
+    <string name="movieTextView">Movie</string>
+    <string name="just_watchedTextView">just watched..</string>
+    <string name="yearTextView">(year)</string>
+    <string name="and_rated_it_Textview">...and rated it:</string>
+    <string name="add_movie_to_playlist">Add movie to playlist</string>
+    <string name="search_for_a_friend_hint">Search for a friend...</string>
 
 </resources>

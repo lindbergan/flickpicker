@@ -3,9 +3,7 @@ package com.typeof.flickpicker.activities;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +35,8 @@ public class MovieAdapter extends CustomAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            LayoutInflater inflator = LayoutInflater.from(getContext());
-            convertView = inflator.inflate(R.layout.custom_row_community, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.custom_row_community, parent, false);
             viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview_movieCell);
             viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview_movieCell);
             viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar_movieCell);

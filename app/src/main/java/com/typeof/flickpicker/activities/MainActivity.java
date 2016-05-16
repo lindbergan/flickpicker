@@ -3,19 +3,23 @@ package com.typeof.flickpicker.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.typeof.flickpicker.R;
+
+import java.lang.reflect.Type;
 
 public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
-    private Button mButtonCommunity;
-    private Button mButtonMyCollection;
+
     public static FragmentManager fragmentManager;
 
 
@@ -25,8 +29,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fragmentManager = getFragmentManager();
 
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+        TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
+        TextView userScore = (TextView) findViewById(R.id.userScore);
+
+        myProfileIcon.setTypeface(font);
+        userScore.setText(String.valueOf(App.getCurrentUser().getScore()));
+
+
+        fragmentManager = getFragmentManager();
+
+        App.getDatabase().seedDatabase();
+
+        myProfileIcon.setTypeface(font);
+        fragmentManager = getFragmentManager();
         tabHost = (TabHost) findViewById(R.id.tabHost);
-        tabHost.setup();
+        if (tabHost != null) {
+            tabHost.setup();
+        }
         configureTabs();
     }
 
@@ -70,8 +90,9 @@ public class MainActivity extends AppCompatActivity {
                     loadFragment(communityFragment);
                 }
                 if (tabId.equals("MyCollection")) {
-                    MyCollectionFragment myColletionFragment = new MyCollectionFragment();
-                    loadFragment(myColletionFragment);
+
+                    MyCollectionFragment myCollectionFragment = new MyCollectionFragment();
+                    loadFragment(myCollectionFragment);
                 }
                 if (tabId.equals("Search")) {
                     SearchFragment searchFragment = new SearchFragment();

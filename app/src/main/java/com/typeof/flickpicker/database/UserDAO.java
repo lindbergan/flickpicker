@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface UserDAO {
 
-    public User getUserById(long userId);
-    public long saveUser(User user);
-    public List<User> searchUser(String column, String searchString);
-    public int deleteUser(User user);
+    User getUserById(long userId);
+    long saveUser(User user);
+    List<User> searchUser(String column, String searchString);
+    int deleteUser(User user);
 
 }

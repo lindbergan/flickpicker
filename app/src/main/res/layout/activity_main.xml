@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,8 +8,8 @@
     tools:context=".activities.MainActivity"
     >
 
-
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_alignParentTop="true"
@@ -26,6 +25,29 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textColor="@color/color_text"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_profile_icon"
+            android:id="@+id/myProfileIcon"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textColor="@color/color_text"
+            android:padding="@dimen/movie_detail_image_padding"
+            android:textSize="25sp"
+            android:textIsSelectable="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/userScore"
+            android:layout_alignTop="@+id/flickPickerText"
+            android:layout_toEndOf="@+id/myProfileIcon"/>
 
 
     </RelativeLayout>
@@ -54,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/color_primary"></TabWidget>
+                    android:background="@color/color_primary"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -74,34 +96,40 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
+<<<<<<< HEAD
                         android:layout_above="@android:id/tabs"><![CDATA[
                         >
                     ]]></LinearLayout>
+=======
+                        android:layout_above="@android:id/tabs">
+
+                    </LinearLayout>
+>>>>>>> master
 
                     <LinearLayout
                         android:id="@+id/tabCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:layout_above="@android:id/tabs"></LinearLayout>
+                        android:layout_above="@android:id/tabs"/>
 
                     <LinearLayout
                         android:id="@+id/tabFriendsActivities"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabMyMovies"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabSearch"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                 </FrameLayout>
 

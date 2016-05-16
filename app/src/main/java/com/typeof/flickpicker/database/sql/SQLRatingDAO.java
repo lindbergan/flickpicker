@@ -3,11 +3,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
-import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.ArrayList;
@@ -33,10 +30,9 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     public List<Rating> getMovieRatings(long movieId){
 
-        List<Rating> ratingsForMovie = new ArrayList<Rating>();
+        List<Rating> ratingsForMovie = new ArrayList<>();
         Cursor movieIdCursor = searchRatingBy("movieId", String.valueOf(movieId));
         movieIdCursor.moveToFirst();
-
 
         for(int i = 0; i < movieIdCursor.getCount(); i++){
             ratingsForMovie.add(createRatingFromCursor(movieIdCursor));
@@ -118,7 +114,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
         double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
         long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
 
         Rating createdRating = new Rating(rating,movieId,userId);
         createdRating.setId(id);

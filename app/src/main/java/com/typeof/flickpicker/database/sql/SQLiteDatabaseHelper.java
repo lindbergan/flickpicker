@@ -1,12 +1,8 @@
 package com.typeof.flickpicker.database.sql;
 
 import android.content.Context;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteAbortException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.typeof.flickpicker.core.Friend;
 
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 

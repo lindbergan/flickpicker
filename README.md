@@ -12,6 +12,22 @@ A project made by Chalmers University of Technology students in course: **TDA367
 ##### Tools used: 
 Gradle, SQLlite3, android platform tools
 
+##### Using Android Platform Tools
+Change emulator-5554 shell to your version of emulator
+
+```
+adb -s emulator-5554 shell
+cd data/data/com.typeof.flickpicker/databases/
+sqlite3 FlickPicker.db
+```
+
+Snygga till output från databasen:
+
+```
+.mode column
+.headers on
+```
+
 ### Contact us:
 * Sebastian: sebnils@student.chalmers.se
 * Adrian: adrlin@student.chalmers.se

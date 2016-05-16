@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="color_text">#FFFFFF</color>
     <color name="color_primary">#759D34</color>
     <color name="color_primary_dark">#2A3E08</color>
     <color name="color_accent">#A0CC59</color>
-    <color name="color_text">#FFFFFFFF</color>
     <color name="color_backdrop">#FBFFF0</color>
 
-    <color name="color_rating_button">#DBB546</color>
-    <color name="color_button_secondary">#FFD760</color>
+
+    <!--- List cells -->
+    <color name="color_list_cell_backdrop">#FFFFFF</color>
+
+
+
+    <!--- Buttons -->
+    <color name="color_rating_button">#297587</color>
+    <color name="color_rating_button_inactive">#BCC9CC</color>
+    <color name="color_button_secondary">#6098A5</color>
+    <color name="color_button_text">#297587</color>
+
+    <color name="color_rating_button_2">#BDAA08</color>
+    <color name="color_rating_button_2_secondary">#EED817</color>
+    <color name="color_rating_button_2_inactive">#FFF171</color>
+    <color name="color_rating_button_2_text">#BDAA08</color>
 
 
 </resources>

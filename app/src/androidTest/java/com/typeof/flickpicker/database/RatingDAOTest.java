@@ -1,5 +1,5 @@
 package com.typeof.flickpicker.database;
-import android.test.AndroidTestCase;
+import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
@@ -14,25 +14,28 @@ import java.util.List;
  * Group 22
  * Created on 16-04-21.
  */
-public class RatingDAOTest extends AndroidTestCase{
+public class RatingDAOTest extends ApplicationTestCase<App>{
 
     private RatingDAO mSQLRatingDAO;
     private MovieDAO mSQLMovieDAO;
-    private Database mDatabase;
+
+    public RatingDAOTest() {
+        super(App.class);
+    }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        createApplication();
+
         mSQLRatingDAO = App.getRatingDAO();
         mSQLMovieDAO = App.getMovieDAO();
-        mDatabase = App.getDatabase();
-        mDatabase.setUpTables();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabase.dropTables();
     }
 
     public void testGetMovieRatings(){
@@ -41,8 +44,8 @@ public class RatingDAOTest extends AndroidTestCase{
         long GoneWithTheWindId = mSQLMovieDAO.saveMovie(new Movie("Gone with the wind", 1939));
 
         //two users rate that movie but with different ratings
-        long ratingOneId = mSQLRatingDAO.saveRating(new Rating(3, GoneWithTheWindId, 5));
-        long ratingTwoId = mSQLRatingDAO.saveRating(new Rating(4, GoneWithTheWindId, 4));
+        mSQLRatingDAO.saveRating(new Rating(3, GoneWithTheWindId, 5));
+        mSQLRatingDAO.saveRating(new Rating(4, GoneWithTheWindId, 4));
 
         //save all ratings for specified movie
         List<Rating> ratingList = mSQLRatingDAO.getMovieRatings(GoneWithTheWindId);
@@ -95,7 +98,7 @@ public class RatingDAOTest extends AndroidTestCase{
 
         //...if another user saves a rating for the same movie.
         Rating r2 = new Rating(3.0, PrinceOfThievesId, 2 );
-        long secondRating = mSQLRatingDAO.saveRating(r2);
+        mSQLRatingDAO.saveRating(r2);
         assertEquals(2.0, mSQLMovieDAO.findMovie(PrinceOfThievesId).getCommunityRating());
 
     }
@@ -117,7 +120,7 @@ public class RatingDAOTest extends AndroidTestCase{
         mSQLRatingDAO.removeRating(ratingId);
 
         try {
-            Rating foundRating = mSQLRatingDAO.findRating(ratingId);
+            mSQLRatingDAO.findRating(ratingId);
             Assert.fail("Throw record not found exception");
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!

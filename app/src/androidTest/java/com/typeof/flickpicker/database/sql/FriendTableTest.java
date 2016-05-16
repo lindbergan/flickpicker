@@ -1,13 +1,8 @@
 package com.typeof.flickpicker.database.sql;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
-
-import com.typeof.flickpicker.database.sql.FriendTable;
-import com.typeof.flickpicker.database.sql.MovieTable;
-import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 
 /**
  * FlickPicker
