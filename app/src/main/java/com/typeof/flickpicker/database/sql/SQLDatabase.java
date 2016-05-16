@@ -155,7 +155,13 @@ public class SQLDatabase implements Database {
         friendDAO.addFriend(new Friend(currentUserId, u5.getId()));
 
         PlaylistDAO playlistDAO = App.getPlaylistDAO();
-        playlistDAO.savePlaylist(new Playlist("Watchlist", currentUserId));
+        Playlist currentUserPlaylist = new Playlist("Watchlist", currentUserId);
+        currentUserPlaylist.add(m1.getId());
+        currentUserPlaylist.add(m2.getId());
+        currentUserPlaylist.add(m3.getId());
+        currentUserPlaylist.add(m4.getId());
+        currentUserPlaylist.add(m5.getId());
+        playlistDAO.savePlaylist(currentUserPlaylist);
 
     }
 

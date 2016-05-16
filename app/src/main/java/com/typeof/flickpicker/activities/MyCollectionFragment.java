@@ -78,7 +78,7 @@ public class MyCollectionFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId.equals("myPlaylist")){
+                if(tabId.equals("myCollection")){
 
                     List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, App.getCurrentUser().getId());
                     populateListView(listViewMyCollection, userMovieCollection);

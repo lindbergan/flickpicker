@@ -225,11 +225,6 @@ public class CommunityFragment extends Fragment {
                     List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
 
 
-                    //populate the list and set isYearListCurrent to false
-                    populateListView(listViewTopMoviesByYear, topMoviesByYear);
-                    isYearListCurrent = false;
-
-
                     if(topMoviesByYear.size() != 0) {
                         //populate the list and set isYearListCurrent to false
                         populateListView(listViewTopMoviesByYear, topMoviesByYear);
