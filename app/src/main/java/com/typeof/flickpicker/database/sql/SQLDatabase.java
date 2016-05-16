@@ -119,6 +119,8 @@ public class SQLDatabase implements Database {
         userDAO.saveUser(u5);
         userDAO.saveUser(u6);
 
+        long currentUserId = App.getCurrentUser().getId();
+
         Rating r1 = new Rating(1.0, m1.getId(), u1.getId());
         Rating r2 = new Rating(2.0, m2.getId(), u2.getId());
         Rating r3 = new Rating(3.0, m3.getId(), u3.getId());
@@ -128,7 +130,10 @@ public class SQLDatabase implements Database {
         Rating r7 = new Rating(2.0, m7.getId(), u1.getId());
         Rating r8 = new Rating(3.0, m8.getId(), u2.getId());
         Rating r9 = new Rating(5.0, m9.getId(), u3.getId());
-        Rating r10 = new Rating(1.0, m10.getId(), u4.getId());
+        Rating r10 = new Rating(1.0, m10.getId(), currentUserId);
+        Rating r11 = new Rating(1.0, m10.getId(), currentUserId);
+        Rating r12 = new Rating(1.0, m10.getId(), currentUserId);
+        Rating r13 = new Rating(1.0, m10.getId(), currentUserId);
 
         RatingDAO ratingDAO = App.getRatingDAO();
         ratingDAO.saveRating(r1);
@@ -141,9 +146,11 @@ public class SQLDatabase implements Database {
         ratingDAO.saveRating(r8);
         ratingDAO.saveRating(r9);
         ratingDAO.saveRating(r10);
+        ratingDAO.saveRating(r11);
+        ratingDAO.saveRating(r12);
+        ratingDAO.saveRating(r13);
 
         FriendDAO friendDAO = App.getFriendDAO();
-        long currentUserId = App.getCurrentUser().getId();
         friendDAO.addFriend(new Friend(currentUserId, u1.getId()));
         friendDAO.addFriend(new Friend(currentUserId, u2.getId()));
         friendDAO.addFriend(new Friend(currentUserId, u3.getId()));

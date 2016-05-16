@@ -105,40 +105,55 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/relativeLayout2">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/movie_detail_community_rating_label"
-                android:id="@+id/communityRatingLabel"
-                android:textSize="15sp"
-                android:layout_above="@+id/movieDetailRatingIcon2"
-                android:layout_alignParentStart="true" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/movie_detail_community_rating_default"
-                android:id="@+id/movieDetailCommunityRating"
-                android:textSize="20sp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/movieDetailRatingIcon2" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/movie_detail_community_rating_label"
+                    android:id="@+id/communityRatingLabel"
+                    android:textSize="15sp"
+                    android:layout_above="@+id/movieDetailRatingIcon2"
+                    android:layout_alignParentStart="true" />
 
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/movieDetailRatingIcon2"
-                android:numStars="1"
-                android:rating="1"
-                android:isIndicator="true"
-                android:background="@color/color_backdrop"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/movieDetailRatingIcon2"
+                        android:numStars="1"
+                        android:rating="1"
+                        android:isIndicator="true"
+                        android:background="@color/color_backdrop"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/movie_detail_community_rating_default"
+                        android:id="@+id/movieDetailCommunityRating"
+                        android:textSize="20sp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@+id/movieDetailRatingIcon2"
+                        android:layout_gravity="center_vertical"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
         </RelativeLayout>
 
     </RelativeLayout>
@@ -151,13 +166,14 @@
         android:layout_height="wrap_content"
         android:text="@string/movie_detail_description_default"
         android:id="@+id/descriptionTextField"
-        android:layout_below="@+id/frameLayout"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/movie_detail_default_margin"
         android:layout_marginEnd="@dimen/movie_detail_default_margin"
         android:ellipsize="end"
-        android:layout_above="@+id/relativeLayout3" />
+        android:layout_above="@+id/relativeLayout3"
+        android:layout_below="@+id/frameLayout"
+        android:layout_marginTop="28dp"/>
 
 
 
