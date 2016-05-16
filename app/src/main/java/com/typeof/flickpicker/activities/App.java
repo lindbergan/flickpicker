@@ -43,14 +43,12 @@ public class App extends Application {
         databaseType = MetaData.getMetaData(mContext, "database_type");
         createDatabase();
         setupDAO();
-
-        mCurrentUser = new User("AdminU", "AdminP");
-        getUserDAO().saveUser(mCurrentUser);
-        mCurrentUser.setScore(500);
+        setCurrentUser();
     }
 
     public long setCurrentUser() {
-        mCurrentUser = new User("pelle", "password");
+        mCurrentUser = new User("AdminU", "AdminP");
+        mCurrentUser.setScore(500);
         return getUserDAO().saveUser(mCurrentUser);
     }
 
