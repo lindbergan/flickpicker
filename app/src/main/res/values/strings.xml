@@ -29,4 +29,9 @@
     <string name="add_movie_to_playlist">Add movie to playlist</string>
     <string name="search_for_a_friend_hint">Search for a friend...</string>
 
+    <!-- STRINGS CUSTOM_ROW_SEARCH_USER -->
+
+    <string name="custom_row_username">Username</string>
+    <string name="custom_row_firstName">Username</string>
+
 </resources>
