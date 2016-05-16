@@ -31,6 +31,7 @@ public class PlaylistTableTest extends AndroidTestCase {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'playlists'", null);
+        cursor.close();
         assertEquals(1, cursor.getCount());
     }
 }

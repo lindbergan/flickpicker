@@ -4,14 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import com.typeof.flickpicker.core.DatabaseObject;
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * FlickPicker
@@ -64,7 +58,7 @@ public abstract class SQLDAO {
 
         try {
             db.beginTransaction();
-            int count = db.update(
+            db.update(
                     tableName,
                     values,
                     selection,

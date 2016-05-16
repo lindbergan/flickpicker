@@ -3,7 +3,6 @@ package com.typeof.flickpicker.activities;
 import android.app.Application;
 import android.content.Context;
 
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;
@@ -42,16 +41,24 @@ public class App extends Application {
         mContext = getApplicationContext();
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(mContext, "database_type");
-        setupDAO();
+        createDatabase();
 
-        Database db = getDatabase();
-        db.dropTables();
-        db.setUpTables();
+        setupDAO();
 
         mCurrentUser = new User("pelle", "password");
         getUserDAO().saveUser(mCurrentUser);
 
-        db.seedDatabase();
+    }
+
+    private void createDatabase() {
+        switch (databaseType) {
+            case "sql":
+                sDatabase = new SQLDatabase(mContext);
+                break;
+            default:
+                sDatabase = new SQLDatabase(mContext);
+        }
+        sDatabase.setUpTables();
     }
 
     private void setupDAO() {
@@ -62,14 +69,14 @@ public class App extends Application {
                 sRatingDAO = new SQLRatingDAO(mContext);
                 sPlaylistDAO = new SQLPlaylistDAO(mContext);
                 sFriendDAO = new SQLFriendDAO(mContext);
-                sDatabase = new SQLDatabase(mContext);
+
             default:
                 sMovieDAO = new SQLMovieDAO(mContext);
                 sUserDAO = new SQLUserDAO(mContext);
                 sRatingDAO = new SQLRatingDAO(mContext);
                 sPlaylistDAO = new SQLPlaylistDAO(mContext);
                 sFriendDAO = new SQLFriendDAO(mContext);
-                sDatabase = new SQLDatabase(mContext);
+
         }
     }
 

@@ -61,6 +61,7 @@ public class RatingTableTest extends AndroidTestCase {
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
 
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'ratings'", null);
+        cursor.close();
         assertTrue(cursor.getCount() == 0);
 
     }

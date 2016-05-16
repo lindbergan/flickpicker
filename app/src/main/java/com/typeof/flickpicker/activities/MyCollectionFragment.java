@@ -10,14 +10,11 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
-
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.MovieDAO;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,12 +23,12 @@ import java.util.List;
  * Created on 2016-05-05.
  */
 
-    //TODO: Fix the nameingConvention for the XML-files
-    //TODO: Fix the databse loadtime latency
+    //TODO: Fix the namingConvention for the XML-files
+    //TODO: Fix the database loadtime latency
     //TODO: Fix a good solution on how to track which tab user was previously at when returning from another "outer tab" (avoid SingletonPattern)
     //TODO: Replace notes with real JavaDoc
     //TODO: different cellCalls (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
-    //TODO: Thnk about how the user should "go back" to the "year" screen [CommunityTab - TopMoviesByYear]
+    //TODO: Think about how the user should "go back" to the "year" screen [CommunityTab - TopMoviesByYear]
 
 
 public class MyCollectionFragment extends Fragment {
@@ -88,21 +85,14 @@ public class MyCollectionFragment extends Fragment {
                 }
                 else{
 
-                    //get user's playlists, loop through them and save the movies in a new array:
-                    List<Playlist> usersPlaylist = App.getPlaylistDAO().getUserPlaylists(App.getCurrentUser().getId());
+                    Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
 
-                    List<Movie> usersPlaylistMovies = new ArrayList<Movie>();
-                    Iterator<Playlist> playlistIterator = usersPlaylist.iterator();
+                    List<Movie> usersPlaylistMovies = new ArrayList<>();
 
-                    while(playlistIterator.hasNext()){
+                    for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
 
-                        Playlist currentPlaylist = playlistIterator.next();
-
-                        for(int i = 0; i < currentPlaylist.getMovieIds().size(); i++){
-
-                            long movieId = currentPlaylist.getMovieIds().get(i).longValue();
-                            usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
-                        }
+                        long movieId = usersPlaylist.getMovieIds().get(i).longValue();
+                        usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
                     }
 
                     //...send that array along with the specified listview to populate it

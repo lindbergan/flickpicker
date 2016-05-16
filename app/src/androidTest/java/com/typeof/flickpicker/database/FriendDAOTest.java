@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.database;
 
-import android.test.AndroidTestCase;
+import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
@@ -16,19 +16,22 @@ import java.util.List;
  * Created on 16-04-25.
  */
 
-public class FriendDAOTest extends AndroidTestCase {
+public class FriendDAOTest extends ApplicationTestCase<App> {
 
     private FriendDAO mFriendDAO;
-    private Database mDatabase;
     private UserDAO mUserDAO;
     private RatingDAO mRatingDAO;
     private MovieDAO mMovieDAO;
 
+    public FriendDAOTest() {
+        super(App.class);
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mDatabase = App.getDatabase();
-        mDatabase.setUpTables();
+
+        createApplication();
 
         mFriendDAO = App.getFriendDAO();
         mUserDAO = App.getUserDAO();
@@ -40,7 +43,6 @@ public class FriendDAOTest extends AndroidTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabase.dropTables();
     }
 
     /**
@@ -55,8 +57,8 @@ public class FriendDAOTest extends AndroidTestCase {
         User user1 = new User("pelle", "password");
         User user2 = new User("johan", "password");
 
-        long id1 = mUserDAO.saveUser(user1);
-        long id2 = mUserDAO.saveUser(user2);
+        mUserDAO.saveUser(user1);
+        mUserDAO.saveUser(user2);
 
         Friend f = new Friend(user1.getId(), user2.getId());
         mFriendDAO.addFriend(f);
@@ -98,7 +100,7 @@ public class FriendDAOTest extends AndroidTestCase {
         long id2 = mUserDAO.saveUser(user2);
 
         Friend f = new Friend(id1, id2);
-        long id = mFriendDAO.addFriend(f);
+        mFriendDAO.addFriend(f);
         mFriendDAO.removeFriend(user1.getId(), user2.getId());
         List<User> userFriends = mFriendDAO.getFriendsFromUserId(user1.getId());
 
@@ -109,7 +111,7 @@ public class FriendDAOTest extends AndroidTestCase {
     public void testGetFriendsLatestActivities() {
 
         Movie terminator = new Movie("Terminator 2: Judgement Day", 1992);
-        long movieId = mMovieDAO.saveMovie(terminator);
+        mMovieDAO.saveMovie(terminator);
 
         User sebbe = new User("sebastian", "123");
         User adde = new User("adrian", "321");

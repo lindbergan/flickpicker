@@ -1,6 +1,5 @@
 package com.typeof.flickpicker.database;
 
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 
 import java.util.List;
@@ -12,8 +11,8 @@ import java.util.List;
  */
 public interface RatingDAO {
 
-    public List<Rating> getMovieRatings(long movieId);
-    public long saveRating(Rating rating);
-    public int removeRating(long ratingId);
-    public Rating findRating(long ratingId);
+    List<Rating> getMovieRatings(long movieId);
+    long saveRating(Rating rating);
+    int removeRating(long ratingId);
+    Rating findRating(long ratingId);
 }

@@ -1,8 +1,12 @@
 package com.typeof.flickpicker.database;
-import android.test.AndroidTestCase;
+import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
+import com.typeof.flickpicker.core.User;
+
+import junit.framework.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,37 +16,54 @@ import java.util.List;
  * Group 22
  * Created on 16-04-26.
  */
-public class PlaylistDAOTest extends AndroidTestCase {
+public class PlaylistDAOTest extends ApplicationTestCase<App> {
 
     private PlaylistDAO mPlaylistDAO;
-    private Database mDatabase;
+    private MovieDAO mMovieDAO;
+
+    public PlaylistDAOTest() {
+        super(App.class);
+    }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        createApplication();
+
         mPlaylistDAO = App.getPlaylistDAO();
-        mDatabase = App.getDatabase();
-        mDatabase.setUpTables();
+        mMovieDAO = App.getMovieDAO();
 
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mDatabase.dropTables();
     }
 
-    public void testGetUserPlaylists() {
-        Playlist playlist = new Playlist("My favourites", 8, new ArrayList<Number>(){{add(20); add(30); add(40);}});
-        long id1 = mPlaylistDAO.savePlaylist(playlist);
-        Playlist playlist2 = new Playlist("My worst movies", 8, new ArrayList<Number>(){{add(20); add(30); add(40);}});
-        long id2 = mPlaylistDAO.savePlaylist(playlist2);
-        Playlist playlist3 = new Playlist("My coolest movies", 8, new ArrayList<Number>(){{add(20); add(30); add(40);}});
-        long id3 = mPlaylistDAO.savePlaylist(playlist3);
+    public void testGetUserPlaylist() {
 
-        List<Playlist> playlists = mPlaylistDAO.getUserPlaylists(8);
+        User currentUser = new User("CurrentUser", "admin");
+        long currentUserId = App.getUserDAO().saveUser(currentUser);
 
-        assertEquals(3, playlists.size());
+        Movie m1 = new Movie("Movie1", 1995);
+        Movie m2 = new Movie("Movie2", 1996);
+        Movie m3 = new Movie("Movie3", 1997);
+        mMovieDAO.saveMovie(m1);
+        mMovieDAO.saveMovie(m2);
+        mMovieDAO.saveMovie(m3);
+
+        List<Number> movieIds = new ArrayList<>();
+        movieIds.add(m1.getId());
+        movieIds.add(m2.getId());
+        movieIds.add(m3.getId());
+
+
+        Playlist playlist = new Playlist("Watchlist", currentUserId, movieIds);
+        mPlaylistDAO.savePlaylist(playlist);
+
+        Playlist resultPlaylist = mPlaylistDAO.getPlaylist(currentUserId);
+        assertTrue(resultPlaylist.getMovieIds().size() == 3);
     }
 
     public void testFindPlaylistById() {
@@ -61,7 +82,14 @@ public class PlaylistDAOTest extends AndroidTestCase {
     public void testRemovePlaylist() {
         Playlist playlist = new Playlist("My favorites", 5);
         long id = mPlaylistDAO.savePlaylist(playlist);
-        id = mPlaylistDAO.removePlaylist(playlist);
-        assertTrue(id != 0);
+        mPlaylistDAO.removePlaylist(playlist);
+
+        try {
+            mPlaylistDAO.findPlaylistById(id);
+            Assert.fail();
+        }
+        catch (DatabaseRecordNotFoundException e) {
+            assertTrue("Playlist removed!", true);
+        }
     }
 }

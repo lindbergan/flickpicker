@@ -33,6 +33,7 @@ public class MovieTableTest extends AndroidTestCase {
 
     public void testTableCreation() {
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'movies'", null);
+        cursor.close();
         assertTrue(cursor.getCount() == 1);
     }
 
@@ -61,6 +62,7 @@ public class MovieTableTest extends AndroidTestCase {
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
 
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'movies'", null);
+        cursor.close();
         assertTrue(cursor.getCount() == 0);
     }
 

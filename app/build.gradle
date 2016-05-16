@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.tasks.AndroidTestTask
+
 apply plugin: 'com.android.application'
 
 android {
@@ -19,7 +21,7 @@ android {
     }
 }
 
-tasks.withType(com.android.build.gradle.internal.tasks.AndroidTestTask) { task ->
+tasks.withType(AndroidTestTask) { task ->
     task.doFirst {
         logging.level = LogLevel.INFO
     }

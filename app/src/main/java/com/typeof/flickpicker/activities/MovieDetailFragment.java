@@ -11,15 +11,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
-import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
 import com.typeof.flickpicker.utils.RatingHelper;
 
 import java.util.Iterator;
@@ -109,7 +106,7 @@ public class MovieDetailFragment extends Fragment {
     }
 
     /**
-     * method to assign variables to their different combonents in the layout.
+     * method to assign variables to their different components in the layout.
      */
     public void hookUpViews(View view){
 
@@ -170,11 +167,9 @@ public class MovieDetailFragment extends Fragment {
 
         boolean hasSeen = false;
         List<Movie> userCollection = mMovieDAO.getUsersMovieCollection(10000, App.getCurrentUser().getId());
-        Iterator<Movie> iterator = userCollection.iterator();
 
-        while(iterator.hasNext()){
-            Movie movie = iterator.next();
-            if(movie.getId() == movieId){
+        for (Movie movie : userCollection) {
+            if (movie.getId() == movieId) {
                 hasSeen = true;
                 break;
             }
@@ -196,13 +191,11 @@ public class MovieDetailFragment extends Fragment {
         double rating = -1;
         RatingDAO ratingDAO = App.getRatingDAO();
         List<Rating> ratings = ratingDAO.getMovieRatings(movieId);
-        Iterator<Rating> iterator = ratings.iterator();
 
         //iterates list to see if any of the ratings is made by the active user
         //if so the rating is saved and the loop breaks
-        while(iterator.hasNext()){
-            Rating r = iterator.next();
-            if(r.getUserId() == userId){
+        for (Rating r : ratings) {
+            if (r.getUserId() == userId) {
                 rating = r.getRating();
                 break;
             }
