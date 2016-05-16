@@ -91,7 +91,7 @@ public abstract class SQLDAO {
 
     public Cursor search(String tableName, String column, String searchString) {
         return db.rawQuery("SELECT * FROM " + tableName + " WHERE " + column + " LIKE ?",
-                new String[]{"%" + searchString + "%"});
+                new String[]{searchString + "%"});
     }
     
     public SQLiteDatabase getDatabase(){
