@@ -9,7 +9,7 @@ import com.typeof.flickpicker.R;
 public abstract class CustomAdapter extends ArrayAdapter {
 
     public CustomAdapter(Context context, Object[] obj) {
-        super(context, R.layout.custom_row_rating, obj);
+        super(context, R.layout.custom_row_friend_activity, obj);
     }
 
     abstract public View getView(int position, View convertView, ViewGroup parent);

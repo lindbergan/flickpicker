@@ -26,6 +26,22 @@
             android:layout_centerHorizontal="true"
             android:textColor="@color/color_text"/>
 
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_profile_icon"
+            android:id="@+id/myProfileIcon"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:textColor="@color/color_text"
+            android:padding="@dimen/movie_detail_image_padding"
+            android:textSize="25sp"
+            android:textIsSelectable="false" />
+
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -52,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/color_primary"></TabWidget>
+                    android:background="@color/color_primary"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -73,13 +89,7 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical"
                         android:layout_above="@android:id/tabs">
-                        <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ChangeView"
-                        android:id="@+id/changeViewButton"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -87,25 +97,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:layout_above="@android:id/tabs"></LinearLayout>
+                        android:layout_above="@android:id/tabs"/>
 
                     <LinearLayout
                         android:id="@+id/tabFriendsActivities"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabMyMovies"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabSearch"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                 </FrameLayout>
 

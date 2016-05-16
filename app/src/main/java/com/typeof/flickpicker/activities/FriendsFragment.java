@@ -49,13 +49,15 @@ public class FriendsFragment extends Fragment {
 
         initClearTextField();
         getFriendsRecentActivities();
-        initListAdapter();
+        initAdapters();
         updateRecentActivities();
 
         return communityView;
     }
-    public void initListAdapter() {
-        ratingListAdapter = new RatingAdapter(getActivity(), mFriendsRecentActivity.toArray());
+
+    public void initAdapters() {
+        ListAdapter ratingListAdapter = new FriendsActivityAdapter(getActivity(), mFriendsRecentActivity.toArray());
+
         mListViewFeed.setAdapter(ratingListAdapter);
     }
 
@@ -78,7 +80,7 @@ public class FriendsFragment extends Fragment {
                     if (result.size() == 0) {
                         hiddenText.setVisibility(View.VISIBLE);
                     }
-                    ratingListAdapter = new RatingAdapter(getActivity(), result.toArray());
+                    ratingListAdapter = new FriendsActivityAdapter(getActivity(), result.toArray());
                     mListViewFeed.setAdapter(ratingListAdapter);
                 }
                 else {

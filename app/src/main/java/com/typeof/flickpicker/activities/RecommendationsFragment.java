@@ -24,7 +24,8 @@ import java.util.List;
  */
 public class RecommendationsFragment extends Fragment {
 
-    private ListView mMovieListView;
+    private ListView mListViewFeed;
+    private View mView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,8 @@ public class RecommendationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Populate list with MovieCells
         View recommendationsView = inflater.inflate(R.layout.activity_recommendations, container, false);
-        mMovieListView = (ListView) recommendationsView.findViewById(R.id.recommendationsListView);
+        mView = recommendationsView;
+        mListViewFeed = (ListView) mView.findViewById(R.id.recommendationsListView);
 
         List<Movie> movies = new ArrayList<>();
         Adapter adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, movies);

@@ -98,6 +98,7 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
+
                 switch (tabId) {
                     case "topMovies":
                         setTopMoviesAsCurrentView();
@@ -109,6 +110,7 @@ public class CommunityFragment extends Fragment {
                         setTopMoviesByYearAsCurrentView();
 
                         break;
+
                 }
             }
         });

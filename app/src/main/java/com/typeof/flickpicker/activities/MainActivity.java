@@ -3,19 +3,23 @@ package com.typeof.flickpicker.activities;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.typeof.flickpicker.R;
+
+import java.lang.reflect.Type;
 
 public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
-    private Button mButtonCommunity;
-    private Button mButtonMyCollection;
+
     public static FragmentManager fragmentManager;
 
 
@@ -23,6 +27,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+        TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
+
+        myProfileIcon.setTypeface(font);
+
+
         fragmentManager = getFragmentManager();
 
         App.getDatabase().seedDatabase();

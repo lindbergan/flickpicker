@@ -9,9 +9,9 @@ import android.widget.TextView;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Rating;
 
-public class RatingAdapter extends CustomAdapter {
+public class FriendsActivityAdapter extends CustomAdapter {
 
-    public RatingAdapter(Context context, Object[] obj) {
+    public FriendsActivityAdapter(Context context, Object[] obj) {
         super(context, obj);
     }
 
@@ -30,8 +30,9 @@ public class RatingAdapter extends CustomAdapter {
 
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.custom_row_rating, parent, false);
+
+            LayoutInflater inflator = LayoutInflater.from(getContext());
+            convertView = inflator.inflate(R.layout.custom_row_friend_activity, parent, false);
             viewHolder.username = (TextView) convertView.findViewById(R.id.username_textview);
             viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview);
             viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview);
@@ -42,9 +43,10 @@ public class RatingAdapter extends CustomAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername() + "");
-        viewHolder.movieName.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle() + "");
-        viewHolder.movieYear.setText(String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()));
+
+        viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
+        viewHolder.movieName.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
+        viewHolder.movieYear.setText(" (" + String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()) + ")");
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
         return convertView;
     }

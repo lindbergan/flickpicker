@@ -1,13 +1,20 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">0dp</dimen>
-    <dimen name="activity_vertical_margin">0dp</dimen>
-    <dimen name="fab_margin">0dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 
 
     <!-- Defining header and tab bar sizes -->
 
     <dimen name="header_height">32dp</dimen>
+
+
+
+    <!-- List cell dimensions -->
+
+    <dimen name="list_cell_image_width">100dp</dimen>
+    <dimen name="list_cell_content_holder_width">300dp</dimen>
 
 
     <!-- Defining dimensions for movie detail view -->
