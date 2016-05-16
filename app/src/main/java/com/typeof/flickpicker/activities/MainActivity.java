@@ -74,31 +74,47 @@ public class MainActivity extends AppCompatActivity {
 
         final TabHost.TabSpec mTabSpecRecommendations = tabHost.newTabSpec("Recommendations");
         mTabSpecRecommendations.setContent(R.id.tabRecommendations);
+
         View icon = LayoutInflater.from(this).inflate(R.layout.tab_recommendation, null);
         TextView tv = (TextView)icon.findViewById(R.id.recommendationsIcon);
         tv.setTypeface(font);
-
         mTabSpecRecommendations.setIndicator(icon);
         tabHost.addTab(mTabSpecRecommendations);
 
         final TabHost.TabSpec mTabSpecCommunity = tabHost.newTabSpec("Community");
         mTabSpecCommunity.setContent(R.id.tabCommunity);
-        mTabSpecCommunity.setIndicator("C");
+
+        View icon2 = LayoutInflater.from(this).inflate(R.layout.tab_community, null);
+        TextView tv2 = (TextView)icon2.findViewById(R.id.communityIcon);
+        tv2.setTypeface(font);
+        mTabSpecCommunity.setIndicator(icon2);
         tabHost.addTab(mTabSpecCommunity);
 
         final TabHost.TabSpec mTabSpecFriendsActivities = tabHost.newTabSpec("Friends");
         mTabSpecFriendsActivities.setContent(R.id.tabFriendsActivities);
-        mTabSpecFriendsActivities.setIndicator("F");
+
+        View icon3 = LayoutInflater.from(this).inflate(R.layout.tab_friends, null);
+        TextView tv3 = (TextView)icon3.findViewById(R.id.friendsIcon);
+        tv3.setTypeface(font);
+        mTabSpecFriendsActivities.setIndicator(icon3);
         tabHost.addTab(mTabSpecFriendsActivities);
 
         final TabHost.TabSpec mTabSpecMyMovies = tabHost.newTabSpec("MyCollection");
         mTabSpecMyMovies.setContent(R.id.tabMyMovies);
-        mTabSpecMyMovies.setIndicator("M");
+
+        View icon4 = LayoutInflater.from(this).inflate(R.layout.tab_my_collection, null);
+        TextView tv4 = (TextView)icon4.findViewById(R.id.myCollectionIcon);
+        tv4.setTypeface(font);
+        mTabSpecMyMovies.setIndicator(icon4);
         tabHost.addTab(mTabSpecMyMovies);
 
         final TabHost.TabSpec mTabSpecSearch = tabHost.newTabSpec("Search");
         mTabSpecSearch.setContent(R.id.tabSearch);
-        mTabSpecSearch.setIndicator("S");
+
+        View icon5 = LayoutInflater.from(this).inflate(R.layout.tab_search, null);
+        TextView tv5 = (TextView)icon5.findViewById(R.id.searchIcon);
+        tv5.setTypeface(font);
+        mTabSpecSearch.setIndicator(icon5);
         tabHost.addTab(mTabSpecSearch);
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
