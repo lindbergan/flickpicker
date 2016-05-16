@@ -9,11 +9,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TabHost;
+import android.widget.Toast;
+
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.sql.MovieTable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +28,6 @@ import java.util.List;
  * Created on 2016-05-05.
  */
 
-    //TODO: Fix the namingConvention for the XML-files
-    //TODO: Fix the database loadtime latency
     //TODO: Fix a good solution on how to track which tab user was previously at when returning from another "outer tab" (avoid SingletonPattern)
     //TODO: Replace notes with real JavaDoc
     //TODO: different cellCalls (users rating, NOT community) BUT playlist want communityRating (that is - the present MovieCell)
@@ -36,6 +39,7 @@ public class MyCollectionFragment extends Fragment {
     private TabHost mTabHostMyCollection;
     private ListView listViewMyCollection;
     private ListView listViewMyPlaylist;
+    private SearchView searchViewMovie;
     private MovieDAO mMovieDAO;
     private int desireSizeOfList = 3;
 
@@ -58,6 +62,7 @@ public class MyCollectionFragment extends Fragment {
     public void hookUpViews(View view){
         listViewMyCollection = (ListView) view.findViewById(R.id.listViewMyCollection);
         listViewMyPlaylist = (ListView) view.findViewById(R.id.listViewMyPlaylist);
+        searchViewMovie = (SearchView) view.findViewById(R.id.searchView);
     }
 
     public void configureTabs(View view){
@@ -80,13 +85,14 @@ public class MyCollectionFragment extends Fragment {
 
                 if(tabId.equals("myCollection")){
 
+                    //populate the list with users movies
                     List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, App.getCurrentUser().getId());
                     populateListView(listViewMyCollection, userMovieCollection);
                 }
                 else{
 
+                    //else - fetch the users playlist and populate the list with those movies
                     Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
-
                     List<Movie> usersPlaylistMovies = new ArrayList<>();
 
                     for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
@@ -105,16 +111,26 @@ public class MyCollectionFragment extends Fragment {
 
     public void setUpListeners(){
 
-        listViewMyCollection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        searchViewMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Movie Detailed view
+            public boolean onQueryTextSubmit(String s) {
+                List<Movie> matches = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, s);
+
+                if(matches.size() != 0){
+                    populateListView(listViewMyCollection, matches);
+                }
+                else{
+                    Toast message = Toast.makeText(getActivity(), "No such movie in database", Toast.LENGTH_SHORT);
+                    message.show();
+                }
+                return false;
             }
-        });
-        listViewMyPlaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Movie Detailed view
+            public boolean onQueryTextChange(String s) {
+                List<Movie> matches = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, s);
+                populateListView(listViewMyCollection, matches);
+                return true;
             }
         });
     }

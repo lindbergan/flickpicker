@@ -115,7 +115,6 @@ public class CommunityFragment extends Fragment {
 
     public void populateListWithYears(ListView listView, List<String> yearList){
 
-
         if (this.getActivity() != null) {
 
             int defaultLayout = android.R.layout.simple_list_item_1; //default
@@ -123,7 +122,6 @@ public class CommunityFragment extends Fragment {
             listView.setAdapter(yearAdapter);
 
             isYearListCurrent = true;
-
         }
     }
 
@@ -146,20 +144,6 @@ public class CommunityFragment extends Fragment {
     }
 
     public void setUpListeners() {
-
-        listViewTopMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Go to MovieView/DetailedView
-            }
-        });
-
-        listViewWorstMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Go to MovieView/DetailedView
-            }
-        });
 
         listViewTopMoviesByYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -187,11 +171,7 @@ public class CommunityFragment extends Fragment {
                         message.show();
                     }
 
-                }
-                else{
-
-                    //in that case - we are presently at the specific year movie list:
-                    //TODO: detailed view of the movie
+                    //TODO: if user clicks "back" button - isYearListCurrent needs to be set to true;
                 }
             }
         });
