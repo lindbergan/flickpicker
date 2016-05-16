@@ -148,10 +148,8 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
         long thirdUser = mUserDAO.saveUser(new User("Olle", "admin"));
 
         //add kalle && olle as a friends to pelle
-        Friend friendShip = new Friend(primaryUser,secondaryUser);
-        long friendshipId = mFriendDAO.addFriend(friendShip);
-        Friend friendshipWithThidUser = new Friend(primaryUser,thirdUser);
-        mFriendDAO.addFriend(friendshipWithThidUser);
+        long firstFriendshipId = mFriendDAO.addFriend(new Friend(primaryUser,secondaryUser));
+        long secondFriendshipId = mFriendDAO.addFriend(new Friend(primaryUser,thirdUser));
 
         //let them rate the same two movies
         long americanHistoryXId = mMovieDAO.saveMovie(new Movie("American History X", 2000));
