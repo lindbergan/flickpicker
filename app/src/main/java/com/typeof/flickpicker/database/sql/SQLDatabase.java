@@ -162,7 +162,6 @@ public class SQLDatabase implements Database {
         currentUserPlaylist.add(m4.getId());
         currentUserPlaylist.add(m5.getId());
         playlistDAO.savePlaylist(currentUserPlaylist);
-
     }
 
     public void clearDatabase() {

@@ -138,8 +138,10 @@ public class MyCollectionFragment extends Fragment {
     public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
 
         //Code for populating elements in the listView;
-        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
-        listView.setAdapter(adapter);
+
+            ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
+            listView.setAdapter(adapter);
+
 
         //TODO: Different cells for different tab
     }

@@ -46,6 +46,8 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         ContentValues values = new ContentValues();
         values.put(FriendTable.FriendEntry.COLUMN_NAME_USER1ID, f.getUserIdOne());
         values.put(FriendTable.FriendEntry.COLUMN_NAME_USER2ID, f.getGetUserIdTwo());
+        values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getDisMatch());
+        values.put(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN, f.getNmbrOfMoviesBothSeen());
         return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
     }
 
@@ -140,14 +142,16 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
         List<Movie> usersMovieCollection = mMovieDAO.getUsersMovieCollection(desiredSizeIfList, currentUserId);
         List<User> usersFriends = getFriendsFromUserId(currentUserId);
-
         String[] movieIds = extractMovieIdsFromMovies(usersMovieCollection);
-        double matchValue = 0; //default
-        int nmbrOfMovieBothSeen = 0; //default
+
 
         for (int i = 0; i<usersFriends.size(); i++) {
 
             //check all friends
+            User currentFriend = usersFriends.get(i);
+            Friend currentFriendShip = getFriendRelation(currentUserId, currentFriend.getId());
+            double totalDismatch = 0; //default
+            int nmbrOfMovieBothSeen = 0; //default
 
             long currentFriendsId = usersFriends.get(i).getId();
 
@@ -160,22 +164,27 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
                         "AND m.userId like " + currentFriendsId + " AND m.movieId = ? ";
 
                 Cursor c = db.rawQuery(query, new String[]{movieIds[j],movieIds[j]});
-                c.moveToFirst();
 
                 if (c.getCount() != 0) {
+                    c.moveToFirst();
                     nmbrOfMovieBothSeen++;
-                    matchValue = calculateNewMatchValue(c, matchValue, nmbrOfMovieBothSeen);
+                    totalDismatch = calculateNewMatchValue(c, totalDismatch, nmbrOfMovieBothSeen);
+                    c.close();
                 }
-                c.close();
 
             }
-        }
-        int test1 = nmbrOfMovieBothSeen;
-        double test2 = matchValue;
 
+            //set the updated values to the friendRelation && save it
+            double disMatch = totalDismatch/nmbrOfMovieBothSeen;
+
+            currentFriendShip.setNmbrOfMoviesBothSeen(nmbrOfMovieBothSeen);
+            currentFriendShip.setDisMatch(disMatch);
+            addFriend(currentFriendShip);
+
+        }
     }
 
-    public double calculateNewMatchValue(Cursor c, double matchValue, int nmbrOfMovieBothSeen){
+    public double calculateNewMatchValue(Cursor c, double oldTotalDisMatchValue, int nmbrOfMovieBothSeen){
 
         //testing data - delete when confirmed working... "<--" marks where the delete ends
         int testINt = c.getCount();
@@ -184,14 +193,13 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         String movieId = c.getColumnName(0);
         // <--
 
-
         double usersRating = c.getLong(2);
         double friendRating = c.getLong(4);
-        double oldMatchValue = matchValue;
-        double diff = Math.abs(usersRating - friendRating);
-        double newMatchValue = (oldMatchValue + diff)/nmbrOfMovieBothSeen;
 
-        return newMatchValue;
+        double newDiff = Math.abs(usersRating - friendRating);
+        double newTotalDisMatchValue = oldTotalDisMatchValue + newDiff;
+
+        return newTotalDisMatchValue;
     }
 
     public String[] extractMovieIdsFromMovies(List<Movie> movies){
@@ -207,5 +215,35 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         }
 
         return movieIds;
+    }
+
+    public Friend getFriendRelation(long userId1, long userId2){
+
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME +
+                " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " LIKE "
+                + userId1 + " AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " LIKE " + userId2;
+
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst();
+
+        Friend friendRelation = createFriendFromCursor(c);
+        c.close();
+
+        return friendRelation;
+    }
+
+    public Friend createFriendFromCursor(Cursor c){
+
+        long id = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_ID));
+        long userId1 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER1ID));
+        long userId2 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER2ID));
+        double disMatch = c.getDouble(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH));
+        int nmbrOfMoviesBothSeen = c.getInt(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN));
+
+        Friend friendRelation = new Friend(userId1,userId2);
+        friendRelation.setId(id);
+        friendRelation.setDisMatch(disMatch);
+        friendRelation.setNmbrOfMoviesBothSeen(nmbrOfMoviesBothSeen);
+        return friendRelation;
     }
 }

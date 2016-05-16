@@ -23,6 +23,8 @@ public class FriendTable {
         public static final String COLUMN_NAME_USER1ID = "user1id";
         public static final String COLUMN_NAME_USER2ID = "user2id";
         public static final String COLUMN_NAME_DISMATCH = "dismatch";
+        public static final String COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN = "nmbrOfMoviesBothSeen";
+
         public static final String COLUMN_NAME_NULLABLE = " ";
 
 
@@ -31,7 +33,8 @@ public class FriendTable {
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     COLUMN_NAME_USER1ID + INTEGER_TYPE + COMMA_SEP +
                     COLUMN_NAME_USER2ID + INTEGER_TYPE + COMMA_SEP +
-                    COLUMN_NAME_DISMATCH + DOUBLE_TYPE +
+                    COLUMN_NAME_DISMATCH + DOUBLE_TYPE + COMMA_SEP +
+                    COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN + INTEGER_TYPE +
                     " )";
         }
 
