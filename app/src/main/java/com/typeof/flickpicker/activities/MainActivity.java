@@ -30,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
+
         myProfileIcon.setTypeface(font);
+
 
         fragmentManager = getFragmentManager();
 

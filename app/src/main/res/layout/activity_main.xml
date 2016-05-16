@@ -68,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/color_primary"></TabWidget>
+                    android:background="@color/color_primary"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -88,34 +88,34 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:layout_above="@android:id/tabs"><![CDATA[
-                        >
-                    ]]></LinearLayout>
+                        android:layout_above="@android:id/tabs">
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/tabCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:layout_above="@android:id/tabs"></LinearLayout>
+                        android:layout_above="@android:id/tabs"/>
 
                     <LinearLayout
                         android:id="@+id/tabFriendsActivities"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabMyMovies"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabSearch"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"></LinearLayout>
+                        android:orientation="vertical"/>
 
                 </FrameLayout>
 
