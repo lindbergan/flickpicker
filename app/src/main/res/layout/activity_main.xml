@@ -48,7 +48,20 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/userScore"
             android:layout_alignTop="@+id/flickPickerText"
-            android:layout_toEndOf="@+id/myProfileIcon"/>
+            android:layout_toEndOf="@+id/myProfileIcon"
+            android:textColor="@color/color_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_icon"
+            android:id="@+id/settingsIcon"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="25sp"
+            android:textColor="@color/color_text"
+            android:padding="@dimen/movie_detail_image_padding"
+            android:clickable="true"/>
 
 
     </RelativeLayout>

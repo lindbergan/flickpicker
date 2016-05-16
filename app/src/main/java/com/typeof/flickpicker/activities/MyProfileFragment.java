@@ -37,6 +37,8 @@ public class MyProfileFragment extends Fragment {
         mUsernameTextView = (TextView) myProfileView.findViewById(R.id.myProfileUsernameTextView);
         mUserScoreTextView = (TextView) myProfileView.findViewById(R.id.myProfileScoreTextView);
 
+        mUsernameTextView.setText(App.getCurrentUser().getUsername());
+        mUserScoreTextView.setText(String.valueOf(App.getCurrentUser().getScore()));
 
         return myProfileView;
 

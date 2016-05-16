@@ -20,7 +20,7 @@ import java.lang.reflect.Type;
 public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
-    private TextView mMyProfileIcon;
+
 
     public static FragmentManager fragmentManager;
 
@@ -33,17 +33,28 @@ public class MainActivity extends AppCompatActivity {
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
         //set up of 'My Profile icon' and its clickListener along with setting user score
-        TextView mMyProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
+        TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
         TextView userScore = (TextView) findViewById(R.id.userScore);
-        mMyProfileIcon.setTypeface(font);
+        myProfileIcon.setTypeface(font);
         userScore.setText(String.valueOf(App.getCurrentUser().getScore()));
-        mMyProfileIcon.setOnClickListener(new View.OnClickListener() {
+        myProfileIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MyProfileFragment myProfileFragment = new MyProfileFragment();
                 loadFragment(myProfileFragment);
             }
         });
+
+        TextView settingsIcon = (TextView)findViewById(R.id.settingsIcon);
+        settingsIcon.setTypeface(font);
+        settingsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsFragment settingsFragment = new SettingsFragment();
+                loadFragment(settingsFragment);
+            }
+        });
+
 
 
         App.getDatabase().seedDatabase();
