@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TabHost;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import java.lang.reflect.Type;
 public class MainActivity extends AppCompatActivity {
 
     TabHost tabHost;
+    private TextView mMyProfileIcon;
 
     public static FragmentManager fragmentManager;
 
@@ -29,18 +31,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-        TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
+
+        TextView mMyProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
         TextView userScore = (TextView) findViewById(R.id.userScore);
 
-        myProfileIcon.setTypeface(font);
+        mMyProfileIcon.setTypeface(font);
         userScore.setText(String.valueOf(App.getCurrentUser().getScore()));
-
-
-        fragmentManager = getFragmentManager();
+        setUpMyProfileClickListener();
 
         App.getDatabase().seedDatabase();
 
-        myProfileIcon.setTypeface(font);
         fragmentManager = getFragmentManager();
         tabHost = (TabHost) findViewById(R.id.tabHost);
         if (tabHost != null) {
@@ -102,6 +102,26 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void setUpMyProfileClickListener(){
+
+
+        mMyProfileIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                MyProfileFragment myProfileFragment = new MyProfileFragment();
+                loadFragment(myProfileFragment);
+
+            }
+        });
+
+
+
+
+
+
     }
 
     public static void loadFragment(Fragment fragment) {
