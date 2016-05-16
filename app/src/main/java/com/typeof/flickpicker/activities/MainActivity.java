@@ -6,6 +6,9 @@ import android.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,12 +53,10 @@ public class MainActivity extends AppCompatActivity {
         settingsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SettingsFragment settingsFragment = new SettingsFragment();
-                loadFragment(settingsFragment);
+               // SettingsFragment settingsFragment = new SettingsFragment();
+               // loadFragment(settingsFragment);
             }
         });
-
-
 
         App.getDatabase().seedDatabase();
 
@@ -69,9 +70,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void configureTabs() {
 
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+
         final TabHost.TabSpec mTabSpecRecommendations = tabHost.newTabSpec("Recommendations");
         mTabSpecRecommendations.setContent(R.id.tabRecommendations);
-        mTabSpecRecommendations.setIndicator("R");
+        View icon = LayoutInflater.from(this).inflate(R.layout.tab_recommendation, null);
+        TextView tv = (TextView)icon.findViewById(R.id.recommendationsIcon);
+        tv.setTypeface(font);
+
+        mTabSpecRecommendations.setIndicator(icon);
         tabHost.addTab(mTabSpecRecommendations);
 
         final TabHost.TabSpec mTabSpecCommunity = tabHost.newTabSpec("Community");

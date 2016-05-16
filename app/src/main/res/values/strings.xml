@@ -3,6 +3,12 @@
     <string name="app_name">FlickPicker</string>
     <string name="my_profile_icon">&#xf007;</string>
     <string name="settings_icon">&#xf085;</string>
+    <string name="recommendations_tab_icon">&#xf209;</string>
+    <string name="recommendations_tab_icon2">&#xf21e;</string>
+    <string name="community_tab_icon">&#xf0ac;</string>
+    <string name="friends_tab_icon">&#xf0c0;</string>
+    <string name="my_collection_tab_icon">&#xf187;</string>
+    <string name="search_tab_icon">&#xf002;</string>
 
 
 
