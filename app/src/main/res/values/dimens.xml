@@ -8,7 +8,8 @@
     <!-- Defining header and tab bar sizes -->
 
     <dimen name="header_height">32dp</dimen>
-
+    <dimen name="tab_vertical_margins">16dp</dimen>
+    <dimen name="tab_text_size">25sp</dimen>
 
 
     <!-- List cell dimensions -->

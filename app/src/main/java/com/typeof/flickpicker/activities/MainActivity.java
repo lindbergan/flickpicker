@@ -68,53 +68,31 @@ public class MainActivity extends AppCompatActivity {
         configureTabs();
     }
 
+
     public void configureTabs() {
 
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-
-        final TabHost.TabSpec mTabSpecRecommendations = tabHost.newTabSpec("Recommendations");
-        mTabSpecRecommendations.setContent(R.id.tabRecommendations);
-
-        View icon = LayoutInflater.from(this).inflate(R.layout.tab_recommendation, null);
-        TextView tv = (TextView)icon.findViewById(R.id.recommendationsIcon);
-        tv.setTypeface(font);
-        mTabSpecRecommendations.setIndicator(icon);
+        final TabHost.TabSpec mTabSpecRecommendations = createTabSpec("Recommendations", R.id.tabRecommendations,
+                                                                        R.layout.tab_recommendation, R.id.recommendationsIcon);
         tabHost.addTab(mTabSpecRecommendations);
 
-        final TabHost.TabSpec mTabSpecCommunity = tabHost.newTabSpec("Community");
-        mTabSpecCommunity.setContent(R.id.tabCommunity);
 
-        View icon2 = LayoutInflater.from(this).inflate(R.layout.tab_community, null);
-        TextView tv2 = (TextView)icon2.findViewById(R.id.communityIcon);
-        tv2.setTypeface(font);
-        mTabSpecCommunity.setIndicator(icon2);
+        final TabHost.TabSpec mTabSpecCommunity = createTabSpec("Community", R.id.tabCommunity,
+                                                                    R.layout.tab_community, R.id.communityIcon);
         tabHost.addTab(mTabSpecCommunity);
 
-        final TabHost.TabSpec mTabSpecFriendsActivities = tabHost.newTabSpec("Friends");
-        mTabSpecFriendsActivities.setContent(R.id.tabFriendsActivities);
 
-        View icon3 = LayoutInflater.from(this).inflate(R.layout.tab_friends, null);
-        TextView tv3 = (TextView)icon3.findViewById(R.id.friendsIcon);
-        tv3.setTypeface(font);
-        mTabSpecFriendsActivities.setIndicator(icon3);
+        final TabHost.TabSpec mTabSpecFriendsActivities = createTabSpec("Friends", R.id.tabFriendsActivities,
+                                                                             R.layout.tab_friends, R.id.friendsIcon);
         tabHost.addTab(mTabSpecFriendsActivities);
 
-        final TabHost.TabSpec mTabSpecMyMovies = tabHost.newTabSpec("MyCollection");
-        mTabSpecMyMovies.setContent(R.id.tabMyMovies);
 
-        View icon4 = LayoutInflater.from(this).inflate(R.layout.tab_my_collection, null);
-        TextView tv4 = (TextView)icon4.findViewById(R.id.myCollectionIcon);
-        tv4.setTypeface(font);
-        mTabSpecMyMovies.setIndicator(icon4);
+        final TabHost.TabSpec mTabSpecMyMovies = createTabSpec("MyCollection", R.id.tabMyMovies,
+                                                                 R.layout.tab_my_collection, R.id.myCollectionIcon);
         tabHost.addTab(mTabSpecMyMovies);
 
-        final TabHost.TabSpec mTabSpecSearch = tabHost.newTabSpec("Search");
-        mTabSpecSearch.setContent(R.id.tabSearch);
 
-        View icon5 = LayoutInflater.from(this).inflate(R.layout.tab_search, null);
-        TextView tv5 = (TextView)icon5.findViewById(R.id.searchIcon);
-        tv5.setTypeface(font);
-        mTabSpecSearch.setIndicator(icon5);
+        final TabHost.TabSpec mTabSpecSearch = createTabSpec("Search", R.id.tabSearch,
+                                                                R.layout.tab_search, R.id.searchIcon);
         tabHost.addTab(mTabSpecSearch);
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -152,6 +130,33 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null); // last fragment used can be reached with the back button
         fragmentTransaction.commit();
     }
+
+
+    /**
+     * Method for creating a TabSpec to use when adding new tabs to
+     * the tabWidget.
+     *
+     * @param tag the new tabSpec's tag
+     * @param viewId the Id for the content view associated with the new tab
+     * @param iconViewId the Id for the view containing the icon for the new tab
+     * @param iconId the Id for the TextView representing the icon for the new tab
+     * @return tabSpec
+     */
+    public TabHost.TabSpec createTabSpec(String tag, int viewId, int iconViewId, int iconId){
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec(tag);
+        tabSpec.setContent(viewId);
+        View iconView = LayoutInflater.from(this).inflate(iconViewId, null);
+        TextView icon = (TextView)iconView.findViewById(iconId);
+        icon.setTypeface(font);
+        tabSpec.setIndicator(iconView);
+
+        return tabSpec;
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
