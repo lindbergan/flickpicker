@@ -96,15 +96,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
-<<<<<<< HEAD
-                        android:layout_above="@android:id/tabs"><![CDATA[
-                        >
-                    ]]></LinearLayout>
-=======
+
                         android:layout_above="@android:id/tabs">
 
                     </LinearLayout>
->>>>>>> master
 
                     <LinearLayout
                         android:id="@+id/tabCommunity"
