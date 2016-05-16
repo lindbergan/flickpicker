@@ -51,7 +51,7 @@ public class MovieAdapter extends CustomAdapter {
                 Bundle args = new Bundle();
                 args.putLong("movieId", mov.getId());
                 movieDetailFragment.setArguments(args);
-                MainActivity.loadFragment(movieDetailFragment, "movieDetail");
+                //MainActivity.loadFragment(movieDetailFragment, "movieDetail");
             }
         });
 

@@ -1,12 +1,17 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TabHost;
@@ -21,14 +26,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     TabHost tabHost;
-
     public static FragmentManager fragmentManager;
+    public static Bundle savedFragments;
     public static Fragment currentFragment;
-
-    private static Map<String, Bundle> fragmentArguments = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,46 +96,48 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(recommendationsFragment, "recommendations");
             }
             if (tabId.equals("Community")) {
-                CommunityFragment communityFragment = new CommunityFragment();
-                loadFragment(communityFragment, "community");
+                loadFragment(new CommunityFragment(), "community");
             }
             if (tabId.equals("MyCollection")) {
                 MyCollectionFragment myColletionFragment = new MyCollectionFragment();
-                loadFragment(myColletionFragment, "myCollection");
+                //loadFragment(myColletionFragment, "myCollection");
             }
             if (tabId.equals("Search")) {
                 SearchFragment searchFragment = new SearchFragment();
-                loadFragment(searchFragment, "search");
+                //loadFragment(searchFragment, "search");
             }
             if (tabId.equals("Friends")) {
                 FriendsFragment friendsFragment = new FriendsFragment();
-                loadFragment(friendsFragment, "friends");
+                //loadFragment(friendsFragment, "friends");
             }
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     public static void loadFragment(Fragment fragment, String fragmentTag) {
+        // See if the fragment has been loaded before
+        try {
+            currentFragment = fragment;
 
-        if (currentFragment != null) {
-            String abc = currentFragment.getTag();
-            fragmentArguments.put(currentFragment.getTag(), currentFragment.getArguments());
+            // Replace the last fragment with the new one
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            fragmentTransaction.add(R.id.contentWrap, fragment, fragmentTag);
+
+            //fragmentTransaction.add(fragment, fragmentTag);
+            fragmentTransaction.addToBackStack(null);
+
+            fragmentTransaction.commit();
+
+            // Save the fragment in the bundle
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
-
-        Bundle args = fragmentArguments.get(fragmentTag);
-
-        if (args != null) {
-            fragment.setArguments(args);
-        }
-
-        fragmentManager.beginTransaction()
-        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        .replace(R.id.contentWrap, fragment, fragmentTag)
-        .addToBackStack(null)
-        .commit();
-
-        currentFragment = fragment;
-
     }
 
     @Override
@@ -156,5 +161,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.v("Activity", "Saved Main Activity");
     }
 }

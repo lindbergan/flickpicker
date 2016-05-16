@@ -37,6 +37,9 @@ public class CommunityFragment extends Fragment {
     private int thisYear;
     private boolean isYearListCurrent;
     private String currentTab;
+
+    public final String TAG = "community";
+    private Bundle savedState = null;
     //--------------------------------
     private SQLiteDatabase db;
     //--------------------------------
@@ -47,21 +50,14 @@ public class CommunityFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);
 
         mMovieDAO = App.getMovieDAO();
 
-        //--------------------------------
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
         db = dbhelper.getWritableDatabase();
         //--------------------------------
 
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
-        if (getArguments() != null) {
-            currentTab = getArguments().getString("currentTab");
-        } else {
-            currentTab = "topMovies";
-        }
 
     }
 
@@ -70,16 +66,22 @@ public class CommunityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
 
-        if (savedInstanceState != null) {
-            String abc = savedInstanceState.getString("currentTab");
+        if (getArguments() != null) {
+            savedState = savedInstanceState.getBundle(App.StateKey);
+        } else {
+            currentTab = "topMovies";
         }
 
         hookUpViews(communityView);
         configureTabs(communityView);
         determineCurrentView();
         setUpListeners();
+
+
         return communityView;
     }
+
+
 
     public void hookUpViews(View view) {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
@@ -110,20 +112,18 @@ public class CommunityFragment extends Fragment {
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+            switch (tabId) {
+                case "topMovies":
+                    setTopMoviesAsCurrentView();
+                    break;
+                case "worstMovies":
+                    setWorstMoviesAsCurrentView();
+                    break;
+                default:
+                    setTopMoviesByYearAsCurrentView();
+                    break;
 
-
-                switch (tabId) {
-                    case "topMovies":
-                        setTopMoviesAsCurrentView();
-                        break;
-                    case "worstMovies":
-                        setWorstMoviesAsCurrentView();
-                        break;
-                    default:
-                        setTopMoviesByYearAsCurrentView();
-                        break;
-
-                }
+            }
             }
         });
 
@@ -145,6 +145,7 @@ public class CommunityFragment extends Fragment {
         currentTab = "topMoviesByYear";
     }
 
+
     //Maybe better with an ENUM solution
     public void determineCurrentView(){
 
@@ -160,8 +161,6 @@ public class CommunityFragment extends Fragment {
     }
 
     public void populateListWithYears(ListView listView, List<String> yearList){
-
-
         if (this.getActivity() != null) {
 
             int defaultLayout = android.R.layout.simple_list_item_1; //default
@@ -256,7 +255,7 @@ public class CommunityFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("currentTab", this.getCurrentTab());
+        outState.putBundle(App.StateKey, (savedState != null) ? savedState : saveState());
     }
 
     @Override
@@ -265,6 +264,18 @@ public class CommunityFragment extends Fragment {
         if (savedInstanceState != null) {
             this.currentTab = savedInstanceState.getString("currentTab");
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        savedState = saveState();
+    }
+
+    private Bundle saveState() {
+        Bundle state = new Bundle();
+        state.putString("currentTab", currentTab);
+        return state;
     }
 }
 
