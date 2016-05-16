@@ -125,7 +125,7 @@
                 android:text="@string/movie_detail_community_rating_default"
                 android:id="@+id/movieDetailCommunityRating"
                 android:textSize="20sp"
-                android:layout_below="@+id/communityRatingLabel"
+                android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/movieDetailRatingIcon2" />
 
             <RatingBar
