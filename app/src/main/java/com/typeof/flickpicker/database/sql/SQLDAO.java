@@ -24,7 +24,7 @@ public abstract class SQLDAO {
     public Cursor find(long id, String tableName) throws DatabaseRecordNotFoundException {
         Cursor cursor = db.rawQuery("SELECT * FROM " + tableName + " WHERE id = ? LIMIT 1", new String[]{String.valueOf(id)});
         if (cursor.getCount() == 0) {
-            throw new DatabaseRecordNotFoundException("Record not found in database");
+            throw new DatabaseRecordNotFoundException("Record not found in database. UserId: " + id);
         }
         return cursor;
     }

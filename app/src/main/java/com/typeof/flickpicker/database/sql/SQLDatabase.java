@@ -72,6 +72,9 @@ public class SQLDatabase implements Database {
 
     public void seedDatabase() {
 
+        dropTables();
+        setUpTables();
+
         Movie m1 = new Movie("M1", 1995);
         Movie m2 = new Movie("M2", 1996);
         Movie m3 = new Movie("M3", 1997);
