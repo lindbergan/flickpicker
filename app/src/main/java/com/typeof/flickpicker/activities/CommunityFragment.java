@@ -2,10 +2,8 @@ package com.typeof.flickpicker.activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,6 @@ import android.widget.Toast;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
-import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,10 +32,6 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMoviesByYear;
     private int thisYear;
     private boolean isYearListCurrent;
-    SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
-    //--------------------------------
-    private SQLiteDatabase db;
-    //--------------------------------
 
     //TESTING
     private FragmentManager fragmentManager = getFragmentManager();
@@ -48,12 +40,6 @@ public class CommunityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMovieDAO = App.getMovieDAO();
-
-        //--------------------------------
-        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
-        db = dbhelper.getWritableDatabase();
-        //--------------------------------
-
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
     }
 
@@ -63,7 +49,6 @@ public class CommunityFragment extends Fragment {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
         hookUpViews(communityView);
         configureTabs(communityView);
-        determineCurrentView();
         setUpListeners();
         return communityView;
     }
@@ -108,7 +93,6 @@ public class CommunityFragment extends Fragment {
                         break;
                     default:
                         setTopMoviesByYearAsCurrentView();
-
                         break;
 
                 }
@@ -119,33 +103,14 @@ public class CommunityFragment extends Fragment {
     public void setTopMoviesAsCurrentView(){
         List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
-        viewTracker.setCurrentCommunityTab("topMovies");
     }
     public void setWorstMoviesAsCurrentView(){
         List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
         populateListView(listViewWorstMovies, worstMoviesAllTime);
-        viewTracker.setCurrentCommunityTab("worstMovies");
     }
     public void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
         populateListWithYears(listViewTopMoviesByYear,yearList);
-        viewTracker.setCurrentCommunityTab("topMoviesByYear");
-    }
-
-    //Maybe better with an ENUM solution
-    public void determineCurrentView(){
-
-        String currentTab = viewTracker.getCurrentCommunityTab();
-
-        if(currentTab.equals("topMovies")){
-            setTopMoviesAsCurrentView();
-        }
-        else if (currentTab.equals("worstMovies")) {
-            setWorstMoviesAsCurrentView();
-        }
-        else{
-            setTopMoviesByYearAsCurrentView();
-        }
     }
 
     public void populateListWithYears(ListView listView, List<String> yearList){
@@ -164,23 +129,9 @@ public class CommunityFragment extends Fragment {
 
     public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass) {
 
-        //--------------------------------
-        ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
-        executionTimeLogger.startTimer();
-        db.beginTransaction();
-        db.setTransactionSuccessful();
-        //--------------------------------
-
         //Code for populating elements in the listView;
         ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
-
-        //--------------------------------
-        db.endTransaction();
-        Log.d("EXECUTION TIME FOR LV:", listOfViewCellsWeGotFromHelpClass.size() + "");
-        executionTimeLogger.stopTimerAndLogResults();
-        //--------------------------------
-
     }
 
     public List<String> generateYearList(){
