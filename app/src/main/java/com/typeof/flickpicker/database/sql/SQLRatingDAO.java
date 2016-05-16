@@ -34,7 +34,6 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         Cursor movieIdCursor = searchRatingBy("movieId", String.valueOf(movieId));
         movieIdCursor.moveToFirst();
 
-
         for(int i = 0; i < movieIdCursor.getCount(); i++){
             ratingsForMovie.add(createRatingFromCursor(movieIdCursor));
             movieIdCursor.moveToNext();
@@ -115,7 +114,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
         double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
         long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
 
         Rating createdRating = new Rating(rating,movieId,userId);
         createdRating.setId(id);

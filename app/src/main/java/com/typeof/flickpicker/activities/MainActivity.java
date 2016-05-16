@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         App.getDatabase().seedDatabase();
 
+        myProfileIcon.setTypeface(font);
+        fragmentManager = getFragmentManager();
         tabHost = (TabHost) findViewById(R.id.tabHost);
         if (tabHost != null) {
             tabHost.setup();

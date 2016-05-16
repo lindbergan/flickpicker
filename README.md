@@ -21,6 +21,13 @@ cd data/data/com.typeof.flickpicker/databases/
 sqlite3 FlickPicker.db
 ```
 
+Snygga till output från databasen:
+
+```
+.mode column
+.headers on
+```
+
 ### Contact us:
 * Sebastian: sebnils@student.chalmers.se
 * Adrian: adrlin@student.chalmers.se

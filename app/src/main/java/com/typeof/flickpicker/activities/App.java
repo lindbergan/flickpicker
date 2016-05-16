@@ -42,13 +42,16 @@ public class App extends Application {
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(mContext, "database_type");
         createDatabase();
-
         setupDAO();
 
         mCurrentUser = new User("AdminU", "AdminP");
         getUserDAO().saveUser(mCurrentUser);
         mCurrentUser.setScore(500);
+    }
 
+    public long setCurrentUser() {
+        mCurrentUser = new User("pelle", "password");
+        return getUserDAO().saveUser(mCurrentUser);
     }
 
     private void createDatabase() {
@@ -59,6 +62,7 @@ public class App extends Application {
             default:
                 sDatabase = new SQLDatabase(mContext);
         }
+        sDatabase.dropTables();
         sDatabase.setUpTables();
     }
 

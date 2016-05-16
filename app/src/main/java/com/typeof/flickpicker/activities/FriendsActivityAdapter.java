@@ -26,6 +26,7 @@ public class FriendsActivityAdapter extends CustomAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Rating r = (Rating) getItem(position);
+
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -42,7 +43,6 @@ public class FriendsActivityAdapter extends CustomAdapter {
         else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
 
         viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
         viewHolder.movieName.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
