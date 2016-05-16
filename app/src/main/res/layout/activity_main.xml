@@ -41,6 +41,14 @@
             android:textSize="25sp"
             android:textIsSelectable="false" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/userScore"
+            android:layout_alignTop="@+id/flickPickerText"
+            android:layout_toEndOf="@+id/myProfileIcon"/>
+
 
     </RelativeLayout>
 

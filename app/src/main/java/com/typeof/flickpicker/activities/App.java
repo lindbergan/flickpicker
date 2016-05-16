@@ -45,8 +45,9 @@ public class App extends Application {
 
         setupDAO();
 
-        mCurrentUser = new User("pelle", "password");
+        mCurrentUser = new User("AdminU", "AdminP");
         getUserDAO().saveUser(mCurrentUser);
+        mCurrentUser.setScore(500);
 
     }
 
