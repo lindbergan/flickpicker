@@ -90,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                                                                  R.layout.tab_my_collection, R.id.myCollectionIcon);
         tabHost.addTab(mTabSpecMyMovies);
 
-
         final TabHost.TabSpec mTabSpecSearch = createTabSpec("Search", R.id.tabSearch,
                                                                 R.layout.tab_search, R.id.searchIcon);
         tabHost.addTab(mTabSpecSearch);
@@ -100,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabChanged(String tabId) {
                 if (tabId.equals("Recommendations")) {
+
                     RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
                     loadFragment(recommendationsFragment);
                 }

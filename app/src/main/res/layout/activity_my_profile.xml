@@ -17,6 +17,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/imageView2"
+            android:src="@drawable/no_user_profile"
             android:layout_gravity="center" />
     </FrameLayout>
 
@@ -25,7 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/frameLayout2"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout4">
 
         <TextView
             android:layout_width="wrap_content"
@@ -43,6 +45,33 @@
             android:layout_height="wrap_content"
             android:text="120"
             android:id="@+id/myProfileScoreTextView"
+            android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout4">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="First Name"
+            android:ems="10"
+            android:id="@+id/myProfileFirstNameTextField"
+            android:layout_gravity="right" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Last Name"
+            android:ems="10"
+            android:id="@+id/myProfileLastNameTextField"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 </RelativeLayout>
