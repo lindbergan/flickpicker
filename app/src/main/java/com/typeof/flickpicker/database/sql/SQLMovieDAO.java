@@ -251,7 +251,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         List<Movie> usersMovieCollection = new ArrayList<>();
 
         for (Rating userRating : userRatings) {
-
             long movieId = userRating.getMovieId();
             usersMovieCollection.add(findMovie(movieId));
         }

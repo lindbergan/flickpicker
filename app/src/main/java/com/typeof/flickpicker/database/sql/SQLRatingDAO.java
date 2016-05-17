@@ -21,11 +21,11 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     private SQLMovieDAO sqlMovieDAO;
     private SQLiteDatabase db;
 
-
     public SQLRatingDAO(Context ctx) {
         super(ctx);
+        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
+        db = dbhelper.getWritableDatabase();
         sqlMovieDAO = new SQLMovieDAO(ctx);
-        db = getDatabase();
     }
 
     public List<Rating> getMovieRatings(long movieId){
@@ -76,7 +76,6 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
         return super.save(rating, "ratings", values);
     }
-
 
     private double setMovieTableRating(long movieId, double oldRating, double newRating){
 
@@ -133,5 +132,21 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
         Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete, "ratings");
+    }
+
+    @Override
+    public double getRatingFromUser(long userId, long movieId) {
+
+        String query = "SELECT * FROM " + RatingTable.RatingEntry.TABLE_NAME + " WHERE " +
+                RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID
+                + " = " + userId +  " AND " + RatingTable.RatingEntry.TABLE_NAME + "." +
+                RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = " + movieId;
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        double result = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
+        c.close();
+        return result;
+
     }
 }

@@ -15,4 +15,5 @@ public interface RatingDAO {
     long saveRating(Rating rating);
     int removeRating(long ratingId);
     Rating findRating(long ratingId);
+    double getRatingFromUser(long userId, long movieId);
 }

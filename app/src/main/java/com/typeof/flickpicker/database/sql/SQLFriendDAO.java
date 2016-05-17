@@ -133,11 +133,12 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
     @Override
     public boolean isFriend(long user2Id) {
         String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID
-                + " = ? AND WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?";
+                + " = ? AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?";
         long currentUserId = App.getCurrentUser().getId();
-        //Cursor c = db.rawQuery(query, new String[]{String.valueOf(currentUserId), String.valueOf(user2Id)});
-        //if (c.getCount() == 1) return true;
-        //c.close();
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(currentUserId), String.valueOf(user2Id)});
+        c.moveToFirst();
+        if (c.getCount() == 1) return true;
+        c.close();
         return false;
     }
 }
