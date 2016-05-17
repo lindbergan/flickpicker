@@ -28,6 +28,11 @@ Snygga till output från databasen:
 .headers on
 ```
 
+Sätt på internetz i din emulator
+```
+adb shell svc data enable
+```
+
 ### Contact us:
 * Sebastian: sebnils@student.chalmers.se
 * Adrian: adrlin@student.chalmers.se

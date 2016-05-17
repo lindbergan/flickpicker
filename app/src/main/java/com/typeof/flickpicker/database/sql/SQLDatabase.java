@@ -14,6 +14,7 @@ import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
+import com.typeof.flickpicker.utils.OMDBParser;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -155,7 +156,6 @@ public class SQLDatabase implements Database {
 
         PlaylistDAO playlistDAO = App.getPlaylistDAO();
         playlistDAO.savePlaylist(new Playlist("Watchlist", currentUserId));
-
     }
 
     public void clearDatabase() {
