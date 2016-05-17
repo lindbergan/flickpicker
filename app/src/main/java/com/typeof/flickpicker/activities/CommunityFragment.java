@@ -236,23 +236,13 @@ public class CommunityFragment extends Fragment {
                     }
 
                 }
-                else{
-
-                    //in that case - we are presently at the specific year movie list:
-                    //TODO: detailed view of the movie
-                }
             }
         });
-    }
-
-    public String getCurrentTab() {
-        return currentTab;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBundle(App.StateKey, (savedState != null) ? savedState : saveState());
     }
 
     @Override
@@ -263,17 +253,6 @@ public class CommunityFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        savedState = saveState();
-    }
-
-    private Bundle saveState() {
-        Bundle state = new Bundle();
-        state.putString("currentTab", currentTab);
-        return state;
-    }
 }
 
 

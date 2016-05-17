@@ -1,9 +1,4 @@
 package com.typeof.flickpicker.activities;
-
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,29 +6,14 @@ import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.util.ArrayMap;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TabHost;
-import android.widget.Button;
 import android.widget.TextView;
-
 import com.typeof.flickpicker.R;
-
-import java.lang.reflect.Type;
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends FragmentActivity {
 
     TabHost tabHost;
-    public static FragmentManager fragmentManager;
-    public static Bundle savedFragments;
-    public static Fragment currentFragment;
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
 
@@ -48,6 +28,7 @@ public class MainActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(6);
 
         App.getDatabase().seedDatabase();
 
@@ -61,14 +42,14 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (mViewPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
-            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+            int abc = mViewPager.getCurrentItem() - 1;
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
         }
     }
 
@@ -112,21 +93,20 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onTabChanged(String tabId) {
-
             if (tabId.equals("Recommendations")) {
-                mViewPager.setCurrentItem(0);
+                mViewPager.setCurrentItem(0, true);
             }
             if (tabId.equals("Community")) {
-                mViewPager.setCurrentItem(1);
+                mViewPager.setCurrentItem(1, true);
             }
             if (tabId.equals("Friends")) {
-                mViewPager.setCurrentItem(2);
+                mViewPager.setCurrentItem(2,true );
             }
             if (tabId.equals("MyCollection")) {
-                mViewPager.setCurrentItem(3);
+                mViewPager.setCurrentItem(3, true);
             }
             if (tabId.equals("Search")) {
-                mViewPager.setCurrentItem(4);
+                mViewPager.setCurrentItem(4, true);
             }
             }
         });
@@ -135,29 +115,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public static void loadFragment(Fragment fragment, String fragmentTag) {
-
-
-       /* // See if the fragment has been loaded before
-        try {
-            currentFragment = fragment;
-
-            // Replace the last fragment with the new one
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            fragmentTransaction.add(R.id.contentWrap, fragment, fragmentTag);
-
-            //fragmentTransaction.add(fragment, fragmentTag);
-            fragmentTransaction.addToBackStack(null);
-
-            fragmentTransaction.commit();
-
-            // Save the fragment in the bundle
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
