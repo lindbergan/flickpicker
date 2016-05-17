@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +19,12 @@ import com.typeof.flickpicker.R;
  */
 public class MyProfileFragment extends Fragment {
 
+    private ImageView mUserProfileImageView;
     private TextView mUsernameTextView;
     private TextView mUserScoreTextView;
-    private ImageView mUserProfileImageView;
+    private EditText mFirstNameTextField;
+    private EditText mLastNameTextField;
+
 
 
     @Override
@@ -36,10 +40,13 @@ public class MyProfileFragment extends Fragment {
 
         mUsernameTextView = (TextView) myProfileView.findViewById(R.id.myProfileUsernameTextView);
         mUserScoreTextView = (TextView) myProfileView.findViewById(R.id.myProfileScoreTextView);
+        mFirstNameTextField = (EditText) myProfileView.findViewById(R.id.myProfileFirstNameTextField);
+        mLastNameTextField = (EditText) myProfileView.findViewById(R.id.myProfileLastNameTextField);
+
 
         mUsernameTextView.setText(App.getCurrentUser().getUsername());
         mUserScoreTextView.setText(String.valueOf(App.getCurrentUser().getScore()));
-
+        
         return myProfileView;
 
 
