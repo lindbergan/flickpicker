@@ -55,11 +55,7 @@ public class MovieAdapter extends CustomAdapter {
                 movieDetailFragment.setArguments(args);
                 MainActivity mainActivity = (MainActivity)getContext();
 
-                ViewPager viewPager = mainActivity.getViewPager();
-                ScreenSlidePageAdapter pagerAdapter = (ScreenSlidePageAdapter)viewPager.getAdapter();
-                int fragmentIndex = pagerAdapter.addFragment(movieDetailFragment);
-                pagerAdapter.notifyDataSetChanged();
-                viewPager.setCurrentItem(fragmentIndex);
+                SingleFragmentHelper.setFragment(mainActivity, movieDetailFragment);
             }
         });
 

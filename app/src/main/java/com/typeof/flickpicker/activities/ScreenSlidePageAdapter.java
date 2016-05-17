@@ -45,4 +45,5 @@ public class ScreenSlidePageAdapter extends FragmentStatePagerAdapter {
         return fragmentIndex;
 
     }
+
 }

@@ -1,5 +1,4 @@
 package com.typeof.flickpicker.activities;
-import android.support.v4.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +20,7 @@ public class MainActivity extends FragmentActivity {
     TabHost tabHost;
     private ViewPager mViewPager;
     public PagerAdapter mPagerAdapter;
+    private List<Integer> previousPositions = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,6 @@ public class MainActivity extends FragmentActivity {
 
         setupScore();
         initViewPager();
-
 
         App.getDatabase().seedDatabase();
 
@@ -54,11 +53,33 @@ public class MainActivity extends FragmentActivity {
 
         mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOffscreenPageLimit(6);
-    }
+        mViewPager.setOffscreenPageLimit(10);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    public PagerAdapter getPagerAdapter() {
-        return mPagerAdapter;
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                // The back button logic
+                if (previousPositions.indexOf(position) != -1) {
+                    previousPositions.remove(previousPositions.indexOf(position));
+                }
+
+                previousPositions.add(position);
+
+                if (position < 5) {
+                    tabHost.setCurrentTab(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
     @Override
@@ -69,8 +90,12 @@ public class MainActivity extends FragmentActivity {
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
-            int abc = mViewPager.getCurrentItem() - 1;
-            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, true);
+            if (previousPositions.size() > 1) {
+                previousPositions.remove(previousPositions.size() - 1);
+                mViewPager.setCurrentItem(previousPositions.get(previousPositions.size() - 1), false);
+            } else {
+                mViewPager.setCurrentItem(0, false);
+            }
         }
     }
 
@@ -135,11 +160,6 @@ public class MainActivity extends FragmentActivity {
 
     public ViewPager getViewPager() {
         return mViewPager;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
