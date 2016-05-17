@@ -44,7 +44,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/searchViewMovie"
                         android:visibility="visible"
-                        android:queryHint="Search Movie"/>
+                        android:queryHint="Search Movie"
+                        android:iconifiedByDefault="false"/>
 
                     <ListView
                         android:layout_width="wrap_content"
@@ -57,6 +58,16 @@
                         android:paddingTop="7dp"
                         android:paddingBottom="7dp"
                         android:clipToPadding="false"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No movies found"
+                        android:id="@+id/hiddenNoMoviesText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="150dp"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -69,7 +80,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/searchViewFriend"
-                        android:queryHint="Search User"/>
+                        android:queryHint="Search User"
+                        android:iconifiedByDefault="false"/>
 
                     <ListView
                         android:layout_width="match_parent"
@@ -82,6 +94,15 @@
                         android:paddingTop="7dp"
                         android:paddingBottom="7dp"
                         android:clipToPadding="false"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No users found"
+                        android:id="@+id/hiddenNoUsersText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="150dp"/>
                 </LinearLayout>
 
             </FrameLayout>

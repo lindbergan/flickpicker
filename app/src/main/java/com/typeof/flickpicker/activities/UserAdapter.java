@@ -3,11 +3,13 @@ package com.typeof.flickpicker.activities;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 
 /**
@@ -37,7 +39,7 @@ public class UserAdapter extends CustomAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        User user = (User) getItem(position);
+        final User user = (User) getItem(position);
         ViewHolder viewHolder;
 
         if (convertView == null) {
@@ -64,15 +66,34 @@ public class UserAdapter extends CustomAdapter {
         viewHolder.nrOfRatings.setText(String.valueOf(App.getMovieDAO().getUserRatings(1000, user.getId()).size()));
         viewHolder.nrOfPoints.setText(String.valueOf(user.getScore()));
 
-        viewHolder.addFriendButton.setVisibility(View.VISIBLE);
-        viewHolder.removeFriendButton.setVisibility(View.INVISIBLE);
-        viewHolder.addFriendButton.setClickable(true);
-
-        if (App.getFriendDAO().isFriend(user.getId())) {
-            viewHolder.addFriendButton.setVisibility(View.INVISIBLE);
-            viewHolder.removeFriendButton.setVisibility(View.VISIBLE);
-            viewHolder.removeFriendButton.setClickable(true);
+        if (!App.getFriendDAO().isFriend(user.getId())) {
+            viewHolder.addFriendButton.setVisibility(View.VISIBLE);
+            viewHolder.removeFriendButton.setVisibility(View.INVISIBLE);
+            viewHolder.addFriendButton.setClickable(true);
+            viewHolder.removeFriendButton.setClickable(false);
         }
+        else {
+            viewHolder.removeFriendButton.setVisibility(View.VISIBLE);
+            viewHolder.addFriendButton.setVisibility(View.INVISIBLE);
+            viewHolder.removeFriendButton.setClickable(true);
+            viewHolder.addFriendButton.setClickable(false);
+        }
+
+        viewHolder.addFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.getFriendDAO().addFriend(new Friend(App.getCurrentUser().getId(), user.getId()));
+                Log.v("hejhejhej", "add");
+            }
+        });
+
+        viewHolder.removeFriendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                App.getFriendDAO().removeFriend(App.getCurrentUser().getId(), user.getId());
+                Log.v("hejhejhej", "remove");
+            }
+        });
 
         return convertView;
     }

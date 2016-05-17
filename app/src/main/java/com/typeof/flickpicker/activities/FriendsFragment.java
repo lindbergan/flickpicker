@@ -57,8 +57,6 @@ public class FriendsFragment extends Fragment {
 
     public void initAdapters() {
         ListAdapter ratingListAdapter = new FriendsActivityAdapter(getActivity(), mFriendsRecentActivity.toArray());
-
-
         mListViewFeed.setAdapter(ratingListAdapter);
     }
 
