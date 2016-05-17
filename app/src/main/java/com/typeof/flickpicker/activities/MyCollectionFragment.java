@@ -37,7 +37,7 @@ public class MyCollectionFragment extends Fragment {
     private ListView listViewMyCollection;
     private ListView listViewMyPlaylist;
     private MovieDAO mMovieDAO;
-    private int desireSizeOfList = 3;
+    private int desireSizeOfList = 25;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,9 @@ public class MyCollectionFragment extends Fragment {
     public void hookUpViews(View view){
         listViewMyCollection = (ListView) view.findViewById(R.id.listViewMyCollection);
         listViewMyPlaylist = (ListView) view.findViewById(R.id.listViewMyPlaylist);
+
+        populatePlaylist();
+        populateCollection();
     }
 
     public void configureTabs(View view){
@@ -79,28 +82,34 @@ public class MyCollectionFragment extends Fragment {
             public void onTabChanged(String tabId) {
 
                 if(tabId.equals("myPlaylist")){
-
-                    List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, App.getCurrentUser().getId());
-                    populateListView(listViewMyCollection, userMovieCollection);
+                    populatePlaylist();
                 }
                 else{
-
-                    Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
-
-                    List<Movie> usersPlaylistMovies = new ArrayList<>();
-
-                    for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
-
-                        long movieId = usersPlaylist.getMovieIds().get(i).longValue();
-                        usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
-                    }
-
-                    //...send that array along with the specified listview to populate it
-                    populateListView(listViewMyPlaylist, usersPlaylistMovies);
+                    populateCollection();
                 }
 
             }
         });
+    }
+
+    public void populatePlaylist() {
+        List<Movie> userMovieCollection = mMovieDAO.getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
+        populateListView(listViewMyCollection, userMovieCollection);
+    }
+
+    public void populateCollection() {
+        Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
+
+        List<Movie> usersPlaylistMovies = new ArrayList<>();
+
+        for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
+
+            long movieId = usersPlaylist.getMovieIds().get(i).longValue();
+            usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
+        }
+
+        //...send that array along with the specified listview to populate it
+        populateListView(listViewMyPlaylist, usersPlaylistMovies);
     }
 
     public void setUpListeners(){

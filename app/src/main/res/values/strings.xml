@@ -10,8 +10,6 @@
     <string name="my_collection_tab_icon">&#xf187;</string>
     <string name="search_tab_icon">&#xf002;</string>
 
-
-
     <string name="action_settings">Settings</string>
 
     <string name="movie_detail_title_default">A great movie</string>
@@ -35,5 +33,13 @@
     <string name="and_rated_it_Textview">...and rated it:</string>
     <string name="add_movie_to_playlist">Add movie to playlist</string>
     <string name="search_for_a_friend_hint">Search for a friend...</string>
+
+    <!-- STRINGS CUSTOM_ROW_SEARCH_USER -->
+
+    <string name="custom_row_username">Username</string>
+    <string name="profile_code_font">&#xf0f0;</string>
+    <string name="check_code_font">&#xf234;</string>
+    <string name="unheck_code_font">&#xf235;</string>
+    <string name="edit_code_font">&#xf044;</string>
 
 </resources>
