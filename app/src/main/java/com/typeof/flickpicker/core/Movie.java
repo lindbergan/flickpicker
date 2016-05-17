@@ -2,12 +2,12 @@ package com.typeof.flickpicker.core;
 public class Movie implements DatabaseObject {
 
     private long id = 0;
-    private String title;
-    private int year;
-    private String description;
-    private String genre;
+    private String title = "";
+    private int year = 0;
+    private String description = "";
+    private String genre = "";
     private String poster;
-    private int numberOfVotes;
+    private int numberOfVotes = 0;
     private double communityRating;
 
     public Movie(long id, String title, String description, int year, String genre) {

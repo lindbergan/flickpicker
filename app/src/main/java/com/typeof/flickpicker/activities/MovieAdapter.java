@@ -2,13 +2,14 @@ package com.typeof.flickpicker.activities;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 
@@ -19,12 +20,6 @@ public class MovieAdapter extends CustomAdapter {
     public MovieAdapter(Context context, Object[] obj) {
         super(context, obj);
         mContext = context;
-    }
-
-    private static class ViewHolder {
-        TextView movieName;
-        TextView movieYear;
-        RatingBar ratingBar;
     }
 
     @Override
@@ -40,9 +35,11 @@ public class MovieAdapter extends CustomAdapter {
             viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview_movieCell);
             viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview_movieCell);
             viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar_movieCell);
+            viewHolder.moviePoster = (ImageView) convertView.findViewById(R.id.imageView_movieCell);
+
             convertView.setTag(viewHolder);
         }
-        else{
+        else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -53,15 +50,25 @@ public class MovieAdapter extends CustomAdapter {
                 Bundle args = new Bundle();
                 args.putLong("movieId", mov.getId());
                 movieDetailFragment.setArguments(args);
-                MainActivity mainActivity = (MainActivity)getContext();
+                MainActivity mainActivity = (MainActivity) getContext();
 
                 SingleFragmentHelper.setFragment(mainActivity, movieDetailFragment);
             }
         });
 
+
         viewHolder.movieName.setText(mov.getTitle());
         viewHolder.movieYear.setText(String.valueOf(mov.getYear()));
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
+        Picasso.with(getContext()).load(mov.getPoster()).into(viewHolder.moviePoster);
         return convertView;
+    }
+
+    private static class ViewHolder {
+
+        TextView movieName;
+        TextView movieYear;
+        RatingBar ratingBar;
+        ImageView moviePoster;
     }
 }
