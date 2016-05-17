@@ -1,4 +1,5 @@
 package com.typeof.flickpicker.utils;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -19,11 +20,23 @@ import java.util.Map;
  * Group 22
  * Created on 16-05-17.
  */
-public class OMDBParser {
+public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
 
     private List<Movie> movies = new ArrayList<>();
-
     private List<String> movieIds = new ArrayList<>();
+
+    @Override
+    protected List<Movie> doInBackground(Void... params) {
+        for (String imdbId : movieIds) {
+            try {
+                Movie movie = requestMovieFromOMDB(imdbId);
+                movies.add(movie);
+            } catch (Exception e) {
+                Log.e("ERROR", e.getMessage());
+            }
+        }
+        return movies;
+    }
 
     public OMDBParser() {
         movieIds.add("tt0111161");
@@ -66,11 +79,16 @@ public class OMDBParser {
 
             input.close();
 
-            return new Movie(title, plot, year, genre);
+            return new Movie(title, plot, year, genre, poster);
 
         } catch (JsonIOException | JsonSyntaxException | IOException e) {
             throw new Exception(e.getMessage());
         }
 
+    }
+
+    @Override
+    protected void onPostExecute(List list) {
+        super.onPostExecute(list);
     }
 }

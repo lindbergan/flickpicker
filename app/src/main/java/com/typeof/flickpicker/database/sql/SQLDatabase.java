@@ -19,6 +19,7 @@ import com.typeof.flickpicker.utils.OMDBParser;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * FlickPicker
@@ -156,11 +157,29 @@ public class SQLDatabase implements Database {
 
         PlaylistDAO playlistDAO = App.getPlaylistDAO();
         playlistDAO.savePlaylist(new Playlist("Watchlist", currentUserId));
+
+        requestMoviesFromOMDB();
+
+    }
+
+    public void requestMoviesFromOMDB(){
+        OMDBParser omdbParser = new OMDBParser();
+        omdbParser.execute();
+        try {
+            List<Movie> movies = omdbParser.get();
+            MovieDAO movieDAO = App.getMovieDAO();
+            for(Movie m : movies) {
+                movieDAO.saveMovie(m);
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     public void clearDatabase() {
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
     }
+
 
 }

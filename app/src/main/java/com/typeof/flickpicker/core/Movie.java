@@ -6,6 +6,7 @@ public class Movie implements DatabaseObject {
     private int year;
     private String description;
     private String genre;
+    private String poster;
     private int numberOfVotes;
     private double communityRating;
 
@@ -17,11 +18,12 @@ public class Movie implements DatabaseObject {
         this.genre = genre;
     }
 
-    public Movie(String title, String description, int year, String genre) {
+    public Movie(String title, String description, int year, String genre, String poster) {
         this.title = title;
         this.year = year;
         this.description = description;
         this.genre = genre;
+        this.poster = poster;
     }
 
     public Movie(long id, String title,int year) {
@@ -65,8 +67,11 @@ public class Movie implements DatabaseObject {
         return year;
     }
 
+    public String getPoster() {
+        return poster;
+    }
 
-//----------------------SETTERS-----------------------
+    //----------------------SETTERS-----------------------
 
     public void setTitle(String title) {
         this.title = title;
@@ -82,6 +87,22 @@ public class Movie implements DatabaseObject {
 
     public void setCommunityRating(double communityRating) {
         this.communityRating = communityRating;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 }//Movie
 

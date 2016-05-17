@@ -61,9 +61,16 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
         double rating = c.getDouble(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING));
         int votes = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_VOTES));
+        String genre = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_GENRE));
+        String poster = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_POSTER));
+        String description = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION));
+
         Movie m = new Movie(id, title, year);
         m.setCommunityRating(rating);
         m.setNumberOfVotes(votes);
+        m.setGenre(genre);
+        m.setPoster(poster);
+        m.setDescription(description);
         return m;
     }
 
@@ -81,6 +88,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         values.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, movie.getYear());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, movie.getDescription());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, movie.getGenre());
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_POSTER, movie.getPoster());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, movie.getNumberOfVotes());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, movie.getCommunityRating());
 
