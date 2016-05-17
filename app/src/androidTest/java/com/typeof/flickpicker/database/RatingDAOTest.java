@@ -129,15 +129,4 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
             assertTrue(true); // success!
         }
     }
-    
-    public void testFindRating(){
-        long kalleId = mUserDAO.saveUser(new User("Kalle", "password"));
-        long inceptionId = mMovieDAO.saveMovie(new Movie("Inception", 2010));
-        long ratingId = mRatingDAO.saveRating(new Rating(3.3,kalleId,inceptionId));
-        
-        Rating fetchedRating = mRatingDAO.findRatingA(kalleId,inceptionId);
-        assertEquals(3.3, fetchedRating.getRating());
-
-    }
-
 }
