@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -26,37 +28,57 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     TabHost tabHost;
     public static FragmentManager fragmentManager;
     public static Bundle savedFragments;
     public static Fragment currentFragment;
+    private ViewPager mViewPager;
+    private PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setupScore();
+
+        // instansiate viewpager
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mPagerAdapter);
+
+        App.getDatabase().seedDatabase();
+
+        tabHost = (TabHost) findViewById(R.id.tabHost);
+        if (tabHost != null) {
+            tabHost.setup();
+        }
+
+        configureTabs();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mViewPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1);
+        }
+    }
+
+    private void setupScore() {
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
         TextView userScore = (TextView) findViewById(R.id.userScore);
 
         myProfileIcon.setTypeface(font);
         userScore.setText(String.valueOf(App.getCurrentUser().getScore()));
-
-
-        fragmentManager = getFragmentManager();
-
-        App.getDatabase().seedDatabase();
-
-        myProfileIcon.setTypeface(font);
-        fragmentManager = getFragmentManager();
-        tabHost = (TabHost) findViewById(R.id.tabHost);
-        if (tabHost != null) {
-            tabHost.setup();
-        }
-        configureTabs();
     }
 
     public void configureTabs() {
@@ -92,23 +114,19 @@ public class MainActivity extends Activity {
             public void onTabChanged(String tabId) {
 
             if (tabId.equals("Recommendations")) {
-                RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
-                loadFragment(recommendationsFragment, "recommendations");
+                mViewPager.setCurrentItem(0);
             }
             if (tabId.equals("Community")) {
-                loadFragment(new CommunityFragment(), "community");
-            }
-            if (tabId.equals("MyCollection")) {
-                MyCollectionFragment myColletionFragment = new MyCollectionFragment();
-                //loadFragment(myColletionFragment, "myCollection");
-            }
-            if (tabId.equals("Search")) {
-                SearchFragment searchFragment = new SearchFragment();
-                //loadFragment(searchFragment, "search");
+                mViewPager.setCurrentItem(1);
             }
             if (tabId.equals("Friends")) {
-                FriendsFragment friendsFragment = new FriendsFragment();
-                //loadFragment(friendsFragment, "friends");
+                mViewPager.setCurrentItem(2);
+            }
+            if (tabId.equals("MyCollection")) {
+                mViewPager.setCurrentItem(3);
+            }
+            if (tabId.equals("Search")) {
+                mViewPager.setCurrentItem(4);
             }
             }
         });
@@ -120,7 +138,9 @@ public class MainActivity extends Activity {
     }
 
     public static void loadFragment(Fragment fragment, String fragmentTag) {
-        // See if the fragment has been loaded before
+
+
+       /* // See if the fragment has been loaded before
         try {
             currentFragment = fragment;
 
@@ -137,30 +157,7 @@ public class MainActivity extends Activity {
             // Save the fragment in the bundle
         } catch (NullPointerException e) {
             e.printStackTrace();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    //Unnecessary since we don't have a action bar???
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        }*/
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
@@ -43,9 +43,6 @@ public class CommunityFragment extends Fragment {
     //--------------------------------
     private SQLiteDatabase db;
     //--------------------------------
-
-    //TESTING
-    private FragmentManager fragmentManager = getFragmentManager();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
