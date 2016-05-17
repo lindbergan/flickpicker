@@ -266,7 +266,7 @@ public class MovieDAOTest extends ApplicationTestCase<App> {
         mRatingDAO.saveRating(new Rating(3.4, thirdMovieId,userId));
 
         int desireSizeOfList = 4;
-        List<Movie> usersMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, userId);
+        List<Movie> usersMovieCollection = mMovieDAO.getMovieCollectionFromUserId(desireSizeOfList, userId);
         assertEquals(3, usersMovieCollection.size());
 
     }

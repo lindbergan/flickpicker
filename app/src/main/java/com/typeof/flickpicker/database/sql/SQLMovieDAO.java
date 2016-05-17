@@ -231,7 +231,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return sortedMovies;
     }
 
-    public List<Movie> getUsersMovieCollection(int max, long userId) {
+    public List<Movie> getMovieCollectionFromUserId(int max, long userId) {
 
         //1)SQL: find all ratings by user (sorted by "created at") and save to a list
         List<Rating> userRatings = getUserRatings(max,userId);
