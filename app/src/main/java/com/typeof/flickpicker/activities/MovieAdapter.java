@@ -2,6 +2,8 @@ package com.typeof.flickpicker.activities;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +53,13 @@ public class MovieAdapter extends CustomAdapter {
                 Bundle args = new Bundle();
                 args.putLong("movieId", mov.getId());
                 movieDetailFragment.setArguments(args);
-                //MainActivity.loadFragment(movieDetailFragment, "movieDetail");
+                MainActivity mainActivity = (MainActivity)getContext();
+
+                ViewPager viewPager = mainActivity.getViewPager();
+                ScreenSlidePageAdapter pagerAdapter = (ScreenSlidePageAdapter)viewPager.getAdapter();
+                int fragmentIndex = pagerAdapter.addFragment(movieDetailFragment);
+                pagerAdapter.notifyDataSetChanged();
+                viewPager.setCurrentItem(fragmentIndex);
             }
         });
 

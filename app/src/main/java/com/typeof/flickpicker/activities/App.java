@@ -35,9 +35,6 @@ public class App extends Application {
     private static FriendDAO sFriendDAO;
     private static Database sDatabase;
 
-
-    static final String StateKey = "AppState";
-
     @Override
     public void onCreate() {
         super.onCreate();

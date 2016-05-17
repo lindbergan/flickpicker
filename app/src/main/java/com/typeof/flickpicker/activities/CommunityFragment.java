@@ -62,19 +62,11 @@ public class CommunityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
-
-        if (getArguments() != null) {
-            savedState = savedInstanceState.getBundle(App.StateKey);
-        } else {
-            currentTab = "topMovies";
-        }
-
+        currentTab = "topMovies";
         hookUpViews(communityView);
         configureTabs(communityView);
         determineCurrentView();
         setUpListeners();
-
-
         return communityView;
     }
 

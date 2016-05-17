@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.List;
+
 /**
  * FlickPicker
  * Group 22
@@ -12,30 +14,35 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public class ScreenSlidePageAdapter extends FragmentStatePagerAdapter {
 
-    public ScreenSlidePageAdapter(FragmentManager fm) {
+    List<Fragment> mFragments;
+
+    public ScreenSlidePageAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
+        mFragments = fragments;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return new RecommendationsFragment();
-            case 1:
-                return new CommunityFragment();
-            case 2:
-                return new FriendsFragment();
-            case 3:
-                return new MyCollectionFragment();
-            case 4:
-                return new SearchFragment();
-            default:
-                return new RecommendationsFragment();
-        }
+        mFragments.size();
+        return mFragments.get(position);
     }
 
     @Override
     public int getCount() {
-        return 5;
+        return mFragments.size();
+    }
+
+    public int addFragment(Fragment fragment) {
+        int fragmentIndex = mFragments.indexOf(fragment);
+
+        if (fragmentIndex == -1) {
+            mFragments.add(fragment);
+            return mFragments.indexOf(fragment);
+        }
+
+        mFragments.set(fragmentIndex, fragment);
+
+        return fragmentIndex;
+
     }
 }

@@ -1,8 +1,10 @@
 package com.typeof.flickpicker.activities;
+import android.support.v4.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -11,11 +13,14 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends FragmentActivity {
 
     TabHost tabHost;
     private ViewPager mViewPager;
-    private PagerAdapter mPagerAdapter;
+    public PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +28,8 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         setupScore();
+        initViewPager();
 
-        // instansiate viewpager
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOffscreenPageLimit(6);
 
         App.getDatabase().seedDatabase();
 
@@ -38,6 +39,26 @@ public class MainActivity extends FragmentActivity {
         }
 
         configureTabs();
+    }
+
+    public void initViewPager() {
+        // instantiate viewpager
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(new RecommendationsFragment());
+        fragments.add(new CommunityFragment());
+        fragments.add(new FriendsFragment());
+        fragments.add(new MyCollectionFragment());
+        fragments.add(new SearchFragment());
+
+        mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager(), fragments);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOffscreenPageLimit(6);
+    }
+
+    public PagerAdapter getPagerAdapter() {
+        return mPagerAdapter;
     }
 
     @Override
@@ -94,22 +115,26 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onTabChanged(String tabId) {
             if (tabId.equals("Recommendations")) {
-                mViewPager.setCurrentItem(0, true);
+                mViewPager.setCurrentItem(0);
             }
             if (tabId.equals("Community")) {
-                mViewPager.setCurrentItem(1, true);
+                mViewPager.setCurrentItem(1);
             }
             if (tabId.equals("Friends")) {
-                mViewPager.setCurrentItem(2,true );
+                mViewPager.setCurrentItem(2);
             }
             if (tabId.equals("MyCollection")) {
-                mViewPager.setCurrentItem(3, true);
+                mViewPager.setCurrentItem(3);
             }
             if (tabId.equals("Search")) {
-                mViewPager.setCurrentItem(4, true);
+                mViewPager.setCurrentItem(4);
             }
             }
         });
+    }
+
+    public ViewPager getViewPager() {
+        return mViewPager;
     }
 
     @Override

@@ -79,16 +79,16 @@
                     android:background="@color/color_primary"/>
 
                 <RelativeLayout
+                    android:id="@+id/contentWrap"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@android:id/tabs"
-                    android:id="@+id/contentWrap">
+                    android:layout_above="@android:id/tabs">
                 </RelativeLayout>
 
                 <android.support.v4.view.ViewPager
                     xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
                     android:id="@+id/pager"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@android:id/tabs"/>
 
@@ -102,8 +102,7 @@
                         android:id="@+id/tabRecommendations"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_above="@android:id/tabs">
+                        android:orientation="vertical">
 
                     </LinearLayout>
 
@@ -111,8 +110,7 @@
                         android:id="@+id/tabCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_above="@android:id/tabs"/>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabFriendsActivities"
