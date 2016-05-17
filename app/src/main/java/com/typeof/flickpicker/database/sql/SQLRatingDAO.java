@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.ArrayList;
@@ -133,5 +134,23 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
         Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete, "ratings");
+    }
+
+    public Rating findRating(long userId, long movieId) throws DatabaseRecordNotFoundException {
+
+        String query = "SELECT * FROM " + RatingTable.RatingEntry.TABLE_NAME + " WHERE " +
+                RatingTable.RatingEntry.COLUMN_NAME_USERID + " LIKE ? AND " +
+                RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " LIKE ?";
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(userId), String.valueOf(movieId)});
+
+        if (c.getCount() == 0){
+            throw new DatabaseRecordNotFoundException("Record not found in database");
+        }
+            c.moveToFirst();
+            Rating ratingToReturn = createRatingFromCursor(c);
+            c.close();
+
+        return ratingToReturn;
     }
 }

@@ -180,8 +180,8 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
         long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
         long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
 
-        Friend friendShip = new Friend(primaryUser,secondaryUser);
-        long friendshipId = mFriendDAO.addFriend(friendShip);
+        Friend friendship = new Friend(primaryUser,secondaryUser);
+        long friendshipId = mFriendDAO.addFriend(friendship);
 
         //test and confirm that friendshipId && the fetchedFriendshipId are the same
         Friend fetchedFriendship = mFriendDAO.getFriendRelation(primaryUser,secondaryUser);

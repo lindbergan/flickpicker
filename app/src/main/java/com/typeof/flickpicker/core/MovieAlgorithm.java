@@ -55,6 +55,7 @@ public class MovieAlgorithm {
 
         List<Movie> results = new ArrayList<Movie>();
 
+        //loop through the set of keys (not interested in values anymore - we have the keys sorted based on values)
         for(Map.Entry<Movie,Double> entryInSet : map.entrySet()){
 
             Movie highestScoredMovie = entryInSet.getKey();
