@@ -24,6 +24,7 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
 
     private List<Movie> movies = new ArrayList<>();
     private List<String> movieIds = new ArrayList<>();
+    public static final int NUM_MOVIES = 35;
 
     @Override
     protected List<Movie> doInBackground(Void... params) {
@@ -42,6 +43,37 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
         movieIds.add("tt0111161");
         movieIds.add("tt0068646");
         movieIds.add("tt0071562");
+        movieIds.add("tt0468569");
+        movieIds.add("tt0108052");
+        movieIds.add("tt0050083");
+        movieIds.add("tt0110912");
+        movieIds.add("tt0167260");
+        movieIds.add("tt0060196");
+        movieIds.add("tt0137523");
+        movieIds.add("tt0120737");
+        movieIds.add("tt0080684");
+        movieIds.add("tt0109830");
+        movieIds.add("tt1375666");
+        movieIds.add("tt0167261");
+        movieIds.add("tt0073486");
+        movieIds.add("tt0099685");
+        movieIds.add("tt0133093");
+        movieIds.add("tt0047478");
+        movieIds.add("tt0076759");
+        movieIds.add("tt0317248");
+        movieIds.add("tt0114369");
+        movieIds.add("tt0102926");
+        movieIds.add("tt0038650");
+        movieIds.add("tt0114814");
+        movieIds.add("tt0118799");
+        movieIds.add("tt0110413");
+        movieIds.add("tt0064116");
+        movieIds.add("tt0245429");
+        movieIds.add("tt0120815");
+        movieIds.add("tt0120586");
+        movieIds.add("tt0816692");
+        movieIds.add("tt0034583");
+        movieIds.add("tt0021749");
     }
 
     public void setMovieIds(List<String> movieIds) {

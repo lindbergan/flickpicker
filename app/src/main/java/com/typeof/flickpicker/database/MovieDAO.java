@@ -21,5 +21,5 @@ public interface MovieDAO {
     List<Movie> getMostDislikedMovies(int max);
     List<User> getFriendsSeenMovie(long movieId, long userId);
     List<Movie> getUsersMovieCollection(int max, long userId);
-
+    int getNumberOfMovies();
 }

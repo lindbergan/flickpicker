@@ -10,6 +10,8 @@ import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.utils.ExecutionTimeLogger;
+
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -193,7 +195,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
     public List<Movie> getCommunityTopPicks(int max){
         String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
-        return getCommunityFeedback(max,sqlString);
+        return getCommunityFeedback(max, sqlString);
     }
 
     public List<Movie> getMostDislikedMovies(int max){
@@ -242,7 +244,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     public List<Movie> getUsersMovieCollection(int max, long userId) {
 
         //1)SQL: find all ratings by user (sorted by "created at") and save to a list
-        List<Rating> userRatings = getUserRatings(max,userId);
+        List<Rating> userRatings = getUserRatings(max, userId);
 
         // loop through that rating list by calling findMovie() with rating.findMovie(rating.getMovieId()); and save those movies in another list
         //return that list
@@ -298,5 +300,24 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return createdRating;
     }
 
+    public int getNumberOfMovies() {
+        db.beginTransaction();
+        int count = 0;
+
+        String query = "SELECT COUNT(*) FROM movies";
+        Cursor c = db.rawQuery(query, null);
+
+        try {
+
+            c.moveToFirst();
+            count= c.getInt(0);
+            db.setTransactionSuccessful();
+        } finally {
+            c.close();
+            db.endTransaction();
+        }
+
+        return count;
+    }
 
 }

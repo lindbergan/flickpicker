@@ -32,7 +32,9 @@ public class MainActivity extends FragmentActivity {
         setupScore();
         initViewPager();
 
-        App.getDatabase().seedDatabase();
+        if (!App.getDatabase().hasBeenSeeded()) {
+            App.getDatabase().seedDatabase();
+        }
 
         tabHost = (TabHost) findViewById(R.id.tabHost);
         if (tabHost != null) {
