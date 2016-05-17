@@ -93,11 +93,18 @@
                     android:background="@color/color_primary"/>
 
                 <RelativeLayout
+                    android:id="@+id/contentWrap"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@android:id/tabs"
-                    android:id="@+id/contentWrap">
+                    android:layout_above="@android:id/tabs">
                 </RelativeLayout>
+
+                <com.typeof.flickpicker.activities.UnSwipeableViewPager
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@android:id/tabs"/>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -109,8 +116,7 @@
                         android:id="@+id/tabRecommendations"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_above="@android:id/tabs">
+                        android:orientation="vertical">
 
                     </LinearLayout>
 
@@ -118,8 +124,7 @@
                         android:id="@+id/tabCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_above="@android:id/tabs"/>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabFriendsActivities"

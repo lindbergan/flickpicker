@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
@@ -36,37 +36,41 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMoviesByYear;
     private int thisYear;
     private boolean isYearListCurrent;
-    SingletonViewTracker viewTracker = SingletonViewTracker.getInstance();
+    private String currentTab;
+
+    public final String TAG = "community";
+    private Bundle savedState = null;
     //--------------------------------
     private SQLiteDatabase db;
     //--------------------------------
 
-    //TESTING
-    private FragmentManager fragmentManager = getFragmentManager();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mMovieDAO = App.getMovieDAO();
 
-        //--------------------------------
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
         db = dbhelper.getWritableDatabase();
         //--------------------------------
 
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
+        currentTab = "topMovies";
         hookUpViews(communityView);
         configureTabs(communityView);
         determineCurrentView();
         setUpListeners();
         return communityView;
     }
+
+
 
     public void hookUpViews(View view) {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
@@ -97,45 +101,42 @@ public class CommunityFragment extends Fragment {
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+            switch (tabId) {
+                case "topMovies":
+                    setTopMoviesAsCurrentView();
+                    break;
+                case "worstMovies":
+                    setWorstMoviesAsCurrentView();
+                    break;
+                default:
+                    setTopMoviesByYearAsCurrentView();
+                    break;
 
-
-                switch (tabId) {
-                    case "topMovies":
-                        setTopMoviesAsCurrentView();
-                        break;
-                    case "worstMovies":
-                        setWorstMoviesAsCurrentView();
-                        break;
-                    default:
-                        setTopMoviesByYearAsCurrentView();
-
-                        break;
-
-                }
+            }
             }
         });
+
     }
 
     public void setTopMoviesAsCurrentView(){
         List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
-        viewTracker.setCurrentCommunityTab("topMovies");
+        currentTab = "topMovies";
     }
     public void setWorstMoviesAsCurrentView(){
         List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
         populateListView(listViewWorstMovies, worstMoviesAllTime);
-        viewTracker.setCurrentCommunityTab("worstMovies");
+        currentTab = "worstMovies";
     }
     public void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
-        populateListWithYears(listViewTopMoviesByYear,yearList);
-        viewTracker.setCurrentCommunityTab("topMoviesByYear");
+        populateListWithYears(listViewTopMoviesByYear, yearList);
+        currentTab = "topMoviesByYear";
     }
+
 
     //Maybe better with an ENUM solution
     public void determineCurrentView(){
-
-        String currentTab = viewTracker.getCurrentCommunityTab();
 
         if(currentTab.equals("topMovies")){
             setTopMoviesAsCurrentView();
@@ -149,8 +150,6 @@ public class CommunityFragment extends Fragment {
     }
 
     public void populateListWithYears(ListView listView, List<String> yearList){
-
-
         if (this.getActivity() != null) {
 
             int defaultLayout = android.R.layout.simple_list_item_1; //default
@@ -196,19 +195,6 @@ public class CommunityFragment extends Fragment {
 
     public void setUpListeners() {
 
-        listViewTopMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Go to MovieView/DetailedView
-            }
-        });
-
-        listViewWorstMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //TODO: Go to MovieView/DetailedView
-            }
-        });
 
         listViewTopMoviesByYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -242,14 +228,23 @@ public class CommunityFragment extends Fragment {
                     }
 
                 }
-                else{
-
-                    //in that case - we are presently at the specific year movie list:
-                    //TODO: detailed view of the movie
-                }
             }
         });
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.currentTab = savedInstanceState.getString("currentTab");
+        }
+    }
+
 }
 
 

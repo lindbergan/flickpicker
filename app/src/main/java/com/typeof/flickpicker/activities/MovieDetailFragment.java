@@ -1,7 +1,8 @@
 package com.typeof.flickpicker.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
+import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -22,7 +23,6 @@ import com.typeof.flickpicker.utils.RatingHelper;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * FlickPicker
  * Group 22
@@ -37,6 +37,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView communityRating;
     private TextView movieDescription;
     private Button addToWatchListButton;
+    private Button backBtn;
     private RatingBar ratingBar;
     private Button rateButton;
 
@@ -55,7 +56,6 @@ public class MovieDetailFragment extends Fragment {
         mMovieDAO = App.getMovieDAO();
         Bundle bundle = getArguments();
         movieId = bundle.getLong("movieId");
-
     }
 
 
@@ -72,8 +72,6 @@ public class MovieDetailFragment extends Fragment {
 
         movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
 
-
-
         //TODO: clickListener or ratingBarChangedListener???
         //ensures that rate button is clickable if user wants to rate movie
         //or if user wants to update an rating
@@ -84,10 +82,17 @@ public class MovieDetailFragment extends Fragment {
             }
         });
 
+        backBtn = (Button)movieDetailView.findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.onBackPressed();
+            }
+        });
 
 
-
-        //creates and saves new rating when rate button is clicked
         //if user have rated movie it does nothing
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override

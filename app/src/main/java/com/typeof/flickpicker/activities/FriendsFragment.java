@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.activities;
 
 import android.support.annotation.Nullable;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
