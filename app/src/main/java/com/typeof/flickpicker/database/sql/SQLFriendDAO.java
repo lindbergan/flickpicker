@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
@@ -126,5 +128,16 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         }
 
         return ratings;
+    }
+
+    @Override
+    public boolean isFriend(long user2Id) {
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID
+                + " = ? AND WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?";
+        long currentUserId = App.getCurrentUser().getId();
+        //Cursor c = db.rawQuery(query, new String[]{String.valueOf(currentUserId), String.valueOf(user2Id)});
+        //if (c.getCount() == 1) return true;
+        //c.close();
+        return false;
     }
 }

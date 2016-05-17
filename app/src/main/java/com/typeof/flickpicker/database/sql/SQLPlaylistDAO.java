@@ -42,9 +42,14 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
     public Playlist findPlaylistById(long id) {
         Cursor c = super.find(id, "playlists");
         c.moveToFirst();
-        Playlist playlist = createPlaylistFromCursor(c);
-        c.close();
-        return playlist;
+        if (c.getCount() > 0) {
+            Playlist playlist = createPlaylistFromCursor(c);
+            c.close();
+            return playlist;
+        } else {
+            c.close();
+            return null;
+        }
     }
 
     private Playlist createPlaylistFromCursor(Cursor c) {
@@ -71,10 +76,14 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
         Cursor c = db.rawQuery(query, new String[]{String.valueOf(userId)});
         c.moveToFirst();
-        Playlist p = createPlaylistFromCursor(c);
-        c.close();
-
-        return p;
+        if (c.getCount() > 0) {
+            Playlist p = createPlaylistFromCursor(c);
+            c.close();
+            return p;
+        } else {
+            c.close();
+            return null;
+        }
     }
 
     /**

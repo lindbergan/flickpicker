@@ -139,4 +139,11 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
         assertEquals(2, friendsRating.size());
 
     }
+
+    public void testIsFriend() {
+        User u = new User("testFriend", "testPassword");
+        mUserDAO.saveUser(u);
+        mFriendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u.getId()));
+        assertTrue(mFriendDAO.isFriend(u.getId()));
+    }
 }

@@ -128,10 +128,10 @@ public class SQLDatabase implements Database {
         Rating r7 = new Rating(2.0, m7.getId(), u1.getId());
         Rating r8 = new Rating(3.0, m8.getId(), u2.getId());
         Rating r9 = new Rating(5.0, m9.getId(), u3.getId());
-        Rating r10 = new Rating(1.0, m10.getId(), currentUserId);
-        Rating r11 = new Rating(1.0, m10.getId(), currentUserId);
-        Rating r12 = new Rating(1.0, m10.getId(), currentUserId);
-        Rating r13 = new Rating(1.0, m10.getId(), currentUserId);
+        Rating r10 = new Rating(1.0, m1.getId(), currentUserId);
+        Rating r11 = new Rating(2.0, m2.getId(), currentUserId);
+        Rating r12 = new Rating(3.0, m3.getId(), currentUserId);
+        Rating r13 = new Rating(4.0, m4.getId(), currentUserId);
 
         RatingDAO ratingDAO = App.getRatingDAO();
         ratingDAO.saveRating(r1);
@@ -156,7 +156,14 @@ public class SQLDatabase implements Database {
         friendDAO.addFriend(new Friend(currentUserId, u5.getId()));
 
         PlaylistDAO playlistDAO = App.getPlaylistDAO();
-        playlistDAO.savePlaylist(new Playlist("Watchlist", currentUserId));
+        List<Number> movies = new ArrayList<>();
+        movies.add(m1.getId());
+        movies.add(m2.getId());
+        movies.add(m3.getId());
+        movies.add(m4.getId());
+        movies.add(m5.getId());
+        movies.add(m6.getId());
+        playlistDAO.savePlaylist(new Playlist("Watchlist", currentUserId, movies));
 
         requestMoviesFromOMDB();
 

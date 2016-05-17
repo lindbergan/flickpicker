@@ -24,7 +24,7 @@ public class SearchFragment extends Fragment {
 
     private TabHost mTabHostSearch;
     private ListView listViewSearchMovies;
-    private ListView listViewSearchFriend;
+    private ListView listViewSearchUser;
     private SearchView mSearchViewMovie;
     private SearchView mSearchViewFriend;
 
@@ -46,9 +46,12 @@ public class SearchFragment extends Fragment {
 
     public void hookUpViews(View view){
         listViewSearchMovies = (ListView) view.findViewById(R.id.listViewSearchMovie);
-        listViewSearchFriend = (ListView) view.findViewById(R.id.listViewSearchFriend);
+        listViewSearchUser = (ListView) view.findViewById(R.id.listViewSearchFriend);
         mSearchViewMovie = (SearchView) view.findViewById(R.id.searchViewMovie);
         mSearchViewFriend = (SearchView) view.findViewById(R.id.searchViewFriend);
+
+        populateMovieListView(listViewSearchMovies, App.getMovieDAO().getCommunityTopPicks(25));
+        populateUserListView(listViewSearchUser, App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, ""));
 
     }
     public void configureTabs(View view){
@@ -63,7 +66,7 @@ public class SearchFragment extends Fragment {
 
         final TabHost.TabSpec mTabSpecSearchFriend = mTabHostSearch.newTabSpec("searchFriend");
         mTabSpecSearchFriend.setContent(R.id.tabSearchFriend);
-        mTabSpecSearchFriend.setIndicator("Search Friend");
+        mTabSpecSearchFriend.setIndicator("Search User");
         mTabHostSearch.addTab(mTabSpecSearchFriend);
 
         mTabHostSearch.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
@@ -116,7 +119,7 @@ public class SearchFragment extends Fragment {
                 List<User> matches = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, s);
 
                 if(matches.size() != 0){
-                    populateUserListView(listViewSearchFriend, matches);
+                    populateUserListView(listViewSearchUser, matches);
                 }
                 else{
                     Toast message = Toast.makeText(getActivity(), "No such user in database", Toast.LENGTH_SHORT);
@@ -128,7 +131,7 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String s) {
                 List<User> matches = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, s);
-                populateUserListView(listViewSearchFriend, matches);
+                populateUserListView(listViewSearchUser, matches);
                 return true;
             }
         });

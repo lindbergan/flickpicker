@@ -241,7 +241,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return sortedMovies;
     }
 
-    public List<Movie> getUsersMovieCollection(int max, long userId) {
+    public List<Movie> getMovieCollectionFromUserId(int max, long userId) {
 
         //1)SQL: find all ratings by user (sorted by "created at") and save to a list
         List<Rating> userRatings = getUserRatings(max, userId);
@@ -263,8 +263,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         //finally - test to make sure that the method works ass supposed to.
     }
 
-
-
         public List<Rating> getUserRatings(int max, long userId){
 
         //Query the database to get the necessary ratings
@@ -277,23 +275,29 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         List<Rating> userRatings = new ArrayList<>();
 
         c.moveToFirst();
-        try {
-            do {
-                Rating rating = createRatingFromCursor(c);
-                userRatings.add(rating);
-            } while(c.moveToNext());
-        } finally {
-            c.close();
+        if (c.getCount() > 0) {
+            try {
+                do {
+                    Rating rating = createRatingFromCursor(c);
+                    userRatings.add(rating);
+                } while(c.moveToNext());
+            } finally {
+                c.close();
+            }
         }
+
         return userRatings;
     }
 
     public Rating createRatingFromCursor(Cursor c) {
 
+        Cursor abc = c;
+        int colIndex = c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID);
+
         long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
         double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
         long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
 
         Rating createdRating = new Rating(rating,movieId,userId);
         createdRating.setId(id);

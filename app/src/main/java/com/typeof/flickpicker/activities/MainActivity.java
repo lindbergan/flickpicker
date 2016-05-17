@@ -2,6 +2,14 @@ package com.typeof.flickpicker.activities;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +17,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MotionEvent;
+
 import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -20,6 +29,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
     TabHost tabHost;
+
     private ViewPager mViewPager;
     public PagerAdapter mPagerAdapter;
     private List<Integer> previousPositions = new ArrayList<>();
@@ -30,6 +40,7 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         setupScore();
+        setupSettings();
         initViewPager();
 
         if (!App.getDatabase().hasBeenSeeded()) {
@@ -44,6 +55,7 @@ public class MainActivity extends FragmentActivity {
         configureTabs();
     }
 
+
     public void initViewPager() {
         // instantiate viewpager
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -54,6 +66,8 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new FriendsFragment());
         fragments.add(new MyCollectionFragment());
         fragments.add(new SearchFragment());
+        fragments.add(new MyProfileFragment());
+
 
         mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(mPagerAdapter);
@@ -110,39 +124,61 @@ public class MainActivity extends FragmentActivity {
 
         myProfileIcon.setTypeface(font);
         userScore.setText(String.valueOf(App.getCurrentUser().getScore()));
+
+        myProfileIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(5);
+            }
+        });
+    }
+
+    private void setupSettings() {
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+
+
+        TextView settingsIcon = (TextView)findViewById(R.id.settingsIcon);
+        settingsIcon.setTypeface(font);
+        settingsIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // SettingsFragment settingsFragment = new SettingsFragment();
+                // loadFragment(settingsFragment);
+            }
+        });
     }
 
     public void configureTabs() {
 
-        final TabHost.TabSpec mTabSpecRecommendations = tabHost.newTabSpec("Recommendations");
-        mTabSpecRecommendations.setContent(R.id.tabRecommendations);
-        mTabSpecRecommendations.setIndicator("R");
+        final TabHost.TabSpec mTabSpecRecommendations = createTabSpec("Recommendations", R.id.tabRecommendations,
+                                                                        R.layout.tab_recommendation, R.id.recommendationsIcon);
         tabHost.addTab(mTabSpecRecommendations);
 
-        final TabHost.TabSpec mTabSpecCommunity = tabHost.newTabSpec("Community");
-        mTabSpecCommunity.setContent(R.id.tabCommunity);
-        mTabSpecCommunity.setIndicator("C");
+
+        final TabHost.TabSpec mTabSpecCommunity = createTabSpec("Community", R.id.tabCommunity,
+                                                                    R.layout.tab_community, R.id.communityIcon);
         tabHost.addTab(mTabSpecCommunity);
 
-        final TabHost.TabSpec mTabSpecFriendsActivities = tabHost.newTabSpec("Friends");
-        mTabSpecFriendsActivities.setContent(R.id.tabFriendsActivities);
-        mTabSpecFriendsActivities.setIndicator("F");
+
+        final TabHost.TabSpec mTabSpecFriendsActivities = createTabSpec("Friends", R.id.tabFriendsActivities,
+                                                                             R.layout.tab_friends, R.id.friendsIcon);
         tabHost.addTab(mTabSpecFriendsActivities);
 
-        final TabHost.TabSpec mTabSpecMyMovies = tabHost.newTabSpec("MyCollection");
-        mTabSpecMyMovies.setContent(R.id.tabMyMovies);
-        mTabSpecMyMovies.setIndicator("M");
+
+        final TabHost.TabSpec mTabSpecMyMovies = createTabSpec("MyCollection", R.id.tabMyMovies,
+                                                                 R.layout.tab_my_collection, R.id.myCollectionIcon);
         tabHost.addTab(mTabSpecMyMovies);
 
-        final TabHost.TabSpec mTabSpecSearch = tabHost.newTabSpec("Search");
-        mTabSpecSearch.setContent(R.id.tabSearch);
-        mTabSpecSearch.setIndicator("S");
+        final TabHost.TabSpec mTabSpecSearch = createTabSpec("Search", R.id.tabSearch,
+                                                                R.layout.tab_search, R.id.searchIcon);
         tabHost.addTab(mTabSpecSearch);
 
         tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
 
             @Override
             public void onTabChanged(String tabId) {
+
             if (tabId.equals("Recommendations")) {
                 mViewPager.setCurrentItem(0);
             }
@@ -158,13 +194,42 @@ public class MainActivity extends FragmentActivity {
             if (tabId.equals("Search")) {
                 mViewPager.setCurrentItem(4);
             }
+
             }
         });
     }
 
+
     public ViewPager getViewPager() {
         return mViewPager;
     }
+
+
+    /**
+     * Method for creating a TabSpec to use when adding new tabs to
+     * the tabWidget.
+     *
+     * @param tag the new tabSpec's tag
+     * @param viewId the Id for the content view associated with the new tab
+     * @param iconViewId the Id for the view containing the icon for the new tab
+     * @param iconId the Id for the TextView representing the icon for the new tab
+     * @return tabSpec
+     */
+    public TabHost.TabSpec createTabSpec(String tag, int viewId, int iconViewId, int iconId){
+
+        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+
+        TabHost.TabSpec tabSpec = tabHost.newTabSpec(tag);
+        tabSpec.setContent(viewId);
+        View iconView = LayoutInflater.from(this).inflate(iconViewId, null);
+        TextView icon = (TextView)iconView.findViewById(iconId);
+        icon.setTypeface(font);
+        tabSpec.setIndicator(iconView);
+
+        return tabSpec;
+    }
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {

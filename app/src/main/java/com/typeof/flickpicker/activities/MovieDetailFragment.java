@@ -1,7 +1,6 @@
 package com.typeof.flickpicker.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +19,6 @@ import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.utils.RatingHelper;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -171,7 +169,7 @@ public class MovieDetailFragment extends Fragment {
     public boolean hasUserSeenMovie(){
 
         boolean hasSeen = false;
-        List<Movie> userCollection = mMovieDAO.getUsersMovieCollection(10000, App.getCurrentUser().getId());
+        List<Movie> userCollection = mMovieDAO.getMovieCollectionFromUserId(10000, App.getCurrentUser().getId());
 
         for (Movie movie : userCollection) {
             if (movie.getId() == movieId) {
