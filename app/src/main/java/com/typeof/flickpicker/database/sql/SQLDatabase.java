@@ -183,14 +183,9 @@ public class SQLDatabase implements Database {
         }
     }
 
-    public void clearDatabase() {
-        db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
-        db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
-    }
-
     @Override
     public boolean hasBeenSeeded() {
         MovieDAO movieDAO = App.getMovieDAO();
-        return movieDAO.getNumberOfMovies() >= OMDBParser.NUM_MOVIES;
+        return movieDAO.tableExists() && movieDAO.getNumberOfMovies() >= OMDBParser.NUM_MOVIES;
     }
 }

@@ -24,5 +24,5 @@ public interface MovieDAO {
     int getNumberOfMovies();
     List<Movie> getMovieCollectionFromUserId(int max, long userId);
     List<Rating> getUserRatings(int max, long userId);
-
+    boolean tableExists();
 }

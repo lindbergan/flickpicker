@@ -304,6 +304,25 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return createdRating;
     }
 
+    public boolean tableExists() {
+        boolean tableExists = false;
+
+        db.beginTransaction();
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{MovieTable.MovieEntry.TABLE_NAME});
+        try {
+            cursor.moveToFirst();
+            int count = cursor.getCount();
+            tableExists = (count > 0);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+
+        return tableExists;
+
+    }
+
     public int getNumberOfMovies() {
         db.beginTransaction();
         int count = 0;
@@ -312,7 +331,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         Cursor c = db.rawQuery(query, null);
 
         try {
-
             c.moveToFirst();
             count= c.getInt(0);
             db.setTransactionSuccessful();
