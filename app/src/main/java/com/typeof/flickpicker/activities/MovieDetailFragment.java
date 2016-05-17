@@ -1,6 +1,7 @@
 package com.typeof.flickpicker.activities;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView communityRating;
     private TextView movieDescription;
     private Button addToWatchListButton;
+    private Button backBtn;
     private RatingBar ratingBar;
     private Button rateButton;
 
@@ -77,6 +79,16 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 setRateButtonActive();
+            }
+        });
+
+        backBtn = (Button)movieDetailView.findViewById(R.id.backBtn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.onBackPressed();
             }
         });
 
