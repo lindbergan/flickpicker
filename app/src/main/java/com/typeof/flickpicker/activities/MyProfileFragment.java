@@ -44,9 +44,10 @@ public class MyProfileFragment extends Fragment {
         mLastNameTextField = (EditText) myProfileView.findViewById(R.id.myProfileLastNameTextField);
 
 
+
         mUsernameTextView.setText(App.getCurrentUser().getUsername());
         mUserScoreTextView.setText(String.valueOf(App.getCurrentUser().getScore()));
-        
+
         return myProfileView;
 
 
