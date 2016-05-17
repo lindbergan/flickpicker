@@ -67,6 +67,7 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new MyCollectionFragment());
         fragments.add(new SearchFragment());
         fragments.add(new MyProfileFragment());
+        fragments.add(new SettingsFragment());
 
 
         mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager(), fragments);
@@ -143,8 +144,7 @@ public class MainActivity extends FragmentActivity {
         settingsIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // SettingsFragment settingsFragment = new SettingsFragment();
-                // loadFragment(settingsFragment);
+                mViewPager.setCurrentItem(6);
             }
         });
     }
