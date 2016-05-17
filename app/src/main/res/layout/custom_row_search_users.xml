@@ -1,43 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/list_cell"
+              android:weightSum="1">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:id="@+id/image_profilepicture"
+        android:text="@string/profile_code_font"
+        android:textSize="100dp"
+        android:layout_marginRight="15dp"/>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="@dimen/custom_row_user"
-        android:layout_height="match_parent"
-        android:id="@+id/profilePictureCustomRow"
-        android:background="#0080FF"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="lindbergan"
+                android:id="@+id/username_textview"/>
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical"
-       android:layout_marginTop="15dp">
+        </LinearLayout>
 
-       <TextView
-           android:layout_width="150dp"
-           android:layout_height="25dp"
-           android:id="@+id/userNameTextView_custom_row"
-           android:text="@string/custom_row_username"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-       <TextView
-           android:layout_width="150dp"
-           android:layout_height="25dp"
-           android:id="@+id/FirstNameTextView_custom_row"
-           android:text="@string/custom_row_firstName"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="12"
+                android:id="@+id/nr_of_ratings"/>
 
-   </LinearLayout>
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:text="Add Friend"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="ratings"
+                android:layout_marginLeft="5dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Last online:"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="today"
+                android:id="@+id/last_online"
+                android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+
     </LinearLayout>
-</RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="500"
+                android:id="@+id/nr_of_points"
+                android:layout_alignParentEnd="true"
+                android:maxWidth="50dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="points"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="5dp"
+                />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/check_code_font"
+                android:id="@+id/button_add_friend"
+                android:textSize="25dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_vertical|center_horizontal"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="@string/check_code_font"
+                android:id="@+id/button_remove_friend"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:textSize="25dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

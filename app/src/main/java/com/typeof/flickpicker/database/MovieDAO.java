@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.database;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 
 import java.util.List;
@@ -21,5 +22,6 @@ public interface MovieDAO {
     List<Movie> getMostDislikedMovies(int max);
     List<User> getFriendsSeenMovie(long movieId, long userId);
     List<Movie> getUsersMovieCollection(int max, long userId);
+    List<Rating> getUserRatings(int max, long userId);
 
 }

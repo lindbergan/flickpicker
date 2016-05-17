@@ -32,6 +32,9 @@
     <!-- STRINGS CUSTOM_ROW_SEARCH_USER -->
 
     <string name="custom_row_username">Username</string>
-    <string name="custom_row_firstName">Username</string>
+    <string name="profile_code_font">&#xf0f0;</string>
+    <string name="check_code_font">&#xf234;</string>
+    <string name="unheck_code_font">&#xf235;</string>
+    <string name="edit_code_font">&#xf044;</string>
 
 </resources>
