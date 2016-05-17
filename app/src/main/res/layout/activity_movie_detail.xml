@@ -7,6 +7,18 @@
     android:background="@color/color_backdrop">
 
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentEnd="false">
+        <Button
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:text="&lt; Back"
+            android:id="@+id/backBtn"/>
+    </FrameLayout>
+
 
     <!-- UPPER LEFT: Movie image -->
     <FrameLayout
@@ -16,7 +28,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:background="@color/color_backdrop"
-        android:id="@+id/frameLayout">
+        android:id="@+id/frameLayout"
+        android:layout_marginTop="40dp">
 
         <ImageView
             android:contentDescription="@string/no_user_profile_desc"
@@ -37,7 +50,8 @@
         android:layout_above="@+id/descriptionTextField"
         android:layout_toEndOf="@+id/frameLayout"
         android:background="@color/color_backdrop"
-        android:layout_alignParentEnd="false">
+        android:layout_alignParentEnd="false"
+        android:layout_marginTop="40dp">
 
         <LinearLayout
             android:orientation="vertical"

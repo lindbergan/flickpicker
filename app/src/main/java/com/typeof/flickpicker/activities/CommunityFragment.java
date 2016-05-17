@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -32,15 +32,17 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMoviesByYear;
     private int thisYear;
     private boolean isYearListCurrent;
-
-    //TESTING
-    private FragmentManager fragmentManager = getFragmentManager();
+    private String currentTab;
+    public final String TAG = "community";
+    private Bundle savedState = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         mMovieDAO = App.getMovieDAO();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
+
     }
 
     @Nullable
@@ -49,6 +51,7 @@ public class CommunityFragment extends Fragment {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
         hookUpViews(communityView);
         configureTabs(communityView);
+        currentTab ="community";
         setUpListeners();
         return communityView;
     }
@@ -82,22 +85,20 @@ public class CommunityFragment extends Fragment {
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-
-
-                switch (tabId) {
-                    case "topMovies":
-                        setTopMoviesAsCurrentView();
-                        break;
-                    case "worstMovies":
-                        setWorstMoviesAsCurrentView();
-                        break;
-                    default:
-                        setTopMoviesByYearAsCurrentView();
-                        break;
-
-                }
+            switch (tabId) {
+                case "topMovies":
+                    setTopMoviesAsCurrentView();
+                    break;
+                case "worstMovies":
+                    setWorstMoviesAsCurrentView();
+                    break;
+                default:
+                    setTopMoviesByYearAsCurrentView();
+                    break;
+            }
             }
         });
+
     }
 
     public void setTopMoviesAsCurrentView(){
@@ -145,6 +146,7 @@ public class CommunityFragment extends Fragment {
 
     public void setUpListeners() {
 
+
         listViewTopMoviesByYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -172,10 +174,25 @@ public class CommunityFragment extends Fragment {
                     }
 
                     //TODO: if user clicks "back" button - isYearListCurrent needs to be set to true;
+
                 }
             }
         });
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            this.currentTab = savedInstanceState.getString("currentTab");
+        }
+    }
+
 }
 
 

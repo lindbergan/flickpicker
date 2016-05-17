@@ -24,6 +24,7 @@ public class MovieTable {
         public static final String COLUMN_NAME_YEAR = "year";
         public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_GENRE = "genre";
+        public static final String COLUMN_NAME_POSTER = "poster";
         public static final String COLUMN_NAME_VOTES = "votes";
         public static final String COLUMN_NAME_COMMUNITY_RATING = "community_rating";
         public static final String COLUMN_NAME_NULLABLE = " ";
@@ -36,6 +37,7 @@ public class MovieTable {
                     COLUMN_NAME_YEAR + INTEGER_TYPE + COMMA_SEP +
                     COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_GENRE + TEXT_TYPE + COMMA_SEP +
+                    COLUMN_NAME_POSTER + TEXT_TYPE + COMMA_SEP +
                     COLUMN_NAME_VOTES + INTEGER_TYPE + COMMA_SEP +
                     COLUMN_NAME_COMMUNITY_RATING + DOUBLE_TYPE +
             " )";

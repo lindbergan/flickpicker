@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,7 +41,7 @@ public class MyCollectionFragment extends Fragment {
     private ListView listViewMyPlaylist;
     private SearchView searchViewMovie;
     private MovieDAO mMovieDAO;
-    private int desireSizeOfList = 3;
+    private int desireSizeOfList = 25;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,10 @@ public class MyCollectionFragment extends Fragment {
         listViewMyCollection = (ListView) view.findViewById(R.id.listViewMyCollection);
         listViewMyPlaylist = (ListView) view.findViewById(R.id.listViewMyPlaylist);
         searchViewMovie = (SearchView) view.findViewById(R.id.searchView);
+
+        populatePlaylist();
+        populateCollection();
+
     }
 
     public void configureTabs(View view){
@@ -84,29 +88,32 @@ public class MyCollectionFragment extends Fragment {
             public void onTabChanged(String tabId) {
 
                 if(tabId.equals("myCollection")){
-
-                    //populate the list with users movies
-                    List<Movie> userMovieCollection = mMovieDAO.getUsersMovieCollection(desireSizeOfList, App.getCurrentUser().getId());
-                    populateListView(listViewMyCollection, userMovieCollection);
+                    populateCollection();
                 }
                 else{
-
-                    //else - fetch the users playlist and populate the list with those movies
-                    Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
-                    List<Movie> usersPlaylistMovies = new ArrayList<>();
-
-                    for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
-
-                        long movieId = usersPlaylist.getMovieIds().get(i).longValue();
-                        usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
-                    }
-
-                    //...send that array along with the specified listview to populate it
-                    populateListView(listViewMyPlaylist, usersPlaylistMovies);
+                    populatePlaylist();
                 }
-
             }
         });
+    }
+
+    public void populateCollection() {
+        List<Movie> userMovieCollection = mMovieDAO.getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
+        populateListView(listViewMyCollection, userMovieCollection);
+    }
+
+    public void populatePlaylist() {
+        Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
+
+        List<Movie> usersPlaylistMovies = new ArrayList<>();
+
+        for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
+            long movieId = usersPlaylist.getMovieIds().get(i).longValue();
+            usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
+        }
+
+        //...send that array along with the specified listview to populate it
+        populateListView(listViewMyPlaylist, usersPlaylistMovies);
     }
 
     public void setUpListeners(){
@@ -141,7 +148,6 @@ public class MyCollectionFragment extends Fragment {
 
             ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
             listView.setAdapter(adapter);
-
 
         //TODO: Different cells for different tab
     }

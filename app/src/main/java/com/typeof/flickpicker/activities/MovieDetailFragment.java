@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.activities;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -19,9 +19,7 @@ import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.utils.RatingHelper;
 
-import java.util.Iterator;
 import java.util.List;
-
 
 /**
  * FlickPicker
@@ -37,70 +35,29 @@ public class MovieDetailFragment extends Fragment {
     private TextView communityRating;
     private TextView movieDescription;
     private Button addToWatchListButton;
+    private Button backBtn;
     private RatingBar ratingBar;
     private Button rateButton;
 
-
-
-    MovieDAO mMovieDAO;
-    long movieId;
-
+    private MovieDAO mMovieDAO = App.getMovieDAO();
+    private long movieId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //should this code be in onCreateView?
-        //TODO: write setArguments in CommunityFragment
-        mMovieDAO = App.getMovieDAO();
         Bundle bundle = getArguments();
         movieId = bundle.getLong("movieId");
-
     }
 
-
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
 
         hookUpViews(movieDetailView);
         setMovieTextFields();
         setAddToPlaylistWidgets();
         setRateWidgets();
-
-        movieImage.setImageDrawable(null); //setImageIcon does not work due to API mismatch?
-
-
-
-        //TODO: clickListener or ratingBarChangedListener???
-        //ensures that rate button is clickable if user wants to rate movie
-        //or if user wants to update an rating
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                setRateButtonActive();
-            }
-        });
-
-
-
-
-        //creates and saves new rating when rate button is clicked
-        //if user have rated movie it does nothing
-        rateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(hasUserSeenMovie()){
-                    return;
-                }else {
-                    double numStars = (double) ratingBar.getNumStars();
-                    RatingHelper.createNewRating(numStars, movieId, App.getCurrentUser().getId());
-                }
-            }
-        });
+        initListeners();
 
         return movieDetailView;
     }
@@ -126,95 +83,68 @@ public class MovieDetailFragment extends Fragment {
         addToWatchListButton = (Button) view.findViewById(R.id.movieDetailAddToPlaylistButton);
         ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
 
-
         //setting up button
         rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
+        backBtn = (Button)view.findViewById(R.id.backBtn);
 
+    }
+
+    public void initListeners() {
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                setRateButtonActive();
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.onBackPressed();
+            }
+        });
+
+        rateButton.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              RatingDAO ratingDAO = App.getRatingDAO();
+              ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
+              setRateButtonInactive();
+          }
+      });
     }
 
     /**
      * method for adding the information about the selected movie to the correct text views
      */
-    @SuppressLint("SetTextI18n")
     public void setMovieTextFields(){
 
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
-        movieGenre.setText("Genre:    " + movie.getGenre());
-
-        //TODO: improve exception handling?
-        try {
-            numOfFriendsSeen.setText("" + mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId()));
-        }catch(NullPointerException e){
-            numOfFriendsSeen.setText("n/a");
-        }
-
-        communityRating.setText("" + movie.getCommunityRating());
-
-        //TODO: handle descriptions with amount of text that does not fit text view?
+        movieGenre.setText(movie.getGenre());
+        numOfFriendsSeen.setText(String.valueOf(mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId())));
+        communityRating.setText(String.valueOf(movie.getCommunityRating()));
         movieDescription.setText(movie.getDescription());
 
     }
-
-
-    //TODO: best way to decide if user have seen movie?
-
 
     /**
      * method that checks if the user have seen the movie or not
      * @return hasSeen true if user have seen movie, false if not
      */
     public boolean hasUserSeenMovie(){
-
-        boolean hasSeen = false;
-        List<Movie> userCollection = mMovieDAO.getUsersMovieCollection(10000, App.getCurrentUser().getId());
+        List<Movie> userCollection = mMovieDAO.getMovieCollectionFromUserId(10000, App.getCurrentUser().getId());
 
         for (Movie movie : userCollection) {
             if (movie.getId() == movieId) {
-                hasSeen = true;
-                break;
+                return true;
             }
         }
-        return hasSeen;
+        return false;
     }
 
-
-    /**
-     * method to get user's rating for specific movie
-     * @return rating
-     */
-    public double getUserRating(){
-
-        //save user id to compare against the movie's ratings
-        long userId = App.getCurrentUser().getId();
-
-        //creates list with movie's ratings and iterator
-        double rating = -1;
-        RatingDAO ratingDAO = App.getRatingDAO();
-        List<Rating> ratings = ratingDAO.getMovieRatings(movieId);
-
-        //iterates list to see if any of the ratings is made by the active user
-        //if so the rating is saved and the loop breaks
-        for (Rating r : ratings) {
-            if (r.getUserId() == userId) {
-                rating = r.getRating();
-                break;
-            }
-        }
-        return rating;
-    }
-
-    //TODO: change Playlist so it just handles the one playlist
-    public void setAddToPlaylistWidgets(){
-        PlaylistDAO playlistDAO = App.getPlaylistDAO();
-
-        //List<Movie> movies = playlistDAO.getUserPlaylist(App.getCurrentUser().getId());
-        //Iterator<Movie> iterator = movies.iterator();
-        //while(iterator.hasNext()){
-        //....
-
-
-    }
+    public void setAddToPlaylistWidgets(){}
 
     /**
      * method used in onCreateView to set rating bar and button to correct states
@@ -222,14 +152,11 @@ public class MovieDetailFragment extends Fragment {
      */
     public void setRateWidgets(){
 
-        boolean seenMovie = hasUserSeenMovie();
-
-        if(seenMovie){
-            int rating = (int)getUserRating();
-            ratingBar.setRating(rating);
+        if(hasUserSeenMovie()){
             setRateButtonInactive();
-        }else{
-            ratingBar.setRating(0);
+            ratingBar.setRating((float) App.getRatingDAO().getRatingFromUser(App.getCurrentUser().getId(), movieId));
+        }
+        else{
             setRateButtonActive();
         }
     }
@@ -237,7 +164,6 @@ public class MovieDetailFragment extends Fragment {
      * method to activate rate button and change its appearance
      */
     public void setRateButtonActive(){
-
         rateButton.setBackgroundResource(R.drawable.test_button_round_corners);
         rateButton.setClickable(true);
     }

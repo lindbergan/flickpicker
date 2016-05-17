@@ -40,7 +40,7 @@ public class MovieAlgorithm {
 
         List<User> allFriends = App.getFriendDAO().getFriendsFromUserId(user.getId());
         List<Friend> friendsWithSimilarTaste = getFriendsWithSimilarTaste(allFriends, currentUser, requirements);
-        List<Movie> usersMovieCollection = App.getMovieDAO().getUsersMovieCollection(desiredSizeOfList, currentUser.getId());
+        List<Movie> usersMovieCollection = App.getMovieDAO().getMovieCollectionFromUserId(desiredSizeOfList, currentUser.getId());
 
         Map<Movie,Double> friendsMoviesAndScore = getFriendsMovies(desiredSizeOfList, friendsWithSimilarTaste); //return a map, key-value pair (holding movie && score)
         removeMoviesUserHasSeen(friendsMoviesAndScore, usersMovieCollection); //compare the key-value and remove it from the map if user has seen it before
@@ -118,7 +118,7 @@ public class MovieAlgorithm {
         for (int i = 0; i < userList.size(); i++){
 
             long currentUserId = userList.get(i).getId();
-            List<Movie> currentUsersMovieCollection = App.getMovieDAO().getUsersMovieCollection(desiredSizeOfList, currentUserId);
+            List<Movie> currentUsersMovieCollection = App.getMovieDAO().getMovieCollectionFromUserId(desiredSizeOfList, currentUserId);
 
             for (int j = 0; j<currentUsersMovieCollection.size(); j++){
 

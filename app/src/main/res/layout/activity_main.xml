@@ -39,7 +39,8 @@
             android:textColor="@color/color_text"
             android:padding="@dimen/movie_detail_image_padding"
             android:textSize="25sp"
-            android:textIsSelectable="false" />
+            android:textIsSelectable="false"
+            android:clickable="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,7 +48,20 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/userScore"
             android:layout_alignTop="@+id/flickPickerText"
-            android:layout_toEndOf="@+id/myProfileIcon"/>
+            android:layout_toEndOf="@+id/myProfileIcon"
+            android:textColor="@color/color_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_icon"
+            android:id="@+id/settingsIcon"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="25sp"
+            android:textColor="@color/color_text"
+            android:padding="@dimen/movie_detail_image_padding"
+            android:clickable="true"/>
 
 
     </RelativeLayout>
@@ -79,11 +93,18 @@
                     android:background="@color/color_primary"/>
 
                 <RelativeLayout
+                    android:id="@+id/contentWrap"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@android:id/tabs"
-                    android:id="@+id/contentWrap">
+                    android:layout_above="@android:id/tabs">
                 </RelativeLayout>
+
+                <com.typeof.flickpicker.activities.UnSwipeableViewPager
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@android:id/tabs"/>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -95,9 +116,8 @@
                         android:id="@+id/tabRecommendations"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
 
-                        android:layout_above="@android:id/tabs">
+                        android:orientation="vertical">
 
                     </LinearLayout>
 
@@ -105,8 +125,7 @@
                         android:id="@+id/tabCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:layout_above="@android:id/tabs"/>
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/tabFriendsActivities"

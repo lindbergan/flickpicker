@@ -10,6 +10,8 @@ import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.utils.ExecutionTimeLogger;
+
+import java.sql.SQLDataException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -61,9 +63,16 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
         double rating = c.getDouble(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING));
         int votes = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_VOTES));
+        String genre = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_GENRE));
+        String poster = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_POSTER));
+        String description = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION));
+
         Movie m = new Movie(id, title, year);
         m.setCommunityRating(rating);
         m.setNumberOfVotes(votes);
+        m.setGenre(genre);
+        m.setPoster(poster);
+        m.setDescription(description);
         return m;
     }
 
@@ -81,6 +90,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         values.put(MovieTable.MovieEntry.COLUMN_NAME_YEAR, movie.getYear());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION, movie.getDescription());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_GENRE, movie.getGenre());
+        values.put(MovieTable.MovieEntry.COLUMN_NAME_POSTER, movie.getPoster());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_VOTES, movie.getNumberOfVotes());
         values.put(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING, movie.getCommunityRating());
 
@@ -185,7 +195,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
     public List<Movie> getCommunityTopPicks(int max){
         String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
-        return getCommunityFeedback(max,sqlString);
+        return getCommunityFeedback(max, sqlString);
     }
 
     public List<Movie> getMostDislikedMovies(int max){
@@ -231,17 +241,16 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return sortedMovies;
     }
 
-    public List<Movie> getUsersMovieCollection(int max, long userId) {
+    public List<Movie> getMovieCollectionFromUserId(int max, long userId) {
 
         //1)SQL: find all ratings by user (sorted by "created at") and save to a list
-        List<Rating> userRatings = getUserRatings(max,userId);
+        List<Rating> userRatings = getUserRatings(max, userId);
 
         // loop through that rating list by calling findMovie() with rating.findMovie(rating.getMovieId()); and save those movies in another list
         //return that list
         List<Movie> usersMovieCollection = new ArrayList<>();
 
         for (Rating userRating : userRatings) {
-
             long movieId = userRating.getMovieId();
             usersMovieCollection.add(findMovie(movieId));
         }
@@ -252,8 +261,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         //create suitable method in Seed class to have the necessary data
         //finally - test to make sure that the method works ass supposed to.
     }
-
-
 
         public List<Rating> getUserRatings(int max, long userId){
 
@@ -267,28 +274,71 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         List<Rating> userRatings = new ArrayList<>();
 
         c.moveToFirst();
-        try {
-            do {
-                Rating rating = createRatingFromCursor(c);
-                userRatings.add(rating);
-            } while(c.moveToNext());
-        } finally {
-            c.close();
+        if (c.getCount() > 0) {
+            try {
+                do {
+                    Rating rating = createRatingFromCursor(c);
+                    userRatings.add(rating);
+                } while(c.moveToNext());
+            } finally {
+                c.close();
+            }
         }
+
         return userRatings;
     }
 
     public Rating createRatingFromCursor(Cursor c) {
 
+        Cursor abc = c;
+        int colIndex = c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID);
+
         long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
         double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
         long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
 
         Rating createdRating = new Rating(rating,movieId,userId);
         createdRating.setId(id);
         return createdRating;
     }
 
+    public boolean tableExists() {
+        boolean tableExists = false;
+
+        db.beginTransaction();
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{MovieTable.MovieEntry.TABLE_NAME});
+        try {
+            cursor.moveToFirst();
+            int count = cursor.getCount();
+            tableExists = (count > 0);
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            cursor.close();
+        }
+
+        return tableExists;
+
+    }
+
+    public int getNumberOfMovies() {
+        db.beginTransaction();
+        int count = 0;
+
+        String query = "SELECT COUNT(*) FROM movies";
+        Cursor c = db.rawQuery(query, null);
+
+        try {
+            c.moveToFirst();
+            count= c.getInt(0);
+            db.setTransactionSuccessful();
+        } finally {
+            c.close();
+            db.endTransaction();
+        }
+
+        return count;
+    }
 
 }

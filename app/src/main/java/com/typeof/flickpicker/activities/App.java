@@ -41,20 +41,27 @@ public class App extends Application {
         mContext = getApplicationContext();
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(mContext, "database_type");
-        createDatabase();
+        initDatabase();
         setupDAO();
 
+        if (!getDatabase().hasBeenSeeded()) {
+            createDatabase();
+            createCurrentUser();
+        } else {
+            setupCurrentUser();
+        }
+    }
+
+    private void createCurrentUser() {
         mCurrentUser = new User("AdminU", "AdminP");
         getUserDAO().saveUser(mCurrentUser);
-        mCurrentUser.setScore(500);
     }
 
-    public long setCurrentUser() {
-        mCurrentUser = new User("pelle", "password");
-        return getUserDAO().saveUser(mCurrentUser);
+    private void setupCurrentUser() {
+        mCurrentUser = getUserDAO().getUserById(1);
     }
 
-    private void createDatabase() {
+    private void initDatabase() {
         switch (databaseType) {
             case "sql":
                 sDatabase = new SQLDatabase(mContext);
@@ -62,6 +69,9 @@ public class App extends Application {
             default:
                 sDatabase = new SQLDatabase(mContext);
         }
+    }
+
+    private void createDatabase() {
         sDatabase.dropTables();
         sDatabase.setUpTables();
     }

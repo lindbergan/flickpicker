@@ -38,7 +38,7 @@ public abstract class SQLDAO {
                 this.find(object.getId(), tableName);
                 update(object, values, tableName);
                 return object.getId();
-            } catch (DatabaseRecordNotFoundException e) {}
+            } catch (DatabaseRecordNotFoundException e) {   }
         }
 
         long newRowId = db.insert(tableName, " ", values);

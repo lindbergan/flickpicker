@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
@@ -133,14 +135,13 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         return ratings;
     }
 
-
     @Override
     public void updateFriendMatches(Rating rating){
 
         long currentUserId = rating.getUserId();
         int desiredSizeIfList = 100; //maybe getUsersMovieCollection() really shouldnt have a "int max" as an argument...
 
-        List<Movie> usersMovieCollection = mMovieDAO.getUsersMovieCollection(desiredSizeIfList, currentUserId);
+        List<Movie> usersMovieCollection = mMovieDAO.getMovieCollectionFromUserId(desiredSizeIfList, currentUserId);
         List<User> usersFriends = getFriendsFromUserId(currentUserId);
         String[] movieIds = extractMovieIdsFromMovies(usersMovieCollection);
 
@@ -232,7 +233,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         return friendRelation;
     }
 
-    public Friend createFriendFromCursor(Cursor c){
+    public Friend createFriendFromCursor(Cursor c) {
 
         long id = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_ID));
         long userId1 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER1ID));
@@ -240,10 +241,22 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         double disMatch = c.getDouble(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH));
         int nmbrOfMoviesBothSeen = c.getInt(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN));
 
-        Friend friendRelation = new Friend(userId1,userId2);
+        Friend friendRelation = new Friend(userId1, userId2);
         friendRelation.setId(id);
         friendRelation.setDisMatch(disMatch);
         friendRelation.setNmbrOfMoviesBothSeen(nmbrOfMoviesBothSeen);
         return friendRelation;
+    }
+
+    @Override
+    public boolean isFriend(long user2Id) {
+        String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID
+                + " = ? AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?";
+        long currentUserId = App.getCurrentUser().getId();
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(currentUserId), String.valueOf(user2Id)});
+        c.moveToFirst();
+        if (c.getCount() == 1) return true;
+        c.close();
+        return false;
     }
 }

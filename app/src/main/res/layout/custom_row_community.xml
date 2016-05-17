@@ -8,18 +8,20 @@
 
         <ImageView
             android:contentDescription="@string/no_user_profile_desc"
-            android:layout_width="0dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:id="@+id/imageView_movieCell"
             android:src="@drawable/no_user_profile"
             android:layout_weight="1.0"
-            android:layout_gravity="left|top"/>
+            android:layout_gravity="left|top"
+            android:minWidth="100dp"/>
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="297dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right|top">
+            android:layout_gravity="right|top"
+            android:padding="5dp">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -49,13 +51,6 @@
                     android:id="@+id/movie_year_textview_movieCell"
                     />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="&lt;--Movie pic here"
-                android:id="@+id/textView"/>
 
             <RatingBar
                 android:layout_width="wrap_content"

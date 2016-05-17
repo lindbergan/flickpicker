@@ -8,7 +8,8 @@
     <!-- Defining header and tab bar sizes -->
 
     <dimen name="header_height">32dp</dimen>
-
+    <dimen name="tab_vertical_margins">16dp</dimen>
+    <dimen name="tab_text_size">25sp</dimen>
 
 
     <!-- List cell dimensions -->
@@ -27,5 +28,9 @@
 
     <dimen name="movie_detail_rate_bar_margin">10dp</dimen>
     <dimen name="movie_detail_rate_button_padding">15dp</dimen>
+
+    <!-- DIMENSIONS CUSTOM_ROW_SEARCH_USER -->
+    <dimen name="custom_row_user">60dp</dimen>
+    <dimen name="custom_row_margin">15dp</dimen>
 
 </resources>

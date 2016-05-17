@@ -175,17 +175,24 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
         assertEquals(0.0, friendRelationTwo.getDisMatch());
     }
 
-    public void testGetFriendRelation(){
+    public void testGetFriendRelation() {
 
         long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
         long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
 
-        Friend friendship = new Friend(primaryUser,secondaryUser);
+        Friend friendship = new Friend(primaryUser, secondaryUser);
         long friendshipId = mFriendDAO.addFriend(friendship);
 
         //test and confirm that friendshipId && the fetchedFriendshipId are the same
-        Friend fetchedFriendship = mFriendDAO.getFriendRelation(primaryUser,secondaryUser);
+        Friend fetchedFriendship = mFriendDAO.getFriendRelation(primaryUser, secondaryUser);
         long fetchedFriendshipId = fetchedFriendship.getId();
-        assertEquals(friendshipId,fetchedFriendshipId);
+        assertEquals(friendshipId, fetchedFriendshipId);
+    }
+
+    public void testIsFriend() {
+        User u = new User("testFriend", "testPassword");
+        mUserDAO.saveUser(u);
+        mFriendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u.getId()));
+        assertTrue(mFriendDAO.isFriend(u.getId()));
     }
 }

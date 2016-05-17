@@ -19,7 +19,6 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
 
     private RatingDAO mRatingDAO;
     private MovieDAO mMovieDAO;
-    private UserDAO mUserDAO;
 
     public RatingDAOTest() {
         super(App.class);
@@ -33,7 +32,7 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
 
         mRatingDAO = App.getRatingDAO();
         mMovieDAO = App.getMovieDAO();
-        mUserDAO = App.getUserDAO();
+
     }
 
     @Override
@@ -106,7 +105,6 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
 
     }
 
-
     public void testRemoveRating() {
 
         //save a movie and a rating for that movie to the database
@@ -129,4 +127,20 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
             assertTrue(true); // success!
         }
     }
+
+
+    public void testGetRatingFromUser() {
+
+        User u = new User("testUser", "testPassword");
+        App.getUserDAO().saveUser(u);
+
+        Movie m = new Movie("testMovie", 1990);
+        mMovieDAO.saveMovie(m);
+
+        Rating r = new Rating(3.0, m.getId(), u.getId());
+        mRatingDAO.saveRating(r);
+
+        assertEquals(mRatingDAO.getRatingFromUser(u.getId(), m.getId()), 3.0);
+    }
+
 }
