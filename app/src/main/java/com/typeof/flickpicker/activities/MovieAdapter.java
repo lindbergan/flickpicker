@@ -3,6 +3,7 @@ package com.typeof.flickpicker.activities;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
+
+import org.w3c.dom.Text;
 
 public class MovieAdapter extends CustomAdapter {
 
@@ -36,6 +39,10 @@ public class MovieAdapter extends CustomAdapter {
             convertView = inflater.inflate(R.layout.custom_row_community, parent, false);
             viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview_movieCell);
             viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview_movieCell);
+            viewHolder.friendsIcon = (TextView) convertView.findViewById(R.id.rowCommunityFriendsIcon);
+            viewHolder.friendsText = (TextView) convertView.findViewById(R.id.rowCommunityFriendsText);
+            viewHolder.communityIcon = (TextView) convertView.findViewById(R.id.rowCommunityCommunityIcon);
+            viewHolder.communityText = (TextView) convertView.findViewById(R.id.rowCommunityCommunityText);
             //viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar_movieCell);
             viewHolder.moviePoster = (ImageView) convertView.findViewById(R.id.imageView_movieCell);
 
@@ -58,9 +65,19 @@ public class MovieAdapter extends CustomAdapter {
             }
         });
 
+        Typeface font = Typeface.createFromAsset(mContext.getAssets(), "fonts/fontawesome-webfont.ttf");
 
         viewHolder.movieName.setText(mov.getTitle());
         viewHolder.movieYear.setText(String.valueOf(mov.getYear()));
+        viewHolder.friendsIcon.setTypeface(font);
+
+        int numOfFriendsSeen = App.getMovieDAO().getFriendsSeenMovie(mov.getId(), App.getCurrentUser().getId()).size();
+        viewHolder.friendsText.setText(String.valueOf(numOfFriendsSeen) + " friends have seen this");
+
+        viewHolder.communityIcon.setTypeface(font);
+        double communityRating = mov.getCommunityRating();
+        viewHolder.communityText.setText("rated " + String.valueOf(communityRating) + " by the users");
+
         //viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
         Picasso.with(getContext()).load(mov.getPoster()).into(viewHolder.moviePoster);
         return convertView;
@@ -70,6 +87,10 @@ public class MovieAdapter extends CustomAdapter {
 
         TextView movieName;
         TextView movieYear;
+        TextView friendsIcon;
+        TextView friendsText;
+        TextView communityIcon;
+        TextView communityText;
         RatingBar ratingBar;
         ImageView moviePoster;
     }

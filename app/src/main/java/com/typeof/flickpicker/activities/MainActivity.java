@@ -121,6 +121,7 @@ public class MainActivity extends FragmentActivity {
         TextView userScore = (TextView) findViewById(R.id.userScore);
 
         myProfileIcon.setTypeface(font);
+
         userScore.setText(String.valueOf(App.getCurrentUser().getScore()));
 
         myProfileIcon.setOnClickListener(new View.OnClickListener() {
