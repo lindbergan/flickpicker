@@ -1,6 +1,9 @@
 package com.typeof.flickpicker.activities;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +51,8 @@ public class FriendsActivityAdapter extends CustomAdapter {
         viewHolder.movieName.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
         viewHolder.movieYear.setText(" (" + String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()) + ")");
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
+        Drawable d = viewHolder.ratingBar.getProgressDrawable();
+        DrawableCompat.setTint(d, Color.rgb(238, 216, 23));
         return convertView;
     }
 }

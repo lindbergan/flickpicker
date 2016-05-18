@@ -24,7 +24,10 @@
             android:id="@+id/flickPickerText"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/color_text"/>
+            android:textColor="@color/color_text"
+            android:textSize="25sp"
+            android:textStyle="bold|italic"
+            android:typeface="serif" />
 
 
         <TextView
@@ -47,9 +50,11 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/userScore"
-            android:layout_alignTop="@+id/flickPickerText"
+            android:textColor="@color/color_text"
+            android:text="100"
+            android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/myProfileIcon"
-            android:textColor="@color/color_text"/>
+            android:textSize="17sp" />
 
         <TextView
             android:layout_width="wrap_content"

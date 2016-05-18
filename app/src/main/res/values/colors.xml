@@ -5,11 +5,11 @@
     <color name="color_primary">#759D34</color>
     <color name="color_primary_dark">#2A3E08</color>
     <color name="color_accent">#A0CC59</color>
-    <color name="color_backdrop">#FBFFF0</color>
+    <color name="color_backdrop">#FFFFFF</color>
 
 
     <!--- List cells -->
-    <color name="color_list_cell_backdrop">#FFFFFF</color>
+    <color name="color_list_cell_backdrop">#FBFFF0</color>
 
 
 

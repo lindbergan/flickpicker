@@ -40,6 +40,11 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         //fragmentManager = getFragmentManager();
 
+        Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/DISTGRG_.ttf");
+        TextView title = (TextView)findViewById(R.id.flickPickerText);
+        title.setTypeface(titleFont);
+
+
         setupScore();
         setupSettings();
         initViewPager();
@@ -150,7 +155,7 @@ public class MainActivity extends FragmentActivity {
     public void configureTabs() {
 
         final TabHost.TabSpec mTabSpecRecommendations = createTabSpec("Recommendations", R.id.tabRecommendations,
-                                                                        R.layout.tab_recommendation, R.id.recommendationsIcon);
+                R.layout.tab_recommendation, R.id.recommendationsIcon);
         tabHost.addTab(mTabSpecRecommendations);
 
 
@@ -160,7 +165,7 @@ public class MainActivity extends FragmentActivity {
 
 
         final TabHost.TabSpec mTabSpecFriendsActivities = createTabSpec("Friends", R.id.tabFriendsActivities,
-                                                                             R.layout.tab_friends, R.id.friendsIcon);
+                R.layout.tab_friends, R.id.friendsIcon);
         tabHost.addTab(mTabSpecFriendsActivities);
 
 
