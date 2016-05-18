@@ -1,23 +1,13 @@
 package com.typeof.flickpicker.core;
 
 import com.typeof.flickpicker.activities.App;
-import com.typeof.flickpicker.database.FriendDAO;
-import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.RatingDAO;
-import com.typeof.flickpicker.database.UserDAO;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeMap;
 
 /**
@@ -53,10 +43,10 @@ public class MovieAlgorithm {
         removeMoviesUserHasSeen(friendsMoviesAndScore, usersMovieCollection);
 
         //sort the remaining elements in the map based on score
-        Map<Movie,Double> sortedMoviesAndScores = sortMapByValues(friendsMoviesAndScore); //sort the map based on values (SCORE)
+        Map<Movie,Double> sortedMoviesAndScores = sortMapByValues(friendsMoviesAndScore);
 
         //extract all movies from the sorted map
-        results = extractMoviesFromMap(sortedMoviesAndScores); //extract the movies from the sorted map
+        results = extractMoviesFromMap(sortedMoviesAndScores);
 
        return results;
     }
@@ -118,14 +108,14 @@ public class MovieAlgorithm {
 
     public static void determineBestMatch(Map<Movie,Double> friendsMoviesAndScore, double currentDisMatchValue,Movie currentMovie, double currentRating){
         //put the best match in the table
-        double previousDisMatchValue = friendsMoviesAndScore.get(currentMovie);
+        double previousScore = friendsMoviesAndScore.get(currentMovie);
+        double currentScore = currentRating * 1/currentDisMatchValue;
 
-        if(currentDisMatchValue < previousDisMatchValue) {
-            double score = currentRating * 1/currentDisMatchValue;
+        if(currentScore > previousScore) {
             //remove old element && replace with the better match
             friendsMoviesAndScore.remove(currentMovie);
             //removeMapElement(friendsMoviesAndScore,currentMovie);
-            friendsMoviesAndScore.put(currentMovie, score);
+            friendsMoviesAndScore.put(currentMovie, currentScore);
         }
     }
 
@@ -172,7 +162,7 @@ public class MovieAlgorithm {
     public static <Movie, Double extends Comparable<Double>> Map<Movie, Double> sortMapByValues(final Map<Movie, Double> map) {
         Comparator<Movie> valueComparator =  new Comparator<Movie>() {
             public int compare(Movie firstMovie, Movie secondMovie) {
-                int compare = map.get(firstMovie).compareTo(map.get(secondMovie));
+                int compare = map.get(secondMovie).compareTo(map.get(firstMovie));
                 if (compare == 0) return 1;
                 else return compare;
             }
@@ -192,7 +182,6 @@ public class MovieAlgorithm {
             Movie highestScoredMovie = entryInSet.getKey();
             results.add(highestScoredMovie);
         }
-
         return results;
     }
 }

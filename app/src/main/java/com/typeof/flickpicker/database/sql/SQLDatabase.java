@@ -199,9 +199,9 @@ public class SQLDatabase implements Database {
         ratingDAO.saveRating(new Rating(3.0,m5.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(3.0,m6.getId(),sibeliusThePowerUser.getId()));
 
-        ratingDAO.saveRating(new Rating(2.0,m7.getId(),sibeliusThePowerUser.getId()));
-        ratingDAO.saveRating(new Rating(3.0,m8.getId(),sibeliusThePowerUser.getId()));
-        ratingDAO.saveRating(new Rating(4.0,m9.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(3.0,m7.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m8.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(5.0,m9.getId(),sibeliusThePowerUser.getId()));
 
         //friendDAO.updateFriendMatches(new Rating(3.0, m7.getId(),currentUserId));
 
@@ -214,8 +214,8 @@ public class SQLDatabase implements Database {
         ratingDAO.saveRating(new Rating(4.0,m6.getId(),valarMorghulis.getId()));
 
         ratingDAO.saveRating(new Rating(3.0,m7.getId(),valarMorghulis.getId()));
-        ratingDAO.saveRating(new Rating(3.0,m8.getId(),valarMorghulis.getId()));
-        ratingDAO.saveRating(new Rating(3.0,m9.getId(),valarMorghulis.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m8.getId(),valarMorghulis.getId()));
+        ratingDAO.saveRating(new Rating(5.0,m9.getId(),valarMorghulis.getId()));
 
         friendDAO.updateFriendMatches(usersLatestRating);
 
