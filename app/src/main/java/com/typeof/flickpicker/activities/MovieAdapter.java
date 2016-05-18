@@ -36,7 +36,7 @@ public class MovieAdapter extends CustomAdapter {
             convertView = inflater.inflate(R.layout.custom_row_community, parent, false);
             viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview_movieCell);
             viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview_movieCell);
-            viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar_movieCell);
+            //viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar_movieCell);
             viewHolder.moviePoster = (ImageView) convertView.findViewById(R.id.imageView_movieCell);
 
             convertView.setTag(viewHolder);
@@ -61,7 +61,7 @@ public class MovieAdapter extends CustomAdapter {
 
         viewHolder.movieName.setText(mov.getTitle());
         viewHolder.movieYear.setText(String.valueOf(mov.getYear()));
-        viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
+        //viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
         Picasso.with(getContext()).load(mov.getPoster()).into(viewHolder.moviePoster);
         return convertView;
     }
