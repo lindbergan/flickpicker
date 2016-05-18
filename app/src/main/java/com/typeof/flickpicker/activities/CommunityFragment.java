@@ -2,10 +2,8 @@ package com.typeof.flickpicker.activities;
 
 import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +17,6 @@ import android.widget.Toast;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
-import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -36,24 +32,14 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMoviesByYear;
     private int thisYear;
     private boolean isYearListCurrent;
-    private String currentTab;
-
     public final String TAG = "community";
     private Bundle savedState = null;
-    //--------------------------------
-    private SQLiteDatabase db;
-    //--------------------------------
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mMovieDAO = App.getMovieDAO();
-
-        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(getActivity());
-        db = dbhelper.getWritableDatabase();
-        //--------------------------------
-
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
 
     }
@@ -62,20 +48,17 @@ public class CommunityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
-        currentTab = "topMovies";
         hookUpViews(communityView);
         configureTabs(communityView);
-        determineCurrentView();
         setUpListeners();
         return communityView;
     }
-
-
 
     public void hookUpViews(View view) {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
         listViewWorstMovies = (ListView) view.findViewById(R.id.listViewWorstMovies);
         listViewTopMoviesByYear = (ListView) view.findViewById(R.id.listViewTopMoviesByYear);
+        setTopMoviesAsCurrentView(); //default
     }
 
     public void configureTabs(View view) {
@@ -111,7 +94,6 @@ public class CommunityFragment extends Fragment {
                 default:
                     setTopMoviesByYearAsCurrentView();
                     break;
-
             }
             }
         });
@@ -121,35 +103,18 @@ public class CommunityFragment extends Fragment {
     public void setTopMoviesAsCurrentView(){
         List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
-        currentTab = "topMovies";
     }
     public void setWorstMoviesAsCurrentView(){
         List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
         populateListView(listViewWorstMovies, worstMoviesAllTime);
-        currentTab = "worstMovies";
     }
     public void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
-        populateListWithYears(listViewTopMoviesByYear, yearList);
-        currentTab = "topMoviesByYear";
-    }
-
-
-    //Maybe better with an ENUM solution
-    public void determineCurrentView(){
-
-        if(currentTab.equals("topMovies")){
-            setTopMoviesAsCurrentView();
-        }
-        else if (currentTab.equals("worstMovies")) {
-            setWorstMoviesAsCurrentView();
-        }
-        else{
-            setTopMoviesByYearAsCurrentView();
-        }
+        populateListWithYears(listViewTopMoviesByYear,yearList);
     }
 
     public void populateListWithYears(ListView listView, List<String> yearList){
+
         if (this.getActivity() != null) {
 
             int defaultLayout = android.R.layout.simple_list_item_1; //default
@@ -157,29 +122,14 @@ public class CommunityFragment extends Fragment {
             listView.setAdapter(yearAdapter);
 
             isYearListCurrent = true;
-
         }
     }
 
     public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass) {
 
-        //--------------------------------
-        ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
-        executionTimeLogger.startTimer();
-        db.beginTransaction();
-        db.setTransactionSuccessful();
-        //--------------------------------
-
         //Code for populating elements in the listView;
         ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
-
-        //--------------------------------
-        db.endTransaction();
-        Log.d("EXECUTION TIME FOR LW:", listOfViewCellsWeGotFromHelpClass.size() + "");
-        executionTimeLogger.stopTimerAndLogResults();
-        //--------------------------------
-
     }
 
     public List<String> generateYearList(){
@@ -211,11 +161,6 @@ public class CommunityFragment extends Fragment {
                     List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
 
 
-                    //populate the list and set isYearListCurrent to false
-                    populateListView(listViewTopMoviesByYear, topMoviesByYear);
-                    isYearListCurrent = false;
-
-
                     if(topMoviesByYear.size() != 0) {
                         //populate the list and set isYearListCurrent to false
                         populateListView(listViewTopMoviesByYear, topMoviesByYear);
@@ -226,6 +171,8 @@ public class CommunityFragment extends Fragment {
                         Toast message = Toast.makeText(getActivity(), "No movies in database for that year", Toast.LENGTH_SHORT);
                         message.show();
                     }
+
+                    //TODO: if user clicks "back" button - isYearListCurrent needs to be set to true;
 
                 }
             }
@@ -241,7 +188,7 @@ public class CommunityFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            this.currentTab = savedInstanceState.getString("currentTab");
+            //this.currentTab = savedInstanceState.getString("currentTab");
         }
     }
 

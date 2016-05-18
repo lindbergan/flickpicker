@@ -32,6 +32,7 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
 
         mRatingDAO = App.getRatingDAO();
         mMovieDAO = App.getMovieDAO();
+
     }
 
     @Override
@@ -127,6 +128,7 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
         }
     }
 
+
     public void testGetRatingFromUser() {
 
         User u = new User("testUser", "testPassword");
@@ -140,4 +142,5 @@ public class RatingDAOTest extends ApplicationTestCase<App>{
 
         assertEquals(mRatingDAO.getRatingFromUser(u.getId(), m.getId()), 3.0);
     }
+
 }

@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.ArrayList;

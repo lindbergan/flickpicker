@@ -140,6 +140,55 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
 
     }
 
+    public void testUpdateFriendMatches(){
+
+        //create three users
+        long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
+        long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
+        long thirdUser = mUserDAO.saveUser(new User("Olle", "admin"));
+
+        //add kalle && olle as a friends to pelle
+        long firstFriendshipId = mFriendDAO.addFriend(new Friend(primaryUser,secondaryUser));
+        long secondFriendshipId = mFriendDAO.addFriend(new Friend(primaryUser,thirdUser));
+
+        //let them rate the same two movies
+        long americanHistoryXId = mMovieDAO.saveMovie(new Movie("American History X", 2000));
+        long planetOfTheApesId = mMovieDAO.saveMovie(new Movie("Planet of the apes", 1998));
+
+        long firstRatingPelle = mRatingDAO.saveRating(new Rating(2,americanHistoryXId,primaryUser));
+        long secondRatingPelle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId, primaryUser));
+        long firstRatingKalle = mRatingDAO.saveRating(new Rating(4, americanHistoryXId,secondaryUser));
+        long secondRatingKalle = mRatingDAO.saveRating(new Rating(5, planetOfTheApesId, secondaryUser));
+        long firstRatingOlle = mRatingDAO.saveRating(new Rating(2,americanHistoryXId,thirdUser));
+        long secondRatingOlle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId,thirdUser));
+
+        Rating pellesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingPelle);
+
+        mFriendDAO.updateFriendMatches(pellesRatingOnAmericanHistoryX);
+
+        //fetch the relationship and compare the dismatch value to the expected one:
+        //if implemented correctly - should return 2; (# diffs [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2) && 0.0
+
+        Friend friendRelationOne = mFriendDAO.getFriendRelation(primaryUser,secondaryUser);
+        assertEquals(2.0,friendRelationOne.getDisMatch());
+        Friend friendRelationTwo = mFriendDAO.getFriendRelation(primaryUser,thirdUser);
+        assertEquals(0.0, friendRelationTwo.getDisMatch());
+    }
+
+    public void testGetFriendRelation() {
+
+        long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
+        long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
+
+        Friend friendship = new Friend(primaryUser, secondaryUser);
+        long friendshipId = mFriendDAO.addFriend(friendship);
+
+        //test and confirm that friendshipId && the fetchedFriendshipId are the same
+        Friend fetchedFriendship = mFriendDAO.getFriendRelation(primaryUser, secondaryUser);
+        long fetchedFriendshipId = fetchedFriendship.getId();
+        assertEquals(friendshipId, fetchedFriendshipId);
+    }
+
     public void testIsFriend() {
         User u = new User("testFriend", "testPassword");
         mUserDAO.saveUser(u);

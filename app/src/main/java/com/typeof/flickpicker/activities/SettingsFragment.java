@@ -37,7 +37,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 App.createDatabase();
                 App.setupCurrentUser();
-                App.getDatabase().seedDatabase(getActivity());
+                App.getDatabase().seedDatabase();
 
                 // Get movies from OMDB
                 OMDBParser omdbParser = new OMDBParser(getActivity(), App.getMovieDAO());

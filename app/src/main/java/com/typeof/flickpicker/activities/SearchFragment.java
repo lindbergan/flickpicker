@@ -31,7 +31,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Nullable
@@ -69,6 +68,7 @@ public class SearchFragment extends Fragment {
         mTabSpecSearchFriend.setIndicator("Search User");
         mTabHostSearch.addTab(mTabSpecSearchFriend);
 
+        //NOTE: only needed if we want to return to specific tab and have previous search result displayed:
         mTabHostSearch.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
@@ -81,11 +81,12 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+
     }
 
     public void setUpListeners(){
 
-        //these two line should be implemented in the XML-file, not the actual code:
+        //NOTE: these two line should be implemented in the XML-file, not the actual code:
         mSearchViewMovie.setIconifiedByDefault(false);
         mSearchViewFriend.setIconifiedByDefault(false);
 

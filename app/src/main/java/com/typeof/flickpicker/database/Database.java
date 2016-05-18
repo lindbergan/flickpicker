@@ -10,6 +10,6 @@ import android.content.Context;
 public interface Database {
     void setUpTables();
     void dropTables();
-    void seedDatabase(Context ctx);
+    void seedDatabase();
     boolean hasBeenSeeded();
 }
