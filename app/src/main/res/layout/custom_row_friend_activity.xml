@@ -7,9 +7,10 @@
     android:weightSum="1">
 
     <FrameLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical|bottom"
+
         android:layout_weight="1.0">
 
         <ImageView
@@ -30,9 +31,10 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/linearLayout3">
+            android:id="@+id/linearLayout3"
+            android:layout_centerHorizontal="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -50,19 +52,19 @@
                 android:text=" just watched..."
                 android:id="@+id/textView4"
                 android:textStyle="italic"
-                android:textSize="14dp"
-                android:layout_above="@+id/linearLayout2"
-                android:layout_alignStart="@+id/linearLayout2" />
+                android:textSize="14sp"
+                 />
 
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/linearLayout2"
             android:layout_below="@+id/linearLayout3"
-            android:layout_alignStart="@+id/linearLayout3">
+
+            android:layout_centerHorizontal="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -70,14 +72,16 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Movie"
                 android:id="@+id/moviename_textview"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="17sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text=" (year)"
-                android:id="@+id/movie_year_textview" />
+                android:id="@+id/movie_year_textview"
+                android:textSize="17sp" />
         </LinearLayout>
 
         <TextView
@@ -89,7 +93,7 @@
             android:textStyle="italic"
             android:textSize="13sp"
             android:layout_below="@+id/linearLayout2"
-            android:layout_alignStart="@+id/linearLayout2" />
+            android:layout_centerHorizontal="true" />
 
         <RatingBar
             android:layout_width="wrap_content"
@@ -99,8 +103,7 @@
             android:scaleX="0.8"
             android:scaleY="0.8"
             android:layout_below="@+id/textView3"
-            android:layout_alignParentStart="false"
-            android:layout_centerHorizontal="true" />
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
