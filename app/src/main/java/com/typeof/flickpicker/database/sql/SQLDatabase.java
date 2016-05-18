@@ -189,7 +189,7 @@ public class SQLDatabase implements Database {
         Rating usersLatestRating = new Rating(3.0,m6.getId(),currentUserId);
         ratingDAO.saveRating(usersLatestRating);
 
-        
+
         ratingDAO.saveRating(new Rating(3.0,m1.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(3.0,m2.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(3.0,m3.getId(),sibeliusThePowerUser.getId()));

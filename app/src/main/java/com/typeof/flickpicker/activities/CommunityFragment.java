@@ -83,10 +83,13 @@ public class CommunityFragment extends Fragment {
         mTabHost.addTab(mTabSpecTopMoviesYear);
 
         setTopMoviesAsCurrentView(); //default
+        setActiveTabColor(); //default
 
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+
+                setActiveTabColor();
 
             switch (tabId) {
                 case "topMovies":
@@ -107,17 +110,14 @@ public class CommunityFragment extends Fragment {
     public void setTopMoviesAsCurrentView(){
         List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
-        setActiveTabColor();
     }
     public void setWorstMoviesAsCurrentView(){
         List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
         populateListView(listViewWorstMovies, worstMoviesAllTime);
-        setActiveTabColor();
     }
     public void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
         populateListWithYears(listViewTopMoviesByYear,yearList);
-        setActiveTabColor();
     }
 
     public void setActiveTabColor(){
