@@ -1,5 +1,7 @@
 package com.typeof.flickpicker.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.app.FragmentManager;
 import android.support.annotation.Nullable;
@@ -58,7 +60,6 @@ public class CommunityFragment extends Fragment {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
         listViewWorstMovies = (ListView) view.findViewById(R.id.listViewWorstMovies);
         listViewTopMoviesByYear = (ListView) view.findViewById(R.id.listViewTopMoviesByYear);
-        setTopMoviesAsCurrentView(); //default
     }
 
     public void configureTabs(View view) {
@@ -81,9 +82,12 @@ public class CommunityFragment extends Fragment {
         mTabSpecTopMoviesYear.setIndicator("Top Movies by Year");
         mTabHost.addTab(mTabSpecTopMoviesYear);
 
+        setTopMoviesAsCurrentView(); //default
+
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+
             switch (tabId) {
                 case "topMovies":
                     setTopMoviesAsCurrentView();
@@ -103,14 +107,21 @@ public class CommunityFragment extends Fragment {
     public void setTopMoviesAsCurrentView(){
         List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
+        setActiveTabColor();
     }
     public void setWorstMoviesAsCurrentView(){
         List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
         populateListView(listViewWorstMovies, worstMoviesAllTime);
+        setActiveTabColor();
     }
     public void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
         populateListWithYears(listViewTopMoviesByYear,yearList);
+        setActiveTabColor();
+    }
+
+    public void setActiveTabColor(){
+        mTabHost.getTabWidget().getChildAt(mTabHost.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
 
     public void populateListWithYears(ListView listView, List<String> yearList){

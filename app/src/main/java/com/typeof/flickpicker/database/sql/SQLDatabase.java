@@ -189,7 +189,7 @@ public class SQLDatabase implements Database {
         Rating usersLatestRating = new Rating(3.0,m6.getId(),currentUserId);
         ratingDAO.saveRating(usersLatestRating);
 
-
+        
         ratingDAO.saveRating(new Rating(3.0,m1.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(3.0,m2.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(3.0,m3.getId(),sibeliusThePowerUser.getId()));
@@ -200,8 +200,6 @@ public class SQLDatabase implements Database {
         ratingDAO.saveRating(new Rating(3.0,m7.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(4.0,m8.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(5.0,m9.getId(),sibeliusThePowerUser.getId()));
-
-        //friendDAO.updateFriendMatches(new Rating(3.0, m7.getId(),currentUserId));
 
         //add a second friend with enough movies to meet the criteria
         ratingDAO.saveRating(new Rating(3.0,m1.getId(),valarMorghulis.getId()));
