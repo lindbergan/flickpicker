@@ -29,10 +29,12 @@ import java.util.concurrent.ExecutionException;
 public class SQLDatabase implements Database {
 
     private SQLiteDatabase db;
+    private Context ctx;
 
     public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         this.db = mDbHelper.getWritableDatabase();
+        this.ctx = ctx;
     }
 
     @Override
@@ -170,7 +172,6 @@ public class SQLDatabase implements Database {
 
         //------------DUMMYDATA FOR ALGO-- REMOVE WHEN CONFIRMED WORKING:--------
 
-
         //u1 and user rates same 5 movies:
         User sibeliusThePowerUser = new User("Sibelius", "admin");
         userDAO.saveUser(sibeliusThePowerUser);
@@ -222,12 +223,10 @@ public class SQLDatabase implements Database {
         //-----------------------------------------------------------------------
 
         requestMoviesFromOMDB();
-
-
     }
 
     public void requestMoviesFromOMDB(){
-        OMDBParser omdbParser = new OMDBParser();
+        OMDBParser omdbParser = new OMDBParser(ctx);
         omdbParser.execute();
         try {
             List<Movie> movies = omdbParser.get();
@@ -240,9 +239,13 @@ public class SQLDatabase implements Database {
         }
     }
 
+    public void createMigrationTables() {
+
+    }
+
     @Override
     public boolean hasBeenSeeded() {
         MovieDAO movieDAO = App.getMovieDAO();
-        return movieDAO.tableExists() && movieDAO.getNumberOfMovies() >= OMDBParser.NUM_MOVIES;
+        return movieDAO.tableExists() && movieDAO.getNumberOfMovies() >= OMDBParser.numberOfMovies;
     }
 }

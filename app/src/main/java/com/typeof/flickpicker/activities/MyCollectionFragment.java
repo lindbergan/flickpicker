@@ -105,15 +105,17 @@ public class MyCollectionFragment extends Fragment {
     public void populatePlaylist() {
         Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
 
-        List<Movie> usersPlaylistMovies = new ArrayList<>();
+        if (usersPlaylist != null) {
+            List<Movie> usersPlaylistMovies = new ArrayList<>();
 
-        for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
-            long movieId = usersPlaylist.getMovieIds().get(i).longValue();
-            usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
+            for (int i = 0; i < usersPlaylist.getMovieIds().size(); i++) {
+                long movieId = usersPlaylist.getMovieIds().get(i).longValue();
+                usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
+            }
+
+            //...send that array along with the specified listview to populate it
+            populateListView(listViewMyPlaylist, usersPlaylistMovies);
         }
-
-        //...send that array along with the specified listview to populate it
-        populateListView(listViewMyPlaylist, usersPlaylistMovies);
     }
 
     public void setUpListeners(){
