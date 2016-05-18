@@ -30,8 +30,8 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:paddingLeft="@dimen/list_cell_margin"
+                android:paddingRight="@dimen/list_cell_margin"
                 >
 
                 <LinearLayout
@@ -53,7 +53,9 @@
                         android:id="@+id/listViewMyCollection"
                         android:background="@color/color_backdrop"
                         android:divider="@color/color_backdrop"
-                        android:dividerHeight="7dp"/>
+                        android:dividerHeight="@dimen/list_cell_margin"
+                        android:paddingTop="@dimen/list_cell_margin"
+                        android:clipToPadding="false"/>
 
                 </LinearLayout>
 
@@ -69,7 +71,9 @@
                         android:id="@+id/listViewMyPlaylist"
                         android:background="@color/color_backdrop"
                         android:divider="@color/color_backdrop"
-                        android:dividerHeight="7dp"/>
+                        android:dividerHeight="@dimen/list_cell_margin"
+                        android:paddingTop="@dimen/list_cell_margin"
+                        android:clipToPadding="false"/>
                 </LinearLayout>
 
             </FrameLayout>

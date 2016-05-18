@@ -30,8 +30,8 @@
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin">
+                android:paddingLeft="@dimen/list_cell_margin"
+                android:paddingRight="@dimen/list_cell_margin">
 
                 <LinearLayout
                     android:id="@+id/tabSearchMovie"
@@ -53,9 +53,9 @@
                         android:visibility="visible"
                         android:background="@color/color_backdrop"
                         android:divider="@color/color_backdrop"
-                        android:dividerHeight="7dp"
-                        android:paddingTop="7dp"
-                        android:paddingBottom="7dp"
+                        android:dividerHeight="@dimen/list_cell_margin"
+                        android:paddingTop="@dimen/list_cell_margin"
+                        android:paddingBottom="@dimen/list_cell_margin"
                         android:clipToPadding="false"/>
                 </LinearLayout>
 
@@ -78,9 +78,9 @@
                         android:visibility="visible"
                         android:background="@color/color_backdrop"
                         android:divider="@color/color_backdrop"
-                        android:dividerHeight="7dp"
-                        android:paddingTop="7dp"
-                        android:paddingBottom="7dp"
+                        android:dividerHeight="@dimen/list_cell_margin"
+                        android:paddingTop="@dimen/list_cell_margin"
+                        android:paddingBottom="@dimen/list_cell_margin"
                         android:clipToPadding="false"/>
                 </LinearLayout>
 
