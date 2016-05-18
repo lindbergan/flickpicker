@@ -1,9 +1,7 @@
 package com.typeof.flickpicker.activities;
 
-import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +9,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
-import com.typeof.flickpicker.utils.RatingHelper;
 
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class MovieDetailFragment extends Fragment {
         View movieDetailView = inflater.inflate(R.layout.activity_movie_detail, container, false);
 
         hookUpViews(movieDetailView);
-        setMovieTextFields();
+        populateMovieFields();
         setAddToPlaylistWidgets();
         setRateWidgets();
         initListeners();
@@ -99,25 +97,25 @@ public class MovieDetailFragment extends Fragment {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity mainActivity = (MainActivity)getActivity();
+                MainActivity mainActivity = (MainActivity) getActivity();
                 mainActivity.onBackPressed();
             }
         });
 
         rateButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              RatingDAO ratingDAO = App.getRatingDAO();
-              ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
-              setRateButtonInactive();
-          }
-      });
+            @Override
+            public void onClick(View v) {
+                RatingDAO ratingDAO = App.getRatingDAO();
+                ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
+                setRateButtonInactive();
+            }
+        });
     }
 
     /**
      * method for adding the information about the selected movie to the correct text views
      */
-    public void setMovieTextFields(){
+    public void populateMovieFields(){
 
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
@@ -125,6 +123,7 @@ public class MovieDetailFragment extends Fragment {
         numOfFriendsSeen.setText(String.valueOf(mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId())));
         communityRating.setText(String.valueOf(movie.getCommunityRating()));
         movieDescription.setText(movie.getDescription());
+        Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
 
     }
 
