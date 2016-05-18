@@ -74,6 +74,7 @@ public class SQLDatabase implements Database {
 
     public void seedDatabase() {
 
+
         Movie m1 = new Movie("M1", 1995);
         Movie m2 = new Movie("M2", 1996);
         Movie m3 = new Movie("M3", 1997);
@@ -166,6 +167,53 @@ public class SQLDatabase implements Database {
         movies.add(m5.getId());
         movies.add(m6.getId());
         playlistDAO.savePlaylist(new Playlist("Watchlist", currentUserId, movies));
+
+        //------------DUMMYDATA FOR ALGO-- REMOVE WHEN CONFIRMED WORKING:--------
+
+
+        //u1 and user rates same 5 movies:
+        User sibeliusThePowerUser = new User("Sibelius", "admin");
+        userDAO.saveUser(sibeliusThePowerUser);
+        Friend userAndSibelius = new Friend(currentUserId,sibeliusThePowerUser.getId());
+        friendDAO.addFriend(userAndSibelius);
+
+        User valarMorghulis = new User("Valar Morghulis", "admin");
+        userDAO.saveUser(valarMorghulis);
+        Friend userAndvalarMorghulis = new Friend(currentUserId,valarMorghulis.getId());
+        friendDAO.addFriend(userAndvalarMorghulis);
+
+
+        ratingDAO.saveRating(new Rating(3.0,m1.getId(),currentUserId));
+        ratingDAO.saveRating(new Rating(3.0,m2.getId(),currentUserId));
+        ratingDAO.saveRating(new Rating(3.0,m3.getId(),currentUserId));
+        ratingDAO.saveRating(new Rating(3.0,m4.getId(),currentUserId));
+        ratingDAO.saveRating(new Rating(3.0,m5.getId(),currentUserId));
+        ratingDAO.saveRating(new Rating(3.0,m6.getId(),currentUserId));
+
+
+        ratingDAO.saveRating(new Rating(4.0,m1.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m2.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m3.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m4.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m5.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(3.0,m6.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(3.0,m7.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(5.0,m8.getId(),sibeliusThePowerUser.getId()));
+        ratingDAO.saveRating(new Rating(5.0,m9.getId(),sibeliusThePowerUser.getId()));
+
+        //friendDAO.updateFriendMatches(new Rating(3.0, m7.getId(),currentUserId));
+
+        //add a second friend with enough movies to meet the criteria
+        ratingDAO.saveRating(new Rating(4.0,m1.getId(),valarMorghulis.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m2.getId(),valarMorghulis.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m3.getId(),valarMorghulis.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m4.getId(),valarMorghulis.getId()));
+        ratingDAO.saveRating(new Rating(4.0,m5.getId(),valarMorghulis.getId()));
+        ratingDAO.saveRating(new Rating(3.0,m9.getId(),valarMorghulis.getId()));
+
+        friendDAO.updateFriendMatches(new Rating(3.0, m7.getId(),currentUserId));
+
+        //-----------------------------------------------------------------------
 
         requestMoviesFromOMDB();
 

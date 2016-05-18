@@ -38,57 +38,26 @@ public class MovieAlgorithm {
         int desiredSizeOfList = 100;
         int requirements = 5;
 
-        List<User> allFriends = App.getFriendDAO().getFriendsFromUserId(user.getId());
-        List<Friend> friendsWithSimilarTaste = getFriendsWithSimilarTaste(allFriends, currentUser, requirements);
+        List<User> allFriends = App.getFriendDAO().getFriendsFromUserId(currentUser.getId());
         List<Movie> usersMovieCollection = App.getMovieDAO().getMovieCollectionFromUserId(desiredSizeOfList, currentUser.getId());
 
-        Map<Movie,Double> friendsMoviesAndScore = getFriendsMovies(desiredSizeOfList, friendsWithSimilarTaste); //return a map, key-value pair (holding movie && score)
-        removeMoviesUserHasSeen(friendsMoviesAndScore, usersMovieCollection); //compare the key-value and remove it from the map if user has seen it before
+
+        //find out which of the friends live up to the requirements to "same tast"
+        List<Friend> friendsWithSimilarTaste = getFriendsWithSimilarTaste(allFriends, currentUser, requirements);
+
+        //loop trough all friendsWithSimilarTaste's movie collections and save them in a map
+        Map<Movie,Double> friendsMoviesAndScore = getFriendsMovies(desiredSizeOfList, friendsWithSimilarTaste);
+
+        //remove all movies users have seen from the map (dont want those as recommendations)
+        removeMoviesUserHasSeen(friendsMoviesAndScore, usersMovieCollection);
+
+        //sort the remaining elements in the map based on score
         Map<Movie,Double> sortedMoviesAndScores = sortMapByValues(friendsMoviesAndScore); //sort the map based on values (SCORE)
 
+        //extract all movies from the sorted map
         results = extractMoviesFromMap(sortedMoviesAndScores); //extract the movies from the sorted map
 
        return results;
-    }
-
-    public static List<Movie> extractMoviesFromMap(Map<Movie,Double> map){
-
-        List<Movie> results = new ArrayList<Movie>();
-
-        //loop through the set of keys (not interested in values anymore - we have the keys sorted based on values)
-        for(Map.Entry<Movie,Double> entryInSet : map.entrySet()){
-
-            Movie highestScoredMovie = entryInSet.getKey();
-            results.add(highestScoredMovie);
-        }
-
-        return results;
-    }
-
-    public static <Movie, Double extends Comparable<Double>> Map<Movie, Double> sortMapByValues(final Map<Movie, Double> map) {
-        Comparator<Movie> valueComparator =  new Comparator<Movie>() {
-            public int compare(Movie firstMovie, Movie secondMovie) {
-                int compare = map.get(secondMovie).compareTo(map.get(firstMovie));
-                if (compare == 0) return 1;
-                else return compare;
-            }
-        };
-        Map<Movie, Double> sortedMapByValues = new TreeMap<Movie, Double>(valueComparator);
-        sortedMapByValues.putAll(map);
-        return new LinkedHashMap<Movie,Double>(sortedMapByValues);
-    }
-
-
-    public static void removeMoviesUserHasSeen(Map<Movie,Double> friendsMoviesAndScore, List<Movie> usersMovieCollection){
-
-        for (int i= 0; i<usersMovieCollection.size();i++){
-            //if current movie exists in hashTable --> remove it
-            Movie currentMovie = usersMovieCollection.get(i);
-
-            if (friendsMoviesAndScore.containsKey(currentMovie)){
-                friendsMoviesAndScore.remove(currentMovie);
-            }
-        }
     }
 
     public static List<Friend> getFriendsWithSimilarTaste(List<User> users, User currentUser, int requirements ){
@@ -108,7 +77,7 @@ public class MovieAlgorithm {
         return friendsWithSimilarTaste;
     }
 
-    public static HashMap<Movie,Double> getFriendsMovies(int desiredSizeOfList, List<Friend> friendsWithSimilarTaste){
+    public static Map<Movie,Double> getFriendsMovies(int desiredSizeOfList, List<Friend> friendsWithSimilarTaste){
 
         HashMap<Movie,Double> friendsMoviesAndScore = new HashMap<Movie,Double>();
         List<Double> disMatchValues = getAllDisMatchValues(friendsWithSimilarTaste);
@@ -122,38 +91,42 @@ public class MovieAlgorithm {
 
             for (int j = 0; j<currentUsersMovieCollection.size(); j++){
 
-                // add key- value pair to hashmap: key: movieid from j, value score from i
-                // check for duplicates among movie ratings (separate method)
+                // add key- value pair to hashmap: key: movieid from j, value score from dismatchValue(i) && rating(j)
                 Movie currentMovie = currentUsersMovieCollection.get(j);
+                double currentRating = App.getRatingDAO().getRatingFromUser(currentUserId,currentMovie.getId());
                 double currentMatchValue = disMatchValues.get(i);
-                checkIfRatedByOtherUser(friendsMoviesAndScore,currentMovie,currentMatchValue);
+
+                checkIfRatedByOtherUser(friendsMoviesAndScore,currentMatchValue,currentMovie,currentRating);
             }
         }
-
         return friendsMoviesAndScore;
-
     }
 
-    public static void checkIfRatedByOtherUser(HashMap<Movie,Double> friendsMoviesAndScore,Movie currentMovie, double currentMatchValue){
+    public static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentMatchValue,Movie currentMovie,double currentRating){
 
         if (friendsMoviesAndScore.containsKey(currentMovie)){
-            determineMatchValue(friendsMoviesAndScore,currentMovie,currentMatchValue);
+            determineMatchValue(friendsMoviesAndScore,currentMatchValue,currentMovie,currentRating);
         }
         else{
-            friendsMoviesAndScore.put(currentMovie,currentMatchValue);
+            double score = currentRating * 1/currentMatchValue;
+            friendsMoviesAndScore.put(currentMovie,score);
         }
     }
 
-    public static void determineMatchValue(HashMap<Movie,Double> friendsMoviesAndScore, Movie currentMovie, double currentMatchValue){
+    public static void determineMatchValue(Map<Movie,Double> friendsMoviesAndScore, double currentMatchValue,Movie currentMovie, double currentRating){
         //put the best match in the table
         double previousMatchValue = friendsMoviesAndScore.get(currentMovie);
-        if(currentMatchValue > previousMatchValue) {
-            friendsMoviesAndScore.put(currentMovie, currentMatchValue);
+
+        if(currentMatchValue < previousMatchValue) {
+            double score = currentRating * 1/currentMatchValue;
+            friendsMoviesAndScore.put(currentMovie, score);
         }
         else {
-            friendsMoviesAndScore.put(currentMovie,previousMatchValue);
+            double score = currentRating * 1/previousMatchValue;
+            friendsMoviesAndScore.put(currentMovie,score);
         }
     }
+
 
     public static List<Double> getAllDisMatchValues(List<Friend> friendsWithSimilarTaste){
 
@@ -182,4 +155,43 @@ public class MovieAlgorithm {
         return  userList;
     }
 
+    public static void removeMoviesUserHasSeen(Map<Movie,Double> friendsMoviesAndScore, List<Movie> usersMovieCollection){
+
+        for (int i= 0; i<usersMovieCollection.size();i++){
+
+            //if current movie exists in hashTable --> remove it
+            Movie movieUserHasSeen = usersMovieCollection.get(i);
+
+            if (friendsMoviesAndScore.containsKey(App.getMovieDAO().findMovie(movieUserHasSeen.getId()))){
+                friendsMoviesAndScore.remove(App.getMovieDAO().findMovie(movieUserHasSeen.getId()));
+            }
+        }
+    }
+
+    public static <Movie, Double extends Comparable<Double>> Map<Movie, Double> sortMapByValues(final Map<Movie, Double> map) {
+        Comparator<Movie> valueComparator =  new Comparator<Movie>() {
+            public int compare(Movie firstMovie, Movie secondMovie) {
+                int compare = map.get(firstMovie).compareTo(map.get(secondMovie));
+                if (compare == 0) return 1;
+                else return compare;
+            }
+        };
+        Map<Movie, Double> sortedMapByValues = new TreeMap<Movie, Double>(valueComparator);
+        sortedMapByValues.putAll(map);
+        return new LinkedHashMap<Movie,Double>(sortedMapByValues);
+    }
+
+    public static List<Movie> extractMoviesFromMap(Map<Movie,Double> map){
+
+        List<Movie> results = new ArrayList<Movie>();
+
+        //loop through the set of keys (not interested in values anymore - we have the keys sorted based on values)
+        for(Map.Entry<Movie,Double> entryInSet : map.entrySet()){
+
+            Movie highestScoredMovie = entryInSet.getKey();
+            results.add(highestScoredMovie);
+        }
+
+        return results;
+    }
 }

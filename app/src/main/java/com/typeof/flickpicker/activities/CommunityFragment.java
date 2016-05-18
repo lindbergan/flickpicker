@@ -32,7 +32,6 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMoviesByYear;
     private int thisYear;
     private boolean isYearListCurrent;
-    private String currentTab;
     public final String TAG = "community";
     private Bundle savedState = null;
 
@@ -51,7 +50,6 @@ public class CommunityFragment extends Fragment {
         View communityView = inflater.inflate(R.layout.activity_community, container, false);
         hookUpViews(communityView);
         configureTabs(communityView);
-        currentTab ="community";
         setUpListeners();
         return communityView;
     }
@@ -60,6 +58,7 @@ public class CommunityFragment extends Fragment {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
         listViewWorstMovies = (ListView) view.findViewById(R.id.listViewWorstMovies);
         listViewTopMoviesByYear = (ListView) view.findViewById(R.id.listViewTopMoviesByYear);
+        setTopMoviesAsCurrentView(); //default
     }
 
     public void configureTabs(View view) {
@@ -189,7 +188,7 @@ public class CommunityFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            this.currentTab = savedInstanceState.getString("currentTab");
+            //this.currentTab = savedInstanceState.getString("currentTab");
         }
     }
 
