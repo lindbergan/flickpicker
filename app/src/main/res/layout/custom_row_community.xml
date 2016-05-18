@@ -39,14 +39,31 @@
                     android:layout_gravity="center_horizontal|left"
                     android:textStyle="bold" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearance"
-                    android:text="@string/yearTextView"
-                    android:id="@+id/movie_year_textview_movieCell"
-                    android:ellipsize="end"
-                    />
+                    android:text="genre"
+                    android:id="@+id/rowCommunityGenre" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" from "
+                    android:id="@+id/textView9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="year"
+                    android:id="@+id/rowCommunityYear" />
             </LinearLayout>
 
             <LinearLayout
@@ -59,7 +76,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/friends_tab_icon"
-                    android:id="@+id/rowCommunityFriendsIcon" />
+                    android:id="@+id/rowCommunityFriendsIcon"
+                    android:textColor="@color/color_primary_dark"
+                    android:layout_marginEnd="6dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,7 +97,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/community_tab_icon"
-                    android:id="@+id/rowCommunityCommunityIcon" />
+                    android:id="@+id/rowCommunityCommunityIcon"
+                    android:textColor="@color/color_primary_dark"
+                    android:layout_marginEnd="6dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"

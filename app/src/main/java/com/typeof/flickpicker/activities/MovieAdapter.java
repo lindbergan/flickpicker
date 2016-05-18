@@ -38,12 +38,12 @@ public class MovieAdapter extends CustomAdapter {
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.custom_row_community, parent, false);
             viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview_movieCell);
-            viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview_movieCell);
+            viewHolder.movieGenre = (TextView) convertView.findViewById(R.id.rowCommunityGenre);
+            viewHolder.movieYear = (TextView) convertView.findViewById(R.id.rowCommunityYear);
             viewHolder.friendsIcon = (TextView) convertView.findViewById(R.id.rowCommunityFriendsIcon);
             viewHolder.friendsText = (TextView) convertView.findViewById(R.id.rowCommunityFriendsText);
             viewHolder.communityIcon = (TextView) convertView.findViewById(R.id.rowCommunityCommunityIcon);
             viewHolder.communityText = (TextView) convertView.findViewById(R.id.rowCommunityCommunityText);
-            //viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar_movieCell);
             viewHolder.moviePoster = (ImageView) convertView.findViewById(R.id.imageView_movieCell);
 
             convertView.setTag(viewHolder);
@@ -68,30 +68,45 @@ public class MovieAdapter extends CustomAdapter {
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "fonts/fontawesome-webfont.ttf");
 
         viewHolder.movieName.setText(mov.getTitle());
-        viewHolder.movieYear.setText(String.valueOf(mov.getYear()));
-        viewHolder.friendsIcon.setTypeface(font);
 
+        viewHolder.movieGenre.setText(mov.getGenre());
+        viewHolder.movieYear.setText(String.valueOf(mov.getYear()));
+
+        viewHolder.friendsIcon.setTypeface(font);
         int numOfFriendsSeen = App.getMovieDAO().getFriendsSeenMovie(mov.getId(), App.getCurrentUser().getId()).size();
         viewHolder.friendsText.setText(String.valueOf(numOfFriendsSeen) + " friends have seen this");
 
         viewHolder.communityIcon.setTypeface(font);
-        double communityRating = mov.getCommunityRating();
+        double communityRating = round(mov.getCommunityRating(), 1);
         viewHolder.communityText.setText("rated " + String.valueOf(communityRating) + " by the users");
 
-        //viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(mov.getCommunityRating())));
         Picasso.with(getContext()).load(mov.getPoster()).into(viewHolder.moviePoster);
         return convertView;
     }
 
+
     private static class ViewHolder {
 
         TextView movieName;
+        TextView movieGenre;
         TextView movieYear;
         TextView friendsIcon;
         TextView friendsText;
         TextView communityIcon;
         TextView communityText;
-        RatingBar ratingBar;
         ImageView moviePoster;
+    }
+
+
+    /**
+     * help method for rounding of double values
+     *
+     * @param value the double value to be rounded
+     * @param precision number of desired decimals
+     * @return value rounded to chosen amount of decimals
+     */
+    private double round(double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
     }
 }
