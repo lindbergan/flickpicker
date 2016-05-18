@@ -81,10 +81,9 @@ public class MyCollectionFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
-                if(tabId.equals("myPlaylist")){
+                if (tabId.equals("myPlaylist")) {
                     populatePlaylist();
-                }
-                else{
+                } else {
                     populateCollection();
                 }
 
@@ -100,15 +99,17 @@ public class MyCollectionFragment extends Fragment {
     public void populateCollection() {
         Playlist usersPlaylist = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
 
-        List<Movie> usersPlaylistMovies = new ArrayList<>();
+        if (usersPlaylist != null) {
+            List<Movie> usersPlaylistMovies = new ArrayList<>();
 
-        for(int i = 0; i < usersPlaylist.getMovieIds().size(); i++){
-            long movieId = usersPlaylist.getMovieIds().get(i).longValue();
-            usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
+            for (int i = 0; i < usersPlaylist.getMovieIds().size(); i++) {
+                long movieId = usersPlaylist.getMovieIds().get(i).longValue();
+                usersPlaylistMovies.add(mMovieDAO.findMovie(movieId));
+            }
+
+            //...send that array along with the specified listview to populate it
+            populateListView(listViewMyPlaylist, usersPlaylistMovies);
         }
-
-        //...send that array along with the specified listview to populate it
-        populateListView(listViewMyPlaylist, usersPlaylistMovies);
     }
 
     public void setUpListeners(){
