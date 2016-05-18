@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -104,7 +105,9 @@ public class MovieAlgorithm {
 
     public static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentDisMatchValue,Movie currentMovie,double currentRating){
 
+        System.out.println("GOES BEFORE");
         if (friendsMoviesAndScore.containsKey(currentMovie)){
+            System.out.println("GOES INTO CONTAINS");
             determineBestMatch(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
         }
         else{
@@ -121,10 +124,10 @@ public class MovieAlgorithm {
             double score = currentRating * 1/currentDisMatchValue;
             //remove old element && replace with the better match
             friendsMoviesAndScore.remove(currentMovie);
+            //removeMapElement(friendsMoviesAndScore,currentMovie);
             friendsMoviesAndScore.put(currentMovie, score);
         }
     }
-
 
     public static List<Double> getAllDisMatchValues(List<Friend> friendsWithSimilarTaste){
 

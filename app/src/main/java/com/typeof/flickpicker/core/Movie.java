@@ -104,5 +104,28 @@ public class Movie implements DatabaseObject {
     public void setYear(int year) {
         this.year = year;
     }
+
+    @Override
+    public boolean equals(Object otherObject) {
+
+        if(otherObject == this){
+            return true;
+        }
+        if (otherObject == null){
+            return false;
+        }
+        if(otherObject.getClass() != this.getClass()) {
+            return false;
+        }
+
+        //else they are of teh same class - typecasting is ok
+        Movie other = (Movie) otherObject;
+            return other.getId() == this.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) id;
+    }
 }//Movie
 
