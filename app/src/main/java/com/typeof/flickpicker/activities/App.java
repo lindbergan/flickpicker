@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
@@ -52,13 +53,17 @@ public class App extends Application {
         }
     }
 
-    private void createCurrentUser() {
+    private static void createCurrentUser() {
         mCurrentUser = new User("AdminU", "AdminP");
         getUserDAO().saveUser(mCurrentUser);
     }
 
-    private void setupCurrentUser() {
-        mCurrentUser = getUserDAO().getUserById(1);
+    public static void setupCurrentUser() {
+        try {
+            mCurrentUser = getUserDAO().getUserById(1);
+        } catch (DatabaseRecordNotFoundException e) {
+            createCurrentUser();
+        }
     }
 
     private void initDatabase() {
@@ -71,7 +76,7 @@ public class App extends Application {
         }
     }
 
-    private void createDatabase() {
+    public static void createDatabase() {
         sDatabase.dropTables();
         sDatabase.setUpTables();
     }

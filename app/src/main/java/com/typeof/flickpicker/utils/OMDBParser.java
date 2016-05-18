@@ -1,14 +1,16 @@
 package com.typeof.flickpicker.utils;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.database.MovieDAO;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 /**
  * FlickPicker
@@ -31,13 +34,15 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
     private Context ctx;
     private final String filename ="movieIds.txt";
     public static final int numberOfMovies = 249;
+    private ProgressDialog mProgressDialog;
+    private MovieDAO mMovieDAO;
 
     @Override
     protected List<Movie> doInBackground(Void... params) {
         for (String imdbId : movieIds) {
             try {
                 Movie movie = requestMovieFromOMDB(imdbId);
-                movies.add(movie);
+                mMovieDAO.saveMovie(movie);
             } catch (Exception e) {
                 Log.e("ERROR", e.getMessage());
             }
@@ -45,9 +50,11 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
         return movies;
     }
 
-    public OMDBParser(Context ctx) {
+    public OMDBParser(Context ctx, MovieDAO movieDAO) {
         this.ctx = ctx;
         readTopListFile();
+        this.mMovieDAO = movieDAO;
+        mProgressDialog = new ProgressDialog(ctx);
     }
 
     private void readTopListFile() {
@@ -84,6 +91,13 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
                 Log.e("ERROR", e.getMessage());
             }
         }
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressDialog.setMessage("Seeding database... hold on!");
+        mProgressDialog.show();
     }
 
     public List<Movie> getMovies() {
@@ -126,5 +140,8 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
     @Override
     protected void onPostExecute(List list) {
         super.onPostExecute(list);
+        if (mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+        }
     }
 }

@@ -43,10 +43,6 @@ public class MainActivity extends FragmentActivity {
         setupSettings();
         initViewPager();
 
-        if (!App.getDatabase().hasBeenSeeded()) {
-            App.getDatabase().seedDatabase();
-        }
-
         tabHost = (TabHost) findViewById(R.id.tabHost);
         if (tabHost != null) {
             tabHost.setup();

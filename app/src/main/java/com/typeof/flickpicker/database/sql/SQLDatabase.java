@@ -29,12 +29,10 @@ import java.util.concurrent.ExecutionException;
 public class SQLDatabase implements Database {
 
     private SQLiteDatabase db;
-    private Context ctx;
 
     public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         this.db = mDbHelper.getWritableDatabase();
-        this.ctx = ctx;
     }
 
     @Override
@@ -74,12 +72,12 @@ public class SQLDatabase implements Database {
         db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
     }
 
-    public void seedDatabase() {
-        requestMoviesFromOMDB();
+    public void seedDatabase(Context ctx) {
+
     }
 
-    public void requestMoviesFromOMDB(){
-        OMDBParser omdbParser = new OMDBParser(ctx);
+    public void requestMoviesFromOMDB(Context ctx){
+        OMDBParser omdbParser = new OMDBParser(ctx, App.getMovieDAO());
         omdbParser.execute();
         try {
             List<Movie> movies = omdbParser.get();
@@ -92,9 +90,7 @@ public class SQLDatabase implements Database {
         }
     }
 
-    public void createMigrationTables() {
 
-    }
 
     @Override
     public boolean hasBeenSeeded() {

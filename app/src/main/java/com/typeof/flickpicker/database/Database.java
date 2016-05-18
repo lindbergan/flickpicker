@@ -1,5 +1,7 @@
 package com.typeof.flickpicker.database;
 
+import android.content.Context;
+
 /**
  * FlickPicker
  * Group 22
@@ -8,6 +10,6 @@ package com.typeof.flickpicker.database;
 public interface Database {
     void setUpTables();
     void dropTables();
-    void seedDatabase();
+    void seedDatabase(Context ctx);
     boolean hasBeenSeeded();
 }
