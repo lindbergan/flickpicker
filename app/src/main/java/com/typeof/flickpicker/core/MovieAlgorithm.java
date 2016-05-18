@@ -91,38 +91,38 @@ public class MovieAlgorithm {
 
             for (int j = 0; j<currentUsersMovieCollection.size(); j++){
 
-                // add key- value pair to hashmap: key: movieid from j, value score from dismatchValue(i) && rating(j)
+                // add key- value pair to hashmap: key: movieid from j, value score from dismatchValues(i) && rating(j)
                 Movie currentMovie = currentUsersMovieCollection.get(j);
                 double currentRating = App.getRatingDAO().getRatingFromUser(currentUserId,currentMovie.getId());
-                double currentMatchValue = disMatchValues.get(i);
+                double currentDisMatchValue = disMatchValues.get(i);
 
-                checkIfRatedByOtherUser(friendsMoviesAndScore,currentMatchValue,currentMovie,currentRating);
+                checkIfRatedByOtherUser(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
             }
         }
         return friendsMoviesAndScore;
     }
 
-    public static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentMatchValue,Movie currentMovie,double currentRating){
+    public static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentDisMatchValue,Movie currentMovie,double currentRating){
 
         if (friendsMoviesAndScore.containsKey(currentMovie)){
-            determineMatchValue(friendsMoviesAndScore,currentMatchValue,currentMovie,currentRating);
+            determineDisMatchValue(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
         }
         else{
-            double score = currentRating * 1/currentMatchValue;
+            double score = currentRating * 1/currentDisMatchValue;
             friendsMoviesAndScore.put(currentMovie,score);
         }
     }
 
-    public static void determineMatchValue(Map<Movie,Double> friendsMoviesAndScore, double currentMatchValue,Movie currentMovie, double currentRating){
+    public static void determineDisMatchValue(Map<Movie,Double> friendsMoviesAndScore, double currentDisMatchValue,Movie currentMovie, double currentRating){
         //put the best match in the table
-        double previousMatchValue = friendsMoviesAndScore.get(currentMovie);
+        double previousDisMatchValue = friendsMoviesAndScore.get(currentMovie);
 
-        if(currentMatchValue < previousMatchValue) {
-            double score = currentRating * 1/currentMatchValue;
+        if(currentDisMatchValue < previousDisMatchValue) {
+            double score = currentRating * 1/currentDisMatchValue;
             friendsMoviesAndScore.put(currentMovie, score);
         }
         else {
-            double score = currentRating * 1/previousMatchValue;
+            double score = currentRating * 1/previousDisMatchValue;
             friendsMoviesAndScore.put(currentMovie,score);
         }
     }
