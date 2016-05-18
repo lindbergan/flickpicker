@@ -105,25 +105,23 @@ public class MovieAlgorithm {
     public static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentDisMatchValue,Movie currentMovie,double currentRating){
 
         if (friendsMoviesAndScore.containsKey(currentMovie)){
-            determineDisMatchValue(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
+            determineBestMatch(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
         }
         else{
-            double score = currentRating * 1/currentDisMatchValue;
+            double score = currentRating * 1/currentDisMatchValue; // 1/disMatchValue = match
             friendsMoviesAndScore.put(currentMovie,score);
         }
     }
 
-    public static void determineDisMatchValue(Map<Movie,Double> friendsMoviesAndScore, double currentDisMatchValue,Movie currentMovie, double currentRating){
+    public static void determineBestMatch(Map<Movie,Double> friendsMoviesAndScore, double currentDisMatchValue,Movie currentMovie, double currentRating){
         //put the best match in the table
         double previousDisMatchValue = friendsMoviesAndScore.get(currentMovie);
 
         if(currentDisMatchValue < previousDisMatchValue) {
             double score = currentRating * 1/currentDisMatchValue;
+            //remove old element && replace with the better match
+            friendsMoviesAndScore.remove(currentMovie);
             friendsMoviesAndScore.put(currentMovie, score);
-        }
-        else {
-            double score = currentRating * 1/previousDisMatchValue;
-            friendsMoviesAndScore.put(currentMovie,score);
         }
     }
 
