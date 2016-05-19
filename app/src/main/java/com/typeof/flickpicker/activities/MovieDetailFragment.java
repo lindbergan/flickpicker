@@ -33,7 +33,6 @@ public class MovieDetailFragment extends Fragment {
     private TextView communityRating;
     private TextView movieDescription;
     private Button addToWatchListButton;
-    private Button backBtn;
     private RatingBar ratingBar;
     private Button rateButton;
 
@@ -83,7 +82,6 @@ public class MovieDetailFragment extends Fragment {
 
         //setting up button
         rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
-        backBtn = (Button)view.findViewById(R.id.backBtn);
 
     }
 
@@ -92,14 +90,6 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 setRateButtonActive();
-            }
-        });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.onBackPressed();
             }
         });
 
