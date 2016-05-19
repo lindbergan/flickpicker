@@ -2,8 +2,14 @@ package com.typeof.flickpicker.database.sql;
 
 import android.database.Cursor;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Playlist;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * FlickPicker
@@ -24,7 +30,7 @@ public class CoreEntityFactory {
         friendRelation.setId(id);
         friendRelation.setDisMatch(disMatch);
         friendRelation.setNmbrOfMoviesBothSeen(nmbrOfMoviesBothSeen);
-        
+
         return friendRelation;
 
     }
@@ -49,6 +55,23 @@ public class CoreEntityFactory {
         m.setDescription(description);
 
         return m;
+    }
+
+    public static Playlist createPlaylistFromCursor(Cursor c) {
+
+        Gson gson = new Gson();
+        long id = c.getLong(c.getColumnIndex("id"));
+        String title = c.getString(c.getColumnIndex("title"));
+        long userId = c.getLong(c.getColumnIndex("user_id"));
+        String moviesListJSON = c.getString(c.getColumnIndex("movies_list"));
+        List<Number> moviesFromDB = gson.fromJson(moviesListJSON, new TypeToken<ArrayList<Number>>() {
+        }.getType());
+
+        Playlist playlist = new Playlist(title, userId, moviesFromDB);
+        playlist.setId(id);
+
+        return playlist;
+
     }
 
 }
