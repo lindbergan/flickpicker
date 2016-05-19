@@ -78,7 +78,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
         try {
             do {
-                userFriends.add(sql.createUserFromCursor(c));
+                userFriends.add(CoreEntityFactory.createUserFromCursor(c));
             } while (c.moveToNext());
         } finally {
             c.close();

@@ -137,7 +137,7 @@ public class CoreEntityFactory {
         userObject.setScore(score);
 
         return userObject;
-        
+
     }
 
 }
