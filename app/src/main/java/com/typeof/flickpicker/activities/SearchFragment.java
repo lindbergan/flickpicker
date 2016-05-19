@@ -1,5 +1,7 @@
 package com.typeof.flickpicker.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -68,10 +70,14 @@ public class SearchFragment extends Fragment {
         mTabSpecSearchFriend.setIndicator("Search User");
         mTabHostSearch.addTab(mTabSpecSearchFriend);
 
+        setActiveTabColor();//default
+
         //NOTE: only needed if we want to return to specific tab and have previous search result displayed:
         mTabHostSearch.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+
+                setActiveTabColor();
 
                 if(tabId.equals("searchMovie")){
                     //do this
@@ -82,6 +88,10 @@ public class SearchFragment extends Fragment {
             }
         });
 
+    }
+
+    public void setActiveTabColor(){
+        mTabHostSearch.getTabWidget().getChildAt(mTabHostSearch.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
 
     public void setUpListeners(){

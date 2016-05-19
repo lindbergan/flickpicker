@@ -201,8 +201,6 @@ public class SQLDatabase implements Database {
         ratingDAO.saveRating(new Rating(4.0,m8.getId(),sibeliusThePowerUser.getId()));
         ratingDAO.saveRating(new Rating(5.0,m9.getId(),sibeliusThePowerUser.getId()));
 
-        //friendDAO.updateFriendMatches(new Rating(3.0, m7.getId(),currentUserId));
-
         //add a second friend with enough movies to meet the criteria
         ratingDAO.saveRating(new Rating(3.0,m1.getId(),valarMorghulis.getId()));
         ratingDAO.saveRating(new Rating(3.0,m2.getId(),valarMorghulis.getId()));

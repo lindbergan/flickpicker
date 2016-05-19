@@ -24,17 +24,12 @@ public class RatingHelper {
         RatingDAO ratingDAO = App.getRatingDAO();
         Rating newRating = new Rating(rating, movieId, userId);
         ratingDAO.saveRating(newRating);
+        App.getFriendDAO().updateFriendMatches(newRating);
 
-
-        updateUserMatching();
+        //updateUserMatching();
     }
 
-
-
-    private static void updateUserMatching(){
-
-
-    }
+    //private static void updateUserMatching(){}
 
 
 }
