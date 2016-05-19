@@ -14,7 +14,7 @@
 
     <string name="movie_detail_title_default">A great movie</string>
     <string name="movie_detail_genre_default">Genre: n/a</string>
-    <string name="movie_detail_num_of_friends_seen_label">Number of friends who have seen this</string>
+    <string name="movie_detail_num_of_friends_seen_label">friends have seen this</string>
     <string name="movie_detail_num_of_friends_seen_default">0</string>
     <string name="movie_detail_community_rating_label">Community rating</string>
     <string name="movie_detail_community_rating_default">2,5</string>
