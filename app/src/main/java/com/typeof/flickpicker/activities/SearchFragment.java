@@ -2,6 +2,7 @@ package com.typeof.flickpicker.activities;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -37,8 +38,8 @@ public class SearchFragment extends Fragment {
     private TextView hiddenMoviesText;
     private TextView hiddenUsersText;
 
-    private List<Movie> mMovieResults;
-    private List<User> mUserResults;
+    private String mSearchTerm;
+    private Thread delay;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,10 +65,6 @@ public class SearchFragment extends Fragment {
         mSearchViewFriend = (SearchView) view.findViewById(R.id.searchViewFriend);
         hiddenMoviesText = (TextView) view.findViewById(R.id.hiddenNoMoviesText);
         hiddenUsersText = (TextView) view.findViewById(R.id.hiddenNoUsersText);
-
-        initResults();
-        populateMovieListView(listViewSearchMovies, mMovieResults);
-        populateUserListView(listViewSearchUser, mUserResults);
 
     }
 
@@ -107,25 +104,6 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-
-                if (s == null) {
-                    s = "";
-                }
-
-                List<Movie> popList = new ArrayList<>();
-
-                for (Movie m : mMovieResults) {
-
-                    String movieTitle = m.getTitle().toLowerCase();
-                    String searchText = s.toLowerCase();
-
-                    if (movieTitle.contains(searchText)) {
-                        popList.add(m);
-                    }
-                }
-
-                populateMovieListView(listViewSearchMovies, popList);
-
                 return false;
             }
 
@@ -139,25 +117,14 @@ public class SearchFragment extends Fragment {
         mSearchViewFriend.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String s) {
-
-                if (s == null) {
-                    s = "";
-                }
-
-                List<User> popList = new ArrayList<>();
-
-                for (User u : mUserResults) {
-
-                    String userName = u.getUsername().toLowerCase();
-                    String searchText = s.toLowerCase();
-
-                    if (userName.contains(searchText)) {
-                        popList.add(u);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        populateUserListView(listViewSearchUser,
+                                App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, mSearchViewFriend.getQuery().toString()));
                     }
-                }
-
-                populateUserListView(listViewSearchUser, popList);
-
+                }, 1000);
                 return false;
             }
 
@@ -177,11 +144,6 @@ public class SearchFragment extends Fragment {
     public void populateUserListView(ListView listView, List<User> listOfViewCellsWeGotFromHelpClass){
         ListAdapter adapter = new UserAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
-    }
-
-    public void initResults() {
-        mMovieResults = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "");
-        mUserResults = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, "");
     }
 
 }

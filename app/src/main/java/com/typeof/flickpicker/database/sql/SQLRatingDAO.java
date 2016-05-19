@@ -130,7 +130,6 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     }
 
     public int removeRating(long id){
-
         Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete, "ratings");
     }
