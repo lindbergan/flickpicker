@@ -56,7 +56,18 @@
                         android:divider="@color/color_backdrop"
                         android:dividerHeight="@dimen/list_cell_margin"
                         android:paddingTop="@dimen/list_cell_margin"
-                        android:clipToPadding="false"/>
+                        android:clipToPadding="false"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No movies found in your collection"
+                        android:id="@+id/hiddenNoCollectionText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="75dp"
+                        />
 
                 </LinearLayout>
 
@@ -82,7 +93,17 @@
                         android:divider="@color/color_backdrop"
                         android:dividerHeight="@dimen/list_cell_margin"
                         android:paddingTop="@dimen/list_cell_margin"
-                        android:clipToPadding="false"/>
+                        android:clipToPadding="false"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No movies found in watchlist"
+                        android:id="@+id/hiddenNoWatchlistText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="75dp"/>
                 </LinearLayout>
 
             </FrameLayout>
