@@ -12,7 +12,7 @@
     <FrameLayout
         android:layout_width="@dimen/movie_detail_image_width"
         android:layout_height="@dimen/movie_detail_image_height"
-        android:padding="@dimen/movie_detail_image_padding"
+
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:background="@color/color_backdrop"
@@ -38,7 +38,7 @@
         android:layout_toEndOf="@+id/frameLayout"
         android:background="@color/color_backdrop"
         android:layout_alignParentEnd="false"
-        android:layout_marginTop="0dp">
+        android:layout_marginStart="5dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -76,18 +76,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
-            android:layout_alignParentStart="true"
             android:orientation="horizontal"
-            android:layout_alignParentEnd="true"
             android:id="@+id/relativeLayout2"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignParentStart="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/friends_tab_icon"
                 android:id="@+id/movieDetailFriendsIcon"
+                android:textColor="@color/color_primary_dark"
                 android:textSize="25sp"
                 android:layout_marginEnd="5dp"/>
 
@@ -101,70 +101,41 @@
                 android:layout_marginEnd="5dp"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="friends have seen this"
-                android:id="@+id/textView6"
-                android:textSize="15sp"
-                android:textIsSelectable="false"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
-
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/relativeLayout2">
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/movie_detail_community_rating_label"
-                    android:id="@+id/communityRatingLabel"
-                    android:textSize="15sp"
-                    android:layout_above="@+id/movieDetailRatingIcon2"
-                    android:layout_alignParentStart="true" />
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true">
 
-                    <RatingBar
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/movieDetailRatingIcon2"
-                        android:numStars="1"
-                        android:rating="1"
-                        android:isIndicator="true"
-                        android:background="@color/color_backdrop"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true" />
+                        android:text="@string/community_tab_icon"
+                        android:id="@+id/movieDetailCommunityIcon"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:textSize="25sp"
+                        android:textColor="@color/color_primary_dark"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/movie_detail_community_rating_default"
                         android:id="@+id/movieDetailCommunityRating"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@+id/movieDetailRatingIcon2"
                         android:layout_gravity="center_vertical"/>
 
                 </LinearLayout>
-            </LinearLayout>
 
-        </RelativeLayout>
+
 
     </RelativeLayout>
 
@@ -183,7 +154,7 @@
         android:ellipsize="end"
         android:layout_above="@+id/relativeLayout3"
         android:layout_below="@+id/frameLayout"
-        android:layout_marginTop="28dp"/>
+        />
 
 
 
