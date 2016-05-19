@@ -34,10 +34,11 @@ public class MovieDetailFragment extends Fragment {
     private TextView movieGenre;
     private TextView friendsIcon;
     private TextView numOfFriendsSeen;
+    private TextView communityIcon;
     private TextView communityRating;
     private TextView movieDescription;
     private Button addToWatchListButton;
-    private TextView backBtn;
+
     private RatingBar ratingBar;
     private Button rateButton;
 
@@ -78,6 +79,7 @@ public class MovieDetailFragment extends Fragment {
         movieGenre = (TextView) view.findViewById(R.id.movieDetailGenreTextField);
         friendsIcon = (TextView) view.findViewById(R.id.movieDetailFriendsIcon);
         numOfFriendsSeen = (TextView) view.findViewById(R.id.movieDetailNumOfFriendsSeen);
+        communityIcon = (TextView) view.findViewById(R.id.movieDetailCommunityIcon);
         communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
 
@@ -89,7 +91,7 @@ public class MovieDetailFragment extends Fragment {
 
         //setting up button
         rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
-        backBtn = (TextView)view.findViewById(R.id.backBtn);
+
 
     }
 
@@ -98,14 +100,6 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 setRateButtonActive();
-            }
-        });
-
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                mainActivity.onBackPressed();
             }
         });
 
@@ -129,12 +123,18 @@ public class MovieDetailFragment extends Fragment {
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
         movieGenre.setText(movie.getGenre());
+
+
         friendsIcon.setTypeface(font);
-        numOfFriendsSeen.setText(String.valueOf(mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId())));
-        communityRating.setText(String.valueOf(movie.getCommunityRating()));
+        int numSeen = mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId());
+        numOfFriendsSeen.setText(String.valueOf(numSeen) + " friends have seen this");
+
+        communityIcon.setTypeface(font);
+        double rating = movie.getCommunityRating();
+        communityRating.setText("rated " + String.valueOf(rating) + " by the community");
+
         movieDescription.setText(movie.getDescription());
         Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
-
     }
 
     /**

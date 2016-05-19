@@ -116,18 +116,18 @@
                 android:layout_height="fill_parent"
                 android:text="@string/check_code_font"
                 android:id="@+id/button_add_friend"
-                android:textSize="25dp"
+                android:textSize="25sp"
                 android:layout_alignParentEnd="true"
                 android:gravity="center_vertical|center_horizontal"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="@string/check_code_font"
+                android:text="@string/unheck_code_font"
                 android:id="@+id/button_remove_friend"
                 android:layout_alignParentEnd="true"
                 android:gravity="center_vertical|center_horizontal"
-                android:textSize="25dp"/>
+                android:textSize="25sp"/>
         </RelativeLayout>
 
     </LinearLayout>

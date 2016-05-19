@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.typeof.flickpicker.activities.SearchFragment"
-    android:background="@color/color_backdrop">
+    android:background="@color/color_backdrop"
+    android:id="@+id/parent">
 
     <TabHost
         android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                         android:id="@+id/searchViewMovie"
                         android:visibility="visible"
                         android:queryHint="Search Movie"
-                        />
+                        android:iconifiedByDefault="false"/>
 
                     <ListView
                         android:layout_width="match_parent"
@@ -58,6 +59,16 @@
                         android:paddingTop="@dimen/list_cell_margin"
                         android:paddingBottom="@dimen/list_cell_margin"
                         android:clipToPadding="false"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No movies found"
+                        android:id="@+id/hiddenNoMoviesText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="150dp"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -71,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/searchViewFriend"
                         android:queryHint="Search User"
-                        />
+                        android:iconifiedByDefault="false"/>
 
                     <ListView
                         android:layout_width="match_parent"
@@ -84,6 +95,15 @@
                         android:paddingTop="@dimen/list_cell_margin"
                         android:paddingBottom="@dimen/list_cell_margin"
                         android:clipToPadding="false"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No users found"
+                        android:id="@+id/hiddenNoUsersText"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="150dp"/>
                 </LinearLayout>
 
             </FrameLayout>

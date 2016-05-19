@@ -58,6 +58,10 @@ public class MyCollectionFragment extends Fragment {
         hookUpViews(myCollectionView);
         configureTabs(myCollectionView);
         setUpListeners();
+
+        KeyboardHelper keyboardHelper = new KeyboardHelper(getActivity(), getContext());
+        keyboardHelper.setupUI(myCollectionView);
+
         return myCollectionView;
     }
 
@@ -93,10 +97,9 @@ public class MyCollectionFragment extends Fragment {
 
                 setActiveTabColor();
 
-                if(tabId.equals("myCollection")){
+                if (tabId.equals("myCollection")) {
                     populateCollection();
-                }
-                else{
+                } else {
                     populatePlaylist();
                 }
             }

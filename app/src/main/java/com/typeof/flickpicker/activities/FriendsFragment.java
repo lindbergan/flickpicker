@@ -1,10 +1,12 @@
 package com.typeof.flickpicker.activities;
 
+import android.app.ProgressDialog;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,9 @@ public class FriendsFragment extends Fragment {
         mListViewFeed = (ListView) communityView.findViewById(R.id.mFeed);
         mNameTextField = (SearchView) communityView.findViewById(R.id.search_for_a_name);
         hiddenText = (TextView) communityView.findViewById(R.id.hiddenNoFriendsText);
+
+        KeyboardHelper keyboardHelper = new KeyboardHelper(getActivity(), getContext());
+        keyboardHelper.setupUI(communityView.findViewById(R.id.parent));
 
         getFriendsRecentActivities();
         initAdapters();

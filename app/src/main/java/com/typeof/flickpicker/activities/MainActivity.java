@@ -1,4 +1,6 @@
 package com.typeof.flickpicker.activities;
+import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +21,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
@@ -38,12 +44,13 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //fragmentManager = getFragmentManager();
 
         Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/DISTGRG_.ttf");
         TextView title = (TextView)findViewById(R.id.flickPickerText);
         title.setTypeface(titleFont);
 
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
         setupScore();
         setupSettings();
@@ -231,6 +238,8 @@ public class MainActivity extends FragmentActivity {
 
         return tabSpec;
     }
+
+
 
 
 
