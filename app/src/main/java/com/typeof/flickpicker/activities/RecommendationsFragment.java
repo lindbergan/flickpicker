@@ -29,7 +29,6 @@ import java.util.List;
 public class RecommendationsFragment extends Fragment {
 
     private ListView mListViewFeed;
-    private View mView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,12 +65,6 @@ public class RecommendationsFragment extends Fragment {
 
         //create and return list of recommended movies based on algorithm
         List<Movie> recommendedMovies = MovieAlgorithm.getRecommendations(user);
-
-        // Remove from here to " <-- " after confirmed working
-        for (int i = 0; i<recommendedMovies.size(); i++){
-            System.out.println(recommendedMovies.get(i).getTitle());
-        } //<--
-
         return recommendedMovies;
     }
 }

@@ -43,10 +43,10 @@ public class MovieAlgorithm {
         removeMoviesUserHasSeen(friendsMoviesAndScore, usersMovieCollection);
 
         //sort the remaining elements in the map based on score
-        Map<Movie,Double> sortedMoviesAndScores = sortMapByValues(friendsMoviesAndScore);
+        Map<Movie,Double> sortedMoviesByScores = sortMapByScore(friendsMoviesAndScore);
 
         //extract all movies from the sorted map
-        results = extractMoviesFromMap(sortedMoviesAndScores);
+        results = extractMoviesFromMap(sortedMoviesByScores);
 
        return results;
     }
@@ -95,9 +95,7 @@ public class MovieAlgorithm {
 
     public static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentDisMatchValue,Movie currentMovie,double currentRating){
 
-        System.out.println("GOES BEFORE");
         if (friendsMoviesAndScore.containsKey(currentMovie)){
-            System.out.println("GOES INTO CONTAINS");
             determineBestMatch(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
         }
         else{
@@ -159,7 +157,7 @@ public class MovieAlgorithm {
         }
     }
 
-    public static <Movie, Double extends Comparable<Double>> Map<Movie, Double> sortMapByValues(final Map<Movie, Double> map) {
+    public static <Movie, Double extends Comparable<Double>> Map<Movie, Double> sortMapByScore(final Map<Movie, Double> map) {
         Comparator<Movie> valueComparator =  new Comparator<Movie>() {
             public int compare(Movie firstMovie, Movie secondMovie) {
                 int compare = map.get(secondMovie).compareTo(map.get(firstMovie));
@@ -167,9 +165,9 @@ public class MovieAlgorithm {
                 else return compare;
             }
         };
-        Map<Movie, Double> sortedMapByValues = new TreeMap<Movie, Double>(valueComparator);
-        sortedMapByValues.putAll(map);
-        return new LinkedHashMap<Movie,Double>(sortedMapByValues);
+        Map<Movie, Double> sortedMapByScores = new TreeMap<Movie, Double>(valueComparator);
+        sortedMapByScores.putAll(map);
+        return new LinkedHashMap<Movie,Double>(sortedMapByScores);
     }
 
     public static List<Movie> extractMoviesFromMap(Map<Movie,Double> map){

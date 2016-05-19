@@ -35,8 +35,8 @@ public class FriendsActivityAdapter extends CustomAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
 
-            LayoutInflater inflator = LayoutInflater.from(getContext());
-            convertView = inflator.inflate(R.layout.custom_row_friend_activity, parent, false);
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            convertView = inflater.inflate(R.layout.custom_row_friend_activity, parent, false);
             viewHolder.username = (TextView) convertView.findViewById(R.id.username_textview);
             viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview);
             viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview);

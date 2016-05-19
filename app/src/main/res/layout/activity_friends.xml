@@ -10,34 +10,15 @@
     tools:context=".activities.FriendsFragment"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <SearchView
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/search_for_a_name"
+        android:queryHint="Search for your friends"
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/search_for_a_name_editText"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:hint="@string/search_for_a_friend_hint"
-            android:textIsSelectable="false"
-            />
-
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:id="@+id/clearButton"
-            android:text="x"
-            android:layout_alignParentEnd="true"
-            android:textIsSelectable="false"
-            android:textAlignment="center"
-            android:textSize="10dp"/>
-    </RelativeLayout>
-
-
-
-
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"

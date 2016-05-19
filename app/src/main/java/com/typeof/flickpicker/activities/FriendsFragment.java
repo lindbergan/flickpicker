@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
@@ -26,8 +27,7 @@ public class FriendsFragment extends Fragment {
     private FriendDAO mFriendDAO;
     private List<Rating> mFriendsRecentActivity;
     private ListView mListViewFeed;
-    private EditText mNameTextField;
-    private Button mClearButton;
+    private SearchView mNameTextField;
     private ListAdapter ratingListAdapter;
     private TextView hiddenText;
 
@@ -43,11 +43,9 @@ public class FriendsFragment extends Fragment {
         View communityView = inflater.inflate(R.layout.activity_friends, container, false);
 
         mListViewFeed = (ListView) communityView.findViewById(R.id.mFeed);
-        mNameTextField = (EditText) communityView.findViewById(R.id.search_for_a_name_editText);
-        mClearButton = (Button) communityView.findViewById(R.id.clearButton);
+        mNameTextField = (SearchView) communityView.findViewById(R.id.search_for_a_name);
         hiddenText = (TextView) communityView.findViewById(R.id.hiddenNoFriendsText);
 
-        initClearTextField();
         getFriendsRecentActivities();
         initAdapters();
         updateRecentActivities();
@@ -57,24 +55,24 @@ public class FriendsFragment extends Fragment {
 
     public void initAdapters() {
         ListAdapter ratingListAdapter = new FriendsActivityAdapter(getActivity(), mFriendsRecentActivity.toArray());
-
-
         mListViewFeed.setAdapter(ratingListAdapter);
     }
 
     public void updateRecentActivities() {
-        mNameTextField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void afterTextChanged(Editable s) {
+        mNameTextField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
                 // Sets the hiddenText invisible before the check if friends are found
                 if (hiddenText.getVisibility() == View.VISIBLE) hiddenText.setVisibility(View.INVISIBLE);
 
-                if (s != null) {
+                if (newText != null) {
                     List<Rating> result = new ArrayList<>();
-
                     for (Rating r : mFriendsRecentActivity) {
-                        if (App.getUserDAO().getUserById(r.getUserId()).getUsername().contains(s.toString())) {
+                        String username = App.getUserDAO().getUserById(r.getUserId()).getUsername();
+                        username = username.toLowerCase();
+                        newText = newText.toLowerCase();
+                        if (username.contains(newText)) {
                             result.add(r);
                         }
                     }
@@ -87,21 +85,12 @@ public class FriendsFragment extends Fragment {
                 else {
                     getFriendsRecentActivities();
                 }
+                return false;
             }
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-        });
-    }
-
-    public void initClearTextField() {
-        mClearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mNameTextField.setText("");
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
         });
     }
