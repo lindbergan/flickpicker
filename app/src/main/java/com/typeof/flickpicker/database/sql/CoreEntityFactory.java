@@ -8,6 +8,7 @@ import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.core.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +86,25 @@ public class CoreEntityFactory {
         Rating createdRating = new Rating(rating,movieId,userId);
         createdRating.setId(id);
         return createdRating;
+    }
+
+    /**
+     * Method for creating User object from specific record in User database
+     *
+     * @param c Cursor
+     * @return new User created from cursor
+     */
+    public static User createUserFromCursor(Cursor c){
+        long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
+        String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
+        String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
+        int score = c.getInt(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_SCORE));
+
+        User u = new User(username, password);
+        u.setId(id);
+        u.setScore(score);
+
+        return u;
     }
 
 }
