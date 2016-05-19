@@ -38,9 +38,6 @@ public class SearchFragment extends Fragment {
     private TextView hiddenMoviesText;
     private TextView hiddenUsersText;
 
-    private String mSearchTerm;
-    private Thread delay;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

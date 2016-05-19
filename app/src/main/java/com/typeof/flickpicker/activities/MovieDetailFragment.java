@@ -103,8 +103,7 @@ public class MovieDetailFragment extends Fragment {
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingDAO ratingDAO = App.getRatingDAO();
-                ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
+                App.getRatingDAO().saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
                 setRateButtonInactive();
             }
         });

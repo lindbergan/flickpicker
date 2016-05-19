@@ -17,6 +17,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/search_for_a_name"
+        android:iconifiedByDefault="false"
         android:queryHint="Search for your friends"/>
 
     <RelativeLayout

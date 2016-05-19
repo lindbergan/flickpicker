@@ -86,7 +86,7 @@ public class MyCollectionFragment extends Fragment {
 
         final TabHost.TabSpec mTabSpecMyPlaylistTab = mTabHostMyCollection.newTabSpec("myPlaylist");
         mTabSpecMyPlaylistTab.setContent(R.id.tabMyPlaylist);
-        mTabSpecMyPlaylistTab.setIndicator("My Playlist");
+        mTabSpecMyPlaylistTab.setIndicator("Watchlist");
         mTabHostMyCollection.addTab(mTabSpecMyPlaylistTab);
 
         setActiveTabColor();//default
@@ -94,14 +94,7 @@ public class MyCollectionFragment extends Fragment {
         mTabHostMyCollection.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-
                 setActiveTabColor();
-
-                if (tabId.equals("myCollection")) {
-                    populateCollection();
-                } else {
-                    populatePlaylist();
-                }
             }
         });
     }
