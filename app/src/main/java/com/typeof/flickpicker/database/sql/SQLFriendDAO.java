@@ -91,7 +91,6 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
     @Override
     public long removeFriend(long userId1, long userId2) {
-
         return db.delete(FriendTable.FriendEntry.TABLE_NAME,
                 FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " = ? AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?",
                 new String[]{String.valueOf(userId1), String.valueOf(userId2)});

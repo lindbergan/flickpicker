@@ -128,15 +128,11 @@ public class SearchFragment extends Fragment {
     }
 
     public void populateMovieListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
-
-        //Code for populating elements in the listView;
-
         ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
     }
 
     public void populateUserListView(ListView listView, List<User> listOfViewCellsWeGotFromHelpClass){
-
         ListAdapter adapter = new UserAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
     }
