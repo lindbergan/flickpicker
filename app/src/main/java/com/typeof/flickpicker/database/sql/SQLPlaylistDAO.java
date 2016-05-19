@@ -43,7 +43,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         Cursor c = super.find(id, "playlists");
         c.moveToFirst();
         if (c.getCount() > 0) {
-            Playlist playlist = createPlaylistFromCursor(c);
+            Playlist playlist = CoreEntityFactory.createPlaylistFromCursor(c);
             c.close();
             return playlist;
         } else {
@@ -52,22 +52,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         }
     }
 
-    private Playlist createPlaylistFromCursor(Cursor c) {
 
-        Gson gson = new Gson();
-        long id = c.getLong(c.getColumnIndex("id"));
-        String title = c.getString(c.getColumnIndex("title"));
-        long userId = c.getLong(c.getColumnIndex("user_id"));
-        String moviesListJSON = c.getString(c.getColumnIndex("movies_list"));
-        List<Number> moviesFromDB = gson.fromJson(moviesListJSON, new TypeToken<ArrayList<Number>>(){}.getType());
-
-        Playlist playlist = new Playlist(title, userId, moviesFromDB);
-
-        playlist.setId(id);
-
-        return playlist;
-
-    }
 
     @Override
     public Playlist getPlaylist(long userId) {
@@ -77,7 +62,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         Cursor c = db.rawQuery(query, new String[]{String.valueOf(userId)});
         c.moveToFirst();
         if (c.getCount() > 0) {
-            Playlist p = createPlaylistFromCursor(c);
+            Playlist p = CoreEntityFactory.createPlaylistFromCursor(c);
             c.close();
             return p;
         } else {

@@ -42,7 +42,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         try {
             Cursor c = super.find(id, "movies");
             c.moveToFirst();
-            Movie movie = createMovieFromCursor(c);
+            Movie movie = CoreEntityFactory.createMovieFromCursor(c);
             c.close();
             return movie;
         } catch (DatabaseRecordNotFoundException e) {
@@ -50,31 +50,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         }
     }
 
-    /**
-     * Collects information about a movie and samples them variables
-     * Then returns a newly created movie
-     * @param c
-     * @return
-     */
-
-    public Movie createMovieFromCursor(Cursor c) {
-        String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
-        long id = c.getLong(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_ID));
-        int year = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_YEAR));
-        double rating = c.getDouble(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING));
-        int votes = c.getInt(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_VOTES));
-        String genre = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_GENRE));
-        String poster = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_POSTER));
-        String description = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION));
-
-        Movie m = new Movie(id, title, year);
-        m.setCommunityRating(rating);
-        m.setNumberOfVotes(votes);
-        m.setGenre(genre);
-        m.setPoster(poster);
-        m.setDescription(description);
-        return m;
-    }
 
     /**
      * Creates a map (ContentValues)
@@ -123,7 +98,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         if(c.getCount() != 0) {
             try {
                 do {
-                    results.add(createMovieFromCursor(c));
+                    results.add(CoreEntityFactory.createMovieFromCursor(c));
                 } while (c.moveToNext());
             } finally {
                 c.close();
@@ -223,7 +198,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
             db.beginTransaction();
             try {
                 do {
-                    Movie movie = createMovieFromCursor(c);
+                    Movie movie = CoreEntityFactory.createMovieFromCursor(c);
                     sortedMovies.add(movie);
                 } while (c.moveToNext());
                 db.setTransactionSuccessful();
