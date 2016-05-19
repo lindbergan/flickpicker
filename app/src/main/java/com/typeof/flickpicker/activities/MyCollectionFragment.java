@@ -1,5 +1,7 @@
 package com.typeof.flickpicker.activities;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -83,9 +85,13 @@ public class MyCollectionFragment extends Fragment {
         mTabSpecMyPlaylistTab.setIndicator("My Playlist");
         mTabHostMyCollection.addTab(mTabSpecMyPlaylistTab);
 
+        setActiveTabColor();//default
+
         mTabHostMyCollection.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+
+                setActiveTabColor();
 
                 if(tabId.equals("myCollection")){
                     populateCollection();
@@ -95,6 +101,10 @@ public class MyCollectionFragment extends Fragment {
                 }
             }
         });
+    }
+
+    public void setActiveTabColor(){
+        mTabHostMyCollection.getTabWidget().getChildAt(mTabHostMyCollection.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
 
     public void populateCollection() {
