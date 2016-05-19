@@ -125,7 +125,6 @@ public class MovieDetailFragment extends Fragment {
         communityRating.setText(String.valueOf(movie.getCommunityRating()));
         movieDescription.setText(movie.getDescription());
         Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
-
     }
 
     /**
