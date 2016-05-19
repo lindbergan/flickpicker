@@ -37,6 +37,9 @@ public class SearchFragment extends Fragment {
     private TextView hiddenMoviesText;
     private TextView hiddenUsersText;
 
+    private List<Movie> mMovieResults;
+    private List<User> mUserResults;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +63,9 @@ public class SearchFragment extends Fragment {
         hiddenMoviesText = (TextView) view.findViewById(R.id.hiddenNoMoviesText);
         hiddenUsersText = (TextView) view.findViewById(R.id.hiddenNoUsersText);
 
-        populateMovieListView(listViewSearchMovies, App.getMovieDAO().getCommunityTopPicks(25));
-        populateUserListView(listViewSearchUser, App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, ""));
+        initResults();
+        populateMovieListView(listViewSearchMovies, mMovieResults);
+        populateUserListView(listViewSearchUser, mUserResults);
 
     }
 
@@ -98,48 +102,68 @@ public class SearchFragment extends Fragment {
 
     public void setUpListeners(){
         mSearchViewMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextChange(String s) {
-                if (s != null) {
-                    if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
-                    List<Movie> matches = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, s);
 
-                    if (matches.size() == 0) {
-                        hiddenMoviesText.setVisibility(View.VISIBLE);
+                if (s == null) {
+                    s = "";
+                }
+
+                List<Movie> popList = new ArrayList<>();
+
+                for (Movie m : mMovieResults) {
+
+                    String movieTitle = m.getTitle().toLowerCase();
+                    String searchText = s.toLowerCase();
+
+                    if (movieTitle.contains(searchText)) {
+                        popList.add(m);
                     }
-                    populateMovieListView(listViewSearchMovies, matches);
                 }
-                else {
-                    populateMovieListView(listViewSearchMovies, App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, ""));
-                }
+
+                populateMovieListView(listViewSearchMovies, popList);
+
                 return false;
             }
 
             @Override
-            public boolean onQueryTextSubmit(String s) {return false;}
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
         });
 
 
         mSearchViewFriend.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String s) {
-                if (s != null) {
-                    if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
-                    List<User> matches = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, s);
 
-                    if (matches.size() == 0) {
-                        hiddenUsersText.setVisibility(View.VISIBLE);
+                if (s == null) {
+                    s = "";
+                }
+
+                List<User> popList = new ArrayList<>();
+
+                for (User u : mUserResults) {
+
+                    String userName = u.getUsername().toLowerCase();
+                    String searchText = s.toLowerCase();
+
+                    if (userName.contains(searchText)) {
+                        popList.add(u);
                     }
-                    populateUserListView(listViewSearchMovies, matches);
                 }
-                else {
-                    populateUserListView(listViewSearchMovies, App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, ""));
-                }
+
+                populateUserListView(listViewSearchUser, popList);
+
                 return false;
             }
 
             @Override
-            public boolean onQueryTextSubmit(String s) {return false;}
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
         });
     }
 
@@ -151,6 +175,11 @@ public class SearchFragment extends Fragment {
     public void populateUserListView(ListView listView, List<User> listOfViewCellsWeGotFromHelpClass){
         ListAdapter adapter = new UserAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
         listView.setAdapter(adapter);
+    }
+
+    public void initResults() {
+        mMovieResults = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "");
+        mUserResults = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, "");
     }
 
 }
