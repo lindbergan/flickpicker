@@ -13,6 +13,8 @@ import com.typeof.flickpicker.core.User;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 /**
  * FlickPicker
  * Group 22
@@ -20,24 +22,38 @@ import java.util.List;
  */
 public class CoreEntityFactory {
 
+
+
+    /**
+     * Method for creating Friend object from specific record in User database
+     *
+     * @param c Cursor
+     * @return new Friend relation object created from cursor
+     */
     public static Friend createFriendFromCursor(Cursor c){
 
         long id = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_ID));
         long userId1 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER1ID));
         long userId2 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER2ID));
-        double disMatch = c.getDouble(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH));
-        int nmbrOfMoviesBothSeen = c.getInt(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN));
+        double disMatchValue = c.getDouble(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH));
+        int numOfMoviesBothSeen = c.getInt(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN));
 
         Friend friendRelation = new Friend(userId1, userId2);
         friendRelation.setId(id);
-        friendRelation.setDisMatch(disMatch);
-        friendRelation.setNmbrOfMoviesBothSeen(nmbrOfMoviesBothSeen);
+        friendRelation.setDisMatch(disMatchValue);
+        friendRelation.setNmbrOfMoviesBothSeen(numOfMoviesBothSeen);
 
         return friendRelation;
 
     }
 
 
+    /**
+     * Method for creating Movie object from specific record in User database
+     *
+     * @param c Cursor
+     * @return new Movie object created from cursor
+     */
     public static Movie createMovieFromCursor(Cursor c) {
 
         String title = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_TITLE));
@@ -49,16 +65,23 @@ public class CoreEntityFactory {
         String poster = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_POSTER));
         String description = c.getString(c.getColumnIndex(MovieTable.MovieEntry.COLUMN_NAME_DESCRIPTION));
 
-        Movie m = new Movie(id, title, year);
-        m.setCommunityRating(rating);
-        m.setNumberOfVotes(votes);
-        m.setGenre(genre);
-        m.setPoster(poster);
-        m.setDescription(description);
+        Movie movieObject = new Movie(id, title, year);
+        movieObject.setCommunityRating(rating);
+        movieObject.setNumberOfVotes(votes);
+        movieObject.setGenre(genre);
+        movieObject.setPoster(poster);
+        movieObject.setDescription(description);
 
-        return m;
+        return movieObject;
     }
 
+
+    /**
+     * Method for creating Playlist object from specific record in User database
+     *
+     * @param c Cursor
+     * @return new Playlist object created from cursor
+     */
     public static Playlist createPlaylistFromCursor(Cursor c) {
 
         Gson gson = new Gson();
@@ -69,13 +92,19 @@ public class CoreEntityFactory {
         List<Number> moviesFromDB = gson.fromJson(moviesListJSON, new TypeToken<ArrayList<Number>>() {
         }.getType());
 
-        Playlist playlist = new Playlist(title, userId, moviesFromDB);
-        playlist.setId(id);
+        Playlist playlistObject = new Playlist(title, userId, moviesFromDB);
+        playlistObject.setId(id);
 
-        return playlist;
+        return playlistObject;
 
     }
 
+    /**
+     * Method for creating Rating object from specific record in User database
+     *
+     * @param c Cursor
+     * @return new Rating object created from cursor
+     */
     public static Rating createRatingFromCursor(Cursor c) {
 
         long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
@@ -83,10 +112,12 @@ public class CoreEntityFactory {
         long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
         long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
 
-        Rating createdRating = new Rating(rating,movieId,userId);
-        createdRating.setId(id);
-        return createdRating;
+        Rating ratingObject = new Rating(rating,movieId,userId);
+        ratingObject.setId(id);
+        return ratingObject;
+
     }
+
 
     /**
      * Method for creating User object from specific record in User database
@@ -95,16 +126,18 @@ public class CoreEntityFactory {
      * @return new User created from cursor
      */
     public static User createUserFromCursor(Cursor c){
+
         long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
         String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
         String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
         int score = c.getInt(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_SCORE));
 
-        User u = new User(username, password);
-        u.setId(id);
-        u.setScore(score);
+        User userObject = new User(username, password);
+        userObject.setId(id);
+        userObject.setScore(score);
 
-        return u;
+        return userObject;
+        
     }
 
 }
