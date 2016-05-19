@@ -15,6 +15,6 @@ public class SingleFragmentHelper {
         ScreenSlidePageAdapter pagerAdapter = (ScreenSlidePageAdapter)viewPager.getAdapter();
         int fragmentIndex = pagerAdapter.addFragment(fragment);
         pagerAdapter.notifyDataSetChanged();
-        viewPager.setCurrentItem(fragmentIndex);
+        viewPager.setCurrentItem(fragmentIndex, false);
     }
 }
