@@ -3,7 +3,7 @@
               android:orientation="horizontal"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
-              android:background="@drawable/list_cell"
+              android:background="@drawable/list_cell_2"
               android:weightSum="1">
 
     <TextView

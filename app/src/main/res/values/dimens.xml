@@ -17,7 +17,7 @@
     <dimen name="list_cell_image_width">100dp</dimen>
     <dimen name="list_cell_content_holder_width">300dp</dimen>
     <dimen name="list_cell_margin">7dp</dimen>
-
+    <dimen name="list_cell_friends_text_to_bar_padding">25dp</dimen>
 
     <!-- Defining dimensions for movie detail view -->
 
