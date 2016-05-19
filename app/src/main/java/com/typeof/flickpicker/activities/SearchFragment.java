@@ -66,6 +66,9 @@ public class SearchFragment extends Fragment {
         hiddenMoviesText = (TextView) view.findViewById(R.id.hiddenNoMoviesText);
         hiddenUsersText = (TextView) view.findViewById(R.id.hiddenNoUsersText);
 
+        if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
+        if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
+
     }
 
     public void configureTabs(View view){
@@ -104,6 +107,14 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        populateMovieListView(listViewSearchMovies,
+                                App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, mSearchViewMovie.getQuery().toString()));
+                    }
+                }, 1000);
                 return false;
             }
 
@@ -138,11 +149,19 @@ public class SearchFragment extends Fragment {
 
     public void populateMovieListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
         ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
+        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+            hiddenMoviesText.setVisibility(View.VISIBLE);
+        }
         listView.setAdapter(adapter);
     }
 
     public void populateUserListView(ListView listView, List<User> listOfViewCellsWeGotFromHelpClass){
         ListAdapter adapter = new UserAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
+        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+            hiddenUsersText.setVisibility(View.VISIBLE);
+        }
         listView.setAdapter(adapter);
     }
 
