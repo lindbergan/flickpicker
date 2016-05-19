@@ -3,6 +3,8 @@ package com.typeof.flickpicker.database.sql;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.UserDAO;
@@ -86,7 +88,10 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
         Cursor c = super.search(UserTable.UserEntry.TABLE_NAME, column, searchString);
 
         while (c.moveToNext()) {
-            results.add(createUserFromCursor(c));
+            User u = createUserFromCursor(c);
+            if (!u.getUsername().equalsIgnoreCase(App.getCurrentUser().getUsername())) {
+                results.add(createUserFromCursor(c));
+            }
         }
 
         c.close();

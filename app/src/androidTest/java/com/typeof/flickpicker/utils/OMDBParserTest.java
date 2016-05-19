@@ -1,4 +1,7 @@
 package com.typeof.flickpicker.utils;
+import android.test.AndroidTestCase;
+
+import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
 import junit.framework.TestCase;
 import java.util.ArrayList;
@@ -9,10 +12,10 @@ import java.util.List;
  * Group 22
  * Created on 16-05-17.
  */
-public class OMDBParserTest extends TestCase {
+public class OMDBParserTest extends AndroidTestCase {
 
     public void testGetMovies() {
-        OMDBParser omdbParser = new OMDBParser();
+        OMDBParser omdbParser = new OMDBParser(getContext(), App.getMovieDAO());
         omdbParser.setMovieIds(new ArrayList<String>(){{
           add("tt0111161");
           add("tt0068646");

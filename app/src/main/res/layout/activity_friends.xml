@@ -16,9 +16,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/search_for_a_name"
-        android:queryHint="Search for your friends"
-
-        />
+        android:queryHint="Search for your friends"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
