@@ -49,6 +49,8 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View searchView = inflater.inflate(R.layout.activity_search, container, false);
+        KeyboardHelper keyboardHelper = new KeyboardHelper(getActivity(), getContext());
+        keyboardHelper.setupUI(searchView.findViewById(R.id.parent));
         hookUpViews(searchView);
         configureTabs(searchView);
         setUpListeners();

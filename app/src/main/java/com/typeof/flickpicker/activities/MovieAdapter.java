@@ -61,6 +61,8 @@ public class MovieAdapter extends CustomAdapter {
                 movieDetailFragment.setArguments(args);
                 MainActivity mainActivity = (MainActivity) getContext();
 
+                KeyboardHelper.hideSoftKeyboard(mainActivity);
+
                 SingleFragmentHelper.setFragment(mainActivity, movieDetailFragment);
             }
         });

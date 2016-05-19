@@ -49,7 +49,6 @@ public class FriendsFragment extends Fragment {
         hiddenText = (TextView) communityView.findViewById(R.id.hiddenNoFriendsText);
 
         KeyboardHelper keyboardHelper = new KeyboardHelper(getActivity(), getContext());
-
         keyboardHelper.setupUI(communityView.findViewById(R.id.parent));
 
         getFriendsRecentActivities();
