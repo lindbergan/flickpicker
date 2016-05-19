@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
+import com.typeof.flickpicker.core.Rating;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,18 @@ public class CoreEntityFactory {
 
         return playlist;
 
+    }
+
+    public static Rating createRatingFromCursor(Cursor c) {
+
+        long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
+        double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
+        long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
+        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
+
+        Rating createdRating = new Rating(rating,movieId,userId);
+        createdRating.setId(id);
+        return createdRating;
     }
 
 }

@@ -124,7 +124,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         if (c.getCount() != 0) {
             try {
                 do {
-                    ratings.add(mRatingDAO.createRatingFromCursor(c));
+                    ratings.add(CoreEntityFactory.createRatingFromCursor(c));
                 } while (c.moveToNext());
             } finally {
                 c.close();
