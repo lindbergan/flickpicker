@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
-    android:background="@color/color_backdrop">
+    android:background="@color/color_backdrop"
+    android:padding="@dimen/movie_detail_default_margin">
 
 
     <!-- UPPER LEFT: Movie image -->
@@ -16,14 +17,13 @@
         android:layout_alignParentStart="true"
         android:background="@color/color_backdrop"
         android:id="@+id/frameLayout"
-        android:layout_marginTop="0dp">
+        android:layout_alignParentLeft="true">
 
         <ImageView
             android:contentDescription="@string/no_user_profile_desc"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/movieDetailImageView"
-            android:background="@color/color_accent"
             android:layout_gravity="center" />
     </FrameLayout>
 
@@ -45,7 +45,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:id="@+id/linearLayout">
+            android:id="@+id/linearLayout"
+            android:layout_marginBottom="@dimen/movie_detail_default_margin">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,11 +55,11 @@
                 android:id="@+id/movieDetailTitleTextField"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/movie_detail_default_margin"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_alignParentEnd="true"
-                android:paddingEnd="@dimen/movie_detail_default_margin"/>
+                android:paddingBottom="5dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -67,42 +68,50 @@
                 android:id="@+id/movieDetailGenreTextField"
                 android:layout_below="@+id/movieDetailTitleTextField"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/movie_detail_default_margin"
-                android:layout_marginBottom="@dimen/movie_detail_default_margin"
                 android:textSize="12sp"
                 android:textIsSelectable="true" />
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/linearLayout"
             android:layout_alignParentStart="true"
-
+            android:orientation="horizontal"
             android:layout_alignParentEnd="true"
-            android:id="@+id/relativeLayout2">
+            android:id="@+id/relativeLayout2"
+            android:gravity="center_vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/movie_detail_num_of_friends_seen_label"
+                android:text="@string/friends_tab_icon"
+                android:id="@+id/movieDetailFriendsIcon"
+                android:textSize="25sp"
+                android:layout_marginEnd="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:id="@+id/movieDetailNumOfFriendsSeen"
+                android:textSize="15sp"
+                android:layout_below="@+id/textView6"
+                android:layout_marginEnd="5dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="friends have seen this"
                 android:id="@+id/textView6"
                 android:textSize="15sp"
                 android:textIsSelectable="false"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/movie_detail_num_of_friends_seen_default"
-                android:id="@+id/movieDetailNumOfFriendsSeen"
-                android:textSize="25sp"
-                android:layout_below="@+id/textView6"
-                />
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

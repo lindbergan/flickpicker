@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.activities;
 
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class MovieDetailFragment extends Fragment {
     private ImageView movieImage;
     private TextView movieTitle;
     private TextView movieGenre;
+    private TextView friendsIcon;
     private TextView numOfFriendsSeen;
     private TextView communityRating;
     private TextView movieDescription;
@@ -71,6 +73,7 @@ public class MovieDetailFragment extends Fragment {
         //setting up text views
         movieTitle = (TextView) view.findViewById(R.id.movieDetailTitleTextField);
         movieGenre = (TextView) view.findViewById(R.id.movieDetailGenreTextField);
+        friendsIcon = (TextView) view.findViewById(R.id.movieDetailFriendsIcon);
         numOfFriendsSeen = (TextView) view.findViewById(R.id.movieDetailNumOfFriendsSeen);
         communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
@@ -108,9 +111,12 @@ public class MovieDetailFragment extends Fragment {
      */
     public void populateMovieFields(){
 
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
+
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
         movieGenre.setText(movie.getGenre());
+        friendsIcon.setTypeface(font);
         numOfFriendsSeen.setText(String.valueOf(mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId())));
         communityRating.setText(String.valueOf(movie.getCommunityRating()));
         movieDescription.setText(movie.getDescription());
