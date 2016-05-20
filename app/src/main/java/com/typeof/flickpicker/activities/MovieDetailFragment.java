@@ -7,15 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 
 import org.w3c.dom.Text;
@@ -37,6 +40,7 @@ public class MovieDetailFragment extends Fragment {
     private TextView communityIcon;
     private TextView communityRating;
     private TextView movieDescription;
+    private TextView movieDetailAddToPlaylistLabel;
     private Button addToWatchListButton;
 
     private RatingBar ratingBar;
@@ -58,7 +62,7 @@ public class MovieDetailFragment extends Fragment {
 
         hookUpViews(movieDetailView);
         populateMovieFields();
-        setAddToPlaylistWidgets();
+        setAddToPlaylistWidgets(); //TODO: fix this
         setRateWidgets();
         initListeners();
 
@@ -70,7 +74,6 @@ public class MovieDetailFragment extends Fragment {
      */
     public void hookUpViews(View view){
 
-        //TODO: add icons to Movies
         //setting up image view
         movieImage = (ImageView) view.findViewById(R.id.movieDetailImageView);
 
@@ -82,11 +85,10 @@ public class MovieDetailFragment extends Fragment {
         communityIcon = (TextView) view.findViewById(R.id.movieDetailCommunityIcon);
         communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
-
-
-
+        
         //setting up rate bar and button and add-to-playlist button
-        addToWatchListButton = (Button) view.findViewById(R.id.movieDetailAddToPlaylistButton);
+        movieDetailAddToPlaylistLabel = (TextView) view.findViewById(R.id.movieDetailAddToPlaylistLabel);
+        addToWatchListButton = (ToggleButton) view.findViewById(R.id.movieDetailAddToPlaylistButton);
         ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
 
         //setting up button
@@ -106,10 +108,38 @@ public class MovieDetailFragment extends Fragment {
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                App.getRatingDAO().saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
+                RatingDAO ratingDAO = App.getRatingDAO();
+                ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
                 setRateButtonInactive();
+                //TODO: remove from playlist
             }
         });
+
+        addToWatchListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PlaylistDAO playlistDAO = App.getPlaylistDAO();
+                if (isChecked) {
+                    playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), movie);
+                } else {
+                    playlistDAO.addMovieToPlaylist(App.getCurrentUser(), movie);
+                }
+            }
+        });
+
+
+    }
+
+
+    private void toggleAddToPlaylistButton() {
+
+        if (addToWatchListButton.getText().equals("+")) {
+            addToWatchListButton.setText("-");
+            movieDetailAddToPlaylistLabel.setText("Remove from playlist");
+        }else{
+            addToWatchListButton.setText("+");
+            movieDetailAddToPlaylistLabel.setText("Add to playlist");
+        }
     }
 
     /**
@@ -151,7 +181,11 @@ public class MovieDetailFragment extends Fragment {
         return false;
     }
 
-    public void setAddToPlaylistWidgets(){}
+    public void setAddToPlaylistWidgets(){
+
+
+
+    }
 
     /**
      * method used in onCreateView to set rating bar and button to correct states
