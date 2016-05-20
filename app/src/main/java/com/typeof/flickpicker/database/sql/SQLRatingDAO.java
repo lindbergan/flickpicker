@@ -36,7 +36,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         movieIdCursor.moveToFirst();
 
         for(int i = 0; i < movieIdCursor.getCount(); i++){
-            ratingsForMovie.add(createRatingFromCursor(movieIdCursor));
+            ratingsForMovie.add(CoreEntityFactory.createRatingFromCursor(movieIdCursor));
             movieIdCursor.moveToNext();
         }
 
@@ -58,7 +58,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
             c.moveToFirst();
 
         if(c.getCount() != 0) { //that is - rating for that movie by that user already exists
-                Rating r = createRatingFromCursor(c);
+                Rating r = CoreEntityFactory.createRatingFromCursor(c);
                 c.close();
                 double oldRatingValue = r.getRating();
                 setMovieTableRating(rating.getMovieId(), oldRatingValue, rating.getRating());
@@ -109,28 +109,16 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return super.search("ratings",column, searchString);
     }
 
-    public Rating createRatingFromCursor(Cursor c) {
-
-        long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
-        double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
-        long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
-
-        Rating createdRating = new Rating(rating,movieId,userId);
-        createdRating.setId(id);
-        return createdRating;
-    }
 
     public Rating findRating(long id){
         Cursor cursor = super.find(id,"ratings");
         cursor.moveToFirst();
-        Rating ratingToReturn = createRatingFromCursor(cursor);
+        Rating ratingToReturn = CoreEntityFactory.createRatingFromCursor(cursor);
         cursor.close();
         return ratingToReturn;
     }
 
     public int removeRating(long id){
-
         Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete, "ratings");
     }

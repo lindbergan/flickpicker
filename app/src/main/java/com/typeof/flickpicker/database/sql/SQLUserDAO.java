@@ -23,24 +23,7 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
         super(ctx);
     }
 
-    /**
-     * Method for creating User object from specific record in User database
-     *
-     * @param c Cursor
-     * @return new User created from cursor
-     */
-    public User createUserFromCursor(Cursor c){
-        long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
-        String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
-        String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
-        int score = c.getInt(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_SCORE));
 
-        User u = new User(username, password);
-        u.setId(id);
-        u.setScore(score);
-
-        return u;
-    }
 
     /**
      * Method for saving a user record in the database
@@ -68,7 +51,7 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
         try {
             Cursor c = this.find(userId, UserTable.UserEntry.TABLE_NAME);
             c.moveToFirst();
-            User user = this.createUserFromCursor(c);
+            User user = CoreEntityFactory.createUserFromCursor(c);
             c.close();
             return user;
         } catch (DatabaseRecordNotFoundException e) {
@@ -88,9 +71,9 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
         Cursor c = super.search(UserTable.UserEntry.TABLE_NAME, column, searchString);
 
         while (c.moveToNext()) {
-            User u = createUserFromCursor(c);
+            User u = CoreEntityFactory.createUserFromCursor(c);
             if (!u.getUsername().equalsIgnoreCase(App.getCurrentUser().getUsername())) {
-                results.add(createUserFromCursor(c));
+                results.add(CoreEntityFactory.createUserFromCursor(c));
             }
         }
 

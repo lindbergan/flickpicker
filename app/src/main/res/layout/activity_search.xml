@@ -67,7 +67,7 @@
                         android:text="No movies found"
                         android:id="@+id/hiddenNoMoviesText"
                         android:layout_gravity="center"
-                        android:layout_marginTop="150dp"/>
+                        android:layout_marginTop="75dp"/>
 
                 </LinearLayout>
 
@@ -103,7 +103,7 @@
                         android:text="No users found"
                         android:id="@+id/hiddenNoUsersText"
                         android:layout_gravity="center"
-                        android:layout_marginTop="150dp"/>
+                        android:layout_marginTop="75dp"/>
                 </LinearLayout>
 
             </FrameLayout>

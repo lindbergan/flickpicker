@@ -2,6 +2,7 @@ package com.typeof.flickpicker.activities;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -37,9 +38,6 @@ public class SearchFragment extends Fragment {
     private TextView hiddenMoviesText;
     private TextView hiddenUsersText;
 
-    private List<Movie> mMovieResults;
-    private List<User> mUserResults;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,9 +63,8 @@ public class SearchFragment extends Fragment {
         hiddenMoviesText = (TextView) view.findViewById(R.id.hiddenNoMoviesText);
         hiddenUsersText = (TextView) view.findViewById(R.id.hiddenNoUsersText);
 
-        initResults();
-        populateMovieListView(listViewSearchMovies, mMovieResults);
-        populateUserListView(listViewSearchUser, mUserResults);
+        if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
+        if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
 
     }
 
@@ -107,25 +104,14 @@ public class SearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String s) {
-
-                if (s == null) {
-                    s = "";
-                }
-
-                List<Movie> popList = new ArrayList<>();
-
-                for (Movie m : mMovieResults) {
-
-                    String movieTitle = m.getTitle().toLowerCase();
-                    String searchText = s.toLowerCase();
-
-                    if (movieTitle.contains(searchText)) {
-                        popList.add(m);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        populateMovieListView(listViewSearchMovies,
+                                App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, mSearchViewMovie.getQuery().toString()));
                     }
-                }
-
-                populateMovieListView(listViewSearchMovies, popList);
-
+                }, 1000);
                 return false;
             }
 
@@ -139,25 +125,14 @@ public class SearchFragment extends Fragment {
         mSearchViewFriend.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String s) {
-
-                if (s == null) {
-                    s = "";
-                }
-
-                List<User> popList = new ArrayList<>();
-
-                for (User u : mUserResults) {
-
-                    String userName = u.getUsername().toLowerCase();
-                    String searchText = s.toLowerCase();
-
-                    if (userName.contains(searchText)) {
-                        popList.add(u);
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        populateUserListView(listViewSearchUser,
+                                App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, mSearchViewFriend.getQuery().toString()));
                     }
-                }
-
-                populateUserListView(listViewSearchUser, popList);
-
+                }, 1000);
                 return false;
             }
 
@@ -171,17 +146,20 @@ public class SearchFragment extends Fragment {
 
     public void populateMovieListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
         ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
+        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+            hiddenMoviesText.setVisibility(View.VISIBLE);
+        }
         listView.setAdapter(adapter);
     }
 
     public void populateUserListView(ListView listView, List<User> listOfViewCellsWeGotFromHelpClass){
         ListAdapter adapter = new UserAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+        if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
+        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+            hiddenUsersText.setVisibility(View.VISIBLE);
+        }
         listView.setAdapter(adapter);
-    }
-
-    public void initResults() {
-        mMovieResults = App.getMovieDAO().searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE, "");
-        mUserResults = App.getUserDAO().searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, "");
     }
 
 }
