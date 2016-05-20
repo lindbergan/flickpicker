@@ -119,7 +119,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         long userId = user.getId();
         long movieId = movie.getId();
 
-        Playlist playlist = getPlaylist(userId){
+        Playlist playlist = getPlaylist(userId);
 
             if(playlist == null){
                 return;
@@ -130,4 +130,4 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         }
 
     }
-}
+

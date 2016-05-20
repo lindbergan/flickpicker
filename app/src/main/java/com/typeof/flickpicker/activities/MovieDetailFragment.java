@@ -41,19 +41,21 @@ public class MovieDetailFragment extends Fragment {
     private TextView communityRating;
     private TextView movieDescription;
     private TextView movieDetailAddToPlaylistLabel;
-    private Button addToWatchListButton;
+    private ToggleButton addToWatchListButton;
 
     private RatingBar ratingBar;
     private Button rateButton;
 
     private MovieDAO mMovieDAO = App.getMovieDAO();
     private long movieId;
+    private Movie movie;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         movieId = bundle.getLong("movieId");
+        movie = App.getMovieDAO().findMovie(movieId);
     }
 
     @Override
