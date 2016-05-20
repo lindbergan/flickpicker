@@ -85,7 +85,7 @@ public class MovieDetailFragment extends Fragment {
         communityIcon = (TextView) view.findViewById(R.id.movieDetailCommunityIcon);
         communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
-        
+
         //setting up rate bar and button and add-to-playlist button
         movieDetailAddToPlaylistLabel = (TextView) view.findViewById(R.id.movieDetailAddToPlaylistLabel);
         addToWatchListButton = (ToggleButton) view.findViewById(R.id.movieDetailAddToPlaylistButton);
