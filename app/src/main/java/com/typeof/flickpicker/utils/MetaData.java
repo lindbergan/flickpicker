@@ -7,9 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-07.
+ * MetaData
+ * Fetches datat from meta-data tags from Android Manifest
  */
 public class MetaData {
     public static String getMetaData(Context context, String name) {

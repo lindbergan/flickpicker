@@ -23,9 +23,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-17.
+ * OMDBParser
+ * Fetches JSON objects from the OMDB Api
  */
 public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
 

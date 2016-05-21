@@ -15,16 +15,12 @@ public class PlaylistTable {
 
         private static final String TEXT_TYPE = " TEXT";
         private static final String INTEGER_TYPE = " INT";
-        private static final String DOUBLE_TYPE = " REAL";
         private static final String COMMA_SEP = ",";
-
         public static final String TABLE_NAME = "playlists";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_USER_ID = "user_id";
         public static final String COLUMN_NAME_MOVIES_LIST = "movies_list";
-        public static final String COLUMN_NAME_NULLABLE = " ";
-
 
         public static String getSQLCreateTableQuery() {
             return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
