@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
  * FriendTable
  *
  */
-public class FriendTable {
+public class FriendTable extends SQLTable {
 
     public FriendTable() {}
 
@@ -37,4 +37,8 @@ public class FriendTable {
 
     }
 
+    @Override
+    public String getTableName() {
+        return FriendEntry.TABLE_NAME;
+    }
 }

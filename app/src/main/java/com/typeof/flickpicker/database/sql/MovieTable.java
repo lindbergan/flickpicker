@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  * Group 22
  * Created on 16-04-19.
  */
-public class MovieTable {
+public class MovieTable extends SQLTable {
     // Prevent instantiating
     public MovieTable() {}
 
@@ -44,6 +44,11 @@ public class MovieTable {
         public static String getSQLDropTableQuery() {
             return "DROP TABLE IF EXISTS " + TABLE_NAME;
         }
+    }
+
+    @Override
+    public String getTableName() {
+        return MovieEntry.TABLE_NAME;
     }
 
 }

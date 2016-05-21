@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  * Group 22
  * Created on 16-04-20.
  */
-public class UserTable {
+public class UserTable extends SQLTable {
     // Prevent instantiating
     public UserTable() {}
 
@@ -37,5 +37,10 @@ public class UserTable {
         public static String getSQLDropTableQuery() {
             return "DROP TABLE IF EXISTS " + TABLE_NAME;
         }
+    }
+
+    @Override
+    public String getTableName() {
+        return UserEntry.TABLE_NAME;
     }
 }

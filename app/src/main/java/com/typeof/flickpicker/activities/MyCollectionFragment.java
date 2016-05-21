@@ -63,10 +63,11 @@ public class MyCollectionFragment extends Fragment {
 
         mWatchlist = new ArrayList<>();
         Playlist p = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
-        for (Number i : p.getMovieIds()) {
-            mWatchlist.add(App.getMovieDAO().findMovie(i.intValue()));
+        if (p != null) {
+            for (Number i : p.getMovieIds()) {
+                mWatchlist.add(App.getMovieDAO().findMovie(i.intValue()));
+            }
         }
-
         populateCollectionListView(listViewMyCollection, mCollection);
         populateWatchlistListView(listViewMyWatchlist, mWatchlist);
 

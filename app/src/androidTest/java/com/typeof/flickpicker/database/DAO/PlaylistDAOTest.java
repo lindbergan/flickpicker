@@ -1,10 +1,14 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.DAO;
 import android.test.ApplicationTestCase;
 
+import com.typeof.flickpicker.BaseTest;
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
+import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.PlaylistDAO;
 
 import junit.framework.Assert;
 
@@ -16,21 +20,14 @@ import java.util.List;
  * Group 22
  * Created on 16-04-26.
  */
-public class PlaylistDAOTest extends ApplicationTestCase<App> {
+public class PlaylistDAOTest extends BaseTest {
 
     private PlaylistDAO mPlaylistDAO;
     private MovieDAO mMovieDAO;
 
-    public PlaylistDAOTest() {
-        super(App.class);
-    }
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-
-        createApplication();
-
         mPlaylistDAO = App.getPlaylistDAO();
         mMovieDAO = App.getMovieDAO();
 

@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.database.sql;
 import android.provider.BaseColumns;
 
-public class RatingTable {
+public class RatingTable extends SQLTable {
 
     public RatingTable() {}
 
@@ -34,5 +34,9 @@ public class RatingTable {
         }
     }
 
+    @Override
+    public String getTableName() {
+        return RatingEntry.TABLE_NAME;
+    }
 }
 

@@ -40,10 +40,17 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(mContext, "database_type");
         initDatabase();
+
         setupDAO();
+
+        if(!sDatabase.hasBeenCreated()) {
+            createDatabase();
+        }
+
         setupCurrentUser();
     }
 
@@ -92,13 +99,6 @@ public class App extends Application {
                 sFriendDAO = new SQLFriendDAO(mContext);
 
         }
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        Database db = getDatabase();
-        db.dropTables();
     }
 
     public static User getCurrentUser() {return mCurrentUser;}

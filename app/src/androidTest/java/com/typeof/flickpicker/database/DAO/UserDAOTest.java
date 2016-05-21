@@ -1,8 +1,11 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.DAO;
 
 import android.test.ApplicationTestCase;
+
+import com.typeof.flickpicker.BaseTest;
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.UserTable;
 import java.util.List;
 
@@ -11,20 +14,13 @@ import java.util.List;
  * Group 22
  * Created on 16-04-19.
  */
-public class UserDAOTest extends ApplicationTestCase<App> {
+public class UserDAOTest extends BaseTest {
 
     private UserDAO mUserDao;
-
-    public UserDAOTest() {
-        super(App.class);
-    }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-
-        createApplication();
-
         mUserDao = App.getUserDAO();
     }
 

@@ -1,7 +1,10 @@
 package com.typeof.flickpicker.database.sql;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
@@ -214,6 +217,35 @@ public class SQLDatabase implements Database {
         friendDAO.updateFriendMatches(usersLatestRating);
 
         //-----------------------------------------------------------------------
+    }
+
+    /**
+     * Combines SQL Queries from the tables
+     * @return
+     */
+    public boolean hasBeenCreated() {
+        SQLTable movieTable = new MovieTable();
+
+        Cursor c;
+        String query = movieTable.hasBeenCreatedSQLQuery(this.db);
+
+        try {
+            c = db.rawQuery(query, null);
+        } catch (SQLiteException e ) {
+            e.printStackTrace();
+            return false;
+        }
+
+        c.moveToFirst();
+
+        boolean created = false;
+        if (c.getCount() > 0) {
+            created = true;
+        }
+
+        c.close();
+
+        return created;
     }
 
 }

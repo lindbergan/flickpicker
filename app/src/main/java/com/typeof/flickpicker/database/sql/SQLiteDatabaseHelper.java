@@ -3,6 +3,7 @@ package com.typeof.flickpicker.database.sql;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import com.typeof.flickpicker.activities.App;
 
 /**
@@ -29,6 +30,7 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
+        int abc = 1;
         App.getDatabase().setUpTables();
     }
 

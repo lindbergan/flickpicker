@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  * Group 22
  * Created on 16-04-25.
  */
-public class PlaylistTable {
+public class PlaylistTable extends SQLTable {
 
     public PlaylistTable() {}
 
@@ -34,5 +34,10 @@ public class PlaylistTable {
         public static String getSQLDropTableQuery() {
             return "DROP TABLE IF EXISTS " + TABLE_NAME;
         }
+    }
+
+    @Override
+    public String getTableName() {
+        return PlaylistEntry.TABLE_NAME;
     }
 }

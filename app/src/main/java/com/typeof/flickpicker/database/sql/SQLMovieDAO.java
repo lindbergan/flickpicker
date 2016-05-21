@@ -34,10 +34,10 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     /**
      * Finds a movie with help of movieId
      * Calls on createMovieFromCursor then returns a created movie
-     * @param id
-     * @return
+     * @param id - id of sought movie
+     * @return Movie instance
+     * @throws DatabaseRecordNotFoundException
      */
-
     public Movie findMovie(long id) {
         try {
             Cursor c = super.find(id, "movies");
@@ -55,10 +55,9 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * Creates a map (ContentValues)
      * Puts information in the movie columns
      * Saves the movie in the movies table
-     * @param movie
-     * @return
+     * @param movie - Movie instance to save
+     * @return id of created database record
      */
-
     public long saveMovie(Movie movie) {
         ContentValues values = new ContentValues();
         values.put(MovieTable.MovieEntry.COLUMN_NAME_TITLE, movie.getTitle());
@@ -72,10 +71,11 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return super.save(movie, "movies", values);
     }
 
-    public void updateMovie(Movie movie, ContentValues values) {
-        super.update(movie, values, "movies");
-    }
-
+    /**
+     * Deletes the movie
+     * @param movie - Movie instance
+     * @return - number of rows affected in the database
+     */
     public int deleteMovie(Movie movie) {
         return super.delete(movie, "movies");
     }
@@ -85,19 +85,23 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * Create a cursor of all movies that contains the searchString
      * Adds all movies to the result array
      * Returns the result array
-     * @param column
-     * @param searchString
-     * @return
+     * @param column - column to search
+     * @param searchString - string to search for
+     * @return - List of movies
      */
-
     public List<Movie> searchMovieBy(String column, String searchString) {
         List<Movie> results = new ArrayList<>();
-        Cursor c = super.search("movies", column, searchString);
+
+        // Uses the abstract parents search class
+        // Table name is fetched from MovieTable.MovieEntry class
+        Cursor c = super.search(MovieTable.MovieEntry.TABLE_NAME, column, searchString);
         c.moveToFirst();
 
+        // Iterates over the cursor
         if(c.getCount() != 0) {
             try {
                 do {
+                    // Creates movie instance with the CoreEntityFactory
                     results.add(CoreEntityFactory.createMovieFromCursor(c));
                 } while (c.moveToNext());
             } finally {
@@ -108,36 +112,15 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     }
 
     /**
-     * Same functionality as createMovieFromCursor
-     * @param c
-     * @return
-     */
-
-    public User createUserFromCursor(Cursor c){
-
-        long id = c.getLong(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_ID));
-        String username = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_USERNAME));
-        String password = c.getString(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_PASSWORD));
-        int score = c.getInt(c.getColumnIndex(UserTable.UserEntry.COLUMN_NAME_SCORE));
-
-        User u = new User(username, password);
-        u.setId(id);
-        u.setScore(score);
-
-        return u;
-    }
-
-    /**
      * Creates a friends list
      * Friends join ratings table
      * Looks for friends that have seen the movie
      * Where friends.user2id = ratings.user1id
      * Adds all friends to the list
-     * @param movieId
-     * @param userId
-     * @return
+     * @param movieId - Id of movie seen
+     * @param userId - Id of user that has seen the movie
+     * @return - list of
      */
-
     public List<User> getFriendsSeenMovie(long movieId, long userId) {
         List<User> friends = new ArrayList<>();
 
@@ -153,9 +136,15 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
         Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
 
-
-        while (c.moveToNext()) {
-            friends.add(createUserFromCursor(c));
+        // Iterates over the cursor
+        if(c.getCount() != 0) {
+            try {
+                while (c.moveToNext()) {
+                    friends.add(CoreEntityFactory.createUserFromCursor(c));
+                }
+            } finally {
+                c.close();
+            }
         }
 
         c.close();
