@@ -12,11 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-21.
+ * SQLRatingDAO
+ * Data Access Object for Ratings
  */
-
 public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     private SQLMovieDAO sqlMovieDAO;
@@ -29,6 +27,11 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         sqlMovieDAO = new SQLMovieDAO(ctx);
     }
 
+    /**
+     * Returns Ratings for given moiveId
+     * @param movieId - Id of movie
+     * @return - List of ratings
+     */
     public List<Rating> getMovieRatings(long movieId){
 
         List<Rating> ratingsForMovie = new ArrayList<>();
@@ -44,7 +47,12 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return ratingsForMovie;
 
     }
-    
+
+    /**
+     * Saves Rating instance to database
+     * @param rating - Rating instace
+     * @return - database record id
+     */
     public long saveRating(Rating rating){
 
         //Check if previous rating exists
@@ -78,6 +86,13 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return super.save(rating, "ratings", values);
     }
 
+    /**
+     * Set the movies rating in the data base
+     * @param movieId - Id of movie
+     * @param oldRating - the previous rating
+     * @param newRating - the new rating
+     * @return - returns the new rating.
+     */
     private double setMovieTableRating(long movieId, double oldRating, double newRating){
 
         Movie movie = sqlMovieDAO.findMovie(movieId);
@@ -94,6 +109,14 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return newCommunityRating;
     }
 
+
+    /**
+     * Calculates the community rating
+     * @param movie - Movie entity
+     * @param oldRating - the old rating
+     * @param newRating - new rating
+     * @return - returns the new rating
+     */
     public double calculateCommunityRating(Movie movie, double oldRating, double newRating){
 
         //expression for calculating new communityRating
@@ -105,11 +128,22 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         }
     }
 
+    /**
+     * Searches the ratings column
+     * @param column - column we're searching in
+     * @param searchString - string we're searching for
+     * @return - Returns Cursor with found database record
+     */
     public Cursor searchRatingBy(String column, String searchString){
         return super.search("ratings",column, searchString);
     }
 
 
+    /**
+     * Returns Rating instance from database
+     * @param id - given Rating ID
+     * @return - Rating instance
+     */
     public Rating findRating(long id){
         Cursor cursor = super.find(id,"ratings");
         cursor.moveToFirst();
@@ -118,11 +152,22 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return ratingToReturn;
     }
 
+    /**
+     * Removes rating from database
+     * @param id
+     * @return Number of rows affected in db
+     */
     public int removeRating(long id){
         Rating ratingToDelete = findRating(id);
         return super.delete(ratingToDelete, "ratings");
     }
 
+    /**
+     * Get a users rating for a movie
+     * @param userId - Given user id
+     * @param movieId - Given movie id
+     * @return Rating value
+     */
     @Override
     public double getRatingFromUser(long userId, long movieId) {
 

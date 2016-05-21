@@ -17,9 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-19.
+ * SQLMovieDAO
+ * Data Access Object for Movies
  */
 public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
@@ -135,6 +134,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
 
         Cursor c = db.rawQuery(query, new String[]{String.valueOf(movieId)});
+
 
         // Iterates over the cursor
         if(c.getCount() != 0) {
