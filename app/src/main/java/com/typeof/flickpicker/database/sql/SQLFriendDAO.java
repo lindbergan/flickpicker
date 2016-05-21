@@ -144,7 +144,6 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         List<User> usersFriends = getFriendsFromUserId(currentUserId);
         String[] movieIds = extractMovieIdsFromMovies(usersMovieCollection);
 
-
         for (int i = 0; i<usersFriends.size(); i++) {
 
             //check all friends
