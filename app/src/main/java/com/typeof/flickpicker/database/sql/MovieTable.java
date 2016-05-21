@@ -28,7 +28,6 @@ public class MovieTable {
         public static final String COLUMN_NAME_COMMUNITY_RATING = "community_rating";
         public static final String COLUMN_NAME_NULLABLE = " ";
 
-
         public static String getSQLCreateTableQuery() {
             return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

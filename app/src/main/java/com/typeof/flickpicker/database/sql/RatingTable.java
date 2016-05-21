@@ -19,7 +19,6 @@ public class RatingTable {
         public static final String COLUMN_NAME_CREATED_AT = "created_at";
         public static final String COLUMN_NAME_NULLABLE = " NULL";
 
-
         public static String getSQLCreateTableQuery() {
             return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +

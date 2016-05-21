@@ -41,7 +41,7 @@ public abstract class SQLDAO {
      * @param object - database object to save
      * @param tableName - target table
      * @param values - which values to save
-     * @return
+     * @return - returns the database rows ID
      */
     public long save(DatabaseObject object, String tableName, ContentValues values) {
         // If we have an id on this object

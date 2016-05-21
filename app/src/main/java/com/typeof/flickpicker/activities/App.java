@@ -44,13 +44,7 @@ public class App extends Application {
         databaseType = MetaData.getMetaData(mContext, "database_type");
         initDatabase();
         setupDAO();
-
-        if (!getDatabase().hasBeenSeeded()) {
-            createDatabase();
-            createCurrentUser();
-        } else {
-            setupCurrentUser();
-        }
+        setupCurrentUser();
     }
 
     private static void createCurrentUser() {

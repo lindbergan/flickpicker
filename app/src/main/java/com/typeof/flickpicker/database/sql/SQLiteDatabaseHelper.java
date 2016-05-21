@@ -3,7 +3,13 @@ package com.typeof.flickpicker.database.sql;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.typeof.flickpicker.activities.App;
 
+/**
+ * SQLite Database Helper
+ * Creates and fetches the local SQLite Database placed in the file system.
+ * Used as a singleton.
+ */
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "FlickPicker.db";
@@ -23,24 +29,13 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
-        // Begin with dropping the old tables
-        db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
-        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
-        db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
-        db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
-        db.execSQL(PlaylistTable.PlaylistEntry.getSQLCreateTableQuery());
-        db.execSQL(FriendTable.FriendEntry.getSQLCreateTableQuery());
-        db.execSQL(UserTable.UserEntry.getSQLCreateTableQuery());
+        App.getDatabase().setUpTables();
     }
 
     @Override
     public void onUpgrade(android.database.sqlite.SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
-        db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
-        db.execSQL(PlaylistTable.PlaylistEntry.getSQLDropTableQuery());
-        db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
-        db.execSQL(UserTable.UserEntry.getSQLDropTableQuery());
-        onCreate(db);
+        App.getDatabase().dropTables();
+        App.getDatabase().setUpTables();
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

@@ -14,17 +14,12 @@ import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
-import com.typeof.flickpicker.utils.OMDBParser;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-19.
+ * SQLDatabase
+ * Creates, Deletes and Seeds the database
  */
 public class SQLDatabase implements Database {
 
@@ -72,6 +67,9 @@ public class SQLDatabase implements Database {
         db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
     }
 
+    /**
+     * Seed method
+     */
     public void seedDatabase() {
 
         Movie m1 = new Movie("M1", 1995);
@@ -218,10 +216,4 @@ public class SQLDatabase implements Database {
         //-----------------------------------------------------------------------
     }
 
-
-    @Override
-    public boolean hasBeenSeeded() {
-        MovieDAO movieDAO = App.getMovieDAO();
-        return movieDAO.tableExists() && movieDAO.getNumberOfMovies() >= OMDBParser.numberOfMovies;
-    }
 }
