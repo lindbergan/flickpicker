@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
+import com.typeof.flickpicker.database.sql.tables.FriendTable;
+
 /**
  * FlickPicker
  * Group 22

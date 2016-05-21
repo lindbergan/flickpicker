@@ -12,7 +12,6 @@ import java.util.List;
  * Created on 16-04-25.
  */
 public interface FriendDAO {
-
     long addFriend(Friend f);
     List<User> getFriendsFromUserId(long id);
     long removeFriend(long userId1, long userId2);

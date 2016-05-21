@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.tables;
 
 import android.provider.BaseColumns;
 

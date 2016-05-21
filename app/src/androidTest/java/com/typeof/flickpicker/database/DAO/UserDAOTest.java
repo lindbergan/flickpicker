@@ -1,12 +1,10 @@
 package com.typeof.flickpicker.database.DAO;
 
-import android.test.ApplicationTestCase;
-
 import com.typeof.flickpicker.BaseTest;
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.UserDAO;
-import com.typeof.flickpicker.database.sql.UserTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
 import java.util.List;
 
 /**

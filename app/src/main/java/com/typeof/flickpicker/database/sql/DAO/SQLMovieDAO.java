@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.DAO;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -9,11 +9,15 @@ import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.database.sql.tables.FriendTable;
+import com.typeof.flickpicker.database.sql.tables.MovieTable;
+import com.typeof.flickpicker.database.sql.tables.RatingTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
 import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 
-import java.sql.SQLDataException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

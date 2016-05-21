@@ -49,7 +49,6 @@ public class FriendDAOTest extends BaseTest {
      * Asserts that user1 has a friend in his friend list
      * @throws Exception
      */
-
     public void testAddFriend() throws Exception {
 
         User user1 = new User("pelle", "password");
@@ -72,7 +71,6 @@ public class FriendDAOTest extends BaseTest {
      * Asserts that
      * @throws Exception
      */
-
     public void testGetFriendsFromUserId() throws Exception {
         User user1 = new User("pelle", "password");
         long id = mUserDAO.saveUser(user1);
@@ -88,7 +86,6 @@ public class FriendDAOTest extends BaseTest {
      * Removes user2 from user1s friend list
      * @throws Exception
      */
-
     public void testRemoveFriend() throws Exception {
 
         User user1 = new User("pelle", "password");

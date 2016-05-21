@@ -12,11 +12,11 @@ import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.SQLDatabase;
-import com.typeof.flickpicker.database.sql.SQLFriendDAO;
-import com.typeof.flickpicker.database.sql.SQLMovieDAO;
-import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
-import com.typeof.flickpicker.database.sql.SQLRatingDAO;
-import com.typeof.flickpicker.database.sql.SQLUserDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLFriendDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLMovieDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLPlaylistDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLRatingDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLUserDAO;
 import com.typeof.flickpicker.utils.MetaData;
 
 /**

@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.DAO;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,8 +7,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.PlaylistDAO;
+import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * FlickPicker

@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.UserDAO;
+import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +24,6 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
     public SQLUserDAO(Context ctx) {
         super(ctx);
     }
-
-
 
     /**
      * Method for saving a user record in the database

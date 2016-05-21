@@ -17,6 +17,13 @@ import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
+import com.typeof.flickpicker.database.sql.tables.FriendTable;
+import com.typeof.flickpicker.database.sql.tables.MovieTable;
+import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
+import com.typeof.flickpicker.database.sql.tables.RatingTable;
+import com.typeof.flickpicker.database.sql.tables.SQLTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
+
 import java.util.ArrayList;
 import java.util.List;
 

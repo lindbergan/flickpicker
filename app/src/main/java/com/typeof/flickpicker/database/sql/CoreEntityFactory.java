@@ -9,6 +9,10 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.sql.tables.FriendTable;
+import com.typeof.flickpicker.database.sql.tables.MovieTable;
+import com.typeof.flickpicker.database.sql.tables.RatingTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
 
 import java.util.ArrayList;
 import java.util.List;

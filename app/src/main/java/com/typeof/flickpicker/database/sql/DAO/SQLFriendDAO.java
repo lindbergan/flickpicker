@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,6 +11,12 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
+import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.database.sql.tables.FriendTable;
+import com.typeof.flickpicker.database.sql.tables.RatingTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,25 +28,21 @@ import java.util.List;
 
 public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
-    private SQLUserDAO sql;
     private SQLiteDatabase db;
-    private SQLRatingDAO mRatingDAO;
     private SQLMovieDAO mMovieDAO;
 
     public SQLFriendDAO(Context ctx) {
         super(ctx);
-        sql = new SQLUserDAO(ctx);
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = dbhelper.getWritableDatabase();
-        mRatingDAO = new SQLRatingDAO(ctx);
         mMovieDAO = new SQLMovieDAO(ctx);
     }
 
     /**
      * Adds the friends values to user1id and user2id columns
      * Saves the friend to the database
-     * @param f
-     * @return
+     * @param f - Friend entity
+     * @return - friend added
      */
 
     @Override
@@ -57,10 +59,9 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
      * A super SQL-question made by: SebbeTheMan
      * If cursor count is 0 --> returns a empty list
      * Otherwise adds all users and returns the list
-     * @param id
-     * @return
+     * @param id - given user id
+     * @return List of friends belonging to the user
      */
-
     @Override
     public List<User> getFriendsFromUserId(long id) {
         List<User> userFriends = new ArrayList<>();
@@ -89,11 +90,10 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
     /**
      * Removes the friend values from the database
-     * @param userId1
-     * @param userId2
-     * @return
+     * @param userId1 - first user
+     * @param userId2 - second user
+     * @return - number of rows affected by the database
      */
-
     @Override
     public long removeFriend(long userId1, long userId2) {
         return db.delete(FriendTable.FriendEntry.TABLE_NAME,
@@ -101,6 +101,11 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
                 new String[]{String.valueOf(userId1), String.valueOf(userId2)});
     }
 
+    /**
+     * Returns list of Ratings belonging to the friends of the given user
+     * @param userId - given user id
+     * @return List of ratings
+     */
     @Override
     public List<Rating> getFriendsLatestActivities(long userId) {
 
@@ -134,6 +139,10 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         return ratings;
     }
 
+    /**
+     *
+     * @param rating - Rating
+     */
     @Override
     public void updateFriendMatches(Rating rating){
 
