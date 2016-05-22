@@ -1,16 +1,8 @@
 package com.typeof.flickpicker.activities;
-import android.content.Context;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
@@ -18,13 +10,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
@@ -73,7 +61,7 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new RecommendationsFragment());
         fragments.add(new CommunityFragment());
         fragments.add(new FriendsFragment());
-        fragments.add(new MyCollectionFragment());
+        fragments.add(new CollectionFragment());
         fragments.add(new SearchFragment());
         fragments.add(new MyProfileFragment());
         fragments.add(new SettingsFragment());

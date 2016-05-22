@@ -23,11 +23,16 @@ import java.util.List;
 
 public class FriendsFragment extends Fragment {
 
+    // Fields
+
     private FriendDAO mFriendDAO;
     private List<Rating> mFriendsRecentActivity;
+    private ListAdapter ratingListAdapter;
+
+    // Views
+
     private ListView mListViewFeed;
     private SearchView mNameTextField;
-    private ListAdapter ratingListAdapter;
     private TextView hiddenText;
 
     @Override
@@ -55,10 +60,21 @@ public class FriendsFragment extends Fragment {
         return view;
     }
 
+    public void getFriendsRecentActivities() {
+        mFriendsRecentActivity = mFriendDAO.getFriendsLatestActivities(App.getCurrentUser().getId());
+    }
+
     public void initAdapters() {
         ListAdapter ratingListAdapter = new FriendsActivityAdapter(getActivity(), mFriendsRecentActivity.toArray());
         mListViewFeed.setAdapter(ratingListAdapter);
     }
+
+    /**
+     * On every char change in the search query the onQueryTextChange method is called
+     * Loops through all the recent ratings and filters out those names who matches the search query
+     * If no ratings is found to match the search query the 'hiddenText' is presented
+     * Uses the FriendsActivityAdapter class
+     */
 
     public void updateRecentActivities() {
         mNameTextField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -95,10 +111,6 @@ public class FriendsFragment extends Fragment {
                 return false;
             }
         });
-    }
-
-    public void getFriendsRecentActivities() {
-        mFriendsRecentActivity = mFriendDAO.getFriendsLatestActivities(App.getCurrentUser().getId());
     }
 
 }

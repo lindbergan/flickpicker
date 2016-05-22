@@ -28,16 +28,26 @@ import java.util.List;
  * Created on 2016-05-05.
  */
 
-public class MyCollectionFragment extends Fragment {
+/**
+ * CollectionFragment extends Fragment
+ * Used for showing the user its rated movies
+ */
+
+public class CollectionFragment extends Fragment {
+
+    // Views
 
     private TabHost mTabHostMyCollection;
     private ListView listViewMyCollection;
     private ListView listViewMyWatchlist;
     private SearchView mSearchViewCollection;
     private SearchView mSearchViewWatchlist;
-    private int desireSizeOfList = 1000;
     private TextView hiddenCollectionText;
     private TextView hiddenWatchlistText;
+
+    // Fields
+
+    private int desireSizeOfList = 1000;
     private List<Movie> mWatchlist;
     private List<Movie> mCollection;
 
@@ -49,15 +59,18 @@ public class MyCollectionFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View myCollectionView = inflater.inflate(R.layout.activity_my_collection, container, false);
-        hookUpViews(myCollectionView);
-        configureTabs(myCollectionView);
+        View view = inflater.inflate(R.layout.activity_my_collection, container, false);
+
+        initViews(view);
+        configureTabs(view);
         setUpListeners();
 
         KeyboardHelper keyboardHelper = new KeyboardHelper(getActivity(), getContext());
-        keyboardHelper.setupUI(myCollectionView);
+        keyboardHelper.setupUI(view);
 
         mCollection = App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
+
+        // Finds the current users watchlist
 
         mWatchlist = new ArrayList<>();
         Playlist p = App.getPlaylistDAO().getUserPlaylist(App.getCurrentUser().getId());
@@ -66,13 +79,13 @@ public class MyCollectionFragment extends Fragment {
                 mWatchlist.add(App.getMovieDAO().findMovie(i.intValue()));
             }
         }
-        populateCollectionListView(listViewMyCollection, mCollection);
-        populateWatchlistListView(listViewMyWatchlist, mWatchlist);
+        populateCollection(listViewMyCollection, mCollection);
+        populateWatchlist(listViewMyWatchlist, mWatchlist);
 
-        return myCollectionView;
+        return view;
     }
 
-    public void hookUpViews(View view){
+    public void initViews(View view){
         listViewMyCollection = (ListView) view.findViewById(R.id.listViewMyCollection);
         listViewMyWatchlist = (ListView) view.findViewById(R.id.listViewMyPlaylist);
         mSearchViewCollection = (SearchView) view.findViewById(R.id.searchView);
@@ -91,7 +104,7 @@ public class MyCollectionFragment extends Fragment {
         mTabHostMyCollection.addTab(mTabSpecMyCollectionTab);
 
         final TabHost.TabSpec mTabSpecMyPlaylistTab = mTabHostMyCollection.newTabSpec("myPlaylist");
-        mTabSpecMyPlaylistTab.setContent(R.id.tabMyPlaylist);
+        mTabSpecMyPlaylistTab.setContent(R.id.tabMyWatchlist);
         mTabSpecMyPlaylistTab.setIndicator("Watchlist");
         mTabHostMyCollection.addTab(mTabSpecMyPlaylistTab);
 
@@ -108,6 +121,12 @@ public class MyCollectionFragment extends Fragment {
     public void setActiveTabColor(){
         mTabHostMyCollection.getTabWidget().getChildAt(mTabHostMyCollection.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
+
+    /**
+     * onQueryTextChange methods is used to filter out movies in Collection and Watchlist
+     * Handler class is used to create a delay
+     * Waits for the user to finish typing before searching for movies to minimize amount of searches
+     */
 
     public void setUpListeners(){
 
@@ -131,7 +150,7 @@ public class MyCollectionFragment extends Fragment {
                             }
                         }
 
-                        populateCollectionListView(listViewMyCollection, result);
+                        populateCollection(listViewMyCollection, result);
                     }
                 }, 1000);
                 return false;
@@ -167,7 +186,7 @@ public class MyCollectionFragment extends Fragment {
                             }
                         }
 
-                        populateWatchlistListView(listViewMyWatchlist, result);
+                        populateWatchlist(listViewMyWatchlist, result);
                     }
                 }, 1000);
                 return false;
@@ -175,21 +194,33 @@ public class MyCollectionFragment extends Fragment {
         });
     }
 
-    public void populateCollectionListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
-        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+    /**
+     * Populate methods uses MovieAdapter that extends CustomAdapter
+     * @param listView
+     * @param movieList
+     */
+
+    public void populateCollection(ListView listView, List<Movie> movieList){
+        ListAdapter adapter = new MovieAdapter(getActivity(),movieList.toArray());
+
         if (hiddenCollectionText.getVisibility() == View.VISIBLE) hiddenCollectionText.setVisibility(View.INVISIBLE);
-        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+
+        if (movieList.size() == 0) {
             hiddenCollectionText.setVisibility(View.VISIBLE);
         }
+
         listView.setAdapter(adapter);
     }
 
-    public void populateWatchlistListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
-        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+    public void populateWatchlist(ListView listView, List<Movie> movieList){
+        ListAdapter adapter = new MovieAdapter(getActivity(),movieList.toArray());
+
         if (hiddenWatchlistText.getVisibility() == View.VISIBLE) hiddenWatchlistText.setVisibility(View.INVISIBLE);
-        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+
+        if (movieList.size() == 0) {
             hiddenWatchlistText.setVisibility(View.VISIBLE);
         }
+
         listView.setAdapter(adapter);
     }
 
