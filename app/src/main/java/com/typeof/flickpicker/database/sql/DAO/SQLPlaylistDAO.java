@@ -28,7 +28,11 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         this.db = databaseHelper.getReadableDatabase();
     }
 
-
+    /**
+     *
+         * @param playlist
+     * @return
+     */
     @Override
     public long savePlaylist(Playlist playlist) {
         Gson gson = new Gson();
@@ -41,6 +45,11 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         return super.save(playlist, "playlists", values);
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @Override
     public Playlist findPlaylistById(long id) {
         Cursor c = super.find(id, "playlists");
@@ -55,8 +64,11 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         }
     }
 
-
-
+    /**
+     *
+     * @param userId
+     * @return
+     */
     @Override
     public Playlist getPlaylist(long userId) {
 
@@ -76,14 +88,11 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
     /**
      * Deletes the playlist
-     * @param playlist
-     * @return
+     * @param playlist - Playlist entity
+     * @return number of rows affected in the database
      */
-
     @Override
     public long removePlaylist(Playlist playlist) {
-
         return super.delete(playlist, PlaylistTable.PlaylistEntry.TABLE_NAME);
-
     }
 }

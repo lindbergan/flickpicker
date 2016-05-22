@@ -3,7 +3,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
@@ -15,7 +14,6 @@ import com.typeof.flickpicker.database.sql.tables.FriendTable;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;
 import com.typeof.flickpicker.database.sql.tables.RatingTable;
 import com.typeof.flickpicker.database.sql.tables.UserTable;
-import com.typeof.flickpicker.utils.ExecutionTimeLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +35,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     /**
      * Finds a movie with help of movieId
      * Calls on createMovieFromCursor then returns a created movie
+     *
      * @param id - id of sought movie
      * @return Movie instance
      * @throws DatabaseRecordNotFoundException
@@ -58,8 +57,9 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * Creates a map (ContentValues)
      * Puts information in the movie columns
      * Saves the movie in the movies table
-     * @param movie - Movie instance to save
-     * @return id of created database record
+     *
+     * @param movie     Movie instance to save
+     * @return          id of created database record
      */
     public long saveMovie(Movie movie) {
         ContentValues values = new ContentValues();
@@ -76,8 +76,9 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
     /**
      * Deletes the movie
-     * @param movie - Movie instance
-     * @return - number of rows affected in the database
+     *
+     * @param movie     Movie instance
+     * @return          number of rows affected in the database
      */
     public int deleteMovie(Movie movie) {
         return super.delete(movie, "movies");
@@ -88,9 +89,10 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * Create a cursor of all movies that contains the searchString
      * Adds all movies to the result array
      * Returns the result array
-     * @param column - column to search
-     * @param searchString - string to search for
-     * @return - List of movies
+     *
+     * @param column        column to search
+     * @param searchString  string to search for
+     * @return              List of movies
      */
     public List<Movie> searchMovieBy(String column, String searchString) {
         List<Movie> results = new ArrayList<>();
@@ -120,9 +122,10 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * Looks for friends that have seen the movie
      * Where friends.user2id = ratings.user1id
      * Adds all friends to the list
-     * @param movieId - Id of movie seen
-     * @param userId - Id of user that has seen the movie
-     * @return - list of
+     *
+     * @param movieId   Id of movie seen
+     * @param userId    Id of user that has seen the movie
+     * @return          list of users
      */
     public List<User> getFriendsSeenMovie(long movieId, long userId) {
         List<User> friends = new ArrayList<>();
@@ -156,11 +159,56 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return friends;
     }
 
-    @Override
+
+    /** Util method that return the number of friends which has seen movie
+     *
+     * @param movieId   given movie id
+     * @param userId    given user id
+     * @return          number of friends that has seen the movie
+     */
     public int numOfFriendsHasSeenMovie(long movieId, long userId) {
         return getFriendsSeenMovie(movieId, userId).size();
     }
 
+
+    /**
+     * Runs a given query and an array of movies
+     *
+     * @param max   max number of movies fetched from database
+     * @param query given query
+     * @return      list of movies found in the database
+     */
+    private List<Movie> getCommunityFeedback(int max, String query){
+        //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
+        Cursor c = db.rawQuery(query, null);
+        List<Movie> sortedMovies = new ArrayList<>();
+        c.moveToFirst();
+
+        if(c.getCount() != 0) {
+
+            db.beginTransaction();
+            try {
+                do {
+                    Movie movie = CoreEntityFactory.createMovieFromCursor(c);
+                    sortedMovies.add(movie);
+                } while (c.moveToNext());
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+                c.close();
+
+            }
+
+        }
+        return sortedMovies;
+    }
+
+    /**
+     * Uses the getCommunityFeedback method to query the database
+     *
+     * @param max   Mac number of movies fetched
+     * @return      List of movies;
+     */
     public List<Movie> getCommunityTopPicks(int max){
         String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
         return getCommunityFeedback(max, sqlString);
@@ -177,38 +225,13 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         return getCommunityFeedback(max, sqlString);
     }
 
-    private List<Movie> getCommunityFeedback(int max, String query){
-        //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
-        Cursor c = db.rawQuery(query, null);
-        //Log.v("Query Movies Sorted", query);
-        List<Movie> sortedMovies = new ArrayList<>();
-        c.moveToFirst();
-
-        if(c.getCount() != 0) {
-            ExecutionTimeLogger executionTimeLogger = new ExecutionTimeLogger();
-
-            executionTimeLogger.startTimer();
-            db.beginTransaction();
-            try {
-                do {
-                    Movie movie = CoreEntityFactory.createMovieFromCursor(c);
-                    sortedMovies.add(movie);
-                } while (c.moveToNext());
-                db.setTransactionSuccessful();
-            } finally {
-                db.endTransaction();
-                c.close();
-
-            }
-
-            Log.d("EXECUTION TIME", sortedMovies.size() + "");
-
-
-            executionTimeLogger.stopTimerAndLogResults();
-        }
-        return sortedMovies;
-    }
-
+    /**
+     * Returns the movies that the user has rated
+     *
+     * @param max       max number of movies fetched from database
+     * @param userId    given user id
+     * @return          list of movies
+     */
     public List<Movie> getMovieCollectionFromUserId(int max, long userId) {
 
         //1)SQL: find all ratings by user (sorted by "created at") and save to a list
@@ -224,16 +247,18 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         }
 
         return usersMovieCollection;
-
-        //Finally:
-        //create suitable method in Seed class to have the necessary data
-        //finally - test to make sure that the method works ass supposed to.
     }
 
-        public List<Rating> getUserRatings(int max, long userId){
+    /**
+     * Returns all the ratings from a user
+     *
+     * @param max       max number of ratings
+     * @param userId    given user id
+     * @return          list of ratings
+     */
+    public List<Rating> getUserRatings(int max, long userId){
 
         //Query the database to get the necessary ratings
-            //TODO: Does not have a createdAt at the moment - need to fix this in createRatingFromCursor, saverating() etc...
         String sqlString = "SELECT * FROM ratings WHERE  " + RatingTable.RatingEntry.COLUMN_NAME_USERID +
                 " LIKE \'" + userId + "\' ORDER BY " + RatingTable.RatingEntry.COLUMN_NAME_CREATED_AT + " DESC LIMIT " + max;
 
@@ -245,7 +270,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
         if (c.getCount() > 0) {
             try {
                 do {
-                    Rating rating = createRatingFromCursor(c);
+                    Rating rating = CoreEntityFactory.createRatingFromCursor(c);
                     userRatings.add(rating);
                 } while(c.moveToNext());
             } finally {
@@ -255,58 +280,4 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
         return userRatings;
     }
-
-    public Rating createRatingFromCursor(Cursor c) {
-
-        Cursor abc = c;
-        int colIndex = c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID);
-
-        long id = c.getLong(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_ID));
-        double rating = c.getDouble(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_RATING));
-        long movieId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_MOVIEID));
-        long userId = c.getInt(c.getColumnIndex(RatingTable.RatingEntry.COLUMN_NAME_USERID));
-
-        Rating createdRating = new Rating(rating,movieId,userId);
-        createdRating.setId(id);
-        return createdRating;
-    }
-
-    public boolean tableExists() {
-        boolean tableExists = false;
-
-        db.beginTransaction();
-        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{MovieTable.MovieEntry.TABLE_NAME});
-        try {
-            cursor.moveToFirst();
-            int count = cursor.getCount();
-            tableExists = (count > 0);
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
-            cursor.close();
-        }
-
-        return tableExists;
-
-    }
-
-    public int getNumberOfMovies() {
-        db.beginTransaction();
-        int count = 0;
-
-        String query = "SELECT COUNT(*) FROM movies";
-        Cursor c = db.rawQuery(query, null);
-
-        try {
-            c.moveToFirst();
-            count= c.getInt(0);
-            db.setTransactionSuccessful();
-        } finally {
-            c.close();
-            db.endTransaction();
-        }
-
-        return count;
-    }
-
 }
