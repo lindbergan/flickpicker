@@ -14,14 +14,21 @@ import com.typeof.flickpicker.database.sql.tables.UserTable;
  */
 public class UserTableTest extends AndroidTestCase {
 
+    // Tests that the users table exists
+
     public void testTableCreation() {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'movies'", null);
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{UserTable.UserEntry.TABLE_NAME});
         System.out.println(cursor);
         assertNotNull(cursor);
     }
+
+    /**
+     * Tests that inserting values in to the users table works
+     * Uses Map for the values in the columns
+     */
 
     public void testRecordInsertion() {
 
@@ -47,9 +54,17 @@ public class UserTableTest extends AndroidTestCase {
 
     }
 
+    // Tests that the users table doesn't exist
+
     public void testTableDeletion() {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(getContext());
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        db.execSQL(UserTable.UserEntry.getSQLDropTableQuery());
+
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{UserTable.UserEntry.TABLE_NAME});
+        int count = cursor.getCount();
+        cursor.close();
+        assertTrue(count == 0);
 
 
     }

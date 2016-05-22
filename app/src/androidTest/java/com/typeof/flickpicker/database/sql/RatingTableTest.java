@@ -39,6 +39,11 @@ public class RatingTableTest extends AndroidTestCase {
         cursor.close();
     }
 
+    /**
+     * Tests that inserting values in to the ratings table works
+     * Uses Map for the values in the columns
+     */
+
     public void testRecordInsertion() {
 
         // Create a new map of values, where column names are the keys
