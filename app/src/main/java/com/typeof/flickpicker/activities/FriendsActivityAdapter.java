@@ -51,8 +51,6 @@ public class FriendsActivityAdapter extends CustomAdapter {
         viewHolder.movieName.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
         viewHolder.movieYear.setText(" (" + String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()) + ")");
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
-        Drawable d = viewHolder.ratingBar.getProgressDrawable();
-        DrawableCompat.setTint(d, Color.rgb(238, 216, 23));
         return convertView;
     }
 }
