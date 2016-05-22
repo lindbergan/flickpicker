@@ -20,9 +20,14 @@ import com.typeof.flickpicker.database.sql.DAO.SQLUserDAO;
 import com.typeof.flickpicker.utils.MetaData;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-03.
+ * App
+ *
+ * The Applications main class.
+ * Sets up the database and the access to the DAO objects.
+ *
+ * The class loads settings about the database from the AndroidManifest.xml file.
+ * The DAO and the Database is created based on the settings in that file.
+ *
  */
 public class App extends Application {
 
@@ -101,6 +106,12 @@ public class App extends Application {
         }
     }
 
+    /**
+     * The static methods are used in controllers. The method returns the Interface version
+     * of the DAO. Because of this, the controller does not care what type of database that's
+     * being used by the application.
+     *
+     */
     public static User getCurrentUser() {return mCurrentUser;}
 
     public static MovieDAO getMovieDAO() {
