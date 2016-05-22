@@ -1,28 +1,25 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.ProgressDialog;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
-
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
-
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * FriendsFragment extends Fragment
+ * Used for showing friends recent activity
+ */
 
 public class FriendsFragment extends Fragment {
 
@@ -42,20 +39,20 @@ public class FriendsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View communityView = inflater.inflate(R.layout.activity_friends, container, false);
+        View view = inflater.inflate(R.layout.activity_friends, container, false);
 
-        mListViewFeed = (ListView) communityView.findViewById(R.id.mFeed);
-        mNameTextField = (SearchView) communityView.findViewById(R.id.search_for_a_name);
-        hiddenText = (TextView) communityView.findViewById(R.id.hiddenNoFriendsText);
+        mListViewFeed = (ListView) view.findViewById(R.id.mFeed);
+        mNameTextField = (SearchView) view.findViewById(R.id.search_for_a_name);
+        hiddenText = (TextView) view.findViewById(R.id.hiddenNoFriendsText);
 
         KeyboardHelper keyboardHelper = new KeyboardHelper(getActivity(), getContext());
-        keyboardHelper.setupUI(communityView.findViewById(R.id.parent));
+        keyboardHelper.setupUI(view.findViewById(R.id.parent));
 
         getFriendsRecentActivities();
         initAdapters();
         updateRecentActivities();
 
-        return communityView;
+        return view;
     }
 
     public void initAdapters() {

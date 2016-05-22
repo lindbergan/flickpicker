@@ -11,12 +11,24 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.database.MovieDAO;
+
+/**
+ * FriendsActivityAdapter extends CustomAdapter
+ * Used to set the values to each row of recent events
+ */
+
 
 public class FriendsActivityAdapter extends CustomAdapter {
 
     public FriendsActivityAdapter(Context context, Object[] obj) {
         super(context, obj);
     }
+
+    /**
+     * Private static class ViewHolder
+     * Used for caching values
+     */
 
     private static class ViewHolder {
         TextView username;
@@ -26,31 +38,35 @@ public class FriendsActivityAdapter extends CustomAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 
         Rating r = (Rating) getItem(position);
 
         ViewHolder viewHolder;
 
-        if (convertView == null) {
+        if (view == null) {
             viewHolder = new ViewHolder();
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.custom_row_friend_activity, parent, false);
-            viewHolder.username = (TextView) convertView.findViewById(R.id.username_textview);
-            viewHolder.movieName = (TextView) convertView.findViewById(R.id.moviename_textview);
-            viewHolder.movieYear = (TextView) convertView.findViewById(R.id.movie_year_textview);
-            viewHolder.ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar);
-            convertView.setTag(viewHolder);
+            view = inflater.inflate(R.layout.custom_row_friend_activity, parent, false);
+
+            viewHolder.username = (TextView) view.findViewById(R.id.username_textview);
+            viewHolder.movieName = (TextView) view.findViewById(R.id.moviename_textview);
+            viewHolder.movieYear = (TextView) view.findViewById(R.id.movie_year_textview);
+            viewHolder.ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
+            view.setTag(viewHolder);
         }
         else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) view.getTag();
         }
 
+        MovieDAO movieDAO = App.getMovieDAO();
+
         viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
-        viewHolder.movieName.setText(App.getMovieDAO().findMovie(r.getMovieId()).getTitle());
-        viewHolder.movieYear.setText(" (" + String.valueOf(App.getMovieDAO().findMovie(r.getMovieId()).getYear()) + ")");
+        viewHolder.movieName.setText(movieDAO.findMovie(r.getMovieId()).getTitle());
+        viewHolder.movieYear.setText(String.format(" (%s)", String.valueOf(movieDAO.findMovie(r.getMovieId()).getYear())));
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
-        return convertView;
+
+        return view;
     }
 }
