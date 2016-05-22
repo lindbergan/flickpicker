@@ -4,24 +4,25 @@ import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 12/05/16.
+ * RatingHelper
+ *
+ * A class that saves the users rating and updates the users score.
+ * It also sets the disMatch value accoringly.
  */
+
 public class RatingHelper {
 
     /**
      * A static helper method which is called when a new rating is created.
      * The method saves the newly created rating, update the dismatch value of the user
      * and its friends accordingly and also sets the correct score.
-     * @param rating
-     * @param movieId
-     * @param userId
+     * @param rating the new Rating
+     * @param movieId the id of the movie the rating refers to
+     * @param userId the id of the user the id refers to
      */
     public static void createNewRating(double rating, long movieId, long userId){
 
@@ -42,13 +43,13 @@ public class RatingHelper {
     }
 
     /**
-     * A method the determines whether or not the user of the rating has rated the movie before.
-     * @param rating
-     * @return true if movie was previously rated by user. Otherwise false.
+     * A method the determines whether or not the user has rated the movie before.
+     * @param rating the new rating
+     * @return returns true if movie was previously rated by user.
      */
     private static boolean previousRatingExists(Rating rating){
 
-        //extract the movie && userId from the raiting object and check if the movie already exists in the users movie collection
+        //extract the movie and userId from the rating object and check if the movie already exists in the users movie collection
         long ratingsUser = rating.getUserId();
         Movie ratedMovie = App.getMovieDAO().findMovie(rating.getMovieId());
         int desiredSizeOfList = 100;
