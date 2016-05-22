@@ -1,6 +1,5 @@
 package com.typeof.flickpicker.activities;
 
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -8,9 +7,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-17.
+ * ScreenSlidePageAdapter
+ *
+ * Loads and holds fragments
  */
 public class ScreenSlidePageAdapter extends FragmentStatePagerAdapter {
 
