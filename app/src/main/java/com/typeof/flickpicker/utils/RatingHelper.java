@@ -11,7 +11,7 @@ import java.util.List;
  * RatingHelper
  *
  * A class that saves the users rating and updates the users score.
- * It also sets the disMatch value accoringly.
+ * It also sets the dismatch value accordingly.
  */
 
 public class RatingHelper {
@@ -24,6 +24,7 @@ public class RatingHelper {
      * @param movieId the id of the movie the rating refers to
      * @param userId the id of the user the id refers to
      */
+
     public static void createNewRating(double rating, long movieId, long userId){
 
         Rating newRating = new Rating(rating, movieId, userId);

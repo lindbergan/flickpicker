@@ -1,5 +1,12 @@
 package com.typeof.flickpicker.core;
 
+/**
+ * A class that specifies what a Friend database object/core entity is. The object describes a
+ * one-way relation where one user can be a friend to another, but not necessarily the other way around.
+ * The class holds information about which user follow which, how many movies they both seen as well
+ * as how good of a match their taste in movies are.
+ */
+
 public class Friend implements DatabaseObject {
 
     private long id;
@@ -8,14 +15,16 @@ public class Friend implements DatabaseObject {
     private double disMatch = 0;
     private int nmbrOfMoviesBothSeen = 0;
 
+
+    /**
+     * Constructs a friend object that initially sets nmbrOfMoviesBothSeen and dismatch to 0.
+     * @param userIdOne the id of the first user (follower)
+     * @param getUserIdTwo the id of the second user (followed)
+     */
     public Friend(long userIdOne, long getUserIdTwo) {
         this.userIdOne = userIdOne;
         this.getUserIdTwo = getUserIdTwo;
     }
-
-    /**
-     * Getters
-     */
 
     public long getId() {
         return id;
@@ -30,16 +39,12 @@ public class Friend implements DatabaseObject {
     }
 
     public double getDisMatch(){
-
         return disMatch;
     }
+
     public int getNmbrOfMoviesBothSeen() {
         return nmbrOfMoviesBothSeen;
     }
-
-    /**
-     * Setters
-     */
 
     @Override
     public void setId(long id) {
