@@ -14,18 +14,13 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.sql.MovieTable;
-import com.typeof.flickpicker.database.sql.UserTable;
+import com.typeof.flickpicker.database.sql.tables.MovieTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchFragment extends Fragment {

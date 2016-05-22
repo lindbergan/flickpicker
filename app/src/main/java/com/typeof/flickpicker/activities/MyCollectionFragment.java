@@ -18,8 +18,6 @@ import android.widget.TextView;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
-import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.MovieDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +60,12 @@ public class MyCollectionFragment extends Fragment {
         mCollection = App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
 
         mWatchlist = new ArrayList<>();
-        Playlist p = App.getPlaylistDAO().getPlaylist(App.getCurrentUser().getId());
-        for (Number i : p.getMovieIds()) {
-            mWatchlist.add(App.getMovieDAO().findMovie(i.intValue()));
+        Playlist p = App.getPlaylistDAO().getUserPlaylist(App.getCurrentUser().getId());
+        if (p != null) {
+            for (Number i : p.getMovieIds()) {
+                mWatchlist.add(App.getMovieDAO().findMovie(i.intValue()));
+            }
         }
-
         populateCollectionListView(listViewMyCollection, mCollection);
         populateWatchlistListView(listViewMyWatchlist, mWatchlist);
 

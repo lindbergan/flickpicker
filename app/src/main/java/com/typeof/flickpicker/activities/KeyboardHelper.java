@@ -11,9 +11,10 @@ import android.widget.EditText;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-19.
+ * KeyboardHelper
+ *
+ * Helpers for closing the device keyboard when something other than the
+ * input bar or the keyboard is pressed.
  */
 public class KeyboardHelper {
 
@@ -25,6 +26,13 @@ public class KeyboardHelper {
         this.mActivity = activity;
     }
 
+    /**
+     * Checks the view for View objects. If an object is not an EditText view, then
+     * an touch listener is added. The method uses a recursive stratergy to work it's
+     * way down inside the view hierarchy.
+     *
+     * @param view  View to check
+     */
     public void setupUI(View view) {
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {

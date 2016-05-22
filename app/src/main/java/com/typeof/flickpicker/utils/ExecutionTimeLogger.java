@@ -3,9 +3,8 @@ package com.typeof.flickpicker.utils;
 import android.util.Log;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-10.
+ * ExecutionTimeLogger
+ * Helper class for measuring execution times
  */
 public class ExecutionTimeLogger {
     private long startNow;

@@ -1,7 +1,10 @@
 package com.typeof.flickpicker.database.sql;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
@@ -14,17 +17,19 @@ import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
-import com.typeof.flickpicker.utils.OMDBParser;
+import com.typeof.flickpicker.database.sql.tables.FriendTable;
+import com.typeof.flickpicker.database.sql.tables.MovieTable;
+import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
+import com.typeof.flickpicker.database.sql.tables.RatingTable;
+import com.typeof.flickpicker.database.sql.tables.SQLTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-19.
+ * SQLDatabase
+ * Creates, Deletes and Seeds the database
  */
 public class SQLDatabase implements Database {
 
@@ -72,6 +77,9 @@ public class SQLDatabase implements Database {
         db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
     }
 
+    /**
+     * Seed method
+     */
     public void seedDatabase() {
 
         Movie m1 = new Movie("M1", 1995);
@@ -218,10 +226,33 @@ public class SQLDatabase implements Database {
         //-----------------------------------------------------------------------
     }
 
+    /**
+     * Combines SQL Queries from the tables
+     * @return
+     */
+    public boolean hasBeenCreated() {
+        SQLTable movieTable = new MovieTable();
 
-    @Override
-    public boolean hasBeenSeeded() {
-        MovieDAO movieDAO = App.getMovieDAO();
-        return movieDAO.tableExists() && movieDAO.getNumberOfMovies() >= OMDBParser.numberOfMovies;
+        Cursor c;
+        String query = movieTable.hasBeenCreatedSQLQuery(this.db);
+
+        try {
+            c = db.rawQuery(query, null);
+        } catch (SQLiteException e ) {
+            e.printStackTrace();
+            return false;
+        }
+
+        c.moveToFirst();
+
+        boolean created = false;
+        if (c.getCount() > 0) {
+            created = true;
+        }
+
+        c.close();
+
+        return created;
     }
+
 }

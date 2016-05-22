@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.UserDAO;
+import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,11 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
         super(ctx);
     }
 
-
-
     /**
      * Method for saving a user record in the database
      *
-     * @param user The User object to be saved in the database
-     * @return the userId given to the saved User object
+     * @param user  The User object to be saved in the database
+     * @return      the userId given to the saved User object
      *
      */
     public long saveUser(User user) {
@@ -43,9 +43,9 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
     /**
      * Method for fetching a user from the database
      *
-     * @param userId the requested user's ID
-     * @return the user corresponding to specified userID
-     * @throws DatabaseRecordNotFoundException
+     * @param   userId the requested user's ID
+     * @return  the user corresponding to specified userID
+     * @throws  DatabaseRecordNotFoundException
      */
     public User getUserById(long userId) {
         try {
@@ -62,9 +62,9 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
     /**
      * Method for searching for a user via a search string
      *
-     * @param column specifies what column to search in
-     * @param searchString the search string
-     * @return a list of users with usernames matching the searchstring
+     * @param   column specifies what column to search in
+     * @param   searchString the search string
+     * @return  a list of users with usernames matching the searchstring
      */
     public List<User> searchUser(String column, String searchString) {
         List<User> results = new ArrayList<>();
@@ -84,8 +84,8 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
     /**
      * Method for deleting a user record from the database
      *
-     * @param user the user to delete from the database
-     * @return int that represents the number of records deleted
+     * @param user  the user to delete from the database
+     * @return int  that represents the number of records deleted
      */
     @Override
     public int deleteUser(User user) {

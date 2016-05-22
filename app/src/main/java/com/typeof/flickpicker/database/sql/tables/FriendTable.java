@@ -1,14 +1,11 @@
-package com.typeof.flickpicker.database.sql;
-
+package com.typeof.flickpicker.database.sql.tables;
 import android.provider.BaseColumns;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-25.
+ * FriendTable
+ *
  */
-
-public class FriendTable {
+public class FriendTable extends SQLTable {
 
     public FriendTable() {}
 
@@ -17,16 +14,12 @@ public class FriendTable {
         private static final String INTEGER_TYPE = " INT";
         private static final String DOUBLE_TYPE = " REAL";
         private static final String COMMA_SEP = ",";
-
         public static final String TABLE_NAME = "friends";
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_USER1ID = "user1id";
         public static final String COLUMN_NAME_USER2ID = "user2id";
         public static final String COLUMN_NAME_DISMATCH = "dismatch";
         public static final String COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN = "nmbrOfMoviesBothSeen";
-
-        public static final String COLUMN_NAME_NULLABLE = " ";
-
 
         public static String getSQLCreateTableQuery() {
             return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
@@ -44,4 +37,8 @@ public class FriendTable {
 
     }
 
+    @Override
+    public String getTableName() {
+        return FriendEntry.TABLE_NAME;
+    }
 }
