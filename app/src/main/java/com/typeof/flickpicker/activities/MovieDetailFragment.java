@@ -118,6 +118,7 @@ public class MovieDetailFragment extends Fragment {
             }
         });
 
+
         addToWatchListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -206,16 +207,22 @@ public class MovieDetailFragment extends Fragment {
 
     public void setAddToPlaylistWidgets() {
 
-        if (isMovieOnPlaylist() || hasUserSeenMovie()) {
+        addToWatchListButton.setTextOff("+");
+        addToWatchListButton.setTextOn("-");
+
+        if (isMovieOnPlaylist()) {
             addToWatchListButton.setChecked(true);
-            addToWatchListButton.setText("-");
             movieDetailAddToPlaylistLabel.setText("Remove from playlist");
         }else{
             addToWatchListButton.setChecked(false);
-            addToWatchListButton.setText("+");
             movieDetailAddToPlaylistLabel.setText("Add to playlist");
         }
     }
+
+
+
+
+
 
     /**
      * method used in onCreateView to set rating bar and button to correct states
@@ -231,6 +238,8 @@ public class MovieDetailFragment extends Fragment {
             setRateButtonActive();
         }
     }
+
+
     /**
      * method to activate rate button and change its appearance
      */
@@ -238,6 +247,7 @@ public class MovieDetailFragment extends Fragment {
         rateButton.setBackgroundResource(R.drawable.test_button_round_corners);
         rateButton.setClickable(true);
     }
+
 
     /**
      * method to inactivate rate button and change its appearance

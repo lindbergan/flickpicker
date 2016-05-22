@@ -47,7 +47,7 @@ public class Playlist implements DatabaseObject {
     }
 
     public void remove(long movieId) {
-        movieIds.remove(movieIds.indexOf(movieId));
+        getMovieIds().remove(Long.valueOf(movieId));
     }
 
 }//Playlist
