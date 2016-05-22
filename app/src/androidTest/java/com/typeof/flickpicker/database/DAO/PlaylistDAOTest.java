@@ -1,5 +1,4 @@
 package com.typeof.flickpicker.database.DAO;
-import android.test.ApplicationTestCase;
 
 import com.typeof.flickpicker.BaseTest;
 import com.typeof.flickpicker.activities.App;
@@ -59,7 +58,7 @@ public class PlaylistDAOTest extends BaseTest {
         Playlist playlist = new Playlist("Watchlist", currentUserId, movieIds);
         mPlaylistDAO.savePlaylist(playlist);
 
-        Playlist resultPlaylist = mPlaylistDAO.getPlaylist(currentUserId);
+        Playlist resultPlaylist = mPlaylistDAO.getUserPlaylist(currentUserId);
         assertTrue(resultPlaylist.getMovieIds().size() == 3);
     }
 

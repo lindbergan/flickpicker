@@ -24,10 +24,11 @@ public abstract class SQLDAO {
 
     /**
      * Default find method
-     * @param id - id to look for
-     * @param tableName - which table to look in
-     * @return - Cursor object containing record found in database
-     * @throws DatabaseRecordNotFoundException
+     *
+     * @param id            id to look for
+     * @param tableName     which table to look in
+     * @return              Cursor object containing record found in database
+     * @throws              DatabaseRecordNotFoundException
      */
     public Cursor find(long id, String tableName) throws DatabaseRecordNotFoundException {
         Cursor cursor = db.rawQuery("SELECT * FROM " + tableName + " WHERE id = ? LIMIT 1", new String[]{String.valueOf(id)});
@@ -38,11 +39,12 @@ public abstract class SQLDAO {
     }
 
     /**
+     * Save entity
      *
-     * @param object - database object to save
-     * @param tableName - target table
-     * @param values - which values to save
-     * @return - returns the database rows ID
+     * @param object        database object to save
+     * @param tableName     target table
+     * @param values        which values to save
+     * @return              returns the database rows ID
      */
     public long save(DatabaseObject object, String tableName, ContentValues values) {
         // If we have an id on this object
@@ -67,10 +69,12 @@ public abstract class SQLDAO {
     }
 
     /**
+     * Update entity
+     *
      * Default update method for SQLDAO
-     * @param object - object to update
-     * @param values - which values to update
-     * @param tableName - which table to target
+     * @param object        object to update
+     * @param values        which values to update
+     * @param tableName     which table to target
      */
     public void update(DatabaseObject object, ContentValues values, String tableName) {
         String selection = "id LIKE ?";
@@ -93,10 +97,11 @@ public abstract class SQLDAO {
     /**
      * Delete
      * Returns number of rows affected
-     * @param object - object to save
-     * @param tableName - target table
-     * @return - returns number of rows deleted
-     * @throws IllegalStateException
+     *
+     * @param object        object to save
+     * @param tableName     target table
+     * @return              returns number of rows deleted
+     * @throws              IllegalStateException
      */
     public int delete(DatabaseObject object, String tableName) throws IllegalStateException {
         if (object.getId() == 0) {
@@ -109,10 +114,11 @@ public abstract class SQLDAO {
 
     /**
      * Default Search method for SQLDAOs
-     * @param tableName - which table to search
-     * @param column - which column to match
-     * @param searchString - which string to search for
-     * @return
+     *
+     * @param tableName     which table to search
+     * @param column        which column to match
+     * @param searchString  which string to search for
+     * @return              Cursor from database query
      */
     public Cursor search(String tableName, String column, String searchString) {
         return db.rawQuery("SELECT * FROM " + tableName + " WHERE " + column + " LIKE ?",

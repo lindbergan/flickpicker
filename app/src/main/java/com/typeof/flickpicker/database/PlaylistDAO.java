@@ -9,6 +9,6 @@ import com.typeof.flickpicker.core.Playlist;
 public interface PlaylistDAO {
     long savePlaylist(Playlist playlist);
     Playlist findPlaylistById(long id);
-    Playlist getPlaylist(long userId);
+    Playlist getUserPlaylist(long userId);
     long removePlaylist(Playlist playlist);
 }

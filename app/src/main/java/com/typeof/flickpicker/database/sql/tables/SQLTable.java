@@ -8,10 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
  * Created on 16-05-21.
  */
 public abstract class SQLTable {
-
     public String hasBeenCreatedSQLQuery(SQLiteDatabase db) {
         return "select DISTINCT tbl_name from sqlite_master where tbl_name = '" + getTableName() + "'";
     }
-
     public abstract String getTableName();
 }

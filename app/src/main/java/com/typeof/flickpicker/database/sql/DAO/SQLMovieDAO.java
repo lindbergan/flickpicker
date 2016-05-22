@@ -36,9 +36,9 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * Finds a movie with help of movieId
      * Calls on createMovieFromCursor then returns a created movie
      *
-     * @param id - id of sought movie
-     * @return Movie instance
-     * @throws DatabaseRecordNotFoundException
+     * @param id    id of sought movie
+     * @return      Movie instance
+     * @throws      DatabaseRecordNotFoundException
      */
     public Movie findMovie(long id) {
         try {
