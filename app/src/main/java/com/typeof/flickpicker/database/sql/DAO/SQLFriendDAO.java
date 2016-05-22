@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,6 +11,12 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
+import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.database.sql.tables.FriendTable;
+import com.typeof.flickpicker.database.sql.tables.RatingTable;
+import com.typeof.flickpicker.database.sql.tables.UserTable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,25 +28,22 @@ import java.util.List;
 
 public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
-    private SQLUserDAO sql;
     private SQLiteDatabase db;
-    private SQLRatingDAO mRatingDAO;
     private SQLMovieDAO mMovieDAO;
 
     public SQLFriendDAO(Context ctx) {
         super(ctx);
-        sql = new SQLUserDAO(ctx);
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = dbhelper.getWritableDatabase();
-        mRatingDAO = new SQLRatingDAO(ctx);
         mMovieDAO = new SQLMovieDAO(ctx);
     }
 
     /**
      * Adds the friends values to user1id and user2id columns
      * Saves the friend to the database
-     * @param f
-     * @return
+     *
+     * @param f     Friend entity
+     * @return      id of friend added
      */
 
     @Override
@@ -57,10 +60,10 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
      * A super SQL-question made by: SebbeTheMan
      * If cursor count is 0 --> returns a empty list
      * Otherwise adds all users and returns the list
-     * @param id
-     * @return
+     *
+     * @param id - given user id
+     * @return List of friends belonging to the user
      */
-
     @Override
     public List<User> getFriendsFromUserId(long id) {
         List<User> userFriends = new ArrayList<>();
@@ -78,7 +81,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
         try {
             do {
-                userFriends.add(sql.createUserFromCursor(c));
+                userFriends.add(CoreEntityFactory.createUserFromCursor(c));
             } while (c.moveToNext());
         } finally {
             c.close();
@@ -89,11 +92,11 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
     /**
      * Removes the friend values from the database
-     * @param userId1
-     * @param userId2
-     * @return
+     *
+     * @param userId1 - first user
+     * @param userId2 - second user
+     * @return - number of rows affected by the database
      */
-
     @Override
     public long removeFriend(long userId1, long userId2) {
         return db.delete(FriendTable.FriendEntry.TABLE_NAME,
@@ -101,6 +104,12 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
                 new String[]{String.valueOf(userId1), String.valueOf(userId2)});
     }
 
+    /**
+     * Returns list of Ratings belonging to the friends of the given user
+     *
+     * @param userId - given user id
+     * @return List of ratings
+     */
     @Override
     public List<Rating> getFriendsLatestActivities(long userId) {
 
@@ -124,7 +133,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         if (c.getCount() != 0) {
             try {
                 do {
-                    ratings.add(mRatingDAO.createRatingFromCursor(c));
+                    ratings.add(CoreEntityFactory.createRatingFromCursor(c));
                 } while (c.moveToNext());
             } finally {
                 c.close();
@@ -134,16 +143,23 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         return ratings;
     }
 
+    /**
+     * This algorithm goes through every movie a user has seen and compares the users rating
+     * with his/hers friends ratings. Every friend gets a mismatch value based on how similar
+     * the friend and the user rates movies. A lower mismatch value gives the friend a higher
+     * priority when movies are recommended to the user.
+     *
+     * @param rating - Rating
+     */
     @Override
     public void updateFriendMatches(Rating rating){
 
         long currentUserId = rating.getUserId();
-        int desiredSizeIfList = 100; //maybe getUsersMovieCollection() really shouldnt have a "int max" as an argument...
+        int desiredSizeIfList = 100;
 
         List<Movie> usersMovieCollection = mMovieDAO.getMovieCollectionFromUserId(desiredSizeIfList, currentUserId);
         List<User> usersFriends = getFriendsFromUserId(currentUserId);
         String[] movieIds = extractMovieIdsFromMovies(usersMovieCollection);
-
 
         for (int i = 0; i<usersFriends.size(); i++) {
 
@@ -168,10 +184,9 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
                 if (c.getCount() != 0) {
                     c.moveToFirst();
                     nmbrOfMovieBothSeen++;
-                    totalDismatch = calculateNewMatchValue(c, totalDismatch, nmbrOfMovieBothSeen);
+                    totalDismatch = calculateNewMismatchValue(c, totalDismatch, nmbrOfMovieBothSeen);
                     c.close();
                 }
-
             }
 
             //set the updated values to the friendRelation && save it
@@ -184,26 +199,29 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         }
     }
 
-    public double calculateNewMatchValue(Cursor c, double oldTotalDisMatchValue, int nmbrOfMovieBothSeen){
-
-        //testing data - delete when confirmed working... "<--" marks where the delete ends
-        int testINt = c.getCount();
-        int testColCount = c.getColumnCount();
-        String[] allColumnNames = c.getColumnNames();
-        String movieId = c.getColumnName(0);
-        // <--
-
+    /**
+     * Calculates the mismatch value
+     *
+     * @param c                         Cursor
+     * @param oldTotalMismatchValue     Previous mismatch value
+     * @param nmbrOfMovieBothSeen       Number of movies both of the users has seen
+     * @return                          The new mismatch value
+     */
+    public double calculateNewMismatchValue(Cursor c, double oldTotalMismatchValue, int nmbrOfMovieBothSeen){
         double usersRating = c.getLong(2);
         double friendRating = c.getLong(4);
 
         double newDiff = Math.abs(usersRating - friendRating);
-        double newTotalDisMatchValue = oldTotalDisMatchValue + newDiff;
-
-        return newTotalDisMatchValue;
+        return oldTotalMismatchValue + newDiff;
     }
 
+    /**
+     * Return the movie ids from list of movies
+     *
+     * @param movies    List of movie objects
+     * @return          String array of movie ids
+     */
     public String[] extractMovieIdsFromMovies(List<Movie> movies){
-
         //extract the ids
         String[] movieIds = new String[movies.size()];
 
@@ -217,8 +235,14 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         return movieIds;
     }
 
+    /**
+     * Get the Friend entity that two users share
+     *
+     * @param userId1   Id of user 1
+     * @param userId2   Id of user 2
+     * @return          Friend object
+     */
     public Friend getFriendRelation(long userId1, long userId2){
-
         String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME +
                 " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID + " LIKE "
                 + userId1 + " AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " LIKE " + userId2;
@@ -226,28 +250,19 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         Cursor c = db.rawQuery(query,null);
         c.moveToFirst();
 
-        Friend friendRelation = createFriendFromCursor(c);
+        Friend friendRelation = CoreEntityFactory.createFriendFromCursor(c);
         c.close();
 
         return friendRelation;
     }
 
-    public Friend createFriendFromCursor(Cursor c) {
 
-        long id = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_ID));
-        long userId1 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER1ID));
-        long userId2 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER2ID));
-        double disMatch = c.getDouble(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH));
-        int nmbrOfMoviesBothSeen = c.getInt(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN));
-
-        Friend friendRelation = new Friend(userId1, userId2);
-        friendRelation.setId(id);
-        friendRelation.setDisMatch(disMatch);
-        friendRelation.setNmbrOfMoviesBothSeen(nmbrOfMoviesBothSeen);
-        return friendRelation;
-    }
-
-    @Override
+    /**
+     * Looks for friend relation with another user
+     *
+     * @param user2Id   Other users id
+     * @return          boolean
+     */
     public boolean isFriend(long user2Id) {
         String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID
                 + " = ? AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?";

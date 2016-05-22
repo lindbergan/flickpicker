@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.typeof.flickpicker.activities.SearchFragment"
-    android:background="@color/color_backdrop">
+    android:background="@color/color_backdrop"
+    android:id="@+id/parent">
 
     <TabHost
         android:layout_width="match_parent"
@@ -66,7 +67,7 @@
                         android:text="No movies found"
                         android:id="@+id/hiddenNoMoviesText"
                         android:layout_gravity="center"
-                        android:layout_marginTop="150dp"/>
+                        android:layout_marginTop="75dp"/>
 
                 </LinearLayout>
 
@@ -102,7 +103,7 @@
                         android:text="No users found"
                         android:id="@+id/hiddenNoUsersText"
                         android:layout_gravity="center"
-                        android:layout_marginTop="150dp"/>
+                        android:layout_marginTop="75dp"/>
                 </LinearLayout>
 
             </FrameLayout>

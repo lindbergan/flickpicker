@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/list_cell_margin"
     android:background="@color/color_backdrop"
     tools:context=".activities.FriendsFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/parent">
 
     <SearchView
         android:layout_width="match_parent"
@@ -16,6 +17,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/search_for_a_name"
+        android:iconifiedByDefault="false"
         android:queryHint="Search for your friends"/>
 
     <RelativeLayout

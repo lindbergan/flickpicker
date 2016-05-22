@@ -5,13 +5,10 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-17.
+ * UnSwipeableViewPager
+ *
+ * A View Pager that prevents swiping between fragments.
  */
 public class UnSwipeableViewPager extends ViewPager {
 

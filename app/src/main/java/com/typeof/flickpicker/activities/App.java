@@ -12,17 +12,22 @@ import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.SQLDatabase;
-import com.typeof.flickpicker.database.sql.SQLFriendDAO;
-import com.typeof.flickpicker.database.sql.SQLMovieDAO;
-import com.typeof.flickpicker.database.sql.SQLPlaylistDAO;
-import com.typeof.flickpicker.database.sql.SQLRatingDAO;
-import com.typeof.flickpicker.database.sql.SQLUserDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLFriendDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLMovieDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLPlaylistDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLRatingDAO;
+import com.typeof.flickpicker.database.sql.DAO.SQLUserDAO;
 import com.typeof.flickpicker.utils.MetaData;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-03.
+ * App
+ *
+ * The Applications main class.
+ * Sets up the database and the access to the DAO objects.
+ *
+ * The class loads settings about the database from the AndroidManifest.xml file.
+ * The DAO and the Database is created based on the settings in that file.
+ *
  */
 public class App extends Application {
 
@@ -40,17 +45,18 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mContext = getApplicationContext();
+
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(mContext, "database_type");
         initDatabase();
+
         setupDAO();
 
-        if (!getDatabase().hasBeenSeeded()) {
+        if(!sDatabase.hasBeenCreated()) {
             createDatabase();
-            createCurrentUser();
-        } else {
-            setupCurrentUser();
         }
+
+        setupCurrentUser();
     }
 
     private static void createCurrentUser() {
@@ -100,13 +106,12 @@ public class App extends Application {
         }
     }
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        Database db = getDatabase();
-        db.dropTables();
-    }
-
+    /**
+     * The static methods are used in controllers. The method returns the Interface version
+     * of the DAO. Because of this, the controller does not care what type of database that's
+     * being used by the application.
+     *
+     */
     public static User getCurrentUser() {return mCurrentUser;}
 
     public static MovieDAO getMovieDAO() {

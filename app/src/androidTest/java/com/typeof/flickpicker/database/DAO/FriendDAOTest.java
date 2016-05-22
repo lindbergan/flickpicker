@@ -1,12 +1,17 @@
-package com.typeof.flickpicker.database;
+package com.typeof.flickpicker.database.DAO;
 
 import android.test.ApplicationTestCase;
 
+import com.typeof.flickpicker.BaseTest;
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.FriendDAO;
+import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.RatingDAO;
+import com.typeof.flickpicker.database.UserDAO;
 
 import java.util.List;
 
@@ -16,23 +21,16 @@ import java.util.List;
  * Created on 16-04-25.
  */
 
-public class FriendDAOTest extends ApplicationTestCase<App> {
+public class FriendDAOTest extends BaseTest {
 
     private FriendDAO mFriendDAO;
     private UserDAO mUserDAO;
     private RatingDAO mRatingDAO;
     private MovieDAO mMovieDAO;
 
-    public FriendDAOTest() {
-        super(App.class);
-    }
-
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-
-        createApplication();
-
         mFriendDAO = App.getFriendDAO();
         mUserDAO = App.getUserDAO();
         mMovieDAO = App.getMovieDAO();
@@ -51,7 +49,6 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
      * Asserts that user1 has a friend in his friend list
      * @throws Exception
      */
-
     public void testAddFriend() throws Exception {
 
         User user1 = new User("pelle", "password");
@@ -74,7 +71,6 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
      * Asserts that
      * @throws Exception
      */
-
     public void testGetFriendsFromUserId() throws Exception {
         User user1 = new User("pelle", "password");
         long id = mUserDAO.saveUser(user1);
@@ -90,7 +86,6 @@ public class FriendDAOTest extends ApplicationTestCase<App> {
      * Removes user2 from user1s friend list
      * @throws Exception
      */
-
     public void testRemoveFriend() throws Exception {
 
         User user1 = new User("pelle", "password");

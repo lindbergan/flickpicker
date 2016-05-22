@@ -23,20 +23,30 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-17.
+ * OMDBParser
+ * Fetches JSON objects from the OMDB Api
  */
 public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
 
     private List<Movie> movies = new ArrayList<>();
     private List<String> movieIds = new ArrayList<>();
     private Context ctx;
-    private final String filename ="movieIds.txt";
     public static final int numberOfMovies = 249;
     private ProgressDialog mProgressDialog;
     private MovieDAO mMovieDAO;
 
+    public OMDBParser(Context ctx, MovieDAO movieDAO) {
+        this.ctx = ctx;
+        readTopListFile();
+        this.mMovieDAO = movieDAO;
+        mProgressDialog = new ProgressDialog(ctx);
+    }
+
+    /**
+     * Method that is preformed async to the main thread
+     * @param params
+     * @return
+     */
     @Override
     protected List<Movie> doInBackground(Void... params) {
         for (String imdbId : movieIds) {
@@ -50,17 +60,13 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
         return movies;
     }
 
-    public OMDBParser(Context ctx, MovieDAO movieDAO) {
-        this.ctx = ctx;
-        readTopListFile();
-        this.mMovieDAO = movieDAO;
-        mProgressDialog = new ProgressDialog(ctx);
-    }
-
+    /**
+     * Read IMDB top list ids from text file.
+     */
     private void readTopListFile() {
         try {
             AssetManager am = ctx.getAssets();
-            InputStream is = am.open(filename);
+            InputStream is = am.open("movieIds.txt");
 
             String line;
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(is));
@@ -82,6 +88,9 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
         this.movieIds = movieIds;
     }
 
+    /**
+     * Request All Movies from OMDB
+     */
     public void requestAllMoviesFromOMDB() {
         for (String imdbId : movieIds) {
             try {
@@ -93,6 +102,9 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
         }
     }
 
+    /**
+     * Displays dialog before the async task runs
+     */
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
@@ -104,9 +116,16 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
         return movies;
     }
 
+    /**
+     * Sends request to the OMDB API, returns Movie instance
+     * @param imdbId
+     * @return
+     * @throws Exception
+     */
     private Movie requestMovieFromOMDB(String imdbId) throws Exception {
 
         try {
+            // Data is returned as JSON
             URL url = new URL("http://www.omdbapi.com/?i="+imdbId+"&plot=short&r=json");
             InputStream input = url.openStream();
             Map<String, String> map = new Gson().fromJson(new InputStreamReader(input, "UTF-8"), new TypeToken<Map<String, String>>() {
@@ -120,6 +139,7 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
             String imdbRating = map.get("imdbRating");
             String imdbVotes = map.get("imdbVotes");
 
+            // Imdb rating (1 - 10) divides by 2 because we use 1 - 5 rating
             double communityRating = Double.parseDouble(imdbRating) / 2;
             int nrOfVotes = Integer.parseInt(imdbVotes.replace(",", ""));
 
@@ -137,6 +157,10 @@ public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
 
     }
 
+    /**
+     * After async task is 
+     * @param list
+     */
     @Override
     protected void onPostExecute(List list) {
         super.onPostExecute(list);

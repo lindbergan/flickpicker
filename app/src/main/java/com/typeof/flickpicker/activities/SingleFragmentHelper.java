@@ -1,13 +1,13 @@
 package com.typeof.flickpicker.activities;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-17.
+ * SingleFragmentHelper
+ *
+ * Loads Fragment of single type (Single movie, single user) int to the main activity's
+ * ViewPager
  */
 public class SingleFragmentHelper {
     public static void setFragment(MainActivity mainActivity, Fragment fragment) {

@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.DAO;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,13 +7,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.PlaylistDAO;
+import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
+import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-25.
+ * SQLPlaylistDAO
+ * DAO for Playlist objects
  */
 public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
@@ -25,8 +27,12 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         this.db = databaseHelper.getReadableDatabase();
     }
 
-
-    @Override
+    /**
+     * Saves playlist object to database
+     *
+     * @param playlist  Playlist object
+     * @return          Id of record saved in database
+     */
     public long savePlaylist(Playlist playlist) {
         Gson gson = new Gson();
         String movieIdsJson = gson.toJson(playlist.getMovieIds(), new TypeToken<ArrayList<Number>>() {
@@ -38,12 +44,17 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         return super.save(playlist, "playlists", values);
     }
 
-    @Override
+    /**
+     * Returns Playlist object found in database
+     *
+     * @param id    id of playlist in database
+     * @return      Playlist object
+     */
     public Playlist findPlaylistById(long id) {
         Cursor c = super.find(id, "playlists");
         c.moveToFirst();
         if (c.getCount() > 0) {
-            Playlist playlist = createPlaylistFromCursor(c);
+            Playlist playlist = CoreEntityFactory.createPlaylistFromCursor(c);
             c.close();
             return playlist;
         } else {
@@ -52,32 +63,19 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         }
     }
 
-    private Playlist createPlaylistFromCursor(Cursor c) {
-
-        Gson gson = new Gson();
-        long id = c.getLong(c.getColumnIndex("id"));
-        String title = c.getString(c.getColumnIndex("title"));
-        long userId = c.getLong(c.getColumnIndex("user_id"));
-        String moviesListJSON = c.getString(c.getColumnIndex("movies_list"));
-        List<Number> moviesFromDB = gson.fromJson(moviesListJSON, new TypeToken<ArrayList<Number>>(){}.getType());
-
-        Playlist playlist = new Playlist(title, userId, moviesFromDB);
-
-        playlist.setId(id);
-
-        return playlist;
-
-    }
-
-    @Override
-    public Playlist getPlaylist(long userId) {
-
+    /**
+     * Returns Playlist belonging to user
+     *
+     * @param userId    Given user ids
+     * @return          Playlist object
+     */
+    public Playlist getUserPlaylist(long userId) {
         String query = "select * from playlists where playlists.user_id = ?";
 
         Cursor c = db.rawQuery(query, new String[]{String.valueOf(userId)});
         c.moveToFirst();
         if (c.getCount() > 0) {
-            Playlist p = createPlaylistFromCursor(c);
+            Playlist p = CoreEntityFactory.createPlaylistFromCursor(c);
             c.close();
             return p;
         } else {
@@ -88,14 +86,11 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
     /**
      * Deletes the playlist
-     * @param playlist
-     * @return
+
+     * @param playlist  Playlist object
+     * @return          number of rows affected in the database
      */
-
-    @Override
     public long removePlaylist(Playlist playlist) {
-
         return super.delete(playlist, PlaylistTable.PlaylistEntry.TABLE_NAME);
-
     }
 }

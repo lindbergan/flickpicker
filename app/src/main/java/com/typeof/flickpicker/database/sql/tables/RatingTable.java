@@ -1,7 +1,7 @@
-package com.typeof.flickpicker.database.sql;
+package com.typeof.flickpicker.database.sql.tables;
 import android.provider.BaseColumns;
 
-public class RatingTable {
+public class RatingTable extends SQLTable {
 
     public RatingTable() {}
 
@@ -19,7 +19,6 @@ public class RatingTable {
         public static final String COLUMN_NAME_CREATED_AT = "created_at";
         public static final String COLUMN_NAME_NULLABLE = " NULL";
 
-
         public static String getSQLCreateTableQuery() {
             return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" +
                     COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -35,5 +34,9 @@ public class RatingTable {
         }
     }
 
+    @Override
+    public String getTableName() {
+        return RatingEntry.TABLE_NAME;
+    }
 }
 
