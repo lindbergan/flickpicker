@@ -17,16 +17,12 @@ import com.typeof.flickpicker.database.sql.tables.UserTable;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 /**
  * FlickPicker
  * Group 22
  * Created on 19/05/16.
  */
 public class CoreEntityFactory {
-
-
 
     /**
      * Method for creating Friend object from specific record in User database

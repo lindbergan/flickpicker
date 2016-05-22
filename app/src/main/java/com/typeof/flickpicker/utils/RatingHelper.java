@@ -11,8 +11,6 @@ import com.typeof.flickpicker.database.RatingDAO;
  */
 public class RatingHelper {
 
-
-
     /**
      * static helper method for creating a new rating
      * @param rating
@@ -30,6 +28,5 @@ public class RatingHelper {
     }
 
     //private static void updateUserMatching(){}
-
 
 }

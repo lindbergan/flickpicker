@@ -1,5 +1,4 @@
 package com.typeof.flickpicker.database.sql.tables;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**

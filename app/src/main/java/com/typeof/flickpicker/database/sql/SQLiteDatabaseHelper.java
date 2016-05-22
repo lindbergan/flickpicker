@@ -30,7 +30,6 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
-        int abc = 1;
         App.getDatabase().setUpTables();
     }
 
