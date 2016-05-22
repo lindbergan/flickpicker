@@ -56,6 +56,7 @@
                         android:divider="@color/color_backdrop"
                         android:dividerHeight="@dimen/list_cell_margin"
                         android:paddingTop="@dimen/list_cell_margin"
+                        android:paddingBottom="@dimen/list_cell_margin"
                         android:clipToPadding="false"
                         />
 
@@ -93,6 +94,7 @@
                         android:divider="@color/color_backdrop"
                         android:dividerHeight="@dimen/list_cell_margin"
                         android:paddingTop="@dimen/list_cell_margin"
+                        android:paddingBottom="@dimen/list_cell_margin"
                         android:clipToPadding="false"
                         />
 

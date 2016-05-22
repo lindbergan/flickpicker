@@ -124,12 +124,11 @@ public class MovieDetailFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 PlaylistDAO playlistDAO = App.getPlaylistDAO();
-
                 if (isChecked) {
-                    playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), movie);
+                    playlistDAO.addMovieToPlaylist((App.getCurrentUser()), movie);
                     toggleAddToPlaylistButton();
                 } else {
-                    playlistDAO.addMovieToPlaylist(App.getCurrentUser(), movie);
+                    playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), movie);
                     toggleAddToPlaylistButton();
                 }
             }
@@ -140,12 +139,9 @@ public class MovieDetailFragment extends Fragment {
 
 
     private void toggleAddToPlaylistButton() {
-
-        if (addToWatchListButton.getText().equals("+")) {
-            addToWatchListButton.setText("-");
+        if (addToWatchListButton.isChecked()) {
             movieDetailAddToPlaylistLabel.setText("Remove from playlist");
         }else{
-            addToWatchListButton.setText("+");
             movieDetailAddToPlaylistLabel.setText("Add to playlist");
         }
     }
@@ -192,7 +188,7 @@ public class MovieDetailFragment extends Fragment {
     public boolean isMovieOnPlaylist() {
 
         PlaylistDAO playlistDAO = App.getPlaylistDAO();
-        Playlist playlist = playlistDAO.getPlaylist(App.getCurrentUser().getId());
+        Playlist playlist = playlistDAO.getUserPlaylist(App.getCurrentUser().getId());
         List<Number> movies = playlist.getMovieIds();
         boolean isOnWatchList = false;
         for (Number movie : movies){
