@@ -16,6 +16,7 @@ import android.widget.ToggleButton;
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
@@ -64,7 +65,7 @@ public class MovieDetailFragment extends Fragment {
 
         hookUpViews(movieDetailView);
         populateMovieFields();
-        setAddToPlaylistWidgets(); //TODO: fix this
+        setAddToPlaylistWidgets();
         setRateWidgets();
         initListeners();
 
@@ -120,11 +121,15 @@ public class MovieDetailFragment extends Fragment {
         addToWatchListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 PlaylistDAO playlistDAO = App.getPlaylistDAO();
+
                 if (isChecked) {
                     playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), movie);
+                    toggleAddToPlaylistButton();
                 } else {
                     playlistDAO.addMovieToPlaylist(App.getCurrentUser(), movie);
+                    toggleAddToPlaylistButton();
                 }
             }
         });
@@ -183,10 +188,33 @@ public class MovieDetailFragment extends Fragment {
         return false;
     }
 
-    public void setAddToPlaylistWidgets(){
+    public boolean isMovieOnPlaylist() {
 
+        PlaylistDAO playlistDAO = App.getPlaylistDAO();
+        Playlist playlist = playlistDAO.getPlaylist(App.getCurrentUser().getId());
+        List<Number> movies = playlist.getMovieIds();
+        boolean isOnWatchList = false;
+        for (Number movie : movies){
+            long id = movie.longValue();
+            if(id == movieId){
+                isOnWatchList = true;
+                break;
+            }
+        }
+        return isOnWatchList;
+    }
 
+    public void setAddToPlaylistWidgets() {
 
+        if (isMovieOnPlaylist() || hasUserSeenMovie()) {
+            addToWatchListButton.setChecked(true);
+            addToWatchListButton.setText("-");
+            movieDetailAddToPlaylistLabel.setText("Remove from playlist");
+        }else{
+            addToWatchListButton.setChecked(false);
+            addToWatchListButton.setText("+");
+            movieDetailAddToPlaylistLabel.setText("Add to playlist");
+        }
     }
 
     /**

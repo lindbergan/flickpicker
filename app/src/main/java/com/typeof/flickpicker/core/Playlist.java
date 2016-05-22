@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist implements DatabaseObject {
+
     private long id = 0;
     private String title;
     private List<Number> movieIds;
