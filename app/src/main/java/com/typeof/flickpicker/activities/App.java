@@ -44,7 +44,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = getBaseContext();
+        mContext = getApplicationContext();
 
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(mContext, "database_type");
