@@ -175,9 +175,9 @@ public class Movie implements DatabaseObject {
 
     /**
      * A Movie object's hashcode is determined by its id
-     * @return the id of the movie
+     * @return returns the hashcode of the movie
      */
-    
+
     @Override
     public int hashCode() {
         return (int) id;
