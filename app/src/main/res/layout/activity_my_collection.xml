@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.typeof.flickpicker.activities.MyCollectionFragment"
+    tools:context=".activities.CollectionFragment"
     android:background="@color/color_backdrop">
 
     <TabHost
@@ -46,7 +46,7 @@
                         android:id="@+id/searchView"
                         android:layout_gravity="center_horizontal"
                         android:iconifiedByDefault="false"
-                        android:queryHint="Add a Movie to Collection" />
+                        android:queryHint="Filter movies in collection" />
 
                     <ListView
                         android:layout_width="match_parent"
@@ -72,7 +72,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/tabMyPlaylist"
+                    android:id="@+id/tabMyWatchlist"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -83,7 +83,7 @@
                         android:id="@+id/searchViewPlaylist"
                         android:layout_gravity="center_horizontal"
                         android:iconifiedByDefault="false"
-                        android:queryHint="Filter a movie" />
+                        android:queryHint="Filter movies in watchlist" />
 
                     <ListView
                         android:layout_width="match_parent"

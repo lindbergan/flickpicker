@@ -9,16 +9,33 @@
     android:background="@color/color_backdrop"
     tools:context="activities.RecommendationsFragment">
 
-    <ListView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recommendationsListView"
-        android:layout_alignParentTop="true"
-        android:background="@color/color_backdrop"
-        android:divider="@color/color_backdrop"
-        android:dividerHeight="@dimen/list_cell_margin"
-        android:paddingTop="@dimen/list_cell_margin"
-        android:paddingBottom="@dimen/list_cell_margin"
-        android:clipToPadding="false"
-        tools:listitem="@android:layout/simple_list_item_1"/>
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Recommended for you"
+            android:id="@+id/titleRecommend"
+            android:textAppearance="@style/TextAppearance.StatusBar.EventContent"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/recommendationsListView"
+            android:layout_alignParentTop="true"
+            android:background="@color/color_backdrop"
+            android:divider="@color/color_backdrop"
+            android:dividerHeight="@dimen/list_cell_margin"
+            android:clipToPadding="false"
+            tools:listitem="@android:layout/simple_list_item_1"/>
+    </LinearLayout>
+
 </RelativeLayout>

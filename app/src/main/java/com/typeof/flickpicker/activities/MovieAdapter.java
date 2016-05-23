@@ -69,6 +69,7 @@ public class MovieAdapter extends CustomAdapter {
 
         Typeface font = Typeface.createFromAsset(mContext.getAssets(), "fonts/fontawesome-webfont.ttf");
 
+        // Set text on movie name
         viewHolder.movieName.setText(mov.getTitle());
 
         viewHolder.movieGenre.setText(mov.getGenre());

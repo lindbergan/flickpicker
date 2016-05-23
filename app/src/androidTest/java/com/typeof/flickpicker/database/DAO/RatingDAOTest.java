@@ -8,9 +8,7 @@ import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.RatingDAO;
-
 import junit.framework.Assert;
-
 import java.util.List;
 
 /**
@@ -161,5 +159,35 @@ public class RatingDAOTest extends BaseTest {
         mRatingDAO.saveRating(r);
 
         assertEquals(mRatingDAO.getRatingFromUser(u.getId(), m.getId()), 3.0);
+    }
+
+    /**
+     * Tests getAllRatingsFromUser()
+     *
+     * Creates and saves a user
+     * Creates and saves three movies
+     * Creates three ratings of those movies by that user and save those ratings
+     * Asserts that a call to getAllRatingsFromUser().size() with the newly created user as a
+     * parameter should equal 3
+     */
+
+    public void testGetAllRatingsFromUser() {
+        User u = new User("testUser", "testPassword");
+        App.getUserDAO().saveUser(u);
+
+        Movie m = new Movie("testMovie", 1990);
+        mMovieDAO.saveMovie(m);
+
+        Movie m1 = new Movie("testMovie", 1991);
+        mMovieDAO.saveMovie(m1);
+
+        Movie m2 = new Movie("testMovie", 1992);
+        mMovieDAO.saveMovie(m2);
+
+        mRatingDAO.saveRating(new Rating(1.0, m.getId(), u.getId()));
+        mRatingDAO.saveRating(new Rating(2.0, m1.getId(), u.getId()));
+        mRatingDAO.saveRating(new Rating(3.0, m2.getId(), u.getId()));
+
+        assertEquals(3, mRatingDAO.getAllRatingsFromUser(u.getId()).size());
     }
 }

@@ -11,9 +11,15 @@ import com.typeof.flickpicker.database.sql.tables.FriendTable;
  * Group 22
  * Created on 16-04-19.
  */
+
 public class FriendTableTest extends AndroidTestCase {
 
     SQLiteDatabase db;
+
+    /**
+     * Resets Friends table
+     * @throws Exception
+     */
 
     @Override
     protected void setUp() throws Exception {
@@ -29,16 +35,20 @@ public class FriendTableTest extends AndroidTestCase {
         super.tearDown();
     }
 
+    // Tests that the friends table exists
+
     public void testTableCreation() {
-        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'friends'", null);
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{FriendTable.FriendEntry.TABLE_NAME});
         assertTrue(cursor.getCount() == 1);
         cursor.close();
     }
 
+    // Tests that the friends table doesn't exist
+
     public void testTableDeletion() {
         db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
 
-        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'friends'", null);
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{FriendTable.FriendEntry.TABLE_NAME});
         assertTrue(cursor.getCount() == 0);
         cursor.close();
     }

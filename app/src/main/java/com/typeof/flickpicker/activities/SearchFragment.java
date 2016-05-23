@@ -109,6 +109,7 @@ public class SearchFragment extends Fragment {
     public void setUpListeners(){
         mSearchViewMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
+            // Listen to key down while in the search field
             @Override
             public boolean onQueryTextChange(String s) {
                 final Handler handler = new Handler();

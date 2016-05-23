@@ -30,13 +30,11 @@ public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(android.database.sqlite.SQLiteDatabase db) {
-        App.getDatabase().setUpTables();
     }
 
     @Override
     public void onUpgrade(android.database.sqlite.SQLiteDatabase db, int oldVersion, int newVersion) {
-        App.getDatabase().dropTables();
-        App.getDatabase().setUpTables();
+
     }
 
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {

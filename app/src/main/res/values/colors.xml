@@ -2,10 +2,12 @@
 <resources>
 
     <color name="color_text">#FFFFFF</color>
-    <color name="color_primary">#759D34</color>
+    <color name="color_primary">#759d34</color>
     <color name="color_primary_dark">#2A3E08</color>
     <color name="color_accent">#A0CC59</color>
     <color name="color_backdrop">#FFFFFF</color>
+    <color name="active_tab_color">#9EC461</color>
+    <color name="active_tab_collection_filter">#507613</color>
 
 
     <!--- List cells -->
@@ -23,6 +25,5 @@
     <color name="color_rating_button_2_secondary">#EED817</color>
     <color name="color_rating_button_2_inactive">#FFF171</color>
     <color name="color_rating_button_2_text">#BDAA08</color>
-
 
 </resources>

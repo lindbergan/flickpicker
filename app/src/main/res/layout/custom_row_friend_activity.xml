@@ -9,17 +9,17 @@
     <FrameLayout
         android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|bottom"
+        android:layout_gravity="center_vertical|bottom">
 
-        >
-
-        <ImageView
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:id="@+id/imageView"
-            android:src="@drawable/no_user_profile"
-            android:layout_weight="1.0"
-            android:layout_gravity="left|top"/>
+            android:id="@+id/no_profile_picture"
+            android:text="@string/no_user_profile"
+            android:textAlignment="center"
+            android:textSize="75sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="25dp" />
     </FrameLayout>
 
     <RelativeLayout
@@ -113,11 +113,7 @@
                 android:textSize="13sp"
                 android:layout_below="@+id/linearLayout2"
                 android:layout_alignStart="@+id/linearLayout2" />
-        </RelativeLayout><![CDATA[
-
-        />
-
-    ]]>
+        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

@@ -10,9 +10,9 @@ A project made by Chalmers University of Technology students in course: **TDA367
 - Jonathan Sundkvist
 
 ##### Tools used: 
-Gradle, SQLlite3, android platform tools
+Gradle, SQLlite3, Android Platform Tools
 
-##### Using Android Platform Tools
+##### Using Android Platform Tools:
 Change emulator-5554 shell to your version of emulator
 
 ```
@@ -21,14 +21,14 @@ cd data/data/com.typeof.flickpicker/databases/
 sqlite3 FlickPicker.db
 ```
 
-Snygga till output från databasen:
+Fancy database output:
 
 ```
 .mode column
 .headers on
 ```
 
-Sätt på internetz i din emulator
+Turn on internet connection for emulator:
 ```
 adb shell svc data enable
 ```

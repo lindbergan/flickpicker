@@ -2,11 +2,14 @@ package com.typeof.flickpicker.database.sql.tables;
 import android.provider.BaseColumns;
 
 /**
- * FriendTable
- *
+ * FlickPicker
+ * Group 22
+ * Created on 16-04-19.
  */
+
 public class FriendTable extends SQLTable {
 
+    // Prevent instantiating
     public FriendTable() {}
 
     public static abstract class FriendEntry implements BaseColumns {

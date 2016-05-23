@@ -31,10 +31,18 @@ public class RatingTableTest extends AndroidTestCase {
         super.tearDown();
     }
 
+    // Tests that the ratings table exists
+
     public void testTableCreation() {
-        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'ratings'", null);
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{RatingTable.RatingEntry.TABLE_NAME});
         assertNotNull(cursor);
+        cursor.close();
     }
+
+    /**
+     * Tests that inserting values in to the ratings table works
+     * Uses Map for the values in the columns
+     */
 
     public void testRecordInsertion() {
 
@@ -56,10 +64,12 @@ public class RatingTableTest extends AndroidTestCase {
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
     }
 
+    // Tests that the ratings table doesn't exist
+
     public void testTableDeletion() {
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
 
-        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = 'ratings'", null);
+        Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = ?", new String[]{RatingTable.RatingEntry.TABLE_NAME});
         int count = cursor.getCount();
         cursor.close();
         assertTrue(count == 0);

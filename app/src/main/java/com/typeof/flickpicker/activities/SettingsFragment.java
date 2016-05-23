@@ -10,12 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.typeof.flickpicker.R;
-import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.utils.OMDBParser;
 
-import java.util.List;
-import java.util.concurrent.ExecutionException;
+/**
+ * SettingsFragment extends Fragment
+ * Used in settings view and to reset and refill database
+ */
 
 public class SettingsFragment extends Fragment {
 
@@ -29,8 +29,8 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View communityView = inflater.inflate(R.layout.settings_fragment, container, false);
-        reSeedBtn = (Button)communityView.findViewById(R.id.reSeedBtn);
+        View view = inflater.inflate(R.layout.settings_fragment, container, false);
+        reSeedBtn = (Button)view.findViewById(R.id.reSeedBtn);
 
         reSeedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +45,7 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        return communityView;
+        return view;
     }
 
 }

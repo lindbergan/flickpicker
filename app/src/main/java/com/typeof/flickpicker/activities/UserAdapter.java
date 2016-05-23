@@ -2,18 +2,16 @@ package com.typeof.flickpicker.activities;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.hardware.camera2.params.StreamConfigurationMap;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
+
+import org.w3c.dom.Text;
 
 /**
  * FlickPicker
@@ -21,10 +19,14 @@ import com.typeof.flickpicker.core.User;
  * Created on 2016-05-10.
  */
 
+/**
+ * UserAdapter extends CustomAdapter
+ * Used for displaying users
+ */
+
 public class UserAdapter extends CustomAdapter {
 
     private Context c;
-    private boolean isFriend;
 
     public UserAdapter(Context context, Object[] obj) {
         super(context, obj);
@@ -38,38 +40,55 @@ public class UserAdapter extends CustomAdapter {
         TextView nrOfPoints;
         TextView addFriendButton;
         TextView removeFriendButton;
+        TextView friends;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View view, ViewGroup parent) {
 
         final User user = (User) getItem(position);
-        isFriend = App.getFriendDAO().isFriend(user.getId());
+        boolean isFriend = App.getFriendDAO().isFriend(user.getId());
         final ViewHolder viewHolder;
 
-        if (convertView == null) {
+        if (view == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.custom_row_search_users, parent, false);
-            viewHolder.profileIcon = (TextView) convertView.findViewById(R.id.image_profilepicture);
-            viewHolder.userName = (TextView) convertView.findViewById(R.id.username_textview);
-            viewHolder.nrOfRatings = (TextView) convertView.findViewById(R.id.nr_of_ratings);
-            viewHolder.nrOfPoints = (TextView) convertView.findViewById(R.id.nr_of_points);
-            viewHolder.addFriendButton = (TextView) convertView.findViewById(R.id.button_add_friend);
-            viewHolder.removeFriendButton = (TextView) convertView.findViewById(R.id.button_remove_friend);
-            convertView.setTag(viewHolder);
+            view = inflater.inflate(R.layout.custom_row_search_users, parent, false);
+
+            viewHolder.profileIcon = (TextView) view.findViewById(R.id.image_profilepicture);
+            viewHolder.userName = (TextView) view.findViewById(R.id.username_textview);
+            viewHolder.nrOfRatings = (TextView) view.findViewById(R.id.nr_of_ratings);
+            viewHolder.nrOfPoints = (TextView) view.findViewById(R.id.nr_of_points);
+            viewHolder.addFriendButton = (TextView) view.findViewById(R.id.button_add_friend);
+            viewHolder.removeFriendButton = (TextView) view.findViewById(R.id.button_remove_friend);
+            viewHolder.friends = (TextView) view.findViewById(R.id.amount_of_friends);
+
+            view.setTag(viewHolder);
         }
         else{
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) view.getTag();
         }
+
+        // Typeface is used to set the image icons
+
+        int nrOfRatings = App.getMovieDAO().getUserRatings(1000, user.getId()).size();
 
         Typeface tf = Typeface.createFromAsset(c.getAssets(), "fonts/fontawesome-webfont.ttf");
         viewHolder.profileIcon.setTypeface(tf);
         viewHolder.addFriendButton.setTypeface(tf);
         viewHolder.removeFriendButton.setTypeface(tf);
         viewHolder.userName.setText(user.getUsername());
-        viewHolder.nrOfRatings.setText(String.valueOf(App.getMovieDAO().getUserRatings(1000, user.getId()).size()));
+        viewHolder.nrOfRatings.setText(String.valueOf(nrOfRatings));
         viewHolder.nrOfPoints.setText(String.valueOf(user.getScore()));
+        viewHolder.friends.setText(String.valueOf(App.getFriendDAO().getFriendsFromUserId(user.getId()).size()));
+        TextView ratings = (TextView) view.findViewById(R.id.ratings);
+
+        if (nrOfRatings == 1) {
+            ratings.setText("rating");
+        }
+        else {
+            ratings.setText("ratings");
+        }
 
         if (isFriend) {
             showRemoveButton(viewHolder);
@@ -77,6 +96,8 @@ public class UserAdapter extends CustomAdapter {
         else {
             showAddButton(viewHolder);
         }
+
+        // Displays a short message using Toasts to indicate that a user has been added / removed
 
         viewHolder.addFriendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +117,7 @@ public class UserAdapter extends CustomAdapter {
             }
         });
 
-        return convertView;
+        return view;
     }
 
     public void showAddButton(ViewHolder viewHolder) {
