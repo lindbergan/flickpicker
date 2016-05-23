@@ -33,11 +33,12 @@
     <string name="and_rated_it_Textview">...and rated it:</string>
     <string name="add_movie_to_playlist">Add movie to playlist</string>
     <string name="search_for_a_friend_hint">Search for a friend...</string>
+    <string name="no_user_profile">&#xf007;</string>
 
     <!-- STRINGS CUSTOM_ROW_SEARCH_USER -->
 
     <string name="custom_row_username">Username</string>
-    <string name="profile_code_font">&#xf0f0;</string>
+    <string name="profile_code_font">&#xf007;</string>
     <string name="check_code_font">&#xf234;</string>
     <string name="unheck_code_font">&#xf00d;</string>
     <string name="edit_code_font">&#xf044;</string>

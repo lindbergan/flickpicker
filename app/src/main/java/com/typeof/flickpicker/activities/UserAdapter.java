@@ -38,6 +38,7 @@ public class UserAdapter extends CustomAdapter {
         TextView nrOfPoints;
         TextView addFriendButton;
         TextView removeFriendButton;
+        TextView friends;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class UserAdapter extends CustomAdapter {
             viewHolder.nrOfPoints = (TextView) view.findViewById(R.id.nr_of_points);
             viewHolder.addFriendButton = (TextView) view.findViewById(R.id.button_add_friend);
             viewHolder.removeFriendButton = (TextView) view.findViewById(R.id.button_remove_friend);
+            viewHolder.friends = (TextView) view.findViewById(R.id.amount_of_friends);
 
             view.setTag(viewHolder);
         }
@@ -74,6 +76,7 @@ public class UserAdapter extends CustomAdapter {
         viewHolder.userName.setText(user.getUsername());
         viewHolder.nrOfRatings.setText(String.valueOf(App.getMovieDAO().getUserRatings(1000, user.getId()).size()));
         viewHolder.nrOfPoints.setText(String.valueOf(user.getScore()));
+        viewHolder.friends.setText(String.valueOf(App.getFriendDAO().getFriendsFromUserId(user.getId()).size()));
 
         if (isFriend) {
             showRemoveButton(viewHolder);

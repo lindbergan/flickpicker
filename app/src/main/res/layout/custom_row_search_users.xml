@@ -11,8 +11,11 @@
         android:layout_height="fill_parent"
         android:id="@+id/image_profilepicture"
         android:text="@string/profile_code_font"
-        android:textSize="100dp"
-        android:layout_marginRight="15dp"/>
+        android:textSize="60sp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="5dp"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -63,15 +66,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Last online:"
+                android:text="Friends: "
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="today"
-                android:id="@+id/last_online"
+                android:id="@+id/amount_of_friends"
                 android:layout_marginLeft="5dp"/>
         </LinearLayout>
 
@@ -101,10 +103,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="points"
-                android:layout_alignParentEnd="true"
-                android:layout_marginLeft="5dp"
-                />
+                android:text="points"/>
+
         </LinearLayout>
 
         <RelativeLayout
@@ -118,7 +118,7 @@
                 android:id="@+id/button_add_friend"
                 android:textSize="25sp"
                 android:layout_alignParentEnd="true"
-                android:gravity="center_vertical|center_horizontal"/>
+                android:gravity="end"/>
 
             <TextView
                 android:layout_width="fill_parent"
@@ -126,7 +126,7 @@
                 android:text="@string/unheck_code_font"
                 android:id="@+id/button_remove_friend"
                 android:layout_alignParentEnd="true"
-                android:gravity="center_vertical|center_horizontal"
+                android:gravity="end"
                 android:textSize="25sp"/>
         </RelativeLayout>
 
