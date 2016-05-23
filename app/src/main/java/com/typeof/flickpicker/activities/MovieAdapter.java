@@ -21,7 +21,6 @@ import com.typeof.flickpicker.core.Movie;
 
 public class MovieAdapter extends CustomAdapter {
 
-    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
     public MovieAdapter(Context context, Object[] obj) {
         super(context, obj);
@@ -46,11 +45,12 @@ public class MovieAdapter extends CustomAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        ViewHolder viewHolder;
         final Movie movie = (Movie) getItem(position);
+        ViewHolder viewHolder;
 
         if (view == null) {
 
+            Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
             viewHolder = new ViewHolder();
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -64,16 +64,19 @@ public class MovieAdapter extends CustomAdapter {
             viewHolder.communityIcon = (TextView) view.findViewById(R.id.rowCommunityCommunityIcon);
             viewHolder.communityText = (TextView) view.findViewById(R.id.rowCommunityCommunityText);
             viewHolder.moviePoster = (ImageView) view.findViewById(R.id.rowCommunityImageView);
+            viewHolder.friendsIcon.setTypeface(font);
+            viewHolder.communityIcon.setTypeface(font);
+
             view.setTag(viewHolder);
 
         }else{
-
             viewHolder = (ViewHolder) view.getTag();
         }
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 MovieDetailFragment movieDetailFragment = new MovieDetailFragment();
                 Bundle args = new Bundle();
                 args.putLong("movieId", movie.getId());
@@ -90,15 +93,13 @@ public class MovieAdapter extends CustomAdapter {
         viewHolder.movieGenre.setText(movie.getGenre());
         viewHolder.movieYear.setText(String.valueOf(movie.getYear()));
 
-        viewHolder.friendsIcon.setTypeface(font);
         int numOfFriendsSeen = App.getMovieDAO().getFriendsSeenMovie(movie.getId(), App.getCurrentUser().getId()).size();
         viewHolder.friendsText.setText(String.valueOf(numOfFriendsSeen));
-
-        viewHolder.communityIcon.setTypeface(font);
         double communityRating = round(movie.getCommunityRating(), 1);
         viewHolder.communityText.setText(String.valueOf(communityRating));
 
         Picasso.with(getContext()).load(movie.getPoster()).into(viewHolder.moviePoster);
+
         return view;
     }
 

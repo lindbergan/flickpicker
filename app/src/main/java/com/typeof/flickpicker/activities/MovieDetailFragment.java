@@ -44,7 +44,6 @@ public class MovieDetailFragment extends Fragment {
     private RatingBar ratingBar;
     private Button rateButton;
 
-    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
     private MovieDAO mMovieDAO = App.getMovieDAO();
     private long movieId;
     private Movie movie;
@@ -102,6 +101,8 @@ public class MovieDetailFragment extends Fragment {
      * method for adding the information about the selected movie to the correct text views
      */
     public void populateMovieFields(){
+
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
         Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
         Movie movie = mMovieDAO.findMovie(movieId);
