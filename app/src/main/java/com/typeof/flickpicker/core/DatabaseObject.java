@@ -1,7 +1,9 @@
 package com.typeof.flickpicker.core;
 
 /**
- * An interface that specifies what a database object/core element needs to implement in order
+ * DatabaseObject
+ *
+ * An interface that specifies what a database object/core entity needs to implement in order
  * to be such an object.
  */
 

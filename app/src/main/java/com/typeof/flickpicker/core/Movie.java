@@ -2,6 +2,8 @@ package com.typeof.flickpicker.core;
 
 
 /**
+ * Movie
+ *
  * A class that specifies what a Movie database object/core entity is.
  * The class holds information about the features of a movie, and what separates it from others.
  */
@@ -18,7 +20,7 @@ public class Movie implements DatabaseObject {
     private double communityRating = 0;
 
     /**
-     * * Constructs a movie object that initially sets numberOfVotes and communityRating to zero.
+     * Constructs a movie object that initially sets numberOfVotes and communityRating to zero.
      * All other properties of the movie object are set by the parameters
      * @param id the id that will be assigned to the movie object
      * @param title the title that will be assigned to the movie object
@@ -54,7 +56,8 @@ public class Movie implements DatabaseObject {
     }
 
     /**
-     * * Constructs a movie object that initially sets description and genre to an empty string. numberOfVotes and communityRating to zero.
+     * Constructs a movie object that initially sets description and genre to an empty string,
+     * poster to null and numberOfVotes and communityRating to zero.
      * All other properties of the movie object are set by the parameters
      * @param id the id that will be assigned to the movie object
      * @param title the title that will be assigned to the movie object
@@ -66,6 +69,14 @@ public class Movie implements DatabaseObject {
         this.title = title;
         this.year = year;
     }
+
+    /**
+     * Constructs a movie object that initially sets description and genre to an empty string,
+     * poster to null and id, numberOfVotes and communityRating to zero.
+     * All other properties of the movie object are set by the parameters
+     * @param title the title that will be assigned to the movie object
+     * @param year the year that will be assigned to the movie object
+     */
 
     public Movie(String title, int year) {
         this.title = title;
@@ -151,14 +162,14 @@ public class Movie implements DatabaseObject {
             return false;
         }
 
-        //else they are of teh same class - typecasting is ok
+        //else they are of the same class
         Movie other = (Movie) otherObject;
-            return other.getId() == this.getId();
+        return other.getId() == this.getId();
     }
 
     @Override
     public int hashCode() {
         return (int) id;
     }
-}//Movie
+}
 

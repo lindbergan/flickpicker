@@ -1,6 +1,8 @@
 package com.typeof.flickpicker.core;
 
 /**
+ * Friend
+ *
  * A class that specifies what a Friend database object/core entity is. The object describes a
  * one-way relation where one user can be a friend to another, but not necessarily the other way around.
  * The class holds information about which user follow which, how many movies they both seen as well
