@@ -26,27 +26,27 @@ import java.util.List;
 
 /**
  * MovieDetailFragment extends Fragment
- * Used for showing a detailed view of a movie
+ * Used for showing a detailed view of a mMovie
  */
 
 public class MovieDetailFragment extends Fragment {
 
-    private ImageView movieImage;
-    private TextView movieTitle;
-    private TextView movieGenre;
-    private TextView friendsIcon;
-    private TextView numOfFriendsSeen;
-    private TextView communityIcon;
-    private TextView communityRating;
-    private TextView movieDescription;
-    private TextView movieDetailAddToPlaylistLabel;
-    private ToggleButton addToWatchListButton;
-    private RatingBar ratingBar;
-    private Button rateButton;
+    private ImageView mMovieImage;
+    private TextView mMovieTitle;
+    private TextView mMovieGenre;
+    private TextView mFriendsIcon;
+    private TextView mNumOfFriendsSeen;
+    private TextView mCommunityIcon;
+    private TextView mCommunityRating;
+    private TextView mMovieDescription;
+    private TextView mMovieDetailAddToPlaylistLabel;
+    private ToggleButton mAddToWatchListButton;
+    private RatingBar mRatingBar;
+    private Button mRateButton;
 
     private MovieDAO mMovieDAO = App.getMovieDAO();
     private long movieId;
-    private Movie movie;
+    private Movie mMovie;
 
 
     @Override
@@ -54,7 +54,7 @@ public class MovieDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         movieId = bundle.getLong("movieId");
-        movie = App.getMovieDAO().findMovie(movieId);
+        mMovie = App.getMovieDAO().findMovie(movieId);
     }
 
 
@@ -74,69 +74,69 @@ public class MovieDetailFragment extends Fragment {
 
 
     /**
-     * method to assign variables to their different components in the layout.
+     * method to assign variables to their different components in the layout file.
      */
     public void hookUpViews(View view){
 
-        movieImage = (ImageView) view.findViewById(R.id.movieDetailImageView);
+        mMovieImage = (ImageView) view.findViewById(R.id.movieDetailImageView);
 
-        movieTitle = (TextView) view.findViewById(R.id.movieDetailTitleTextField);
-        movieGenre = (TextView) view.findViewById(R.id.movieDetailGenreTextField);
-        friendsIcon = (TextView) view.findViewById(R.id.movieDetailFriendsIcon);
-        numOfFriendsSeen = (TextView) view.findViewById(R.id.movieDetailNumOfFriendsSeen);
-        communityIcon = (TextView) view.findViewById(R.id.movieDetailCommunityIcon);
-        communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
-        movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
+        mMovieTitle = (TextView) view.findViewById(R.id.movieDetailTitleTextField);
+        mMovieGenre = (TextView) view.findViewById(R.id.movieDetailGenreTextField);
+        mFriendsIcon = (TextView) view.findViewById(R.id.movieDetailFriendsIcon);
+        mNumOfFriendsSeen = (TextView) view.findViewById(R.id.movieDetailNumOfFriendsSeen);
+        mCommunityIcon = (TextView) view.findViewById(R.id.movieDetailCommunityIcon);
+        mCommunityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
+        mMovieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
 
-        movieDetailAddToPlaylistLabel = (TextView) view.findViewById(R.id.movieDetailAddToPlaylistLabel);
-        addToWatchListButton = (ToggleButton) view.findViewById(R.id.movieDetailAddToPlaylistButton);
-        ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
-        rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
+        mMovieDetailAddToPlaylistLabel = (TextView) view.findViewById(R.id.movieDetailAddToPlaylistLabel);
+        mAddToWatchListButton = (ToggleButton) view.findViewById(R.id.movieDetailAddToPlaylistButton);
+        mRatingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
+        mRateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
 
     }
 
 
 
     /**
-     * method for adding the information about the selected movie to the correct text views
+     * method for adding the information about the selected mMovie to the correct text views
      */
     public void populateMovieFields(){
 
         Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
-        Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
+        Picasso.with(getContext()).load(mMovie.getPoster()).into(mMovieImage);
         Movie movie = mMovieDAO.findMovie(movieId);
-        movieTitle.setText(movie.getTitle());
-        movieGenre.setText(movie.getGenre());
+        mMovieTitle.setText(movie.getTitle());
+        mMovieGenre.setText(movie.getGenre());
 
-        friendsIcon.setTypeface(font);
+        mFriendsIcon.setTypeface(font);
         int numSeen = mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId());
-        numOfFriendsSeen.setText(String.valueOf(numSeen));
+        mNumOfFriendsSeen.setText(String.valueOf(numSeen));
 
-        communityIcon.setTypeface(font);
+        mCommunityIcon.setTypeface(font);
         double rating = round(movie.getCommunityRating(), 1);
-        communityRating.setText("Rated " + String.valueOf(rating) + " by the community");
+        mCommunityRating.setText("Rated " + String.valueOf(rating) + " by the community");
 
-        movieDescription.setText(movie.getDescription());
+        mMovieDescription.setText(movie.getDescription());
     }
 
 
 
     /**
      * method that sets the status of 'add to playlist' widgets to their correct state
-     * depending on if the movie is on the user's playlist or not
+     * depending on if the mMovie is on the user's playlist or not
      */
     public void setAddToPlaylistWidgets() {
 
-        addToWatchListButton.setTextOff("+");
-        addToWatchListButton.setTextOn("-");
+        mAddToWatchListButton.setTextOff("+");
+        mAddToWatchListButton.setTextOn("-");
 
         if (isMovieOnPlaylist()) {
-            addToWatchListButton.setChecked(true);
-            movieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
+            mAddToWatchListButton.setChecked(true);
+            mMovieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
         }else{
-            addToWatchListButton.setChecked(false);
-            movieDetailAddToPlaylistLabel.setText(R.string.add_movie_to_playlist);
+            mAddToWatchListButton.setChecked(false);
+            mMovieDetailAddToPlaylistLabel.setText(R.string.add_movie_to_playlist);
         }
     }
 
@@ -144,13 +144,13 @@ public class MovieDetailFragment extends Fragment {
 
     /**
      * method used in onCreateView to set rating bar and button to correct states
-     * depending on if the user have already rated the movie or not
+     * depending on if the user have already rated the mMovie or not
      */
     public void setRateWidgets(){
 
         if(hasUserSeenMovie()){
             setRateButtonInactive();
-            ratingBar.setRating((float) App.getRatingDAO().getRatingFromUser(App.getCurrentUser().getId(), movieId));
+            mRatingBar.setRating((float) App.getRatingDAO().getRatingFromUser(App.getCurrentUser().getId(), movieId));
         }
         else{
             setRateButtonActive();
@@ -164,30 +164,30 @@ public class MovieDetailFragment extends Fragment {
      */
     public void initListeners() {
 
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 setRateButtonActive();
             }
         });
 
-        rateButton.setOnClickListener(new View.OnClickListener() {
+        mRateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 RatingDAO ratingDAO = App.getRatingDAO();
-                ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
+                ratingDAO.saveRating(new Rating(mRatingBar.getRating(), movieId, App.getCurrentUser().getId()));
 
-                //if movie is on playlist it is removed
+                //if mMovie is on playlist it is removed
                 if (isMovieOnPlaylist()) {
-                    App.getPlaylistDAO().removeMovieFromPlaylist(App.getCurrentUser(), movie);
-                    addToWatchListButton.setChecked(false);
+                    App.getPlaylistDAO().removeMovieFromPlaylist(App.getCurrentUser(), mMovie);
+                    mAddToWatchListButton.setChecked(false);
                 }
                 setRateButtonInactive();
             }
         });
 
-        addToWatchListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mAddToWatchListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -195,11 +195,11 @@ public class MovieDetailFragment extends Fragment {
 
                 if (isChecked && !isMovieOnPlaylist()) {
 
-                    playlistDAO.addMovieToPlaylist((App.getCurrentUser()), movie);
+                    playlistDAO.addMovieToPlaylist((App.getCurrentUser()), mMovie);
                     setAddToWatchListLabel();
                 } else {
 
-                    playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), movie);
+                    playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), mMovie);
                     setAddToWatchListLabel();
                 }
             }
@@ -209,8 +209,8 @@ public class MovieDetailFragment extends Fragment {
 
 
     /**
-     * method that checks if the user have seen the movie or not
-     * @return hasSeen true if user have seen movie, false if not
+     * method that checks if the user have seen the mMovie or not
+     * @return hasSeen true if user have seen mMovie, false if not
      */
     public boolean hasUserSeenMovie(){
         List<Movie> userCollection = mMovieDAO.getMovieCollectionFromUserId(10000, App.getCurrentUser().getId());
@@ -226,8 +226,8 @@ public class MovieDetailFragment extends Fragment {
 
 
     /**
-     * method that checks if movie is on the user's playlist or not
-     * @return isOnWatchList true if movie can be found on the user's playlist
+     * method that checks if mMovie is on the user's playlist or not
+     * @return isOnWatchList true if mMovie can be found on the user's playlist
      */
     public boolean isMovieOnPlaylist() {
 
@@ -252,11 +252,11 @@ public class MovieDetailFragment extends Fragment {
      * method that sets 'add to watchlist' label to specific string depending on the
      * toggle button's state
      */
-    private void setAddToWatchListLabel() {
-        if (addToWatchListButton.isChecked()) {
-            movieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
+    public void setAddToWatchListLabel() {
+        if (mAddToWatchListButton.isChecked()) {
+            mMovieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
         }else{
-            movieDetailAddToPlaylistLabel.setText(R.string.add_movie_to_playlist);
+            mMovieDetailAddToPlaylistLabel.setText(R.string.add_movie_to_playlist);
         }
     }
 
@@ -266,8 +266,8 @@ public class MovieDetailFragment extends Fragment {
      * method to activate rate button and change its appearance
      */
     public void setRateButtonActive(){
-        rateButton.setBackgroundResource(R.drawable.test_button_round_corners);
-        rateButton.setClickable(true);
+        mRateButton.setBackgroundResource(R.drawable.test_button_round_corners);
+        mRateButton.setClickable(true);
     }
 
 
@@ -276,8 +276,8 @@ public class MovieDetailFragment extends Fragment {
      * method to inactivate rate button and change its appearance
      */
     public void setRateButtonInactive(){
-        rateButton.setBackgroundResource(R.drawable.button_inactive);
-        rateButton.setClickable(false);
+        mRateButton.setBackgroundResource(R.drawable.button_inactive);
+        mRateButton.setClickable(false);
     }
 
 
@@ -289,7 +289,7 @@ public class MovieDetailFragment extends Fragment {
      * @param precision number of desired decimals
      * @return value rounded to chosen amount of decimals
      */
-    private double round(double value, int precision) {
+    public double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }
