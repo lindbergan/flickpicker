@@ -149,6 +149,12 @@ public class Movie implements DatabaseObject {
         this.year = year;
     }
 
+    /**
+     * Two movies are considered equal if their ids are the same
+     * @param otherObject the object that is compared to this
+     * @return returns true if this and otherObject has the same ids
+     */
+
     @Override
     public boolean equals(Object otherObject) {
 
@@ -167,6 +173,11 @@ public class Movie implements DatabaseObject {
         return other.getId() == this.getId();
     }
 
+    /**
+     * A Movie object's hashcode is determined by its id
+     * @return the id of the movie
+     */
+    
     @Override
     public int hashCode() {
         return (int) id;
