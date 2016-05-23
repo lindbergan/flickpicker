@@ -167,7 +167,7 @@ public class MovieDetailFragment extends Fragment {
         numOfFriendsSeen.setText(String.valueOf(numSeen) + " friends have seen this");
 
         communityIcon.setTypeface(font);
-        double rating = movie.getCommunityRating();
+        double rating = round(movie.getCommunityRating(), 1);
         communityRating.setText("rated " + String.valueOf(rating) + " by the community");
 
         movieDescription.setText(movie.getDescription());
@@ -257,7 +257,18 @@ public class MovieDetailFragment extends Fragment {
         rateButton.setClickable(false);
     }
 
-
-
-
+    /**
+     * help method for rounding of double values
+     *
+     * @param value the double value to be rounded
+     * @param precision number of desired decimals
+     * @return value rounded to chosen amount of decimals
+     */
+    private double round(double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
+    }
 }
+
+
+
