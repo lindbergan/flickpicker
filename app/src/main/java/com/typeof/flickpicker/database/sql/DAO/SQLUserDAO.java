@@ -37,7 +37,7 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
         cv.put(UserTable.UserEntry.COLUMN_NAME_USERNAME, user.getUsername());
         cv.put(UserTable.UserEntry.COLUMN_NAME_PASSWORD, user.getPassword());
         cv.put(UserTable.UserEntry.COLUMN_NAME_SCORE, user.getScore());
-        return this.save(user, user.getTableName(), cv);
+        return this.save(user, "users", cv);
     }
 
     /**

@@ -8,17 +8,16 @@ import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
-
 import junit.framework.Assert;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-26.
+ * PlaylistDAOTest
+ *
+ * A test class for testing the implementation of the PlaylistDAO interface methods.
  */
+
 public class PlaylistDAOTest extends BaseTest {
 
     private PlaylistDAO mPlaylistDAO;
@@ -36,6 +35,16 @@ public class PlaylistDAOTest extends BaseTest {
     protected void tearDown() throws Exception {
         super.tearDown();
     }
+
+    /**
+     * Tests getUserPlaylist()
+     *
+     * Creates a user and saves it
+     * Creates three movies and saves them
+     * Creates a list of Numbers and save the movisIds to the list
+     * Creates and saves a new playlist, giving it a title, userId and the newly created list of movieIds
+     * Asserts that the call to the playlists method getMovieIds().size() equals three
+     */
 
     public void testGetUserPlaylist() {
 
@@ -62,6 +71,14 @@ public class PlaylistDAOTest extends BaseTest {
         assertTrue(resultPlaylist.getMovieIds().size() == 3);
     }
 
+    /**
+     * Tests findPlaylistById()
+     *
+     * Creates a playlist and saves its id
+     * Fetches a playlist by calling findPlaylistById() with the newly created playlist's id as a parameter
+     * Asserts that the newly created playlist's id and the fetched playlist's id are the same
+     */
+
     public void testFindPlaylistById() {
         Playlist playlist = new Playlist("My favourites", 5, new ArrayList<Number>(){{add(20); add(30); add(40);}});
         long id = mPlaylistDAO.savePlaylist(playlist);
@@ -69,11 +86,27 @@ public class PlaylistDAOTest extends BaseTest {
         assertEquals(id, foundPlaylist.getId());
     }
 
+    /**
+     * Tests savePlaylist()
+     *
+     * Creates a playlist and saves it's id
+     * Asserts that the saved id isn't 0
+     */
+
     public void testSavePlaylist() {
         Playlist playlist = new Playlist("My favourites", 5);
         long id = mPlaylistDAO.savePlaylist(playlist);
         assertTrue(id != 0);
     }
+
+    /**
+     * Tests removePlaylist()
+     *
+     * Creates a playlist and saves it's id
+     * Calls removePlaylist()
+     * Asserts that when calling findPlaylistById() with the recently deleted playlist,
+     * the method should return an exception that can be handled
+     */
 
     public void testRemovePlaylist() {
         Playlist playlist = new Playlist("My favorites", 5);

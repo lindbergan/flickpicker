@@ -21,7 +21,7 @@ public class User implements DatabaseObject {
      * @param username the name of the user
      * @param password the user's password
      */
-    
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;

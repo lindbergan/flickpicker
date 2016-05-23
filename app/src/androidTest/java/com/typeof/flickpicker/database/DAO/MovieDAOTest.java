@@ -1,14 +1,11 @@
 package com.typeof.flickpicker.database.DAO;
 
-import android.test.ApplicationTestCase;
-
 import com.typeof.flickpicker.BaseTest;
 import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
@@ -19,15 +16,15 @@ import junit.framework.Assert;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-19.
+ * MovieDAOTest
+ *
+ * A test class for testing the implementation of the MovieDAO interface methods.
  */
+
 public class MovieDAOTest extends BaseTest {
 
     private MovieDAO mMovieDAO;
     private RatingDAO mRatingDAO;
-    private Database mDatabase;
     private UserDAO mUserDAO;
     private FriendDAO mFriendDAO;
 
@@ -47,31 +44,44 @@ public class MovieDAOTest extends BaseTest {
 
 
     /**
-     * Tests if we can find a record in the database
+     * Tests findMovie()
+     *
+     * Saves a movie
+     * Fetches a movie by calling find
+     * Asserts that the fetched movie's title corresponds to the one saved
      * @throws Exception
      */
 
 
-    public void testFind() throws Exception {
+    public void testFindMovie() throws Exception {
         long movieId = mMovieDAO.saveMovie(new Movie("Shawshank", 1994));
         Movie movie = mMovieDAO.findMovie(movieId);
         assertEquals("Checking if fetching movie is successful", "Shawshank", movie.getTitle());
     }
 
     /**
-     * Tests if a record is saved in the database
+     * Test saveMovie()
+     *
+     * Saves a movie and corresponding fetches the column in database table (e.g. the movieId)
+     * Asserts that the column number/movieId does't equal -1
      * @throws Exception
      */
 
 
-    public void testSave() throws Exception {
+    public void testSaveMovie() throws Exception {
         Movie movie = new Movie("Rocky", 1976);
         long rowId = mMovieDAO.saveMovie(movie);
         assertFalse(rowId == -1);
     }
 
     /**
-     * Tests if we can create a record and then update it
+     * Tests update()
+     *
+     * Creates a movie and saves it
+     * Asserts that the movie has been saved an has a uniqe id
+     * Changes the title of the movie
+     * Fetches the movie based on id
+     * Asserts that the fetched movie's title corresponds to the updated title
      * @throws Exception
      */
 
@@ -79,25 +89,27 @@ public class MovieDAOTest extends BaseTest {
         Movie movie = new Movie("2001: A Space Odyssey", 1968);
         long movieId = mMovieDAO.saveMovie(movie);
 
-        // We assert that the movie was saved and was given a unique ID;
         assertFalse(movieId == -1);
 
         movie.setTitle("2001");
         mMovieDAO.saveMovie(movie);
 
-        // We now look in our database for the record saved
         Movie movieFetched = mMovieDAO.findMovie(movieId);
 
-        // Check if the movie has the new updated title
         assertEquals(movieFetched.getTitle(), "2001");
     }
 
     /**
-     * Tests if we can create a movie in the database and then find it by searching for it.
+     * Tests searchMovieBy()
+     *
+     * Creates a movie and saves it
+     * Searches for the title of that movie in the database by calling search()
+     * Saves the number of movies corresponding to the searchString in a list
+     * Asserts that the size of that list equals one
      * @throws Exception
      */
 
-    public void testSearch() throws Exception {
+    public void testSearchMovieBy() throws Exception {
         Movie movie = new Movie("Pulp Fiction", 1994);
         long id = mMovieDAO.saveMovie(movie);
 
@@ -110,14 +122,15 @@ public class MovieDAOTest extends BaseTest {
     }
 
     /**
-     * Test deletion of a movie
-     * Creates a movie, saves the movie
-     * Then deletes the movie
-     * Checks if the movie still exists in the database, expects it to fail
+     * Tests deleteMovie()
+     *
+     * Creates a movie and saves it
+     * calls delete() in order to delete the movie
+     * Asserts that the movie isn't in the database and that the exception works as it's supposed to
      * @throws Exception
      */
 
-    public void testDelete() throws Exception {
+    public void testDeleteMovie() throws Exception {
         Movie movie = new Movie("Reservoir Dogs", 1992);
         long id = mMovieDAO.saveMovie(movie);
         mMovieDAO.deleteMovie(movie);
@@ -128,14 +141,18 @@ public class MovieDAOTest extends BaseTest {
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!
         }
-
     }
 
     /**
-     * Testing how many of my friends has seen this movie
-     * Creates a movie
-     * Creates two users and a relation between user1 and user2
-     * User2 rates the movie in question
+     *
+     * Tests numOfFriendsHasSeenMovie()
+     *
+     * Creates a movie and saves it
+     * Creates two users and saves them
+     * Creates a friend object where user follows user2
+     * Creates a rating of the newly created movie by user2 and saves it
+     * Fetches number of friends that has seen the newly created movie by calling numOfFriendsHasSeenMovie()
+     * Asserts that nrOfFriends equals 1
      * @throws Exception
      */
 
@@ -156,76 +173,85 @@ public class MovieDAOTest extends BaseTest {
 
         int nrOfFriends = mMovieDAO.numOfFriendsHasSeenMovie(id, user.getId());
         assertEquals(1, nrOfFriends);
-
     }
+
+    /**
+     * Tests getCommunityTopPicks()
+     *
+     * Creates six dummy movies and saves them
+     * Creates six dummy ratings, one for each movie, and saves them
+     * Saves all movies returned from call to getCommunityTopPicks() in a list
+     * Asserts that the first movie in the list is the highest rated and the second the second highest rated movie
+     * @throws Exception
+     */
 
     public void testGetCommunityTopPicks(){
 
         //create a bunch of dummy data
         createDummyData();
 
-        //specify the length of the list and confirm that the method returns a list of the
-        //specified size.
         int desiredSizeOFList = 2;
         List<Movie> communityTopPicksAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOFList);
-        assertEquals(desiredSizeOFList, communityTopPicksAllTime.size());
 
-        //confirm that the list return expected elements.
         assertEquals("F", communityTopPicksAllTime.get(0).getTitle());
         assertEquals("C", communityTopPicksAllTime.get(1).getTitle());
     }
+
+    /**
+     * Tests getMostDislikedMovies()
+     *
+     * Creates six dummy movies and saves them
+     * Creates six dummy ratings, one for each movie, and saves them
+     * Saves all movies returned from call to getMostDislikedMovies() in a list
+     * Asserts that the first movie in the list is the lowest rated and the second the second lowest rated movie
+     * @throws Exception
+     */
 
     public void testGetMostDislikedMovies(){
 
         //create a bunch of dummy data
         createDummyData();
 
-        //specify the length of the list and confirm that the method returns a list of the
-        //specified size.
         int desiredSizeOFList = 2;
         List<Movie> mostDislikedMovies = mMovieDAO.getMostDislikedMovies(desiredSizeOFList);
-        assertEquals(desiredSizeOFList, mostDislikedMovies.size());
 
-        //confirm that the list return expected elements.
         assertEquals("A", mostDislikedMovies.get(0).getTitle());
         assertEquals("D", mostDislikedMovies.get(1).getTitle());
-
     }
 
+    /**
+     * Tests getTopRecommendedMoviesThisYear()
+     *
+     * Creates six dummy movies and saves them
+     * Creates six dummy ratings, one for each movie, and saves them
+     * Saves all movies returned from call to getTopRecommendedMoviesThisYear() in a list
+     * Asserts that the first movie in the list is the highest rated movie that specified year,
+     * the second the second highest rated movie that year
+     * @throws Exception
+     */
     public void testGetTopRecommendedMoviesThisYear(){
 
         //create a bunch of dummy data
         createDummyData();
 
-        //specify the length of the list and confirm that the method returns a list of the
-        //specified size.
         int desiredSizeOFList = 2;
         List<Movie> topRecommendedThisYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOFList, 2016);
-        assertEquals(desiredSizeOFList,topRecommendedThisYear.size());
 
-        //confirm that the list return expected elements.
         assertEquals("F", topRecommendedThisYear.get(0).getTitle());
         assertEquals("B", topRecommendedThisYear.get(1).getTitle());
     }
 
-    public void createDummyData() {
-
-        //create dummy-movies:
-        long firstDummyMovieId = mMovieDAO.saveMovie(new Movie("A", 2012));
-        long secondDummyMovieId = mMovieDAO.saveMovie(new Movie("B", 2016));
-        long thirdDummyMovieId = mMovieDAO.saveMovie(new Movie("C", 2015));
-        long fourthDummyMovieId = mMovieDAO.saveMovie(new Movie("D", 2016));
-        long fifthDummyMovieId = mMovieDAO.saveMovie(new Movie("E", 2014));
-        long sixthDummyMovieId = mMovieDAO.saveMovie(new Movie("F", 2016));
-
-        //create dummy ratings for those movies:
-        mRatingDAO.saveRating(new Rating(2.2, firstDummyMovieId, 1));
-        mRatingDAO.saveRating(new Rating(3.1, secondDummyMovieId, 1));
-        mRatingDAO.saveRating(new Rating(4.3, thirdDummyMovieId, 1));
-        mRatingDAO.saveRating(new Rating(2.3, fourthDummyMovieId, 1));
-        mRatingDAO.saveRating(new Rating(3.2, fifthDummyMovieId, 1));
-        mRatingDAO.saveRating(new Rating(5.0, sixthDummyMovieId, 1));
-    }
+    /**
+     * Tests getFriendsSeenMovie()
+     *
+     * Creates movie and saves it
+     * Creates three users and saves them
+     * Adds user2 and user3 as friends to user
+     * user2 and user3 rates the newly created movie
+     * Saves a list of friends by calling getFriendsSeenMovie() with user2 and user3 as parameters
+     * Asserts that the fetched list consits of two users, user2 and user3. Confirms this by comparing ids to expected values
+     * @throws Exception
+     */
 
     public void testGetFriendsSeenMovie() throws Exception {
         Movie movie = new Movie("Reservoir Dogs", 1992);
@@ -252,15 +278,21 @@ public class MovieDAOTest extends BaseTest {
 
         List<User> friends = mMovieDAO.getFriendsSeenMovie(id, id1);
         assertTrue(friends.get(0).getId() == id2 && friends.get(1).getId() == id3);
-
     }
 
-    public void testGetUsersMovieCollection() {
+    /**
+     * Tests getMovieCollectionFromUserId()
+     *
+     * Creates a user and saves it
+     * Creates three ratings by that user and saves them
+     * Saves a list of movies by calling getMovieCollectionFromUserId() with the user as parameter
+     * Asserts that the size of the list corresponds to the expected value - three
+     */
 
-        //create a user and three movies which that user rates. Then confirm that the size of that list == 3.
+    public void testGetMovieCollectionFromUserId() {
 
-        long userId = mUserDAO.saveUser(new User("Laban", "admin"));
-        long firstMovieId = mMovieDAO.saveMovie(new Movie("Frost", 2013));
+        long userId = mUserDAO.saveUser(new User("User", "admin"));
+        long firstMovieId = mMovieDAO.saveMovie(new Movie("Oblivion", 2013));
         long secondMovieId = mMovieDAO.saveMovie(new Movie("12 Years a Slave", 2013));
         long thirdMovieId = mMovieDAO.saveMovie(new Movie("Gravity", 2013));
 
@@ -271,6 +303,24 @@ public class MovieDAOTest extends BaseTest {
         int desireSizeOfList = 4;
         List<Movie> usersMovieCollection = mMovieDAO.getMovieCollectionFromUserId(desireSizeOfList, userId);
         assertEquals(3, usersMovieCollection.size());
+    }
 
+    private void createDummyData() {
+
+        //create dummy-movies:
+        long firstDummyMovieId = mMovieDAO.saveMovie(new Movie("A", 2012));
+        long secondDummyMovieId = mMovieDAO.saveMovie(new Movie("B", 2016));
+        long thirdDummyMovieId = mMovieDAO.saveMovie(new Movie("C", 2015));
+        long fourthDummyMovieId = mMovieDAO.saveMovie(new Movie("D", 2016));
+        long fifthDummyMovieId = mMovieDAO.saveMovie(new Movie("E", 2014));
+        long sixthDummyMovieId = mMovieDAO.saveMovie(new Movie("F", 2016));
+
+        //create dummy ratings for those movies:
+        mRatingDAO.saveRating(new Rating(2.2, firstDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(3.1, secondDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(4.3, thirdDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(2.3, fourthDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(3.2, fifthDummyMovieId, 1));
+        mRatingDAO.saveRating(new Rating(5.0, sixthDummyMovieId, 1));
     }
 }
