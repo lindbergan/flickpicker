@@ -16,9 +16,11 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView2"
+            android:id="@+id/no_profile_picture"
             android:text="@string/no_user_profile"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="100dp"/>
     </FrameLayout>
 
     <LinearLayout

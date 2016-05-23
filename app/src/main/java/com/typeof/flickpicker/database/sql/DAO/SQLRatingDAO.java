@@ -185,4 +185,18 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return result;
 
     }
+
+    @Override
+    public List<Rating> getAllRatingsFromUser(long userId) {
+        String query = "SELECT * FROM " + RatingTable.RatingEntry.TABLE_NAME + " WHERE " + RatingTable.RatingEntry.COLUMN_NAME_USERID + " = ?";
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(userId)});
+
+        c.moveToFirst();
+        List<Rating> result = new ArrayList<>();
+        for (int i = 0; i < c.getCount(); i++) {
+            result.add(CoreEntityFactory.createRatingFromCursor(c));
+        }
+        c.close();
+        return result;
+    }
 }

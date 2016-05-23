@@ -1,11 +1,8 @@
 package com.typeof.flickpicker.activities;
-import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.support.v4.content.ContextCompat;
-import android.support.v4.print.PrintHelper;
-import android.view.Display;
 import android.view.LayoutInflater;
 
 import android.os.PersistableBundle;
@@ -17,8 +14,6 @@ import android.util.Log;
 
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
@@ -40,15 +35,8 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/DISTGRG_.ttf");
-        //TextView title = (TextView)findViewById(R.id.flickPickerText);
-        //title.setTypeface(titleFont);
-
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
-
-        // setupScore();
-        // setupSettings();
         initViewPager();
 
         tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -126,45 +114,8 @@ public class MainActivity extends FragmentActivity {
             }
         }
     }
-    /*
-    private void setupScore() {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-        TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
-        TextView userScore = (TextView) findViewById(R.id.userScore);
-
-        myProfileIcon.setTypeface(font);
-
-        userScore.setText(String.valueOf(App.getCurrentUser().getScore()));
-
-        myProfileIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(5);
-            }
-        });
-    }*/
-
-    /*private void setupSettings() {
-
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-        TextView settingsIcon = (TextView)findViewById(R.id.settingsIcon);
-        settingsIcon.setTypeface(font);
-        settingsIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewPager.setCurrentItem(6);
-            }
-        });
-    }*/
 
     public void configureTabs() {
-
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-
-        int width = size.x / 5;
-        int height = size.y;
 
         // TabHost header
 
