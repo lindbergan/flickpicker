@@ -134,9 +134,10 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
             if(playlist == null){
                 return;
             }
-
-            playlist.remove(movieId);
-            savePlaylist(playlist);
+        System.out.println("Innan: " + playlist.getMovieIds().size());
+        playlist.remove(movieId);
+        System.out.println("Efter: " + playlist.getMovieIds().size());
+        savePlaylist(playlist);
         }
 
     }

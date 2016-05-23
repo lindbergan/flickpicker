@@ -1,10 +1,10 @@
 package com.typeof.flickpicker.core;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Playlist implements DatabaseObject {
-
     private long id = 0;
     private String title;
     private List<Number> movieIds;
@@ -47,7 +47,7 @@ public class Playlist implements DatabaseObject {
     }
 
     public void remove(long movieId) {
-        getMovieIds().remove(Long.valueOf(movieId));
+        getMovieIds().remove(Integer.valueOf((int)movieId));
     }
 
 }//Playlist
