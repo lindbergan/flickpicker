@@ -22,15 +22,13 @@ import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 09/05/16.
+ * MovieDetailFragment extends Fragment
+ * Used for showing a detailed view of a movie
  */
+
 public class MovieDetailFragment extends Fragment {
 
     private ImageView movieImage;
@@ -43,13 +41,14 @@ public class MovieDetailFragment extends Fragment {
     private TextView movieDescription;
     private TextView movieDetailAddToPlaylistLabel;
     private ToggleButton addToWatchListButton;
-
     private RatingBar ratingBar;
     private Button rateButton;
 
+    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
     private MovieDAO mMovieDAO = App.getMovieDAO();
     private long movieId;
     private Movie movie;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,7 @@ public class MovieDetailFragment extends Fragment {
         movieId = bundle.getLong("movieId");
         movie = App.getMovieDAO().findMovie(movieId);
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,15 +72,15 @@ public class MovieDetailFragment extends Fragment {
         return movieDetailView;
     }
 
+
+
     /**
      * method to assign variables to their different components in the layout.
      */
     public void hookUpViews(View view){
 
-        //setting up image view
         movieImage = (ImageView) view.findViewById(R.id.movieDetailImageView);
 
-        //setting up text views
         movieTitle = (TextView) view.findViewById(R.id.movieDetailTitleTextField);
         movieGenre = (TextView) view.findViewById(R.id.movieDetailGenreTextField);
         friendsIcon = (TextView) view.findViewById(R.id.movieDetailFriendsIcon);
@@ -89,122 +89,42 @@ public class MovieDetailFragment extends Fragment {
         communityRating = (TextView) view.findViewById(R.id.movieDetailCommunityRating);
         movieDescription = (TextView) view.findViewById(R.id.descriptionTextField);
 
-        //setting up rate bar and button and add-to-playlist button
         movieDetailAddToPlaylistLabel = (TextView) view.findViewById(R.id.movieDetailAddToPlaylistLabel);
         addToWatchListButton = (ToggleButton) view.findViewById(R.id.movieDetailAddToPlaylistButton);
         ratingBar = (RatingBar) view.findViewById(R.id.movieDetailRatingBar);
-
-        //setting up button
         rateButton = (Button) view.findViewById(R.id.movieDetailRateButton);
 
-
-    }
-
-    public void initListeners() {
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                setRateButtonActive();
-            }
-        });
-
-        rateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RatingDAO ratingDAO = App.getRatingDAO();
-                ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
-                if(isMovieOnPlaylist()){
-                    App.getPlaylistDAO().removeMovieFromPlaylist(App.getCurrentUser(), movie);
-                    addToWatchListButton.setChecked(false);
-                }
-                setRateButtonInactive();
-
-            }
-        });
-
-
-        addToWatchListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                PlaylistDAO playlistDAO = App.getPlaylistDAO();
-                if (isChecked && !isMovieOnPlaylist()) {
-                    playlistDAO.addMovieToPlaylist((App.getCurrentUser()), movie);
-                    toggleAddToPlaylistButton();
-                } else {
-                    playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), movie);
-                    toggleAddToPlaylistButton();
-                }
-            }
-        });
-
-
     }
 
 
-    private void toggleAddToPlaylistButton() {
-        if (addToWatchListButton.isChecked()) {
-            movieDetailAddToPlaylistLabel.setText("Remove from playlist");
-        }else{
-            movieDetailAddToPlaylistLabel.setText("Add to playlist");
-        }
-    }
 
     /**
      * method for adding the information about the selected movie to the correct text views
      */
     public void populateMovieFields(){
 
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
-
+        Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
         Movie movie = mMovieDAO.findMovie(movieId);
         movieTitle.setText(movie.getTitle());
         movieGenre.setText(movie.getGenre());
 
-
         friendsIcon.setTypeface(font);
         int numSeen = mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId());
-        numOfFriendsSeen.setText(String.valueOf(numSeen) + " friends have seen this");
+        numOfFriendsSeen.setText(String.valueOf(numSeen));
 
         communityIcon.setTypeface(font);
         double rating = round(movie.getCommunityRating(), 1);
-        communityRating.setText("rated " + String.valueOf(rating) + " by the community");
+        communityRating.setText("Rated " + String.valueOf(rating) + " by the community");
 
         movieDescription.setText(movie.getDescription());
-        Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
     }
+
+
 
     /**
-     * method that checks if the user have seen the movie or not
-     * @return hasSeen true if user have seen movie, false if not
+     * method that sets the status of 'add to playlist' widgets to their correct state
+     * depending on if the movie is on the user's playlist or not
      */
-    public boolean hasUserSeenMovie(){
-        List<Movie> userCollection = mMovieDAO.getMovieCollectionFromUserId(10000, App.getCurrentUser().getId());
-
-        for (Movie movie : userCollection) {
-            if (movie.getId() == movieId) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isMovieOnPlaylist() {
-
-        PlaylistDAO playlistDAO = App.getPlaylistDAO();
-        Playlist playlist = playlistDAO.getUserPlaylist(App.getCurrentUser().getId());
-        List<Number> movies = playlist.getMovieIds();
-        boolean isOnWatchList = false;
-        for (Number movie : movies){
-            long id = movie.longValue();
-            if(id == movieId){
-                isOnWatchList = true;
-                break;
-            }
-        }
-        return isOnWatchList;
-    }
-
     public void setAddToPlaylistWidgets() {
 
         addToWatchListButton.setTextOff("+");
@@ -212,15 +132,12 @@ public class MovieDetailFragment extends Fragment {
 
         if (isMovieOnPlaylist()) {
             addToWatchListButton.setChecked(true);
-            movieDetailAddToPlaylistLabel.setText("Remove from playlist");
+            movieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
         }else{
             addToWatchListButton.setChecked(false);
-            movieDetailAddToPlaylistLabel.setText("Add to playlist");
+            movieDetailAddToPlaylistLabel.setText(R.string.add_movie_to_playlist);
         }
     }
-
-
-
 
 
 
@@ -240,6 +157,110 @@ public class MovieDetailFragment extends Fragment {
     }
 
 
+
+    /**
+     * method for initiating the Fragment's various listeners
+     */
+    public void initListeners() {
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                setRateButtonActive();
+            }
+        });
+
+        rateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                RatingDAO ratingDAO = App.getRatingDAO();
+                ratingDAO.saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
+
+                //if movie is on playlist it is removed
+                if (isMovieOnPlaylist()) {
+                    App.getPlaylistDAO().removeMovieFromPlaylist(App.getCurrentUser(), movie);
+                    addToWatchListButton.setChecked(false);
+                }
+                setRateButtonInactive();
+            }
+        });
+
+        addToWatchListButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                PlaylistDAO playlistDAO = App.getPlaylistDAO();
+
+                if (isChecked && !isMovieOnPlaylist()) {
+
+                    playlistDAO.addMovieToPlaylist((App.getCurrentUser()), movie);
+                    setAddToWatchListLabel();
+                } else {
+
+                    playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), movie);
+                    setAddToWatchListLabel();
+                }
+            }
+        });
+    }
+
+
+
+    /**
+     * method that checks if the user have seen the movie or not
+     * @return hasSeen true if user have seen movie, false if not
+     */
+    public boolean hasUserSeenMovie(){
+        List<Movie> userCollection = mMovieDAO.getMovieCollectionFromUserId(10000, App.getCurrentUser().getId());
+
+        for (Movie movie : userCollection) {
+            if (movie.getId() == movieId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    /**
+     * method that checks if movie is on the user's playlist or not
+     * @return isOnWatchList true if movie can be found on the user's playlist
+     */
+    public boolean isMovieOnPlaylist() {
+
+        PlaylistDAO playlistDAO = App.getPlaylistDAO();
+        Playlist playlist = playlistDAO.getUserPlaylist(App.getCurrentUser().getId());
+        List<Number> movies = playlist.getMovieIds();
+
+        boolean isOnWatchList = false;
+
+        for (Number movie : movies){
+            long id = movie.longValue();
+            if(id == movieId){
+                isOnWatchList = true;
+                break;
+            }
+        }
+        return isOnWatchList;
+    }
+
+
+    /**
+     * method that sets 'add to watchlist' label to specific string depending on the
+     * toggle button's state
+     */
+    private void setAddToWatchListLabel() {
+        if (addToWatchListButton.isChecked()) {
+            movieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
+        }else{
+            movieDetailAddToPlaylistLabel.setText(R.string.add_movie_to_playlist);
+        }
+    }
+
+
+
     /**
      * method to activate rate button and change its appearance
      */
@@ -249,6 +270,7 @@ public class MovieDetailFragment extends Fragment {
     }
 
 
+
     /**
      * method to inactivate rate button and change its appearance
      */
@@ -256,6 +278,8 @@ public class MovieDetailFragment extends Fragment {
         rateButton.setBackgroundResource(R.drawable.button_inactive);
         rateButton.setClickable(false);
     }
+
+
 
     /**
      * help method for rounding of double values
