@@ -1,7 +1,11 @@
 package com.typeof.flickpicker.activities;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 
 import android.os.PersistableBundle;
@@ -135,8 +139,6 @@ public class MainActivity extends FragmentActivity {
     private void setupSettings() {
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-
-
         TextView settingsIcon = (TextView)findViewById(R.id.settingsIcon);
         settingsIcon.setTypeface(font);
         settingsIcon.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +155,8 @@ public class MainActivity extends FragmentActivity {
                 R.layout.tab_recommendation, R.id.recommendationsIcon);
         tabHost.addTab(mTabSpecRecommendations);
 
+        // Sets the active tabs color
+        tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
 
         final TabHost.TabSpec mTabSpecCommunity = createTabSpec("Community", R.id.tabCommunity,
                                                                     R.layout.tab_community, R.id.communityIcon);
@@ -179,20 +183,32 @@ public class MainActivity extends FragmentActivity {
 
             if (tabId.equals("Recommendations")) {
                 mViewPager.setCurrentItem(0);
+                changeColor(0);
             }
             if (tabId.equals("Community")) {
                 mViewPager.setCurrentItem(1);
+                changeColor(1);
             }
             if (tabId.equals("Friends")) {
                 mViewPager.setCurrentItem(2);
+                changeColor(2);
             }
             if (tabId.equals("MyCollection")) {
                 mViewPager.setCurrentItem(3);
+                changeColor(3);
             }
             if (tabId.equals("Search")) {
                 mViewPager.setCurrentItem(4);
+                changeColor(4);
             }
 
+            }
+
+            public void changeColor(int position) {
+                for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+                    tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
+                }
+                tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
             }
         });
     }
