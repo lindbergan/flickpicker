@@ -2,6 +2,7 @@ package com.typeof.flickpicker.activities;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.typeof.flickpicker.database.MovieDAO;
 
 
 public class FriendsActivityAdapter extends CustomAdapter {
+
+    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
     public FriendsActivityAdapter(Context context, Object[] obj) {
         super(context, obj);
@@ -61,6 +64,9 @@ public class FriendsActivityAdapter extends CustomAdapter {
         }
 
         MovieDAO movieDAO = App.getMovieDAO();
+
+        TextView textView = (TextView) view.findViewById(R.id.no_profile_picture);
+        textView.setTypeface(font);
 
         viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
         viewHolder.movieName.setText(movieDAO.findMovie(r.getMovieId()).getTitle());

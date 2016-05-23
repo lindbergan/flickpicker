@@ -11,6 +11,8 @@ import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 
+import org.w3c.dom.Text;
+
 /**
  * FlickPicker
  * Group 22
@@ -38,6 +40,7 @@ public class UserAdapter extends CustomAdapter {
         TextView nrOfPoints;
         TextView addFriendButton;
         TextView removeFriendButton;
+        TextView friends;
     }
 
     @Override
@@ -58,6 +61,7 @@ public class UserAdapter extends CustomAdapter {
             viewHolder.nrOfPoints = (TextView) view.findViewById(R.id.nr_of_points);
             viewHolder.addFriendButton = (TextView) view.findViewById(R.id.button_add_friend);
             viewHolder.removeFriendButton = (TextView) view.findViewById(R.id.button_remove_friend);
+            viewHolder.friends = (TextView) view.findViewById(R.id.amount_of_friends);
 
             view.setTag(viewHolder);
         }
@@ -67,13 +71,24 @@ public class UserAdapter extends CustomAdapter {
 
         // Typeface is used to set the image icons
 
+        int nrOfRatings = App.getMovieDAO().getUserRatings(1000, user.getId()).size();
+
         Typeface tf = Typeface.createFromAsset(c.getAssets(), "fonts/fontawesome-webfont.ttf");
         viewHolder.profileIcon.setTypeface(tf);
         viewHolder.addFriendButton.setTypeface(tf);
         viewHolder.removeFriendButton.setTypeface(tf);
         viewHolder.userName.setText(user.getUsername());
-        viewHolder.nrOfRatings.setText(String.valueOf(App.getMovieDAO().getUserRatings(1000, user.getId()).size()));
+        viewHolder.nrOfRatings.setText(String.valueOf(nrOfRatings));
         viewHolder.nrOfPoints.setText(String.valueOf(user.getScore()));
+        viewHolder.friends.setText(String.valueOf(App.getFriendDAO().getFriendsFromUserId(user.getId()).size()));
+        TextView ratings = (TextView) view.findViewById(R.id.ratings);
+
+        if (nrOfRatings == 1) {
+            ratings.setText("rating");
+        }
+        else {
+            ratings.setText("ratings");
+        }
 
         if (isFriend) {
             showRemoveButton(viewHolder);

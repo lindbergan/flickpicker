@@ -13,12 +13,14 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/frameLayout2">
 
-        <ImageView
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/imageView2"
-            android:src="@drawable/no_user_profile"
-            android:layout_gravity="center" />
+            android:id="@+id/no_profile_picture"
+            android:text="@string/no_user_profile"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="100dp"/>
     </FrameLayout>
 
     <LinearLayout
@@ -32,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sibelius"
+            android:text="@string/theManTheMythTheLegend"
             android:id="@+id/myProfileUsernameTextView"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
