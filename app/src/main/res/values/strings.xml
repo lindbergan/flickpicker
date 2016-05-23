@@ -34,6 +34,9 @@
     <string name="add_movie_to_playlist">Add movie to playlist</string>
     <string name="search_for_a_friend_hint">Search for a friend...</string>
     <string name="no_user_profile">&#xf007;</string>
+    <string name="friends_have_seen_this_label_end">" friends have seen this"</string>
+    <string name="rated_by_community_label_start">"Rated "</string>
+    <string name="rated_by_community_label_end">" by the community"</string>
 
     <!-- STRINGS CUSTOM_ROW_SEARCH_USER -->
 
