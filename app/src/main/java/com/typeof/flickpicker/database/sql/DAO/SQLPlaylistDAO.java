@@ -108,6 +108,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
         long userId = user.getId();
         long movieId = movie.getId();
 
+        // Check to see if user have a playlist, otherwise create one
         Playlist playlist = getUserPlaylist(userId);
         if(playlist == null){
             playlist = new Playlist("Watchlist", userId);
@@ -134,9 +135,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
             if(playlist == null){
                 return;
             }
-        System.out.println("Innan: " + playlist.getMovieIds().size());
         playlist.remove(movieId);
-        System.out.println("Efter: " + playlist.getMovieIds().size());
         savePlaylist(playlist);
         }
 

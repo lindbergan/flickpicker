@@ -3,6 +3,7 @@ package com.typeof.flickpicker.database.sql;
 import android.database.Cursor;
 
 import com.google.gson.Gson;
+import com.google.gson.internal.LazilyParsedNumber;
 import com.google.gson.reflect.TypeToken;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
@@ -89,13 +90,19 @@ public class CoreEntityFactory {
         String title = c.getString(c.getColumnIndex("title"));
         long userId = c.getLong(c.getColumnIndex("user_id"));
         String moviesListJSON = c.getString(c.getColumnIndex("movies_list"));
-        List<Number> moviesFromDB = gson.fromJson(moviesListJSON, new TypeToken<ArrayList<Number>>() {
+        List<LazilyParsedNumber> moviesFromDB = gson.fromJson(moviesListJSON, new TypeToken<ArrayList<Number>>() {
         }.getType());
+        List<Number> movies = new ArrayList<>();
 
-        Playlist playlistObject = new Playlist(title, userId, moviesFromDB);
-        playlistObject.setId(id);
+        for (int i = 0; i < moviesFromDB.size(); i++) {
+            movies.add(moviesFromDB.get(i).intValue());
+        }
 
-        return playlistObject;
+        Playlist playlist = new Playlist(title, userId, movies);
+
+        playlist.setId(id);
+
+        return playlist;
 
     }
 
