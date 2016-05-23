@@ -205,9 +205,13 @@ public class MainActivity extends FragmentActivity {
             }
 
             public void changeColor(int position) {
+
+                // Set all tabs to the primary color
                 for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
                     tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
                 }
+
+                // Sets the current tabs color to active_tab_color
                 tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
             }
         });
@@ -242,10 +246,6 @@ public class MainActivity extends FragmentActivity {
 
         return tabSpec;
     }
-
-
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
