@@ -3,7 +3,6 @@ package com.typeof.flickpicker.activities;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
-import android.app.FragmentManager;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,9 +22,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * CommunityFragment
+ *
+ * A controller class for the community view
+ */
+
 public class CommunityFragment extends Fragment {
 
-    //Instance variables
     private int desiredSizeOfList = 10;
     MovieDAO mMovieDAO;
     TabHost mTabHost;
@@ -33,17 +37,14 @@ public class CommunityFragment extends Fragment {
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
     private int thisYear;
-    private boolean isYearListCurrent;
     public final String TAG = "community";
     private Bundle savedState = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mMovieDAO = App.getMovieDAO();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
-
     }
 
     @Nullable
@@ -56,12 +57,15 @@ public class CommunityFragment extends Fragment {
         return communityView;
     }
 
+    //Setup the views in the corresponding XML-file
     public void hookUpViews(View view) {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
         listViewWorstMovies = (ListView) view.findViewById(R.id.listViewWorstMovies);
         listViewTopMoviesByYear = (ListView) view.findViewById(R.id.listViewTopMoviesByYear);
     }
 
+    //Configures the fragment's tabs. Set the names, a marker for which tab is currently active and
+    //connects listeners for tab changes.
     public void configureTabs(View view) {
 
         mTabHost = (TabHost) view.findViewById(R.id.tabHost);
@@ -82,9 +86,12 @@ public class CommunityFragment extends Fragment {
         mTabSpecTopMoviesYear.setIndicator("Top Movies by Year");
         mTabHost.addTab(mTabSpecTopMoviesYear);
 
-        setTopMoviesAsCurrentView(); //default
-        setActiveTabColor(); //default
+        //Sets TopMovies as the default tab the first time the fragment is created
+        setTopMoviesAsCurrentView();
+        //Sets an underline at that tab the first time the fragment is created
+        setActiveTabColor();
 
+        //Sets a listener to the tabhost in order to display and set the underline to the correct tab
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
@@ -120,10 +127,12 @@ public class CommunityFragment extends Fragment {
         populateListWithYears(listViewTopMoviesByYear,yearList);
     }
 
+    //Sets an underline at the current tab for easier navigation
     public void setActiveTabColor(){
         mTabHost.getTabWidget().getChildAt(mTabHost.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
 
+    //Populate the listView with a list of years (TextFields) with the help of the default ArrayAdapter
     public void populateListWithYears(ListView listView, List<String> yearList){
 
         if (this.getActivity() != null) {
@@ -131,38 +140,33 @@ public class CommunityFragment extends Fragment {
             int defaultLayout = android.R.layout.simple_list_item_1; //default
             ListAdapter yearAdapter = new ArrayAdapter(getActivity(), defaultLayout, yearList);
             listView.setAdapter(yearAdapter);
-
-            isYearListCurrent = true;
         }
     }
 
-    public void populateListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass) {
+    //Populate the listView with a list of movies with the help of the custom MovieAdapter
+    public void populateListView(ListView listView, List<Movie> movieList) {
 
-        //Code for populating elements in the listView;
-        ListAdapter adapter = new MovieAdapter(getActivity(), listOfViewCellsWeGotFromHelpClass.toArray());
+        ListAdapter adapter = new MovieAdapter(getActivity(), movieList.toArray());
         listView.setAdapter(adapter);
     }
 
+    //Generate a list of years covering the 20th century
     public List<String> generateYearList(){
 
         List<String> years = new ArrayList<>();
 
         for (int i = thisYear; i >= 1900; i--){
             years.add(String.valueOf(i));
-
         }
         return years;
     }
 
+    //Set up a listener for the yearList in order to access the correct year and to display the movies
+    //from that year in decending order in terms of rating
     public void setUpListeners() {
-
-
         listViewTopMoviesByYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                //Determine if yearList or MovieList of that year is currently displayed
-                if (isYearListCurrent) {
 
                     //get users input
                     String selectedYearAsString = (String) listViewTopMoviesByYear.getItemAtPosition(position);
@@ -173,19 +177,13 @@ public class CommunityFragment extends Fragment {
 
 
                     if(topMoviesByYear.size() != 0) {
-                        //populate the list and set isYearListCurrent to false
                         populateListView(listViewTopMoviesByYear, topMoviesByYear);
-                        isYearListCurrent = false;
                     }
                     else{
                         //Display a message to user why no movies show up for specified year
                         Toast message = Toast.makeText(getActivity(), "No movies in database for that year", Toast.LENGTH_SHORT);
                         message.show();
                     }
-
-                    //TODO: if user clicks "back" button - isYearListCurrent needs to be set to true;
-
-                }
             }
         });
     }

@@ -148,6 +148,7 @@ public class RatingDAOTest extends BaseTest {
      * Asserts that a call to getRatingFromUser() with the newly created parameters should return 3.0
      * (that is the rating value of the rating in question)
      */
+
     public void testGetRatingFromUser() {
 
         User u = new User("testUser", "testPassword");
@@ -161,5 +162,4 @@ public class RatingDAOTest extends BaseTest {
 
         assertEquals(mRatingDAO.getRatingFromUser(u.getId(), m.getId()), 3.0);
     }
-
 }

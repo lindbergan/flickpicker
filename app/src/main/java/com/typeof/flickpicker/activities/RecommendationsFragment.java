@@ -6,24 +6,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.typeof.flickpicker.R;
-import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.MovieAlgorithm;
-import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
- * FlickPicker
- * Group 22
- * Created on 03/05/16.
+ * RecommendationsFragment
+ *
+ * A controller class for the recommendation view
  */
 
 public class RecommendationsFragment extends Fragment {
@@ -46,24 +41,21 @@ public class RecommendationsFragment extends Fragment {
         return recommendationsView;
     }
 
+    //Setup the views in the corresponding XML-file
     public void hookUpViews(View view){
         mListViewFeed = (ListView) view.findViewById(R.id.recommendationsListView);
     }
 
+    //Populate the listView with the elements from getRecommendations()
     public void populateListView(){
         List<Movie> recommendedMovies = getRecommendations(App.getCurrentUser());
         ListAdapter adapter = new MovieAdapter(getActivity(), recommendedMovies.toArray());
         mListViewFeed.setAdapter(adapter);
     }
 
-    /**
-     * Method for getting movies recommended for the user.
-     * @param user
-     * @return recommendedMovies List of movies recommended for the user.
-     */
+    //A method that uses MovieAlgorithm helper class to return a list of recommended movies for the user
     public List<Movie> getRecommendations(User user){
 
-        //create and return list of recommended movies based on algorithm
         List<Movie> recommendedMovies = MovieAlgorithm.getRecommendations(user);
         return recommendedMovies;
     }
