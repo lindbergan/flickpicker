@@ -9,7 +9,9 @@ import com.typeof.flickpicker.database.sql.tables.SQLTable;
  * Group 22
  * Created on 16-04-20.
  */
+
 public class UserTable extends SQLTable {
+
     // Prevent instantiating
     public UserTable() {}
 

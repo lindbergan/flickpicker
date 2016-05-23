@@ -1,16 +1,12 @@
 package com.typeof.flickpicker.activities;
-import android.content.Context;
-import android.graphics.Rect;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.v7.app.AppCompatActivity;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
@@ -18,13 +14,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
@@ -73,7 +65,7 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new RecommendationsFragment());
         fragments.add(new CommunityFragment());
         fragments.add(new FriendsFragment());
-        fragments.add(new MyCollectionFragment());
+        fragments.add(new CollectionFragment());
         fragments.add(new SearchFragment());
         fragments.add(new MyProfileFragment());
         fragments.add(new SettingsFragment());
@@ -147,8 +139,6 @@ public class MainActivity extends FragmentActivity {
     private void setupSettings() {
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
-
-
         TextView settingsIcon = (TextView)findViewById(R.id.settingsIcon);
         settingsIcon.setTypeface(font);
         settingsIcon.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +155,8 @@ public class MainActivity extends FragmentActivity {
                 R.layout.tab_recommendation, R.id.recommendationsIcon);
         tabHost.addTab(mTabSpecRecommendations);
 
+        // Sets the active tabs color
+        tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
 
         final TabHost.TabSpec mTabSpecCommunity = createTabSpec("Community", R.id.tabCommunity,
                                                                     R.layout.tab_community, R.id.communityIcon);
@@ -191,20 +183,36 @@ public class MainActivity extends FragmentActivity {
 
             if (tabId.equals("Recommendations")) {
                 mViewPager.setCurrentItem(0);
+                changeColor(0);
             }
             if (tabId.equals("Community")) {
                 mViewPager.setCurrentItem(1);
+                changeColor(1);
             }
             if (tabId.equals("Friends")) {
                 mViewPager.setCurrentItem(2);
+                changeColor(2);
             }
             if (tabId.equals("MyCollection")) {
                 mViewPager.setCurrentItem(3);
+                changeColor(3);
             }
             if (tabId.equals("Search")) {
                 mViewPager.setCurrentItem(4);
+                changeColor(4);
             }
 
+            }
+
+            public void changeColor(int position) {
+
+                // Set all tabs to the primary color
+                for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
+                    tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
+                }
+
+                // Sets the current tabs color to active_tab_color
+                tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
             }
         });
     }
@@ -238,10 +246,6 @@ public class MainActivity extends FragmentActivity {
 
         return tabSpec;
     }
-
-
-
-
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {

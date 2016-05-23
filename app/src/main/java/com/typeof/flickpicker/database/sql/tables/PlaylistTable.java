@@ -7,8 +7,10 @@ import android.provider.BaseColumns;
  * Group 22
  * Created on 16-04-25.
  */
+
 public class PlaylistTable extends SQLTable {
 
+    // Prevent instantiating
     public PlaylistTable() {}
 
     public static abstract class PlaylistEntry implements BaseColumns {

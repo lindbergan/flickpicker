@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".activities.MainActivity"
-    >
+    android:orientation="vertical">
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -71,12 +71,10 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent">
 
         <TabHost
             android:layout_width="match_parent"
@@ -154,7 +152,8 @@
 
             </RelativeLayout>
         </TabHost>
-    </RelativeLayout>
+
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

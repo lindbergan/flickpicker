@@ -1,8 +1,15 @@
 package com.typeof.flickpicker.database.sql.tables;
 import android.provider.BaseColumns;
 
+/**
+ * FlickPicker
+ * Group 22
+ * Created on 16-04-19.
+ */
+
 public class RatingTable extends SQLTable {
 
+    // Prevent instantiating
     public RatingTable() {}
 
     public static abstract class RatingEntry implements BaseColumns {
