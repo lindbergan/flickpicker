@@ -1,11 +1,11 @@
 package com.typeof.flickpicker.activities;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import android.support.v4.content.ContextCompat;
+import android.support.v4.print.PrintHelper;
+import android.view.Display;
 import android.view.LayoutInflater;
 
 import android.os.PersistableBundle;
@@ -17,6 +17,8 @@ import android.util.Log;
 
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
@@ -27,6 +29,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity {
 
     TabHost tabHost;
+    TabHost tabHost2;
 
     private ViewPager mViewPager;
     public PagerAdapter mPagerAdapter;
@@ -37,20 +40,25 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/DISTGRG_.ttf");
-        TextView title = (TextView)findViewById(R.id.flickPickerText);
-        title.setTypeface(titleFont);
+        //Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/DISTGRG_.ttf");
+        //TextView title = (TextView)findViewById(R.id.flickPickerText);
+        //title.setTypeface(titleFont);
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
 
-        setupScore();
-        setupSettings();
+        // setupScore();
+        // setupSettings();
         initViewPager();
 
         tabHost = (TabHost) findViewById(R.id.tabHost);
         if (tabHost != null) {
             tabHost.setup();
+        }
+
+        tabHost2 = (TabHost) findViewById(R.id.tabHost2);
+        if (tabHost2 != null) {
+            tabHost2.setup();
         }
 
         configureTabs();
@@ -118,7 +126,7 @@ public class MainActivity extends FragmentActivity {
             }
         }
     }
-
+    /*
     private void setupScore() {
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         TextView myProfileIcon = (TextView)findViewById(R.id.myProfileIcon);
@@ -134,9 +142,9 @@ public class MainActivity extends FragmentActivity {
                 mViewPager.setCurrentItem(5);
             }
         });
-    }
+    }*/
 
-    private void setupSettings() {
+    /*private void setupSettings() {
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
         TextView settingsIcon = (TextView)findViewById(R.id.settingsIcon);
@@ -147,32 +155,74 @@ public class MainActivity extends FragmentActivity {
                 mViewPager.setCurrentItem(6);
             }
         });
-    }
+    }*/
 
     public void configureTabs() {
 
-        final TabHost.TabSpec mTabSpecRecommendations = createTabSpec("Recommendations", R.id.tabRecommendations,
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        int width = size.x / 5;
+        int height = size.y;
+
+        // TabHost header
+
+        final TabHost.TabSpec mProfile = createTabSpec(tabHost2, "Profile", R.id.tabProfile, R.layout.tab_profile, R.id.myProfileIcon);
+        tabHost2.addTab(mProfile);
+
+        final TabHost.TabSpec title = createTabSpec(tabHost2, "Title", R.id.titleLayout, R.layout.tab_title, R.id.flickPickerText);
+        tabHost2.addTab(title);
+
+        final TabHost.TabSpec settings = createTabSpec(tabHost2, "Settings", R.id.tabSettings, R.layout.tab_settings, R.id.settingsIcon);
+        tabHost2.addTab(settings);
+
+
+        tabHost2.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+
+                if (tabId.equals("Profile")) {
+                    mViewPager.setCurrentItem(5);
+                    changeColor(tabHost2, 0);
+                }
+
+                if (tabId.equals("Title")) {
+                    mViewPager.setCurrentItem(0);
+                    changeColor(tabHost, 0);
+                }
+
+                if (tabId.equals("Settings")) {
+                    mViewPager.setCurrentItem(6);
+                    changeColor(tabHost2, 2);
+                }
+            }
+        });
+
+        // TabHost footer
+
+        final TabHost.TabSpec mTabSpecRecommendations = createTabSpec(tabHost, "Recommendations", R.id.tabRecommendations,
                 R.layout.tab_recommendation, R.id.recommendationsIcon);
         tabHost.addTab(mTabSpecRecommendations);
 
         // Sets the active tabs color
         tabHost.getTabWidget().getChildTabViewAt(0).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
 
-        final TabHost.TabSpec mTabSpecCommunity = createTabSpec("Community", R.id.tabCommunity,
+        final TabHost.TabSpec mTabSpecCommunity = createTabSpec(tabHost, "Community", R.id.tabCommunity,
                                                                     R.layout.tab_community, R.id.communityIcon);
         tabHost.addTab(mTabSpecCommunity);
 
 
-        final TabHost.TabSpec mTabSpecFriendsActivities = createTabSpec("Friends", R.id.tabFriendsActivities,
+        final TabHost.TabSpec mTabSpecFriendsActivities = createTabSpec(tabHost, "Friends", R.id.tabFriendsActivities,
                 R.layout.tab_friends, R.id.friendsIcon);
         tabHost.addTab(mTabSpecFriendsActivities);
 
 
-        final TabHost.TabSpec mTabSpecMyMovies = createTabSpec("MyCollection", R.id.tabMyMovies,
+        final TabHost.TabSpec mTabSpecMyMovies = createTabSpec(tabHost, "MyCollection", R.id.tabMyMovies,
                                                                  R.layout.tab_my_collection, R.id.myCollectionIcon);
         tabHost.addTab(mTabSpecMyMovies);
 
-        final TabHost.TabSpec mTabSpecSearch = createTabSpec("Search", R.id.tabSearch,
+        final TabHost.TabSpec mTabSpecSearch = createTabSpec(tabHost, "Search", R.id.tabSearch,
                                                                 R.layout.tab_search, R.id.searchIcon);
         tabHost.addTab(mTabSpecSearch);
 
@@ -183,38 +233,51 @@ public class MainActivity extends FragmentActivity {
 
             if (tabId.equals("Recommendations")) {
                 mViewPager.setCurrentItem(0);
-                changeColor(0);
+                changeColor(tabHost, 0);
             }
             if (tabId.equals("Community")) {
                 mViewPager.setCurrentItem(1);
-                changeColor(1);
+                changeColor(tabHost, 1);
             }
             if (tabId.equals("Friends")) {
                 mViewPager.setCurrentItem(2);
-                changeColor(2);
+                changeColor(tabHost, 2);
             }
             if (tabId.equals("MyCollection")) {
                 mViewPager.setCurrentItem(3);
-                changeColor(3);
+                changeColor(tabHost, 3);
             }
             if (tabId.equals("Search")) {
                 mViewPager.setCurrentItem(4);
-                changeColor(4);
+                changeColor(tabHost, 4);
             }
 
-            }
-
-            public void changeColor(int position) {
-
-                // Set all tabs to the primary color
-                for (int i = 0; i < tabHost.getTabWidget().getChildCount(); i++) {
-                    tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
-                }
-
-                // Sets the current tabs color to active_tab_color
-                tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
             }
         });
+    }
+
+    public boolean isTabHost2(TabHost tabHost) {
+        return tabHost.getTabWidget().getChildCount() == tabHost2.getTabWidget().getChildCount();
+    }
+
+    public void changeColor(TabHost tabHost, int position) {
+        // Set all tabs to the primary color
+        for (int i = 0; i < this.tabHost.getTabWidget().getChildCount(); i++) {
+            this.tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
+        }
+        for (int i = 0; i < this.tabHost2.getTabWidget().getChildCount(); i++) {
+            this.tabHost2.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
+        }
+
+        if (isTabHost2(tabHost)) {
+            if (position != 1) {
+                this.tabHost2.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
+            }
+        }
+        else {
+            this.tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
+        }
+
     }
 
 
@@ -233,11 +296,11 @@ public class MainActivity extends FragmentActivity {
      * @param iconId the Id for the TextView representing the icon for the new tab
      * @return tabSpec
      */
-    public TabHost.TabSpec createTabSpec(String tag, int viewId, int iconViewId, int iconId){
+    public TabHost.TabSpec createTabSpec(TabHost selTabHost, String tag, int viewId, int iconViewId, int iconId){
 
         Typeface font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
-        TabHost.TabSpec tabSpec = tabHost.newTabSpec(tag);
+        TabHost.TabSpec tabSpec = selTabHost.newTabSpec(tag);
         tabSpec.setContent(viewId);
         View iconView = LayoutInflater.from(this).inflate(iconViewId, null);
         TextView icon = (TextView)iconView.findViewById(iconId);

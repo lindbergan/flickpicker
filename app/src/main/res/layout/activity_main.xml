@@ -8,80 +8,68 @@
     tools:context=".activities.MainActivity"
     android:orientation="vertical">
 
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/color_primary"
-        android:id="@+id/relativeLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:id="@+id/flickPickerText"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/color_text"
-            android:textSize="25sp"
-            android:textStyle="bold|italic"
-            android:typeface="serif" />
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/my_profile_icon"
-            android:id="@+id/myProfileIcon"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:textColor="@color/color_text"
-            android:padding="@dimen/movie_detail_image_padding"
-            android:textSize="25sp"
-            android:textIsSelectable="false"
-            android:clickable="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/userScore"
-            android:textColor="@color/color_text"
-            android:text="100"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/myProfileIcon"
-            android:textSize="17sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_icon"
-            android:id="@+id/settingsIcon"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:textSize="25sp"
-            android:textColor="@color/color_text"
-            android:padding="@dimen/movie_detail_image_padding"
-            android:clickable="true"/>
-
-
-    </RelativeLayout>
-
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TabHost
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/tabHost2">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@color/color_primary">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp">
+                </TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="460dp"
+                    android:layout_alignParentTop="true">
+
+                    <RelativeLayout
+                        android:id="@+id/tabProfile"
+                        android:layout_width="match_parent"
+                        android:gravity="left"
+                        android:layout_height="456dp"
+                        android:layout_marginTop="56dp"
+                        android:orientation="vertical">
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/titleLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/tabSettings"
+                        android:layout_width="match_parent"
+                        android:gravity="right"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                    </RelativeLayout>
+                </FrameLayout>
+            </RelativeLayout>
+        </TabHost>
 
         <TabHost
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/tabHost"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true">
+            android:id="@+id/tabHost">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -116,15 +104,6 @@
                     android:layout_above="@android:id/tabs">
 
                     <LinearLayout
-                        android:id="@+id/tabRecommendations"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        android:orientation="vertical">
-
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:id="@+id/tabCommunity"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -147,6 +126,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical"/>
+
+                    <LinearLayout
+                        android:id="@+id/tabRecommendations"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+                        android:orientation="vertical"
+                        android:layout_gravity="center">
+
+                    </LinearLayout>
 
                 </FrameLayout>
 
