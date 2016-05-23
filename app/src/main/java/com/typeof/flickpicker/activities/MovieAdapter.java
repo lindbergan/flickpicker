@@ -89,7 +89,6 @@ public class MovieAdapter extends CustomAdapter {
 
 
     private static class ViewHolder {
-
         TextView movieName;
         TextView movieGenre;
         TextView movieYear;

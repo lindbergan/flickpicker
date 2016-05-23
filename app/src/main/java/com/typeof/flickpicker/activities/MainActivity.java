@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.typeof.flickpicker.R;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
@@ -34,9 +35,6 @@ public class MainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
         initViewPager();
 
         tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -67,9 +65,9 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new SettingsFragment());
 
 
-        mPagerAdapter = new ScreenSlidePageAdapter(getSupportFragmentManager(), fragments);
+        mPagerAdapter = new ViewPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOffscreenPageLimit(10);
+        mViewPager.setOffscreenPageLimit(5);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -260,7 +258,7 @@ public class MainActivity extends FragmentActivity {
 
         return tabSpec;
     }
-
+    
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
