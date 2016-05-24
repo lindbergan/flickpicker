@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;

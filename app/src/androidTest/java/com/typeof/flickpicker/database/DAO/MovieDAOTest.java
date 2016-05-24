@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.database.DAO;
 
 import com.typeof.flickpicker.BaseTest;
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;

@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.core;
 
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 
 import java.util.ArrayList;
 import java.util.Comparator;

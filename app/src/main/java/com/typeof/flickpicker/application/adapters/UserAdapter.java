@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.typeof.flickpicker.R;
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 

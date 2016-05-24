@@ -15,7 +15,7 @@ import android.widget.SearchView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.helpers.KeyboardHelper;
 import com.typeof.flickpicker.application.adapters.MovieAdapter;
 import com.typeof.flickpicker.application.adapters.UserAdapter;

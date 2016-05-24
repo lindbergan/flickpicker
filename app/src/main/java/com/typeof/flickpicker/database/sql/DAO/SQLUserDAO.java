@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.UserDAO;

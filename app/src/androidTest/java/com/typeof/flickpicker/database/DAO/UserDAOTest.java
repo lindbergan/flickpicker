@@ -1,7 +1,7 @@
 package com.typeof.flickpicker.database.DAO;
 
 import com.typeof.flickpicker.BaseTest;
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.tables.UserTable;

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
-import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.RatingDAO;

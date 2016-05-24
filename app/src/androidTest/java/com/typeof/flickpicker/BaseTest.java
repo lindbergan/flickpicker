@@ -1,8 +1,6 @@
 package com.typeof.flickpicker;
 import android.test.ApplicationTestCase;
 
-import com.typeof.flickpicker.application.App;
-
 /**
  * FlickPicker
  * Group 22
