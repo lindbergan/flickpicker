@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.application.App;
 import com.typeof.flickpicker.application.helpers.KeyboardHelper;
-import com.typeof.flickpicker.application.MainActivity;
+import com.typeof.flickpicker.application.activities.MainActivity;
 import com.typeof.flickpicker.application.helpers.SingleFragmentHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.application.fragments.MovieDetailFragment;

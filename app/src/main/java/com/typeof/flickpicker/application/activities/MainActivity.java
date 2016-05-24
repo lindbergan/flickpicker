@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.application;
+package com.typeof.flickpicker.application.activities;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
