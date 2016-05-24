@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application;
 
 import android.app.Application;
 import android.content.Context;

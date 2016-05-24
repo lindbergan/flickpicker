@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -13,13 +13,19 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.application.adapters.ViewPageAdapter;
+import com.typeof.flickpicker.application.fragments.CollectionFragment;
+import com.typeof.flickpicker.application.fragments.CommunityFragment;
+import com.typeof.flickpicker.application.fragments.FriendsFragment;
+import com.typeof.flickpicker.application.fragments.MyProfileFragment;
+import com.typeof.flickpicker.application.fragments.RecommendationsFragment;
+import com.typeof.flickpicker.application.fragments.SearchFragment;
+import com.typeof.flickpicker.application.fragments.SettingsFragment;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {

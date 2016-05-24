@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.typeof.flickpicker.activities.SearchFragment"
+    tools:context=".application.fragments.SearchFragment"
     android:background="@color/color_backdrop"
     android:id="@+id/parent">
 

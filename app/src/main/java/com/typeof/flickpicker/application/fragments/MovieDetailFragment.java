@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.fragments;
 
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
@@ -13,12 +13,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.application.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.RatingDAO;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

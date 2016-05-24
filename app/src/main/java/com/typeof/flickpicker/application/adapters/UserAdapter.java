@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,10 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.application.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
-
-import org.w3c.dom.Text;
 
 /**
  * FlickPicker

@@ -1,6 +1,6 @@
-package com.typeof.flickpicker.utils;
+package com.typeof.flickpicker.application.helpers;
 
-import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.application.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;

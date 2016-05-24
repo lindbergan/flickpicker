@@ -1,7 +1,10 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.helpers;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+
+import com.typeof.flickpicker.application.MainActivity;
+import com.typeof.flickpicker.application.adapters.ViewPageAdapter;
 
 /**
  * SingleFragmentHelper

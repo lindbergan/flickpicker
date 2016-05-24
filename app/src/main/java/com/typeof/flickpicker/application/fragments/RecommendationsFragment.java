@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.application.adapters.MovieAdapter;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.MovieAlgorithm;
 import com.typeof.flickpicker.core.User;

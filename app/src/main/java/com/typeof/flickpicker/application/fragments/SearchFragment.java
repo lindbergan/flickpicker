@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.fragments;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -15,6 +15,10 @@ import android.widget.SearchView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.application.helpers.KeyboardHelper;
+import com.typeof.flickpicker.application.adapters.MovieAdapter;
+import com.typeof.flickpicker.application.adapters.UserAdapter;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;

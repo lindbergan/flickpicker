@@ -1,7 +1,5 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.adapters;
 
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,14 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.application.App;
+import com.typeof.flickpicker.application.helpers.KeyboardHelper;
+import com.typeof.flickpicker.application.MainActivity;
+import com.typeof.flickpicker.application.helpers.SingleFragmentHelper;
 import com.typeof.flickpicker.core.Movie;
-
-import org.w3c.dom.Text;
+import com.typeof.flickpicker.application.fragments.MovieDetailFragment;
 
 public class MovieAdapter extends CustomAdapter {
 

@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
