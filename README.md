@@ -38,6 +38,8 @@ Find the FlickPicker app on your device and open it.
 
 In Android Studio, click $File \rightarrow Open$ in the top menu. Select the folder you cloned from the Github repo. Gradle will build automatically. Click $Run \rightarrow Run$ 'app' in the top menu. Pick a virtual device you want to install the app on. Android Studio will then launch the virtual device and install the app. When that's done the app will launch.
 
+## Tips & Tricks
+
 ##### Tools used: 
 Gradle, SQLlite3, Android Platform Tools
 
