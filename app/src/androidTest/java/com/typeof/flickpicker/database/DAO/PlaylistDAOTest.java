@@ -37,6 +37,34 @@ public class PlaylistDAOTest extends BaseTest {
     }
 
     /**
+     * Tests savePlaylist()
+     *
+     * Creates a playlist and saves it's id
+     * Asserts that the saved id isn't 0
+     */
+
+    public void testSavePlaylist() {
+        Playlist playlist = new Playlist("My favourites", 5);
+        long id = mPlaylistDAO.savePlaylist(playlist);
+        assertTrue(id != 0);
+    }
+
+    /**
+     * Tests findPlaylistById()
+     *
+     * Creates a playlist and saves its id
+     * Fetches a playlist by calling findPlaylistById() with the newly created playlist's id as a parameter
+     * Asserts that the newly created playlist's id and the fetched playlist's id are the same
+     */
+
+    public void testFindPlaylistById() {
+        Playlist playlist = new Playlist("My favourites", 5, new ArrayList<Number>(){{add(20); add(30); add(40);}});
+        long id = mPlaylistDAO.savePlaylist(playlist);
+        Playlist foundPlaylist = mPlaylistDAO.findPlaylistById(id);
+        assertEquals(id, foundPlaylist.getId());
+    }
+
+    /**
      * Tests getUserPlaylist()
      *
      * Creates a user and saves it
@@ -69,34 +97,6 @@ public class PlaylistDAOTest extends BaseTest {
 
         Playlist resultPlaylist = mPlaylistDAO.getUserPlaylist(currentUserId);
         assertTrue(resultPlaylist.getMovieIds().size() == 3);
-    }
-
-    /**
-     * Tests findPlaylistById()
-     *
-     * Creates a playlist and saves its id
-     * Fetches a playlist by calling findPlaylistById() with the newly created playlist's id as a parameter
-     * Asserts that the newly created playlist's id and the fetched playlist's id are the same
-     */
-
-    public void testFindPlaylistById() {
-        Playlist playlist = new Playlist("My favourites", 5, new ArrayList<Number>(){{add(20); add(30); add(40);}});
-        long id = mPlaylistDAO.savePlaylist(playlist);
-        Playlist foundPlaylist = mPlaylistDAO.findPlaylistById(id);
-        assertEquals(id, foundPlaylist.getId());
-    }
-
-    /**
-     * Tests savePlaylist()
-     *
-     * Creates a playlist and saves it's id
-     * Asserts that the saved id isn't 0
-     */
-
-    public void testSavePlaylist() {
-        Playlist playlist = new Playlist("My favourites", 5);
-        long id = mPlaylistDAO.savePlaylist(playlist);
-        assertTrue(id != 0);
     }
 
     /**

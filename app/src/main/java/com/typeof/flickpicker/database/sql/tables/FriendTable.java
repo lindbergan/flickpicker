@@ -21,7 +21,7 @@ public class FriendTable extends SQLTable {
         public static final String COLUMN_NAME_ID = "id";
         public static final String COLUMN_NAME_USER1ID = "user1id";
         public static final String COLUMN_NAME_USER2ID = "user2id";
-        public static final String COLUMN_NAME_DISMATCH = "dismatch";
+        public static final String COLUMN_NAME_DISMATCH = "mismatch";
         public static final String COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN = "nmbrOfMoviesBothSeen";
 
         public static String getSQLCreateTableQuery() {

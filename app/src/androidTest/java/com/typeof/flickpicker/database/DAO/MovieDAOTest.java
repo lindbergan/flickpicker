@@ -78,7 +78,7 @@ public class MovieDAOTest extends BaseTest {
      * Tests update()
      *
      * Creates a movie and saves it
-     * Asserts that the movie has been saved an has a uniqe id
+     * Asserts that the movie has been saved an has a unique id
      * Changes the title of the movie
      * Fetches the movie based on id
      * Asserts that the fetched movie's title corresponds to the updated title
@@ -97,28 +97,6 @@ public class MovieDAOTest extends BaseTest {
         Movie movieFetched = mMovieDAO.findMovie(movieId);
 
         assertEquals(movieFetched.getTitle(), "2001");
-    }
-
-    /**
-     * Tests searchMovieBy()
-     *
-     * Creates a movie and saves it
-     * Searches for the title of that movie in the database by calling search()
-     * Saves the number of movies corresponding to the searchString in a list
-     * Asserts that the size of that list equals one
-     * @throws Exception
-     */
-
-    public void testSearchMovieBy() throws Exception {
-        Movie movie = new Movie("Pulp Fiction", 1994);
-        long id = mMovieDAO.saveMovie(movie);
-
-        List<Movie> results = mMovieDAO.searchMovieBy("title", "Pulp");
-
-        assertEquals(results.size(), 1);
-
-        Movie foundMovie = results.get(0);
-        assertEquals(id, foundMovie.getId());
     }
 
     /**
@@ -141,6 +119,28 @@ public class MovieDAOTest extends BaseTest {
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!
         }
+    }
+
+    /**
+     * Tests searchMovieBy()
+     *
+     * Creates a movie and saves it
+     * Searches for the title of that movie in the database by calling search()
+     * Saves the number of movies corresponding to the searchString in a list
+     * Asserts that the size of that list equals one
+     * @throws Exception
+     */
+
+    public void testSearchMovieBy() throws Exception {
+        Movie movie = new Movie("Pulp Fiction", 1994);
+        long id = mMovieDAO.saveMovie(movie);
+
+        List<Movie> results = mMovieDAO.searchMovieBy("title", "Pulp");
+
+        assertEquals(results.size(), 1);
+
+        Movie foundMovie = results.get(0);
+        assertEquals(id, foundMovie.getId());
     }
 
     /**
@@ -182,7 +182,6 @@ public class MovieDAOTest extends BaseTest {
      * Creates six dummy ratings, one for each movie, and saves them
      * Saves all movies returned from call to getCommunityTopPicks() in a list
      * Asserts that the first movie in the list is the highest rated and the second the second highest rated movie
-     * @throws Exception
      */
 
     public void testGetCommunityTopPicks(){
@@ -204,7 +203,6 @@ public class MovieDAOTest extends BaseTest {
      * Creates six dummy ratings, one for each movie, and saves them
      * Saves all movies returned from call to getMostDislikedMovies() in a list
      * Asserts that the first movie in the list is the lowest rated and the second the second lowest rated movie
-     * @throws Exception
      */
 
     public void testGetMostDislikedMovies(){
@@ -227,8 +225,8 @@ public class MovieDAOTest extends BaseTest {
      * Saves all movies returned from call to getTopRecommendedMoviesThisYear() in a list
      * Asserts that the first movie in the list is the highest rated movie that specified year,
      * the second the second highest rated movie that year
-     * @throws Exception
      */
+
     public void testGetTopRecommendedMoviesThisYear(){
 
         //create a bunch of dummy data

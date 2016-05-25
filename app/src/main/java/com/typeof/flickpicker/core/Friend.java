@@ -14,12 +14,12 @@ public class Friend implements DatabaseObject {
     private long id;
     private long userIdOne;
     private long getUserIdTwo;
-    private double disMatch = 0;
+    private double mismatch = 0;
     private int nmbrOfMoviesBothSeen = 0;
 
 
     /**
-     * Constructs a friend object that initially sets nmbrOfMoviesBothSeen and dismatch to 0.
+     * Constructs a friend object that initially sets nmbrOfMoviesBothSeen and mismatch to 0.
      * @param userIdOne the id of the first user (follower)
      * @param getUserIdTwo the id of the second user (followed)
      */
@@ -40,8 +40,8 @@ public class Friend implements DatabaseObject {
         return getUserIdTwo;
     }
 
-    public double getDisMatch(){
-        return disMatch;
+    public double getMismatch(){
+        return mismatch;
     }
 
     public int getNmbrOfMoviesBothSeen() {
@@ -53,8 +53,8 @@ public class Friend implements DatabaseObject {
         this.id = id;
     }
 
-    public void setDisMatch(double match){
-        this.disMatch = match;
+    public void setMismatch(double mismatch){
+        this.mismatch = mismatch;
     }
 
     public void setNmbrOfMoviesBothSeen(int nmbrOfMoviesBothSeen) {

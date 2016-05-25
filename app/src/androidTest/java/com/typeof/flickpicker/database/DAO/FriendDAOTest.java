@@ -68,16 +68,22 @@ public class FriendDAOTest extends BaseTest {
     /**
      * Tests getFriendsFromUserId()
      *
-     * Create a user that hasn't added any friends.
-     * Asserts that the list of friends doesn't return null but rather an empty list of users
+     * Creates two users and saves them
+     * Adds the second user as a friend to primary user and saves that friend
+     * Calls getFriendsFromUserId() and saves the results
+     * Asserts that the list of friends has the expected size of 1
      * @throws Exception
      */
     public void testGetFriendsFromUserId() throws Exception {
-        User user1 = new User("pelle", "password");
-        long id = mUserDAO.saveUser(user1);
 
-        List<User> userFriends = mFriendDAO.getFriendsFromUserId(id);
-        assertTrue(userFriends != null);
+        long primaryUserId = mUserDAO.saveUser(new User("pelle", "password"));
+        long secondaryUserId = mUserDAO.saveUser(new User("kalle", "password"));
+
+        Friend friend = new Friend(primaryUserId,secondaryUserId);
+        mFriendDAO.addFriend(friend);
+
+        List<User> primaryUsersFriends = mFriendDAO.getFriendsFromUserId(primaryUserId);
+        assertEquals(1,primaryUsersFriends.size());
     }
 
     /**
@@ -113,7 +119,6 @@ public class FriendDAOTest extends BaseTest {
      * Adds three of them as friends to the first user
      * Create three ratings where two of them is by the first users friends
      * Asserts that the list of ratings has the expected size of two
-     * @throws Exception
      */
 
     public void testGetFriendsLatestActivities() {
@@ -155,9 +160,8 @@ public class FriendDAOTest extends BaseTest {
      * Adds two of them as friends to primary user
      * All three of them rates the same two movies
      * Primary users ratings should be compared to the friends' ratings of the same movies
-     * and translated into a dismatch value if the method works as it's supposed to.
-     * Asserts that the dismatch value corresponds to the expected value for each user
-     * @throws Exception
+     * and translated into a mismatch value if the method works as it's supposed to.
+     * Asserts that the mismatch value corresponds to the expected value for each user
      */
 
     public void testUpdateFriendMatches(){
@@ -183,14 +187,14 @@ public class FriendDAOTest extends BaseTest {
 
         mFriendDAO.updateFriendMatches(pellesRatingOnAmericanHistoryX);
 
-        // fetch the relationship and compare the dismatch value to the expected one - if implemented correctly:
+        // fetch the relationship and compare the mismatch value to the expected one - if implemented correctly:
         // Should return: 2.0 [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2
         // && 0.0 [abs(3-3)+abs(3-3)]/#nmbrOfMoviesBothSeen = (0+0)/2
 
         Friend friendRelationOne = mFriendDAO.getFriendRelation(primaryUser,secondaryUser);
-        assertEquals(2.0,friendRelationOne.getDisMatch());
+        assertEquals(2.0,friendRelationOne.getMismatch());
         Friend friendRelationTwo = mFriendDAO.getFriendRelation(primaryUser,thirdUser);
-        assertEquals(0.0, friendRelationTwo.getDisMatch());
+        assertEquals(0.0, friendRelationTwo.getMismatch());
     }
 
     /**
@@ -200,7 +204,6 @@ public class FriendDAOTest extends BaseTest {
      * Adds one of them as friend to primary user and saves the friend object
      * Fetches the friend object and confirms that the fetched and created friend object's userIdTwo are the same
      * Asserts that the userIdTwo of the two objects are the same
-     * @throws Exception
      */
 
     public void testGetFriendRelation() {
@@ -221,7 +224,6 @@ public class FriendDAOTest extends BaseTest {
      * Creates a random users
      * Adds that user as a friend to main user
      * Asserts that the relation has been added to the database
-     * @throws Exception
      */
 
     public void testIsFriend() {

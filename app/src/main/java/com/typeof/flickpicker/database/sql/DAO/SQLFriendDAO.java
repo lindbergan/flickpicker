@@ -51,7 +51,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         ContentValues values = new ContentValues();
         values.put(FriendTable.FriendEntry.COLUMN_NAME_USER1ID, f.getUserIdOne());
         values.put(FriendTable.FriendEntry.COLUMN_NAME_USER2ID, f.getGetUserIdTwo());
-        values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getDisMatch());
+        values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getMismatch());
         values.put(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN, f.getNmbrOfMoviesBothSeen());
         return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
     }
@@ -166,7 +166,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
             //check all friends
             User currentFriend = usersFriends.get(i);
             Friend currentFriendShip = getFriendRelation(currentUserId, currentFriend.getId());
-            double totalDismatch = 0; //default
+            double totalMismatch = 0; //default
             int nmbrOfMovieBothSeen = 0; //default
 
             long currentFriendsId = usersFriends.get(i).getId();
@@ -184,16 +184,16 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
                 if (c.getCount() != 0) {
                     c.moveToFirst();
                     nmbrOfMovieBothSeen++;
-                    totalDismatch = calculateNewMismatchValue(c, totalDismatch, nmbrOfMovieBothSeen);
+                    totalMismatch = calculateNewMismatchValue(c, totalMismatch, nmbrOfMovieBothSeen);
                     c.close();
                 }
             }
 
             //set the updated values to the friendRelation && save it
-            double disMatch = totalDismatch/nmbrOfMovieBothSeen;
+            double mismatch = totalMismatch/nmbrOfMovieBothSeen;
 
             currentFriendShip.setNmbrOfMoviesBothSeen(nmbrOfMovieBothSeen);
-            currentFriendShip.setDisMatch(disMatch);
+            currentFriendShip.setMismatch(mismatch);
             addFriend(currentFriendShip);
 
         }

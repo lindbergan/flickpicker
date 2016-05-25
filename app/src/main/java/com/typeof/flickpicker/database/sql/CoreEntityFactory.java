@@ -36,12 +36,12 @@ public class CoreEntityFactory {
         long id = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_ID));
         long userId1 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER1ID));
         long userId2 = c.getLong(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_USER2ID));
-        double disMatchValue = c.getDouble(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH));
+        double mismatchValue = c.getDouble(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH));
         int numOfMoviesBothSeen = c.getInt(c.getColumnIndex(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN));
 
         Friend friendRelation = new Friend(userId1, userId2);
         friendRelation.setId(id);
-        friendRelation.setDisMatch(disMatchValue);
+        friendRelation.setMismatch(mismatchValue);
         friendRelation.setNmbrOfMoviesBothSeen(numOfMoviesBothSeen);
 
         return friendRelation;

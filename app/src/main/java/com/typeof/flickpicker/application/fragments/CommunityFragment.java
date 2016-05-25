@@ -40,8 +40,6 @@ public class CommunityFragment extends Fragment {
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
     private int thisYear;
-    public final String TAG = "community";
-    private Bundle savedState = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -196,20 +194,6 @@ public class CommunityFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            //this.currentTab = savedInstanceState.getString("currentTab");
-        }
-    }
-
 }
 
 

@@ -18,9 +18,8 @@ public interface MovieDAO {
     List<Movie> searchMovieBy(String column, String searchTerm);
     int numOfFriendsHasSeenMovie(long movieId, long userId);
     List<Movie> getCommunityTopPicks(int max);
-    List<Movie> getTopRecommendedMoviesThisYear(int max, int year);
     List<Movie> getMostDislikedMovies(int max);
+    List<Movie> getTopRecommendedMoviesThisYear(int max, int year);
     List<User> getFriendsSeenMovie(long movieId, long userId);
     List<Movie> getMovieCollectionFromUserId(int max, long userId);
-    List<Rating> getUserRatings(int max, long userId);
 }
