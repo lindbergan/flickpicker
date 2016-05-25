@@ -1,9 +1,11 @@
 package com.typeof.flickpicker.application.helpers;
 
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.activities.MainActivity;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 
 import java.util.List;
 
@@ -33,31 +35,30 @@ public class RatingHelper {
         //update the dismatch values in relation to users new rating
         App.getFriendDAO().updateFriendMatches(newRating);
 
-        if(!previousRatingExists(newRating)) {
+        if(!previousRatingExists(newRating.getId())) {
 
             //set the user's score accordingly
             User currentUser = App.getCurrentUser();
             int oldScore = currentUser.getScore();
             int newScore = oldScore + 10;
             currentUser.setScore(newScore);
+            MainActivity.setScore(newScore);
         }
     }
 
     /**
      * A method the determines whether or not the user has rated the movie before.
-     * @param rating the new rating
      * @return returns true if movie was previously rated by user.
      */
-    private static boolean previousRatingExists(Rating rating){
+    private static boolean previousRatingExists(long ratingId){
 
         //extract the movie and userId from the rating object and check if the movie already exists in the users movie collection
-        long ratingsUser = rating.getUserId();
-        Movie ratedMovie = App.getMovieDAO().findMovie(rating.getMovieId());
-        int desiredSizeOfList = 100;
-
-        List<Movie> usersMovieCollection = App.getMovieDAO().getMovieCollectionFromUserId(desiredSizeOfList, ratingsUser);
-
-        return usersMovieCollection.contains(ratedMovie);
-
+        try {
+            App.getRatingDAO().findRating(ratingId);
+        }
+        catch (DatabaseRecordNotFoundException e) {
+            return false;
+        }
+        return true;
     }
 }

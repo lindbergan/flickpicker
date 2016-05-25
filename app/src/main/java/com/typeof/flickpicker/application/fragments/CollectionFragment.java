@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -21,6 +22,8 @@ import com.typeof.flickpicker.application.helpers.KeyboardHelper;
 import com.typeof.flickpicker.application.adapters.MovieAdapter;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
+import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.sql.tables.MovieTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,33 +138,37 @@ public class CollectionFragment extends Fragment {
     public void setUpListeners(){
 
         mSearchViewCollection.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                MovieDAO movieDAO = App.getMovieDAO();
+
+                if (query != null) {
+                    String searchText = query.toLowerCase();
+                    List<Movie> movieList = movieDAO.searchMovieBy(MovieTable.MovieEntry.COLUMN_NAME_TITLE,
+                            searchText);
+
+                    populateCollection(listViewMyCollection, movieList);
+
+                }
+                return false;
+            }
 
             @Override
-            public boolean onQueryTextChange(String s) {
+            public boolean onQueryTextChange(final String newText) {
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
-                        List<Movie> result = new ArrayList<>();
-                        for (Movie m : mCollection) {
-
-                            String title = m.getTitle().toLowerCase();
-                            String searchText = mSearchViewCollection.getQuery().toString().toLowerCase();
-
-                            if (title.contains(searchText)) {
-                                result.add(m);
-                            }
+                        if (newText == null || newText.equalsIgnoreCase("")) {
+                            populateCollection(listViewMyCollection,
+                                    App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList,
+                                            App.getCurrentUser().getId()));
                         }
 
-                        populateCollection(listViewMyCollection, result);
                     }
                 }, 1000);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
                 return false;
             }
         });

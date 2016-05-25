@@ -46,7 +46,7 @@
                         android:id="@+id/searchView"
                         android:layout_gravity="center_horizontal"
                         android:iconifiedByDefault="false"
-                        android:queryHint="Filter movies in collection" />
+                        android:queryHint="Add movies to your collection" />
 
                     <ListView
                         android:layout_width="match_parent"

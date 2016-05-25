@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
@@ -101,7 +102,9 @@ public class MovieDetailFragment extends Fragment {
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                App.getRatingDAO().saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
+
+                RatingHelper.createNewRating(ratingBar.getRating(), movieId, App.getCurrentUser().getId());
+                //App.getRatingDAO().saveRating(new Rating(ratingBar.getRating(), movieId, App.getCurrentUser().getId()));
                 setRateButtonInactive();
             }
         });
@@ -120,11 +123,11 @@ public class MovieDetailFragment extends Fragment {
 
         friendsIcon.setTypeface(font);
         int numSeen = mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId());
-        numOfFriendsSeen.setText(String.valueOf(numSeen) + " friends have seen this");
+        numOfFriendsSeen.setText(String.format("%s friends have seen this", String.valueOf(numSeen)));
 
         communityIcon.setTypeface(font);
         double rating = movie.getCommunityRating();
-        communityRating.setText("rated " + String.valueOf(rating) + " by the community");
+        communityRating.setText(String.format("rated %s by the community", String.valueOf(rating)));
         movieDescription.setText(movie.getDescription());
         Picasso.with(getContext()).load(movie.getPoster()).into(movieImage);
     }

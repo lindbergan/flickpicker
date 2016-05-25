@@ -36,8 +36,9 @@ public class MainActivity extends FragmentActivity {
 
     private ViewPager mViewPager;
     public PagerAdapter mPagerAdapter;
-    private List<Integer> previousPositions = new ArrayList<>();
-    Typeface font;
+    private List<Integer> mPreviousPositions = new ArrayList<>();
+    private static TextView mScore;
+    Typeface mTypeface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MainActivity extends FragmentActivity {
             tabHost.setup();
         }
 
-        font = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+        mTypeface = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
 
         configureTabs();
         initHeader();
@@ -83,11 +84,11 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onPageSelected(int position) {
                 // The back button logic
-                if (previousPositions.indexOf(position) != -1) {
-                    previousPositions.remove(previousPositions.indexOf(position));
+                if (mPreviousPositions.indexOf(position) != -1) {
+                    mPreviousPositions.remove(mPreviousPositions.indexOf(position));
                 }
 
-                previousPositions.add(position);
+                mPreviousPositions.add(position);
 
                 if (position < 5) {
                     tabHost.setCurrentTab(position);
@@ -103,13 +104,13 @@ public class MainActivity extends FragmentActivity {
     public void initHeader() {
 
         TextView profile = (TextView) findViewById(R.id.myProfileIcon);
-        TextView score = (TextView) findViewById(R.id.userScore);
+        mScore = (TextView) findViewById(R.id.userScore);
         TextView title = (TextView) findViewById(R.id.flickPickerText);
         TextView settings = (TextView) findViewById(R.id.settingsIcon);
 
-        profile.setTypeface(font);
-        settings.setTypeface(font);
-        score.setText(String.valueOf(App.getCurrentUser().getScore()));
+        profile.setTypeface(mTypeface);
+        settings.setTypeface(mTypeface);
+        mScore.setText(String.valueOf(App.getCurrentUser().getScore()));
         Typeface titleFont = Typeface.createFromAsset(getAssets(), "fonts/DISTGRG_.ttf");
         title.setTypeface(titleFont);
 
@@ -129,6 +130,10 @@ public class MainActivity extends FragmentActivity {
 
     }
 
+    public static void setScore(int score) {
+        mScore.setText(String.valueOf(score));
+    }
+
     @Override
     public void onBackPressed() {
         if (mViewPager.getCurrentItem() == 0) {
@@ -137,9 +142,9 @@ public class MainActivity extends FragmentActivity {
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
-            if (previousPositions.size() > 1) {
-                previousPositions.remove(previousPositions.size() - 1);
-                mViewPager.setCurrentItem(previousPositions.get(previousPositions.size() - 1), false);
+            if (mPreviousPositions.size() > 1) {
+                mPreviousPositions.remove(mPreviousPositions.size() - 1);
+                mViewPager.setCurrentItem(mPreviousPositions.get(mPreviousPositions.size() - 1), false);
             } else {
                 mViewPager.setCurrentItem(0, false);
             }
@@ -238,7 +243,7 @@ public class MainActivity extends FragmentActivity {
         tabSpec.setContent(viewId);
         View iconView = LayoutInflater.from(this).inflate(iconViewId, null);
         TextView icon = (TextView)iconView.findViewById(iconId);
-        icon.setTypeface(font);
+        icon.setTypeface(mTypeface);
         tabSpec.setIndicator(iconView);
 
         return tabSpec;
