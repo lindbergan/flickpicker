@@ -49,7 +49,7 @@ public class FriendsActivityAdapter extends CustomAdapter {
             viewHolder = new ViewHolder();
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.custom_row_friend_activity, parent, false);
+            view = inflater.inflate(R.layout.custom_row_friends_activity, parent, false);
 
             viewHolder.username = (TextView) view.findViewById(R.id.username_textview);
             viewHolder.movieName = (TextView) view.findViewById(R.id.moviename_textview);
