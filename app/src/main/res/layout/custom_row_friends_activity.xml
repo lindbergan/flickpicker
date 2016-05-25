@@ -1,119 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="125dp"
+    android:weightSum="1"
     android:background="@drawable/list_cell_2"
-    android:weightSum="1">
+    >
 
-    <FrameLayout
-        android:layout_width="100dp"
+    <TextView
+        android:text="@string/no_user_profile"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|bottom">
+        android:id="@+id/no_profile_picture"
+        android:textSize="125dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="left"
+        android:textColor="@android:color/darker_gray"
+        android:minWidth="100dp"/>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/no_profile_picture"
-            android:text="@string/no_user_profile"
-            android:textAlignment="center"
-            android:textSize="75sp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="25dp" />
-    </FrameLayout>
-
-    <RelativeLayout
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|left|right"
-        android:padding="2dp">
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:layout_marginLeft="15dp">
 
-        <RatingBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/ratingBar"
-            android:isIndicator="true"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:layout_below="@+id/relativeLayoutTextContainer"
-            android:layout_alignParentStart="true" />
-
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:paddingStart="@dimen/list_cell_friends_text_to_bar_padding"
-            android:id="@+id/relativeLayoutTextContainer">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/linearLayout3"
-                android:layout_alignParentStart="false">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="User"
-                    android:id="@+id/username_textview"
-                    android:textStyle="bold"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text=" just watched..."
-                    android:id="@+id/textView4"
-                    android:textStyle="italic"
-                    android:textSize="14sp"
-                     />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/linearLayout2"
-                android:layout_below="@+id/linearLayout3"
-
-                android:layout_alignEnd="@+id/linearLayout3"
-                android:layout_alignStart="@+id/linearLayout3">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Movie"
-                    android:id="@+id/moviename_textview"
-                    android:textStyle="bold"
-                    android:textSize="17sp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text=" (year)"
-                    android:id="@+id/movie_year_textview"
-                    android:textSize="17sp" />
-            </LinearLayout>
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="...and rated it: "
-                android:id="@+id/textView3"
-                android:textStyle="italic"
-                android:textSize="13sp"
-                android:layout_below="@+id/linearLayout2"
-                android:layout_alignStart="@+id/linearLayout2" />
-        </RelativeLayout>
-    </RelativeLayout>
+                android:textAppearance="?android:attr/textAppearance"
+                android:text="@string/userTextView"
+                android:id="@+id/username_textview"
+                android:layout_gravity="center_horizontal|left"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearance"
+                android:text=" just watched..."
+                android:layout_gravity="center_horizontal|left"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/movieTextView"
+                android:id="@+id/moviename_textview" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" from "
+                android:id="@+id/textView9" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/yearTextView"
+                android:id="@+id/movie_year_textview" />
+        </LinearLayout>
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleX="0.6"
+                android:scaleY="0.6"
+                android:isIndicator="true"
+                android:stepSize="1"
+                android:transformPivotX="0dp"
+                android:max="5"
+                android:transformPivotY="30dp"
+                android:id="@+id/ratingBar"/>
+
+    </LinearLayout>
 
 </LinearLayout>

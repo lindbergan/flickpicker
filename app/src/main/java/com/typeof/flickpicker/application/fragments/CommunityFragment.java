@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -47,6 +48,7 @@ public class CommunityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mMovieDAO = App.getMovieDAO();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
+
     }
 
     @Nullable
@@ -56,6 +58,11 @@ public class CommunityFragment extends Fragment {
         hookUpViews(communityView);
         configureTabs(communityView);
         setUpListeners();
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
         return communityView;
     }
 

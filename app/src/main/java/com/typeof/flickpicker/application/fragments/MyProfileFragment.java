@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
@@ -60,6 +61,10 @@ public class MyProfileFragment extends Fragment {
         mUserProfileImageView.setTypeface(tf);
         nrOfRatings.setText(String.valueOf(ratingDAO.getAllRatingsFromUser(user.getId()).size()));
         meanRating.setText(String.valueOf(result/ratingList.size()));
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         return view;
 

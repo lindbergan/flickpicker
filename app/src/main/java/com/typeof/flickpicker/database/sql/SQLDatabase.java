@@ -82,19 +82,19 @@ public class SQLDatabase implements Database {
      */
     public void seedDatabase() {
 
-        Movie m1 = new Movie("M1", 1995);
-        Movie m2 = new Movie("M2", 1996);
-        Movie m3 = new Movie("M3", 1997);
-        Movie m4 = new Movie("M4", 1998);
-        Movie m5 = new Movie("M5", 1999);
-        Movie m6 = new Movie("M6", 2000);
-        Movie m7 = new Movie("M7", 2001);
-        Movie m8 = new Movie("M8", 2002);
-        Movie m9 = new Movie("M9", 2003);
-        Movie m10 = new Movie("M10", 2003);
-        Movie m11 = new Movie("M11", 2004);
-        Movie m12 = new Movie("M12", 2005);
-        Movie m13 = new Movie("M13", 2006);
+        Movie m1 = new Movie("Msfko spefkopse kfopsekfpoks1", 1995);
+        Movie m2 = new Movie("Msefokspoefpkoesf2", 1996);
+        Movie m3 = new Movie("sefksopefkpsefM3", 1997);
+        Movie m4 = new Movie("M sefos epkos ekopfsp4", 1998);
+        Movie m5 = new Movie("Msoekfpsoekf5", 1999);
+        Movie m6 = new Movie("Msefopkspef6", 2000);
+        Movie m7 = new Movie("Msopfkpsef7", 2001);
+        Movie m8 = new Movie("Msepofkospef", 2002);
+        Movie m9 = new Movie("Msopkefps9", 2003);
+        Movie m10 = new Movie("M1sefs0", 2003);
+        Movie m11 = new Movie("M1sef1", 2004);
+        Movie m12 = new Movie("M1sefpksepfokspoekfo2", 2005);
+        Movie m13 = new Movie("Msefkspkoe s kfospfe13", 2006);
 
         MovieDAO movieDAO = App.getMovieDAO();
         movieDAO.saveMovie(m1);
@@ -111,12 +111,12 @@ public class SQLDatabase implements Database {
         movieDAO.saveMovie(m12);
         movieDAO.saveMovie(m13);
 
-        User u1 = new User("U1", "P1");
-        User u2 = new User("U2", "P2");
-        User u3 = new User("U3", "P3");
-        User u4 = new User("U4", "P4");
-        User u5 = new User("U5", "P5");
-        User u6 = new User("U6", "P6");
+        User u1 = new User("Uskopefkss1", "P1");
+        User u2 = new User("Uefsefs2", "P2");
+        User u3 = new User("U3sefsefs", "P3");
+        User u4 = new User("Usefsef4", "P4");
+        User u5 = new User("Usefsef5", "P5");
+        User u6 = new User("Usefsefsef6", "P6");
 
         UserDAO userDAO = App.getUserDAO();
         userDAO.saveUser(u1);

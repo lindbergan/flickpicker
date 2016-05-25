@@ -53,6 +53,8 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     }
 
 
+
+
     /**
      * Creates a map (ContentValues)
      * Puts information in the movie columns
@@ -280,4 +282,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
         return userRatings;
     }
+
+
 }

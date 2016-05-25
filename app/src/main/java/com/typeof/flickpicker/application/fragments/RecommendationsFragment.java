@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.typeof.flickpicker.R;
@@ -39,6 +40,10 @@ public class RecommendationsFragment extends Fragment {
         View recommendationsView = inflater.inflate(R.layout.activity_recommendations, container, false);
         hookUpViews(recommendationsView);
         populateListView();
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         return recommendationsView;
     }
