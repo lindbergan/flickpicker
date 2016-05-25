@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.sql.CoreEntityFactory;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
@@ -93,4 +95,49 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
     public long removePlaylist(Playlist playlist) {
         return super.delete(playlist, PlaylistTable.PlaylistEntry.TABLE_NAME);
     }
-}
+
+
+    /**
+     * method for adding a moie to the user's playlist
+     * @param user
+     * @param movie
+     */
+    @Override
+    public void addMovieToPlaylist(User user, Movie movie){
+
+        long userId = user.getId();
+        long movieId = movie.getId();
+
+        // Check to see if user have a playlist, otherwise create one
+        Playlist playlist = getUserPlaylist(userId);
+        if(playlist == null){
+            playlist = new Playlist("Watchlist", userId);
+            savePlaylist(playlist);
+        }
+
+        playlist.add(movieId);
+        savePlaylist(playlist);
+    }
+
+
+    /**
+     * method for removing a movie from the user's playlist
+     * @param user
+     * @param movie
+     */
+    public void removeMovieFromPlaylist(User user, Movie movie){
+
+        long userId = user.getId();
+        long movieId = movie.getId();
+
+        Playlist playlist = getUserPlaylist(userId);
+
+            if(playlist == null){
+                return;
+            }
+        playlist.remove(movieId);
+        savePlaylist(playlist);
+        }
+
+    }
+

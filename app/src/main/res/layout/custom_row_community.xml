@@ -13,7 +13,7 @@
             android:contentDescription="@string/no_user_profile_desc"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:id="@+id/imageView_movieCell"
+            android:id="@+id/rowCommunityImageView"
             android:layout_gravity="left"
             android:minWidth="100dp"/>
 
@@ -34,9 +34,11 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearance"
                     android:text="@string/movieTextView"
-                    android:id="@+id/moviename_textview_movieCell"
+                    android:id="@+id/rowCommunityMovieTitle"
                     android:layout_gravity="center_horizontal|left"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
 
             </LinearLayout>
 
@@ -50,7 +52,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="genre"
-                    android:id="@+id/rowCommunityGenre" />
+                    android:id="@+id/rowCommunityGenre"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -62,7 +65,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="year"
-                    android:id="@+id/rowCommunityYear" />
+                    android:id="@+id/rowCommunityYear"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
             </LinearLayout>
 
             <LinearLayout
@@ -84,6 +89,12 @@
                     android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/rowCommunityFriendsText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/friends_have_seen_this_label_end"
+                    android:id="@+id/rowCommunityFriendsTextEnd" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,8 +114,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/rated_by_community_label_start"
+                    android:id="@+id/rowCommunityCommunityTextStart" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="New Text"
                     android:id="@+id/rowCommunityCommunityText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rated_by_community_label_end"
+                    android:id="@+id/rowCommunityCommunityTextEnd" />
             </LinearLayout>
 
         </LinearLayout>

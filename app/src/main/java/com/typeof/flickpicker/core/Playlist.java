@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.core;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +81,8 @@ public class Playlist implements DatabaseObject {
      */
 
     public void remove(long movieId) {
-        movieIds.remove(movieIds.indexOf(movieId));
+        getMovieIds().remove(Integer.valueOf((int)movieId));
     }
+
 }
+

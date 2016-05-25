@@ -14,7 +14,7 @@
 
     <string name="movie_detail_title_default">A great movie</string>
     <string name="movie_detail_genre_default">Genre: n/a</string>
-    <string name="movie_detail_num_of_friends_seen_label">Number of friends who have seen this</string>
+    <string name="movie_detail_num_of_friends_seen_label">friends have seen this</string>
     <string name="movie_detail_num_of_friends_seen_default">0</string>
     <string name="movie_detail_community_rating_label">Community rating</string>
     <string name="movie_detail_community_rating_default">2,5</string>
@@ -32,8 +32,12 @@
     <string name="yearTextView">(year)</string>
     <string name="and_rated_it_Textview">...and rated it:</string>
     <string name="add_movie_to_playlist">Add movie to playlist</string>
+    <string name="remove_movie_from_playlist">Remove from playlist</string>
     <string name="search_for_a_friend_hint">Search for a friend...</string>
     <string name="no_user_profile">&#xf007;</string>
+    <string name="friends_have_seen_this_label_end">" friends have seen this"</string>
+    <string name="rated_by_community_label_start">"Rated "</string>
+    <string name="rated_by_community_label_end">" by the community"</string>
 
     <!-- STRINGS CUSTOM_ROW_SEARCH_USER -->
 

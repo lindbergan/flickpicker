@@ -27,33 +27,34 @@ public class UserDAOTest extends BaseTest {
         super.tearDown();
     }
 
+
     /**
      * Tests if a record is saved in the database
      * @throws Exception
      */
     public void testSaveUser() throws Exception {
 
-        //creates test user
-        User user = new User("Gandalf", "WhiteWiz");
-
-        //saves in database
+        User user = new User("Username123", "Password123");
         long userID = mUserDao.saveUser(user);
 
-        //checks if return value in userID matches ID used in constructor
+        //assert that the user have been given an ID larger than 0
+        //and therefore successfully have been saved in the database
         assertTrue(userID > 0);
 
     }
+
 
     /**
      * Tests if we can find a record in the database
      * @throws Exception
      */
     public void testGetUserById() throws Exception {
-        long userId = mUserDao.saveUser(new User("sebastiandro", "123"));
+
+        long userId = mUserDao.saveUser(new User("Sibelius", "Password"));
         User foundUser = mUserDao.getUserById(userId);
 
         //Checks if this indeed is the same user
-        assertEquals("checks if usernames matches", "sebastiandro", foundUser.getUsername());
+        assertEquals("checks if username matches", "Sibelius", foundUser.getUsername());
 
     }
 
@@ -62,20 +63,20 @@ public class UserDAOTest extends BaseTest {
      * @throws Exception
      */
     public void testSearchUser() throws Exception {
+
         long userId = mUserDao.saveUser(new User("Frodo", "123"));
         mUserDao.getUserById(userId);
 
         //creates list with search hits with search string "Fro"
-        List<User> results = mUserDao.searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, "Fro");
-
-        //checks if we indeed get one result, the dummy user in the database
-        assertEquals(1, results.size());
+        List<User> searchResults = mUserDao.searchUser(UserTable.UserEntry.COLUMN_NAME_USERNAME, "Fro");
+        assertEquals(1, searchResults.size());
 
         //checks to see if the id matches with dummy
-        User foundUser = results.get(0);
+        User foundUser = searchResults.get(0);
         assertEquals(userId, foundUser.getId());
 
     }
+
 
     /**
      * Tests if we can change the record of a existing user in the database
@@ -83,24 +84,20 @@ public class UserDAOTest extends BaseTest {
      */
     public void testUpdate() throws Exception {
 
-        //creates new user to test update method on
-        //checks if it was saved in database correctly
+
         User user = new User("Luke", "Skywalker");
         long userId = mUserDao.saveUser(user);
+        assertTrue(userId > 0);
 
-        assertFalse(userId == -1 || userId == 0);
-
-        //sets score to 10 instead of default value (0)
-        //call for saveUser which should call for update in SQLDAO
+        //sets score to 10 instead of default value 0 and save user to database
         user.setScore(10);
         mUserDao.saveUser(user);
 
-        //fetch the user again
-        //checks if the score indeed have been updated
+        //fetch the user again and check score
         User userFetched = mUserDao.getUserById(userId);
-
         assertEquals(10, userFetched.getScore());
     }
+
 
 
     /**
@@ -108,13 +105,11 @@ public class UserDAOTest extends BaseTest {
      * @throws Exception
      */
     public void testDeleteUser() throws Exception {
-        long userId = mUserDao.saveUser(new User("sebastiandro", "123"));
+        long userId = mUserDao.saveUser(new User("Terminator", "Skynet123"));
         User foundUser = mUserDao.getUserById(userId);
 
         //delete method returns number of rows affected
         int numberOfUsersDeleted = mUserDao.deleteUser(foundUser);
-
-        //checks that only one user was deleted
         assertEquals(1, numberOfUsersDeleted);
     }
 }
