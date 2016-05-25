@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.fragments;
 
 
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.utils.OMDBParser;
 
 /**

@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.fragments;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +11,9 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.adapters.FriendsActivityAdapter;
+import com.typeof.flickpicker.application.helpers.KeyboardHelper;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 import com.typeof.flickpicker.database.Database;
-import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
 
 /**

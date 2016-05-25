@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.fragments;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -14,14 +14,24 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TabHost;
 import android.widget.TextView;
-
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.helpers.KeyboardHelper;
+import com.typeof.flickpicker.application.adapters.MovieAdapter;
+import com.typeof.flickpicker.application.adapters.UserAdapter;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;
 import com.typeof.flickpicker.database.sql.tables.UserTable;
 
 import java.util.List;
+
+
+/**
+ * SearchFragment
+ *
+ * A controller class for the search view
+ */
 
 public class SearchFragment extends Fragment {
 
@@ -50,6 +60,7 @@ public class SearchFragment extends Fragment {
         return searchView;
     }
 
+    //Setup the views in the corresponding XML-file
     public void hookUpViews(View view){
         listViewSearchMovies = (ListView) view.findViewById(R.id.listViewSearchMovie);
         listViewSearchUser = (ListView) view.findViewById(R.id.listViewSearchFriend);
@@ -63,6 +74,8 @@ public class SearchFragment extends Fragment {
 
     }
 
+    //Configures the fragment's tabs. Set the names, a marker for which tab is currently active and
+    //connects listeners for tab changes.
     public void configureTabs(View view){
 
         mTabHostSearch = (TabHost) view.findViewById(R.id.tabHostSearch);
@@ -78,9 +91,10 @@ public class SearchFragment extends Fragment {
         mTabSpecSearchFriend.setIndicator("Search User");
         mTabHostSearch.addTab(mTabSpecSearchFriend);
 
-        setActiveTabColor();//default
+        //Sets an underline at the starting tab the first time the fragment is created
+        setActiveTabColor();
 
-        //NOTE: only needed if we want to return to specific tab and have previous search result displayed:
+        //Changes the underline depending on which tab is currently active
         mTabHostSearch.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
@@ -90,10 +104,12 @@ public class SearchFragment extends Fragment {
 
     }
 
+    //Sets an underline at the current tab for easier navigation
     public void setActiveTabColor(){
         mTabHostSearch.getTabWidget().getChildAt(mTabHostSearch.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
 
+    //Set up listeners for the SearchViews. A handler with delay is implemented in order to give better response timing to user's input.
     public void setUpListeners(){
         mSearchViewMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -140,19 +156,21 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    public void populateMovieListView(ListView listView, List<Movie> listOfViewCellsWeGotFromHelpClass){
-        ListAdapter adapter = new MovieAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+    //Populate the listView with searchResults with the help of a custom MovieAdapter to draw the correct cells
+    public void populateMovieListView(ListView listView, List<Movie> searchResults){
+        ListAdapter adapter = new MovieAdapter(getActivity(),searchResults.toArray());
         if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
-        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+        if (searchResults.size() == 0) {
             hiddenMoviesText.setVisibility(View.VISIBLE);
         }
         listView.setAdapter(adapter);
     }
 
-    public void populateUserListView(ListView listView, List<User> listOfViewCellsWeGotFromHelpClass){
-        ListAdapter adapter = new UserAdapter(getActivity(),listOfViewCellsWeGotFromHelpClass.toArray());
+    //Populate the listView with searchResults with the help of a custom UserAdapter to draw the correct cells
+    public void populateUserListView(ListView listView, List<User> searchResults){
+        ListAdapter adapter = new UserAdapter(getActivity(),searchResults.toArray());
         if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
-        if (listOfViewCellsWeGotFromHelpClass.size() == 0) {
+        if (searchResults.size() == 0) {
             hiddenUsersText.setVisibility(View.VISIBLE);
         }
         listView.setAdapter(adapter);

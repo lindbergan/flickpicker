@@ -1,23 +1,31 @@
 package com.typeof.flickpicker.core;
 
+
+/**
+ * User
+ *
+ * A class that specifies what a User database object/core entity is.
+ * The class holds information about the name of the user, the user's password as well as score.
+ */
+
 public class User implements DatabaseObject {
 
-    private final String TABLENAME = "USERS";
     private long id = 0;
     private String username;
     private int score;
     private String password;
 
+    /**
+     * Constructs a user object that initially sets id to zero and score to null.
+     * All other properties of the user object are set by the parameters
+     * @param username the name of the user
+     * @param password the user's password
+     */
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
         this.score = 0;
-    }
-
-    //---------GETTERS-------------
-
-    public String getTableName() {
-        return TABLENAME;
     }
 
     public long getId() {

@@ -1,9 +1,9 @@
 package com.typeof.flickpicker.utils;
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Movie;
-import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.List;
 

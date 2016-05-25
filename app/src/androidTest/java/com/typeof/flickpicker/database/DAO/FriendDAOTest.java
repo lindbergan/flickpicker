@@ -1,9 +1,7 @@
 package com.typeof.flickpicker.database.DAO;
 
-import android.test.ApplicationTestCase;
-
 import com.typeof.flickpicker.BaseTest;
-import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
@@ -16,9 +14,9 @@ import com.typeof.flickpicker.database.UserDAO;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-25.
+ * FriendDAOTest
+ *
+ * A test class for testing the implementation of the FriendDAO interface methods.
  */
 
 public class FriendDAOTest extends BaseTest {
@@ -44,8 +42,9 @@ public class FriendDAOTest extends BaseTest {
     }
 
     /**
-     * Tests addFriend
-     * Creates two random users, user1 adds user2 as a friend
+     * Tests addFriend()
+     *
+     * Creates two random users where user1 adds user2 as a friend
      * Asserts that user1 has a friend in his friend list
      * @throws Exception
      */
@@ -67,8 +66,10 @@ public class FriendDAOTest extends BaseTest {
     }
 
     /**
-     * Tests getFriendsFromUserId
-     * Asserts that
+     * Tests getFriendsFromUserId()
+     *
+     * Create a user that hasn't added any friends.
+     * Asserts that the list of friends doesn't return null but rather an empty list of users
      * @throws Exception
      */
     public void testGetFriendsFromUserId() throws Exception {
@@ -80,10 +81,12 @@ public class FriendDAOTest extends BaseTest {
     }
 
     /**
-     * Tests removeFriend
+     * Tests removeFriend()
+     *
      * Creates two random users
      * Adds user2 to user1s friend list
      * Removes user2 from user1s friend list
+     * Asserts that the list of friends returns an empty list of users
      * @throws Exception
      */
     public void testRemoveFriend() throws Exception {
@@ -96,12 +99,22 @@ public class FriendDAOTest extends BaseTest {
 
         Friend f = new Friend(id1, id2);
         mFriendDAO.addFriend(f);
-        mFriendDAO.removeFriend(user1.getId(), user2.getId());
+        mFriendDAO.removeFriend(id1,id2);
         List<User> userFriends = mFriendDAO.getFriendsFromUserId(user1.getId());
 
         assertTrue(userFriends.size() == 0);
 
     }
+
+    /**
+     * Tests getFriendLatestActivities()
+     *
+     * Creates four random users
+     * Adds three of them as friends to the first user
+     * Create three ratings where two of them is by the first users friends
+     * Asserts that the list of ratings has the expected size of two
+     * @throws Exception
+     */
 
     public void testGetFriendsLatestActivities() {
 
@@ -135,40 +148,60 @@ public class FriendDAOTest extends BaseTest {
 
     }
 
+    /**
+     * Tests updateFriendMatches()
+     *
+     * Creates three random users
+     * Adds two of them as friends to primary user
+     * All three of them rates the same two movies
+     * Primary users ratings should be compared to the friends' ratings of the same movies
+     * and translated into a dismatch value if the method works as it's supposed to.
+     * Asserts that the dismatch value corresponds to the expected value for each user
+     * @throws Exception
+     */
+
     public void testUpdateFriendMatches(){
 
-        //create three users
         long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
         long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
         long thirdUser = mUserDAO.saveUser(new User("Olle", "admin"));
 
-        //add kalle && olle as a friends to pelle
-        long firstFriendshipId = mFriendDAO.addFriend(new Friend(primaryUser,secondaryUser));
-        long secondFriendshipId = mFriendDAO.addFriend(new Friend(primaryUser,thirdUser));
+        mFriendDAO.addFriend(new Friend(primaryUser,secondaryUser));
+        mFriendDAO.addFriend(new Friend(primaryUser,thirdUser));
 
-        //let them rate the same two movies
         long americanHistoryXId = mMovieDAO.saveMovie(new Movie("American History X", 2000));
-        long planetOfTheApesId = mMovieDAO.saveMovie(new Movie("Planet of the apes", 1998));
+        long planetOfTheApesId = mMovieDAO.saveMovie(new Movie("Planet of the Apes", 1998));
 
-        long firstRatingPelle = mRatingDAO.saveRating(new Rating(2,americanHistoryXId,primaryUser));
+        long firstRatingPelle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,primaryUser));
         long secondRatingPelle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId, primaryUser));
-        long firstRatingKalle = mRatingDAO.saveRating(new Rating(4, americanHistoryXId,secondaryUser));
+        long firstRatingKalle = mRatingDAO.saveRating(new Rating(5, americanHistoryXId,secondaryUser));
         long secondRatingKalle = mRatingDAO.saveRating(new Rating(5, planetOfTheApesId, secondaryUser));
-        long firstRatingOlle = mRatingDAO.saveRating(new Rating(2,americanHistoryXId,thirdUser));
+        long firstRatingOlle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,thirdUser));
         long secondRatingOlle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId,thirdUser));
 
         Rating pellesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingPelle);
 
         mFriendDAO.updateFriendMatches(pellesRatingOnAmericanHistoryX);
 
-        //fetch the relationship and compare the dismatch value to the expected one:
-        //if implemented correctly - should return 2; (# diffs [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2) && 0.0
+        // fetch the relationship and compare the dismatch value to the expected one - if implemented correctly:
+        // Should return: 2.0 [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2
+        // && 0.0 [abs(3-3)+abs(3-3)]/#nmbrOfMoviesBothSeen = (0+0)/2
 
         Friend friendRelationOne = mFriendDAO.getFriendRelation(primaryUser,secondaryUser);
         assertEquals(2.0,friendRelationOne.getDisMatch());
         Friend friendRelationTwo = mFriendDAO.getFriendRelation(primaryUser,thirdUser);
         assertEquals(0.0, friendRelationTwo.getDisMatch());
     }
+
+    /**
+     * Tests getFriendRelation()
+     *
+     * Creates two random users
+     * Adds one of them as friend to primary user and saves the friend object
+     * Fetches the friend object and confirms that the fetched and created friend object's userIdTwo are the same
+     * Asserts that the userIdTwo of the two objects are the same
+     * @throws Exception
+     */
 
     public void testGetFriendRelation() {
 
@@ -178,11 +211,18 @@ public class FriendDAOTest extends BaseTest {
         Friend friendship = new Friend(primaryUser, secondaryUser);
         long friendshipId = mFriendDAO.addFriend(friendship);
 
-        //test and confirm that friendshipId && the fetchedFriendshipId are the same
         Friend fetchedFriendship = mFriendDAO.getFriendRelation(primaryUser, secondaryUser);
-        long fetchedFriendshipId = fetchedFriendship.getId();
-        assertEquals(friendshipId, fetchedFriendshipId);
+        assertEquals(friendship.getGetUserIdTwo(), fetchedFriendship.getGetUserIdTwo());
     }
+
+    /**
+     * Tests isFriend()
+     *
+     * Creates a random users
+     * Adds that user as a friend to main user
+     * Asserts that the relation has been added to the database
+     * @throws Exception
+     */
 
     public void testIsFriend() {
         User u = new User("testFriend", "testPassword");

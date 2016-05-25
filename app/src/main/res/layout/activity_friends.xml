@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/list_cell_margin"
     android:paddingRight="@dimen/list_cell_margin"
     android:background="@color/color_backdrop"
-    tools:context=".activities.FriendsFragment"
+    tools:context=".application.fragments.FriendsFragment"
     android:orientation="vertical"
     android:id="@+id/parent">
 

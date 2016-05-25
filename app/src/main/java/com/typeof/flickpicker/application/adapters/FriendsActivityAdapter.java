@@ -1,16 +1,14 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
 
@@ -51,7 +49,7 @@ public class FriendsActivityAdapter extends CustomAdapter {
             viewHolder = new ViewHolder();
 
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            view = inflater.inflate(R.layout.custom_row_friend_activity, parent, false);
+            view = inflater.inflate(R.layout.custom_row_friends_activity, parent, false);
 
             viewHolder.username = (TextView) view.findViewById(R.id.username_textview);
             viewHolder.movieName = (TextView) view.findViewById(R.id.moviename_textview);

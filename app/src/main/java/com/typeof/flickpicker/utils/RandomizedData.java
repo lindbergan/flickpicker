@@ -1,6 +1,6 @@
 package com.typeof.flickpicker.utils;
 
-import com.typeof.flickpicker.activities.App;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;

@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.viewpagers;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.typeof.flickpicker.activities.App;
-
 /**
  * SQLite Database Helper
  * Creates and fetches the local SQLite Database placed in the file system.

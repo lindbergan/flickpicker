@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.adapters;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -11,13 +11,20 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.helpers.KeyboardHelper;
+import com.typeof.flickpicker.application.activities.MainActivity;
+import com.typeof.flickpicker.application.helpers.SingleFragmentHelper;
 import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.application.fragments.MovieDetailFragment;
 
 
 /**
  * MovieAdapter extends CustomAdapter
  * Used to define list items in lists that show movies objects
  */
+
+
 
 public class MovieAdapter extends CustomAdapter {
 
@@ -99,9 +106,11 @@ public class MovieAdapter extends CustomAdapter {
         viewHolder.communityText.setText(String.valueOf(communityRating));
 
         Picasso.with(getContext()).load(movie.getPoster()).into(viewHolder.moviePoster);
-
         return view;
     }
+
+
+
 
 
     /**

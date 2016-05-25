@@ -8,7 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.typeof.flickpicker.activities.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.MovieDAO;
 
@@ -20,7 +19,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * OMDBParser

@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.activities;
+package com.typeof.flickpicker.application.fragments;
 
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
@@ -15,12 +15,12 @@ import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
+import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
-import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
-import com.typeof.flickpicker.database.RatingDAO;
 
 import java.util.List;
 
@@ -175,14 +175,15 @@ public class MovieDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                RatingDAO ratingDAO = App.getRatingDAO();
-                ratingDAO.saveRating(new Rating(mRatingBar.getRating(), movieId, App.getCurrentUser().getId()));
 
                 //if mMovie is on playlist it is removed
                 if (isMovieOnPlaylist()) {
                     App.getPlaylistDAO().removeMovieFromPlaylist(App.getCurrentUser(), mMovie);
                     mAddToWatchListButton.setChecked(false);
                 }
+
+                RatingHelper.createNewRating(mRatingBar.getRating(), movieId, App.getCurrentUser().getId());
+
                 setRateButtonInactive();
             }
         });
@@ -195,6 +196,7 @@ public class MovieDetailFragment extends Fragment {
 
                 if (isChecked && !isMovieOnPlaylist()) {
 
+
                     playlistDAO.addMovieToPlaylist((App.getCurrentUser()), mMovie);
                     setAddToWatchListLabel();
                 } else {
@@ -204,6 +206,19 @@ public class MovieDetailFragment extends Fragment {
                 }
             }
         });
+
+        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
+
+        mFriendsIcon.setTypeface(font);
+        int numSeen = mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId());
+        mNumOfFriendsSeen.setText(String.format("%s friends have seen this", String.valueOf(numSeen)));
+
+        mCommunityIcon.setTypeface(font);
+        double rating = mMovie.getCommunityRating();
+        mCommunityRating.setText(String.format("rated %s by the community", String.valueOf(rating)));
+        mMovieDescription.setText(mMovie.getDescription());
+        Picasso.with(getContext()).load(mMovie.getPoster()).into(mMovieImage);
+
     }
 
 
