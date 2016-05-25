@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/movie_detail_title_default"
                 android:id="@+id/movieDetailTitleTextField"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:paddingBottom="5dp"
                 />
@@ -75,7 +75,7 @@
             android:gravity="center_vertical"
             android:layout_below="@+id/linearLayout"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="@dimen/movie_detail_default_margin">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                 android:text="@string/friends_tab_icon"
                 android:id="@+id/movieDetailFriendsIcon"
                 android:textColor="@color/color_primary_dark"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:layout_marginEnd="5dp"/>
 
             <TextView
@@ -91,17 +91,10 @@
                 android:layout_height="wrap_content"
                 android:text="@string/movie_detail_num_of_friends_seen_default"
                 android:id="@+id/movieDetailNumOfFriendsSeen"
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:layout_marginEnd="5dp"
 
                 />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/friends_have_seen_this_label_end"
-                android:id="@+id/movieDetailNumOfFriendsSeenEnd"
-                android:textSize="15sp" />
 
         </LinearLayout>
 
@@ -121,7 +114,7 @@
                 android:text="@string/community_tab_icon"
                 android:id="@+id/movieDetailCommunityIcon"
                 android:layout_marginEnd="5dp"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:textColor="@color/color_primary_dark"
                 android:gravity="center_vertical" />
 
@@ -130,7 +123,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/movie_detail_community_rating_default"
                 android:id="@+id/movieDetailCommunityRating"
-                android:textSize="15sp"
+                android:textSize="12sp"
                 android:layout_gravity="center_vertical"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"/>
