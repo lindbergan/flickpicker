@@ -105,19 +105,19 @@ public class MovieDetailFragment extends Fragment {
         Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
         Picasso.with(getContext()).load(mMovie.getPoster()).into(mMovieImage);
-        Movie movie = mMovieDAO.findMovie(movieId);
-        mMovieTitle.setText(movie.getTitle());
-        mMovieGenre.setText(movie.getGenre());
+        mMovieTitle.setText(mMovie.getTitle());
+        mMovieGenre.setText(mMovie.getGenre());
 
         mFriendsIcon.setTypeface(font);
         int numSeen = mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId());
-        mNumOfFriendsSeen.setText(String.valueOf(numSeen));
+        mNumOfFriendsSeen.setText(String.format("%s friends have seen this", String.valueOf(numSeen)));
 
         mCommunityIcon.setTypeface(font);
-        double rating = round(movie.getCommunityRating(), 1);
-        mCommunityRating.setText("Rated " + String.valueOf(rating) + " by the community");
+        double rating = mMovie.getCommunityRating();
+        mCommunityRating.setText(String.format("rated %s by the community", String.valueOf(round(rating, 1))));
+        mMovieDescription.setText(mMovie.getDescription());
 
-        mMovieDescription.setText(movie.getDescription());
+
     }
 
 
@@ -206,18 +206,6 @@ public class MovieDetailFragment extends Fragment {
                 }
             }
         });
-
-        Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
-
-        mFriendsIcon.setTypeface(font);
-        int numSeen = mMovieDAO.numOfFriendsHasSeenMovie(movieId, App.getCurrentUser().getId());
-        mNumOfFriendsSeen.setText(String.format("%s friends have seen this", String.valueOf(numSeen)));
-
-        mCommunityIcon.setTypeface(font);
-        double rating = mMovie.getCommunityRating();
-        mCommunityRating.setText(String.format("rated %s by the community", String.valueOf(rating)));
-        mMovieDescription.setText(mMovie.getDescription());
-        Picasso.with(getContext()).load(mMovie.getPoster()).into(mMovieImage);
 
     }
 
