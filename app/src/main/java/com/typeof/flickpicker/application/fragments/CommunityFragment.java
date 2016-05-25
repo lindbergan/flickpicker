@@ -118,7 +118,6 @@ public class CommunityFragment extends Fragment {
             }
             }
         });
-
     }
 
     public void setTopMoviesAsCurrentView(){
@@ -157,7 +156,7 @@ public class CommunityFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    //Generate a list of years covering the 20th century
+    //Generate a list of years covering the 20th century up until today
     public List<String> generateYearList(){
 
         List<String> years = new ArrayList<>();
