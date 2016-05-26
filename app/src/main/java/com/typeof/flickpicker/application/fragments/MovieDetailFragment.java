@@ -223,7 +223,6 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     }
 
 
-
     /**
      * method that checks if the user have seen the mMovie or not
      * @return hasSeen true if user have seen mMovie, false if not

@@ -46,4 +46,10 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
         return null;
     }
 
+    public int getFragmentPositionByClass(Class c) {
+        Fragment fragment = getFragmentByClass(c);
+        int pos = mFragments.indexOf(fragment);
+        return mFragments.indexOf(fragment);
+    }
+
 }
