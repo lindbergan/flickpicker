@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.application.fragments;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Handler;
@@ -43,10 +44,12 @@ public class SearchFragment extends Fragment {
     private SearchView mSearchViewFriend;
     private TextView hiddenMoviesText;
     private TextView hiddenUsersText;
+    private Context ctx;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctx = getActivity();
     }
 
     @Nullable
@@ -164,7 +167,7 @@ public class SearchFragment extends Fragment {
 
     //Populate the listView with searchResults with the help of a custom MovieAdapter to draw the correct cells
     public void populateMovieListView(ListView listView, List<Movie> searchResults){
-        ListAdapter adapter = new MovieAdapter(getActivity(),searchResults.toArray());
+        ListAdapter adapter = new MovieAdapter(ctx,searchResults.toArray());
         if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
         if (searchResults.size() == 0) {
             hiddenMoviesText.setVisibility(View.VISIBLE);
