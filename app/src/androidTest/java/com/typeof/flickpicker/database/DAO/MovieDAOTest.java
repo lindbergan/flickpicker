@@ -42,7 +42,6 @@ public class MovieDAOTest extends BaseTest {
         super.tearDown();
     }
 
-
     /**
      * Tests findMovie()
      *
@@ -51,8 +50,6 @@ public class MovieDAOTest extends BaseTest {
      * Asserts that the fetched movie's title corresponds to the one saved
      * @throws Exception
      */
-
-
     public void testFindMovie() throws Exception {
         long movieId = mMovieDAO.saveMovie(new Movie("Shawshank", 1994));
         Movie movie = mMovieDAO.findMovie(movieId);
@@ -60,14 +57,12 @@ public class MovieDAOTest extends BaseTest {
     }
 
     /**
-     * Test saveMovie()
+     * Tests saveMovie()
      *
      * Saves a movie and corresponding fetches the column in database table (e.g. the movieId)
      * Asserts that the column number/movieId does't equal -1
      * @throws Exception
      */
-
-
     public void testSaveMovie() throws Exception {
         Movie movie = new Movie("Rocky", 1976);
         long rowId = mMovieDAO.saveMovie(movie);
@@ -84,7 +79,6 @@ public class MovieDAOTest extends BaseTest {
      * Asserts that the fetched movie's title corresponds to the updated title
      * @throws Exception
      */
-
     public void testUpdate() throws Exception {
         Movie movie = new Movie("2001: A Space Odyssey", 1968);
         long movieId = mMovieDAO.saveMovie(movie);
@@ -107,7 +101,6 @@ public class MovieDAOTest extends BaseTest {
      * Asserts that the movie isn't in the database and that the exception works as it's supposed to
      * @throws Exception
      */
-
     public void testDeleteMovie() throws Exception {
         Movie movie = new Movie("Reservoir Dogs", 1992);
         long id = mMovieDAO.saveMovie(movie);
@@ -130,7 +123,6 @@ public class MovieDAOTest extends BaseTest {
      * Asserts that the size of that list equals one
      * @throws Exception
      */
-
     public void testSearchMovieBy() throws Exception {
         Movie movie = new Movie("Pulp Fiction", 1994);
         long id = mMovieDAO.saveMovie(movie);
@@ -144,7 +136,6 @@ public class MovieDAOTest extends BaseTest {
     }
 
     /**
-     *
      * Tests numOfFriendsHasSeenMovie()
      *
      * Creates a movie and saves it
@@ -155,7 +146,6 @@ public class MovieDAOTest extends BaseTest {
      * Asserts that nrOfFriends equals 1
      * @throws Exception
      */
-
     public void testNumOfFriendsHasSeenMovie() throws Exception {
         Movie movie = new Movie("Reservoir Dogs", 1992);
         long id = mMovieDAO.saveMovie(movie);
@@ -182,9 +172,9 @@ public class MovieDAOTest extends BaseTest {
      * Creates six dummy ratings, one for each movie, and saves them
      * Saves all movies returned from call to getCommunityTopPicks() in a list
      * Asserts that the first movie in the list is the highest rated and the second the second highest rated movie
+     * @throws Exception
      */
-
-    public void testGetCommunityTopPicks(){
+    public void testGetCommunityTopPicks() throws Exception{
 
         //create a bunch of dummy data
         createDummyData();
@@ -203,9 +193,9 @@ public class MovieDAOTest extends BaseTest {
      * Creates six dummy ratings, one for each movie, and saves them
      * Saves all movies returned from call to getMostDislikedMovies() in a list
      * Asserts that the first movie in the list is the lowest rated and the second the second lowest rated movie
+     * @throws Exception
      */
-
-    public void testGetMostDislikedMovies(){
+    public void testGetMostDislikedMovies() throws Exception{
 
         //create a bunch of dummy data
         createDummyData();
@@ -225,9 +215,9 @@ public class MovieDAOTest extends BaseTest {
      * Saves all movies returned from call to getTopRecommendedMoviesThisYear() in a list
      * Asserts that the first movie in the list is the highest rated movie that specified year,
      * the second the second highest rated movie that year
+     * @throws Exception
      */
-
-    public void testGetTopRecommendedMoviesThisYear(){
+    public void testGetTopRecommendedMoviesThisYear() throws Exception{
 
         //create a bunch of dummy data
         createDummyData();
@@ -250,7 +240,6 @@ public class MovieDAOTest extends BaseTest {
      * Asserts that the fetched list consits of two users, user2 and user3. Confirms this by comparing ids to expected values
      * @throws Exception
      */
-
     public void testGetFriendsSeenMovie() throws Exception {
         Movie movie = new Movie("Reservoir Dogs", 1992);
         long id = mMovieDAO.saveMovie(movie);
@@ -285,9 +274,9 @@ public class MovieDAOTest extends BaseTest {
      * Creates three ratings by that user and saves them
      * Saves a list of movies by calling getMovieCollectionFromUserId() with the user as parameter
      * Asserts that the size of the list corresponds to the expected value - three
+     * @throws Exception
      */
-
-    public void testGetMovieCollectionFromUserId() {
+    public void testGetMovieCollectionFromUserId() throws Exception {
 
         long userId = mUserDAO.saveUser(new User("User", "admin"));
         long firstMovieId = mMovieDAO.saveMovie(new Movie("Oblivion", 2013));

@@ -41,8 +41,9 @@ public class RatingDAOTest extends BaseTest {
      * Creates two rating for that movie by two different users and saves them
      * Fetches all ratings of the new ly created movie in a list by calling getMovieRatings() with the newly created movie as parameter
      * Asserts that the fetched list has the size of two
+     * @throws Exception
      */
-    public void testGetMovieRatings(){
+    public void testGetMovieRatings() throws Exception{
 
         long GoneWithTheWindId = mMovieDAO.saveMovie(new Movie("Gone with the wind", 1939));
 
@@ -63,9 +64,9 @@ public class RatingDAOTest extends BaseTest {
      * Asserts that the newly created rating and the fetched on has the same id
      * Updates the rating and saves it
      * Asserts that the updated rating and the old rating has the same ids, only that the rating value has changed
+     * @throws Exception
      */
-
-    public void testSaveRating(){
+    public void testSaveRating() throws Exception{
 
         long movieId = mMovieDAO.saveMovie(new Movie("Gone with the wind", 1939));
         long ratingId = mRatingDAO.saveRating(new Rating(2,movieId,2));
@@ -85,9 +86,9 @@ public class RatingDAOTest extends BaseTest {
      * updates the value of the rating for that rating object ans saves it
      * Fetches the rating
      * Asserts that the fetched rating's rating value corresponds to the expected value
+     * @throws Exception
      */
-
-    public void testUpdate(){
+    public void testUpdate() throws Exception{
 
         long movieId = mMovieDAO.saveMovie(new Movie("The Running Man", 1991));
         long currentUsersId = App.getCurrentUser().getId();
@@ -112,9 +113,9 @@ public class RatingDAOTest extends BaseTest {
      * Asserts that the communityRating has updated accordingly and now is 1.0
      * Finally creates a new rating for the same movie with rating value 3.0 and saves it
      * Asserts that the communityRating has updated accordingly and now is (1.0 + 3.0)/2 = 2
+     * @throws Exception
      */
-
-    public void testSaveToMovieTable(){
+    public void testSaveToMovieTable() throws Exception{
 
         // saveRating() also saves information about the movies new rating to the MovieTable.
         // This needs to be checked so that the method works as supposed to.
@@ -144,9 +145,9 @@ public class RatingDAOTest extends BaseTest {
      * Asserts that the newly created rating's id and the fetched rating's id match
      * Calls removeRating()
      * Asserts that an exception of type DatabaseRecordNotFoundException will be thrown when an id doesn't exist in the database
+     * @throws Exception
      */
-
-    public void testRemoveRating() {
+    public void testRemoveRating() throws Exception {
 
         long movieId = mMovieDAO.saveMovie(new Movie("Gone with the wind", 1939));
         long ratingId = mRatingDAO.saveRating(new Rating(4, movieId, 4));
@@ -170,9 +171,9 @@ public class RatingDAOTest extends BaseTest {
      * Creates a movie and a rating for that movie and saves them
      * fetches that rating by calling find() with the ratings id as parameter
      * Asserts that the fetched rating's value corresponds to the newly created rating's
+     * @throws Exception
      */
-
-    public void testFindRating(){
+    public void testFindRating() throws Exception{
 
         long movieId = mMovieDAO.saveMovie(new Movie("The Pelican Brief", 1993));
         long userId = App.getCurrentUser().getId();
@@ -190,9 +191,9 @@ public class RatingDAOTest extends BaseTest {
      * Creates a new user, movie and rating of the movie by that user and saves them
      * Asserts that a call to getRatingFromUser() with the newly created parameters should return 3.0
      * (that is the rating value of the rating in question)
+     * @throws Exception
      */
-
-    public void testGetRatingFromUser() {
+    public void testGetRatingFromUser() throws Exception {
 
         User u = new User("testUser", "testPassword");
         App.getUserDAO().saveUser(u);
@@ -212,11 +213,10 @@ public class RatingDAOTest extends BaseTest {
      * Creates and saves a user
      * Creates and saves three movies
      * Creates three ratings of those movies by that user and save those ratings
-     * Asserts that a call to getAllRatingsFromUser().size() with the newly created user as a
-     * parameter should equal 3
+     * Asserts that a call to getAllRatingsFromUser().size() with the newly created user as a parameter should equal 3
+     * @throws Exception
      */
-
-    public void testGetAllRatingsFromUser() {
+    public void testGetAllRatingsFromUser() throws Exception {
         User u = new User("testUser", "testPassword");
         App.getUserDAO().saveUser(u);
 

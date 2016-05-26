@@ -119,9 +119,9 @@ public class FriendDAOTest extends BaseTest {
      * Adds three of them as friends to the first user
      * Create three ratings where two of them is by the first users friends
      * Asserts that the list of ratings has the expected size of two
+     * @throws Exception
      */
-
-    public void testGetFriendsLatestActivities() {
+    public void testGetFriendsLatestActivities() throws Exception {
 
         Movie terminator = new Movie("Terminator 2: Judgement Day", 1992);
         mMovieDAO.saveMovie(terminator);
@@ -162,9 +162,9 @@ public class FriendDAOTest extends BaseTest {
      * Primary users ratings should be compared to the friends' ratings of the same movies
      * and translated into a mismatch value if the method works as it's supposed to.
      * Asserts that the mismatch value corresponds to the expected value for each user
+     * @throws Exception
      */
-
-    public void testUpdateFriendMatches(){
+    public void testUpdateFriendMatches() throws Exception{
 
         long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
         long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
@@ -204,9 +204,9 @@ public class FriendDAOTest extends BaseTest {
      * Adds one of them as friend to primary user and saves the friend object
      * Fetches the friend object and confirms that the fetched and created friend object's userIdTwo are the same
      * Asserts that the userIdTwo of the two objects are the same
+     * @throws Exception
      */
-
-    public void testGetFriendRelation() {
+    public void testGetFriendRelation() throws Exception {
 
         long primaryUser = mUserDAO.saveUser(new User("Pelle", "admin"));
         long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
@@ -224,9 +224,9 @@ public class FriendDAOTest extends BaseTest {
      * Creates a random users
      * Adds that user as a friend to main user
      * Asserts that the relation has been added to the database
+     * @throws Exception
      */
-
-    public void testIsFriend() {
+    public void testIsFriend() throws Exception {
         User u = new User("testFriend", "testPassword");
         mUserDAO.saveUser(u);
         mFriendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u.getId()));
