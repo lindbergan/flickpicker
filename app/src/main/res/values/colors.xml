@@ -12,6 +12,7 @@
 
     <!--- List cells -->
     <color name="color_list_cell_backdrop">#FBFFF0</color>
+    <color name="color_remove_friend">#AA3939</color>
 
 
 

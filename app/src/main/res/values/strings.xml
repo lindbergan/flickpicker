@@ -45,7 +45,7 @@
     <string name="custom_row_username">Username</string>
     <string name="profile_code_font">&#xf007;</string>
     <string name="check_code_font">&#xf234;</string>
-    <string name="unheck_code_font">&#xf00d;</string>
+    <string name="uncheck_code_font">&#xf235;</string>
     <string name="edit_code_font">&#xf044;</string>
 
     <!-- TODO: Remove or change this placeholder text -->

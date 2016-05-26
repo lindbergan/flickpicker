@@ -21,7 +21,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -33,7 +33,12 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="lindbergan"
-                android:id="@+id/username_textview"/>
+                android:textSize="18sp"
+                android:id="@+id/username_textview"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:maxEms="7"
+                />
 
         </LinearLayout>
 
@@ -47,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="12"
+                android:textSize="16sp"
                 android:id="@+id/nr_of_ratings"/>
 
             <TextView
@@ -54,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="ratings"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:textSize="16sp"
                 android:id="@+id/ratings"/>
 
         </LinearLayout>
@@ -69,6 +76,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Friends: "
+                android:textSize="16sp"
                 />
 
             <TextView
@@ -76,7 +84,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:id="@+id/amount_of_friends"
-                android:layout_marginLeft="5dp"/>
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -90,9 +99,8 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="25dp"
-            android:gravity="end">
+            android:gravity="end"
+            android:paddingEnd="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,7 +108,6 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="500"
                 android:id="@+id/nr_of_points"
-                android:layout_alignParentEnd="true"
                 android:maxWidth="50dp"
                 style="@style/Base.TextAppearance.AppCompat.Medium"/>
 
@@ -118,24 +125,28 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/check_code_font"
                 android:id="@+id/button_add_friend"
-                android:textSize="35sp"
-                android:layout_marginRight="25dp"
+                android:textSize="40sp"
+                android:gravity="end"
+                android:textColor="@color/color_primary_dark"
+                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:gravity="end"/>
+                android:layout_marginEnd="@dimen/movie_detail_default_margin"/>
 
             <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:text="@string/unheck_code_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/uncheck_code_font"
                 android:id="@+id/button_remove_friend"
-                android:layout_alignParentEnd="true"
                 android:gravity="end"
-                android:layout_marginRight="25dp"
-                android:textSize="40sp"/>
+                android:textSize="40sp"
+                android:textColor="@color/color_remove_friend"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/movie_detail_default_margin"/>
         </RelativeLayout>
 
     </LinearLayout>
