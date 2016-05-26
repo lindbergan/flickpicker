@@ -111,9 +111,9 @@ public class MovieAdapter extends CustomAdapter {
         viewHolder.movieYear.setText(String.valueOf(movie.getYear()));
 
         int numOfFriendsSeen = App.getMovieDAO().getFriendsSeenMovie(movie.getId(), App.getCurrentUser().getId()).size();
-        viewHolder.friendsText.setText(String.valueOf(numOfFriendsSeen));
+        viewHolder.friendsText.setText(String.format("%s friends have seen this", String.valueOf(numOfFriendsSeen)));
         double communityRating = round(movie.getCommunityRating(), 1);
-        viewHolder.communityText.setText(String.valueOf(communityRating));
+        viewHolder.communityText.setText(String.format("rated %s by the community", String.valueOf(round(communityRating, 1))));
 
         Picasso.with(getContext()).load(movie.getPoster()).into(viewHolder.moviePoster);
         return view;
