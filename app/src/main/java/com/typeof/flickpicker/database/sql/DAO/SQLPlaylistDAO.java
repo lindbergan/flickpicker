@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.User;
@@ -82,7 +83,7 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
             return p;
         } else {
             c.close();
-            return null;
+            return new Playlist("Watchlist", App.getCurrentUser().getId());
         }
     }
 

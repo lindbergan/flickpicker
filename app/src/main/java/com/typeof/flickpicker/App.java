@@ -18,6 +18,7 @@ import com.typeof.flickpicker.database.sql.DAO.SQLPlaylistDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLRatingDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLUserDAO;
 import com.typeof.flickpicker.utils.MetaData;
+import com.typeof.flickpicker.utils.RandomizedData;
 
 /**
  * App
@@ -57,10 +58,11 @@ public class App extends Application {
         }
 
         setupCurrentUser();
+
     }
 
     private static void createCurrentUser() {
-        sCurrentUser = new User("AdminU", "AdminP");
+        sCurrentUser = new User("Sibelius", "lösenord");
         getUserDAO().saveUser(sCurrentUser);
     }
 

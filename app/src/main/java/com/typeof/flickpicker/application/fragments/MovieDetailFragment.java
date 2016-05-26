@@ -119,8 +119,10 @@ public class MovieDetailFragment extends Fragment {
         mNumOfFriendsSeen.setText(String.valueOf(numSeen));
 
         mCommunityIcon.setTypeface(font);
-        double rating = round(movie.getCommunityRating(), 1);
-        mCommunityRating.setText("Rated " + String.valueOf(rating) + " by the community");
+
+
+        double rating = Math.round(movie.getCommunityRating());
+        mCommunityRating.setText(String.format("Rated %s by the community", String.valueOf(rating)));
 
         mMovieDescription.setText(movie.getDescription());
     }
