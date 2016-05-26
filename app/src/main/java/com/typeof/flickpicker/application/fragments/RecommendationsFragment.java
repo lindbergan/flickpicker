@@ -13,7 +13,7 @@ import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.adapters.MovieAdapter;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.MovieAlgorithm;
+import com.typeof.flickpicker.utils.MovieAlgorithm;
 import com.typeof.flickpicker.core.User;
 import java.util.List;
 
