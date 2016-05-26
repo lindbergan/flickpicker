@@ -37,4 +37,13 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
         return mFragments.indexOf(fragment);
     }
 
+    public Fragment getFragmentByClass(Class c) {
+        for (Fragment fragment : mFragments) {
+            if (fragment.getClass() == c) {
+                return fragment;
+            }
+        }
+        return null;
+    }
+
 }

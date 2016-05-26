@@ -76,7 +76,6 @@ public class MainActivity extends FragmentActivity {
         fragments.add(new MyProfileFragment());
         fragments.add(new SettingsFragment());
 
-
         mPagerAdapter = new ViewPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOffscreenPageLimit(5);

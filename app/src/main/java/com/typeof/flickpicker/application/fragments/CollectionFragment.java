@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.application.fragments;
 
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -26,6 +26,8 @@ import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +42,7 @@ import java.util.List;
  * Used for showing the user its rated movies
  */
 
-public class CollectionFragment extends Fragment {
+public class CollectionFragment extends Fragment implements PropertyChangeListener {
 
     // Views
 
@@ -51,6 +53,7 @@ public class CollectionFragment extends Fragment {
     private SearchView mSearchViewWatchlist;
     private TextView hiddenCollectionText;
     private TextView hiddenWatchlistText;
+    private Context ctx;
 
     // Fields
 
@@ -68,6 +71,8 @@ public class CollectionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_my_collection, container, false);
 
+        ctx = getActivity();
+
         initViews(view);
         configureTabs(view);
         setUpListeners();
@@ -75,10 +80,19 @@ public class CollectionFragment extends Fragment {
         KeyboardHelper keyboardHelper = new KeyboardHelper(getActivity(), getContext());
         keyboardHelper.setupUI(view);
 
+        populateData();
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
+        return view;
+    }
+
+    private void populateData() {
         mCollection = App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
 
         // Finds the current users watchlist
-
         mWatchlist = new ArrayList<>();
         Playlist p = App.getPlaylistDAO().getUserPlaylist(App.getCurrentUser().getId());
         if (p != null) {
@@ -88,12 +102,6 @@ public class CollectionFragment extends Fragment {
         }
         populateCollection(listViewMyCollection, mCollection);
         populateWatchlist(listViewMyWatchlist, mWatchlist);
-
-        getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
-
-        return view;
     }
 
     public void initViews(View view){
@@ -124,7 +132,7 @@ public class CollectionFragment extends Fragment {
         mTabHostMyCollection.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
-                setActiveTabColor();
+            setActiveTabColor();
             }
         });
     }
@@ -217,7 +225,8 @@ public class CollectionFragment extends Fragment {
      */
 
     public void populateCollection(ListView listView, List<Movie> movieList){
-        ListAdapter adapter = new MovieAdapter(getActivity(),movieList.toArray());
+
+        ListAdapter adapter = new MovieAdapter(ctx,movieList.toArray());
 
         if (hiddenCollectionText.getVisibility() == View.VISIBLE) hiddenCollectionText.setVisibility(View.INVISIBLE);
 
@@ -229,7 +238,7 @@ public class CollectionFragment extends Fragment {
     }
 
     public void populateWatchlist(ListView listView, List<Movie> movieList){
-        ListAdapter adapter = new MovieAdapter(getActivity(),movieList.toArray());
+        ListAdapter adapter = new MovieAdapter(ctx,movieList.toArray());
 
         if (hiddenWatchlistText.getVisibility() == View.VISIBLE) hiddenWatchlistText.setVisibility(View.INVISIBLE);
 
@@ -240,4 +249,8 @@ public class CollectionFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        populateData();
+    }
 }

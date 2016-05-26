@@ -17,12 +17,15 @@ import android.widget.ToggleButton;
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.DataObservable;
 import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 /**
@@ -30,7 +33,7 @@ import java.util.List;
  * Used for showing a detailed view of a mMovie
  */
 
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailFragment extends Fragment implements DataObservable {
 
     private ImageView mMovieImage;
     private TextView mMovieTitle;
@@ -44,6 +47,7 @@ public class MovieDetailFragment extends Fragment {
     private ToggleButton mAddToWatchListButton;
     private RatingBar mRatingBar;
     private Button mRateButton;
+    final private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     private MovieDAO mMovieDAO = App.getMovieDAO();
     private long movieId;
@@ -191,6 +195,8 @@ public class MovieDetailFragment extends Fragment {
 
                 RatingHelper.createNewRating(mRatingBar.getRating(), movieId, App.getCurrentUser().getId());
 
+                pcs.firePropertyChange("ratingsChanged", true, false);
+
                 setRateButtonInactive();
             }
         });
@@ -202,15 +208,15 @@ public class MovieDetailFragment extends Fragment {
                 PlaylistDAO playlistDAO = App.getPlaylistDAO();
 
                 if (isChecked && !isMovieOnPlaylist()) {
-
-
                     playlistDAO.addMovieToPlaylist((App.getCurrentUser()), mMovie);
                     setAddToWatchListLabel();
                 } else {
-
                     playlistDAO.removeMovieFromPlaylist(App.getCurrentUser(), mMovie);
                     setAddToWatchListLabel();
                 }
+
+                pcs.firePropertyChange("playlistChanged", true, false);
+
             }
         });
 
@@ -290,8 +296,6 @@ public class MovieDetailFragment extends Fragment {
         mRateButton.setClickable(false);
     }
 
-
-
     /**
      * help method for rounding of double values
      *
@@ -303,6 +307,12 @@ public class MovieDetailFragment extends Fragment {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }
+
+    @Override
+    public void addObserver(PropertyChangeListener observer) {
+        pcs.addPropertyChangeListener(observer);
+    }
+
 }
 
 
