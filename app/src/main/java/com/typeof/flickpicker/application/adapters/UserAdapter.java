@@ -70,7 +70,7 @@ public class UserAdapter extends CustomAdapter {
 
         // Typeface is used to set the image icons
 
-        int nrOfRatings = App.getMovieDAO().getUserRatings(1000, user.getId()).size();
+        int nrOfRatings = App.getRatingDAO().getAllRatingsFromUser(user.getId()).size();
 
         Typeface tf = Typeface.createFromAsset(c.getAssets(), "fonts/fontawesome-webfont.ttf");
         viewHolder.profileIcon.setTypeface(tf);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -68,6 +69,10 @@ public class MovieDetailFragment extends Fragment {
         setRateWidgets();
         initListeners();
 
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
         return movieDetailView;
     }
 
@@ -113,9 +118,11 @@ public class MovieDetailFragment extends Fragment {
         mNumOfFriendsSeen.setText(String.format("%s friends have seen this", String.valueOf(numSeen)));
 
         mCommunityIcon.setTypeface(font);
+
         double rating = mMovie.getCommunityRating();
         mCommunityRating.setText(String.format("rated %s by the community", String.valueOf(round(rating, 1))));
         mMovieDescription.setText(mMovie.getDescription());
+
 
 
     }

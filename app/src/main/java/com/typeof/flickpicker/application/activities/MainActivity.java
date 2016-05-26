@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TextView;
 
@@ -55,6 +56,10 @@ public class MainActivity extends FragmentActivity {
 
         configureTabs();
         initHeader();
+
+        this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING
+        );
     }
 
 
@@ -118,6 +123,8 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(5);
+                resetColor();
+
             }
         });
 
@@ -125,6 +132,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 mViewPager.setCurrentItem(6);
+                resetColor();
             }
         });
 
@@ -211,14 +219,17 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void changeColor(int position) {
+        resetColor();
+        // Sets the selected tabs color
+        this.tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
+
+    }
+
+    public void resetColor() {
         // Set all tabs to the primary color
         for (int i = 0; i < this.tabHost.getTabWidget().getChildCount(); i++) {
             this.tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
         }
-
-        // Sets the selected tabs color
-        this.tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
-
     }
 
 

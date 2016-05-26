@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.adapters.MovieAdapter;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.MovieAlgorithm;
+import com.typeof.flickpicker.utils.MovieAlgorithm;
 import com.typeof.flickpicker.core.User;
 import java.util.List;
 
@@ -39,6 +40,10 @@ public class RecommendationsFragment extends Fragment {
         View recommendationsView = inflater.inflate(R.layout.activity_recommendations, container, false);
         hookUpViews(recommendationsView);
         populateListView();
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
 
         return recommendationsView;
     }

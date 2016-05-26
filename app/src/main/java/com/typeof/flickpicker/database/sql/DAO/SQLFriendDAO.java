@@ -51,7 +51,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         ContentValues values = new ContentValues();
         values.put(FriendTable.FriendEntry.COLUMN_NAME_USER1ID, f.getUserIdOne());
         values.put(FriendTable.FriendEntry.COLUMN_NAME_USER2ID, f.getGetUserIdTwo());
-        values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getDisMatch());
+        values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getMismatch());
         values.put(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN, f.getNmbrOfMoviesBothSeen());
         return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
     }
@@ -155,84 +155,60 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
     public void updateFriendMatches(Rating rating){
 
         long currentUserId = rating.getUserId();
-        int desiredSizeIfList = 100;
-
-        List<Movie> usersMovieCollection = mMovieDAO.getMovieCollectionFromUserId(desiredSizeIfList, currentUserId);
         List<User> usersFriends = getFriendsFromUserId(currentUserId);
-        String[] movieIds = extractMovieIdsFromMovies(usersMovieCollection);
 
         for (int i = 0; i<usersFriends.size(); i++) {
 
             //check all friends
             User currentFriend = usersFriends.get(i);
             Friend currentFriendShip = getFriendRelation(currentUserId, currentFriend.getId());
-            double totalDismatch = 0; //default
+            double totalMismatch = 0; //default
             int nmbrOfMovieBothSeen = 0; //default
-
             long currentFriendsId = usersFriends.get(i).getId();
 
-            for (int j = 0; j < usersMovieCollection.size(); j++) {
-
                 //compare to user's movies
+                String query = "SELECT firstTable.movieId AS MOVIE_ID, firstTable.userId AS USER, firstTable.rating USER_RATING, secondTable.userId AS FRIEND, secondTable.rating AS FRIEND_RATING " +
+                        "FROM ratings firstTable INNER JOIN ratings secondTable ON firstTable.userId LIKE " + currentUserId + " AND secondTable.userId like " + currentFriendsId + " AND " +
+                        "firstTable.movieId like secondTable.movieId";
 
-                String query = "SELECT e.movieId AS MOVIEID, e.userId AS USER, e.rating USERRATING, m.userId AS FRIEND, m.rating AS FRIENDRATING FROM ratings e " +
-                        "INNER JOIN ratings m ON e.userId LIKE " + currentUserId + " AND e.movieId = ? " +
-                        "AND m.userId like " + currentFriendsId + " AND m.movieId = ? ";
-
-                Cursor c = db.rawQuery(query, new String[]{movieIds[j],movieIds[j]});
+                Cursor c = db.rawQuery(query, null);
 
                 if (c.getCount() != 0) {
                     c.moveToFirst();
-                    nmbrOfMovieBothSeen++;
-                    totalDismatch = calculateNewMismatchValue(c, totalDismatch, nmbrOfMovieBothSeen);
+                    String[] columnNames = c.getColumnNames();
+                    nmbrOfMovieBothSeen = c.getCount();
+                    totalMismatch = calculateNewMismatchValue(c);
                     c.close();
                 }
-            }
 
             //set the updated values to the friendRelation && save it
-            double disMatch = totalDismatch/nmbrOfMovieBothSeen;
+            double mismatch = totalMismatch/nmbrOfMovieBothSeen;
 
             currentFriendShip.setNmbrOfMoviesBothSeen(nmbrOfMovieBothSeen);
-            currentFriendShip.setDisMatch(disMatch);
+            currentFriendShip.setMismatch(mismatch);
             addFriend(currentFriendShip);
-
         }
     }
 
     /**
-     * Calculates the mismatch value
+     * Calculates the new total mismatch value based on the two users' ratings
      *
      * @param c                         Cursor
-     * @param oldTotalMismatchValue     Previous mismatch value
-     * @param nmbrOfMovieBothSeen       Number of movies both of the users has seen
-     * @return                          The new mismatch value
+     * @return                          The new total mismatch value
      */
-    public double calculateNewMismatchValue(Cursor c, double oldTotalMismatchValue, int nmbrOfMovieBothSeen){
-        double usersRating = c.getLong(2);
-        double friendRating = c.getLong(4);
+    public double calculateNewMismatchValue(Cursor c){
 
-        double newDiff = Math.abs(usersRating - friendRating);
-        return oldTotalMismatchValue + newDiff;
-    }
+        double totalMismatch = 0;
 
-    /**
-     * Return the movie ids from list of movies
-     *
-     * @param movies    List of movie objects
-     * @return          String array of movie ids
-     */
-    public String[] extractMovieIdsFromMovies(List<Movie> movies){
-        //extract the ids
-        String[] movieIds = new String[movies.size()];
+        for(int i = 0; i< c.getCount(); i++) {
 
-        for (int i = 0; i < movies.size(); i++){
-
-            long movieId = movies.get(i).getId();
-            String movieIdAsString = String.valueOf(movieId);
-            movieIds[i] = movieIdAsString;
+            double usersRating = c.getLong(2);
+            double friendRating = c.getLong(4);
+            double newDiff = Math.abs(usersRating - friendRating);
+            totalMismatch = totalMismatch + newDiff;
+            c.moveToNext();
         }
-
-        return movieIds;
+        return totalMismatch;
     }
 
     /**
@@ -255,7 +231,6 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
         return friendRelation;
     }
-
 
     /**
      * Looks for friend relation with another user

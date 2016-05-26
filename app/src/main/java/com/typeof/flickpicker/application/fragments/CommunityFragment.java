@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
@@ -39,14 +40,13 @@ public class CommunityFragment extends Fragment {
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
     private int thisYear;
-    public final String TAG = "community";
-    private Bundle savedState = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMovieDAO = App.getMovieDAO();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
+
     }
 
     @Nullable
@@ -56,6 +56,11 @@ public class CommunityFragment extends Fragment {
         hookUpViews(communityView);
         configureTabs(communityView);
         setUpListeners();
+
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
         return communityView;
     }
 
@@ -113,7 +118,6 @@ public class CommunityFragment extends Fragment {
             }
             }
         });
-
     }
 
     public void setTopMoviesAsCurrentView(){
@@ -152,7 +156,7 @@ public class CommunityFragment extends Fragment {
         listView.setAdapter(adapter);
     }
 
-    //Generate a list of years covering the 20th century
+    //Generate a list of years covering the 20th century up until today
     public List<String> generateYearList(){
 
         List<String> years = new ArrayList<>();
@@ -189,20 +193,6 @@ public class CommunityFragment extends Fragment {
             }
         });
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            //this.currentTab = savedInstanceState.getString("currentTab");
-        }
-    }
-
 }
 
 

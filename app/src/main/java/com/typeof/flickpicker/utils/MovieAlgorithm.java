@@ -1,6 +1,9 @@
-package com.typeof.flickpicker.core;
+package com.typeof.flickpicker.utils;
 
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.core.Friend;
+import com.typeof.flickpicker.core.Movie;
+import com.typeof.flickpicker.core.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -95,7 +98,7 @@ public class MovieAlgorithm {
 
         //Create the map that will hold the movies and scores
         HashMap<Movie,Double> friendsMoviesAndScore = new HashMap<Movie,Double>();
-        List<Double> disMatchValues = getAllDisMatchValues(friendsWithSimilarTaste);
+        List<Double> mismatchValues = getAllMismatchValues(friendsWithSimilarTaste);
 
         //Convert friends to users to be able to get their movie collections
         List<User> userList = convertFriendsToUsers(friendsWithSimilarTaste);
@@ -111,33 +114,33 @@ public class MovieAlgorithm {
 
                 Movie currentMovie = currentUsersMovieCollection.get(j);
                 double currentRating = App.getRatingDAO().getRatingFromUser(currentUserId,currentMovie.getId());
-                double currentDisMatchValue = disMatchValues.get(i);
+                double currentMismatchValue = mismatchValues.get(i);
 
                 //check if another friend has rated the same movie
-                checkIfRatedByOtherUser(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
+                checkIfRatedByOtherUser(friendsMoviesAndScore,currentMismatchValue,currentMovie,currentRating);
             }
         }
         return friendsMoviesAndScore;
     }
 
-    private static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentDisMatchValue,Movie currentMovie,double currentRating){
+    private static void checkIfRatedByOtherUser(Map<Movie,Double> friendsMoviesAndScore,double currentMismatchValue,Movie currentMovie,double currentRating){
 
         //Check if currentMovie has been rated by another friend. If so - determine which recommendation is the best one.
-        //If not - set movie's score to (ratingValue x 1/dismatchValue) == (ratingValue x matchValue)
+        //If not - set movie's score to (ratingValue x 1/mismatchValue) == (ratingValue x matchValue)
         if (friendsMoviesAndScore.containsKey(currentMovie)){
-            determineBestMatch(friendsMoviesAndScore,currentDisMatchValue,currentMovie,currentRating);
+            determineBestMatch(friendsMoviesAndScore,currentMismatchValue,currentMovie,currentRating);
         }
         else{
-            double score = currentRating * 1/currentDisMatchValue;
+            double score = currentRating * 1/currentMismatchValue;
             friendsMoviesAndScore.put(currentMovie,score);
         }
     }
 
-    private static void determineBestMatch(Map<Movie,Double> friendsMoviesAndScore, double currentDisMatchValue,Movie currentMovie, double currentRating){
+    private static void determineBestMatch(Map<Movie,Double> friendsMoviesAndScore, double currentMismatchValue,Movie currentMovie, double currentRating){
 
         //Determine the best match and save that one in the map
         double previousScore = friendsMoviesAndScore.get(currentMovie);
-        double currentScore = currentRating * 1/currentDisMatchValue;
+        double currentScore = currentRating * 1/currentMismatchValue;
 
         if(currentScore > previousScore) {
             //remove old element && replace with the better match
@@ -147,21 +150,21 @@ public class MovieAlgorithm {
     }
 
     /**
-     * A method for extracting all dismatch values from friends with similar taste.
+     * A method for extracting all mismatch values from friends with similar taste.
      * @param friendsWithSimilarTaste the list of friends with similar taste
-     * @return returns a list of dismatch values
+     * @return returns a list of mismatch values
      */
 
-    public static List<Double> getAllDisMatchValues(List<Friend> friendsWithSimilarTaste){
+    public static List<Double> getAllMismatchValues(List<Friend> friendsWithSimilarTaste){
 
-        List<Double> disMatchValues = new ArrayList<Double>();
+        List<Double> mismatchValues = new ArrayList<Double>();
 
         for(int i = 0; i < friendsWithSimilarTaste.size(); i++){
 
-            double currentDisMatchValue = friendsWithSimilarTaste.get(i).getDisMatch();
-            disMatchValues.add(currentDisMatchValue);
+            double currentMismatchValue = friendsWithSimilarTaste.get(i).getMismatch();
+            mismatchValues.add(currentMismatchValue);
         }
-        return disMatchValues;
+        return mismatchValues;
     }
 
     private static List<User> convertFriendsToUsers(List<Friend> friendsWithSimilarTaste){

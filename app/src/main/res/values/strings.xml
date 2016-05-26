@@ -31,8 +31,8 @@
     <string name="just_watchedTextView">just watched..</string>
     <string name="yearTextView">(year)</string>
     <string name="and_rated_it_Textview">...and rated it:</string>
-    <string name="add_movie_to_playlist">Add movie to playlist</string>
-    <string name="remove_movie_from_playlist">Remove from playlist</string>
+    <string name="add_movie_to_playlist">Add movie to watchlist</string>
+    <string name="remove_movie_from_playlist">Remove from watchlist</string>
     <string name="search_for_a_friend_hint">Search for a friend...</string>
     <string name="no_user_profile">&#xf007;</string>
     <string name="friends_have_seen_this_label_end">" friends have seen this"</string>

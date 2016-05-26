@@ -1,6 +1,7 @@
 package com.typeof.flickpicker.utils;
 
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
@@ -23,10 +24,13 @@ public class RandomizedData {
         Random r = new Random();
 
         for (int i = 0; i < amount; i++) {
-            int userR = 1 + r.nextInt(9);
-            int movieR = 14 + r.nextInt(185);
+            int userR = 1 + r.nextInt(11);
+            int movieR = 1 + r.nextInt(248);
             int ratingR = 1 + r.nextInt(5);
-            App.getRatingDAO().saveRating(new Rating(ratingR, movieR, userR));
+            RatingHelper.createNewRating(ratingR, movieR, userR);
+            if (ratingR < 4) {
+                RatingHelper.createNewRating(1 + r.nextInt(5), movieR, currentUserId);
+            }
         }
     }
 

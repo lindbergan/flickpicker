@@ -53,6 +53,8 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     }
 
 
+
+
     /**
      * Creates a map (ContentValues)
      * Puts information in the movie columns
@@ -256,7 +258,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * @param userId    given user id
      * @return          list of ratings
      */
-    public List<Rating> getUserRatings(int max, long userId){
+    private List<Rating> getUserRatings(int max, long userId){
 
         //Query the database to get the necessary ratings
         String sqlString = "SELECT * FROM ratings WHERE  " + RatingTable.RatingEntry.COLUMN_NAME_USERID +
@@ -280,4 +282,6 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
         return userRatings;
     }
+
+
 }

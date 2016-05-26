@@ -13,14 +13,14 @@ import java.util.List;
  * RatingHelper
  *
  * A class that saves the users rating and updates the users score.
- * It also sets the dismatch value accordingly.
+ * It also sets the mismatch value accordingly.
  */
 
 public class RatingHelper {
 
     /**
      * A static helper method which is called when a new rating is created.
-     * The method saves the newly created rating, update the dismatch value of the user
+     * The method saves the newly created rating, update the mismatch value of the user
      * and its friends accordingly and also sets the correct score.
      * @param rating the new Rating
      * @param movieId the id of the movie the rating refers to
@@ -32,7 +32,7 @@ public class RatingHelper {
         Rating newRating = new Rating(rating, movieId, userId);
         App.getRatingDAO().saveRating(newRating);
 
-        //update the dismatch values in relation to users new rating
+        //update the mismatch values in relation to users new rating
         App.getFriendDAO().updateFriendMatches(newRating);
 
         if(!previousRatingExists(newRating.getId())) {

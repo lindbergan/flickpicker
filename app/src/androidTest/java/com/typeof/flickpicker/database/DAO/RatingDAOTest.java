@@ -79,6 +79,31 @@ public class RatingDAOTest extends BaseTest {
         }
 
     /**
+     * Tests update()
+     *
+     * Creates a new movie and rating and saves them
+     * updates the value of the rating for that rating object ans saves it
+     * Fetches the rating
+     * Asserts that the fetched rating's rating value corresponds to the expected value
+     */
+
+    public void testUpdate(){
+
+        long movieId = mMovieDAO.saveMovie(new Movie("The Running Man", 1991));
+        long currentUsersId = App.getCurrentUser().getId();
+
+        Rating testRating = new Rating(3.0,movieId,currentUsersId);
+        long ratingId = mRatingDAO.saveRating(testRating);
+
+        testRating.updateRating(5.0);
+        mRatingDAO.saveRating(testRating);
+
+        Rating fetchedRating = mRatingDAO.findRating(ratingId);
+
+        assertEquals(5.0,fetchedRating.getRating());
+    }
+
+    /**
      * Tests saveToMovieTable()
      *
      * Creates a new movie and rating for that movie and saves them
@@ -137,6 +162,26 @@ public class RatingDAOTest extends BaseTest {
         } catch (DatabaseRecordNotFoundException e) {
             assertTrue(true); // success!
         }
+    }
+
+    /**
+     * Tests findRating()
+     *
+     * Creates a movie and a rating for that movie and saves them
+     * fetches that rating by calling find() with the ratings id as parameter
+     * Asserts that the fetched rating's value corresponds to the newly created rating's
+     */
+
+    public void testFindRating(){
+
+        long movieId = mMovieDAO.saveMovie(new Movie("The Pelican Brief", 1993));
+        long userId = App.getCurrentUser().getId();
+
+        Rating testRating = new Rating(4.2, movieId,userId);
+        long ratingID = mRatingDAO.saveRating(testRating);
+
+        Rating fetchedRating = mRatingDAO.findRating(ratingID);
+        assertEquals(4.2, fetchedRating.getRating());
     }
 
     /**

@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.typeof.flickpicker.R;
@@ -44,6 +45,10 @@ public class MyProfileFragment extends Fragment {
         hookUpViews(view);
         populateProfileFields();
 
+        getActivity().getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+
         return view;
 
     }
@@ -79,7 +84,6 @@ public class MyProfileFragment extends Fragment {
         mNrOfRatings.setText(String.valueOf(ratingDAO.getAllRatingsFromUser(user.getId()).size()));
         mMeanRating.setText(String.valueOf(meanRating(ratingList)));
     }
-
 
     /**
      * help method for calculating the user's mean rating value
