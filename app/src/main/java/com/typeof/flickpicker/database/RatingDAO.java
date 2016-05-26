@@ -13,7 +13,7 @@ public interface RatingDAO {
 
     List<Rating> getMovieRatings(long movieId);
     long saveRating(Rating rating);
-    int removeRating(long ratingId);
+    int removeRating(Rating rating);
     Rating findRating(long ratingId);
     double getRatingFromUser(long userId, long movieId);
     List<Rating> getAllRatingsFromUser(long userId);

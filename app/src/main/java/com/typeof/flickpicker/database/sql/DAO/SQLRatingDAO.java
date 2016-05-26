@@ -156,12 +156,11 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
     /**
      * Removes rating from database
-     * @param id
+     * @param rating Rating object
      * @return Number of rows affected in db
      */
-    public int removeRating(long id){
-        Rating ratingToDelete = findRating(id);
-        return super.delete(ratingToDelete, "ratings");
+    public int removeRating(Rating rating){
+        return super.delete(rating, "ratings");
     }
 
     /**

@@ -154,7 +154,7 @@ public class RatingDAOTest extends BaseTest {
         Rating fetchedRating = mRatingDAO.findRating(ratingId);
         assertEquals(ratingId, fetchedRating.getId());
 
-        mRatingDAO.removeRating(ratingId);
+        mRatingDAO.removeRating(fetchedRating);
 
         try {
             mRatingDAO.findRating(ratingId);
