@@ -6,6 +6,7 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
+import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 
 import java.util.List;
@@ -29,7 +30,6 @@ public class RatingHelper {
      */
 
     public static void createNewRating(double rating, long movieId, long userId){
-
         Rating newRating = new Rating(rating, movieId, userId);
 
         //update the mismatch values in relation to users new rating

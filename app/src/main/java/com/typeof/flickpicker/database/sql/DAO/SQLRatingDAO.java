@@ -69,16 +69,15 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
         if(c.getCount() != 0) { //that is - rating for that movie by that user already exists
                 Rating r = CoreEntityFactory.createRatingFromCursor(c);
+                removeRating(r);
                 c.close();
                 double oldRatingValue = r.getRating();
                 setMovieTableRating(rating.getMovieId(), oldRatingValue, rating.getRating());
-
-            }
-            else{
-                c.close();
-                double oldValue = 0;
-                setMovieTableRating(rating.getMovieId(), oldValue, rating.getRating());
-            }
+        } else {
+            c.close();
+            double oldValue = 0;
+            setMovieTableRating(rating.getMovieId(), oldValue, rating.getRating());
+        }
 
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating.getRating());
