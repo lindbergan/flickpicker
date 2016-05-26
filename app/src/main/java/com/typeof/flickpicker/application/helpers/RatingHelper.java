@@ -35,7 +35,10 @@ public class RatingHelper {
         //update the mismatch values in relation to users new rating
         App.getFriendDAO().updateFriendMatches(newRating);
 
-        if(!previousRatingExists(newRating.getId())) {
+        RatingDAO ratingDAO = App.getRatingDAO();
+        Rating existingRating = ratingDAO.getRatingObjectFromUser(userId, movieId);
+
+        if(existingRating == null) {
             //set the user's score accordingly
             User currentUser = App.getCurrentUser();
             int oldScore = currentUser.getScore();
@@ -46,21 +49,5 @@ public class RatingHelper {
         }
 
         App.getRatingDAO().saveRating(newRating);
-    }
-
-    /**
-     * A method the determines whether or not the user has rated the movie before.
-     * @return returns true if movie was previously rated by user.
-     */
-    private static boolean previousRatingExists(long ratingId){
-
-        //extract the movie and userId from the rating object and check if the movie already exists in the users movie collection
-        try {
-            App.getRatingDAO().findRating(ratingId);
-        }
-        catch (DatabaseRecordNotFoundException e) {
-            return false;
-        }
-        return true;
     }
 }

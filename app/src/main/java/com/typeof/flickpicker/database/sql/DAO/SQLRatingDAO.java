@@ -87,6 +87,23 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         return super.save(rating, "ratings", values);
     }
 
+    @Override
+    public Rating getRatingObjectFromUser(long userId, long movieId) {
+        String query = "SELECT * FROM " + RatingTable.RatingEntry.TABLE_NAME + " WHERE " +
+                RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID
+                + " = " + userId +  " AND " + RatingTable.RatingEntry.TABLE_NAME + "." +
+                RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = " + movieId;
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        if (c.getCount() == 0) {
+            return null;
+        }
+        Rating rating = CoreEntityFactory.createRatingFromCursor(c);
+        c.close();
+        return rating;
+    }
+
     /**
      * Set the movies rating in the data base
      * @param movieId - Id of movie
