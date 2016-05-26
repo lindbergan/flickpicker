@@ -58,7 +58,7 @@ public class MainActivity extends FragmentActivity {
         initHeader();
 
         this.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING
         );
     }
 
