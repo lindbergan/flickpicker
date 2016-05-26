@@ -27,6 +27,7 @@ import com.typeof.flickpicker.application.fragments.MyProfileFragment;
 import com.typeof.flickpicker.application.fragments.RecommendationsFragment;
 import com.typeof.flickpicker.application.fragments.SearchFragment;
 import com.typeof.flickpicker.application.fragments.SettingsFragment;
+import com.typeof.flickpicker.application.helpers.BackButtonHelper;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,8 +40,8 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
 
     private ViewPager mViewPager;
     public PagerAdapter mPagerAdapter;
-    private List<Integer> mPreviousPositions = new ArrayList<>();
     private static TextView mScore;
+    private boolean useCustomBackButton = false;
     Typeface mTypeface;
 
     @Override
@@ -91,11 +92,8 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
             @Override
             public void onPageSelected(int position) {
                 // The back button logic
-                if (mPreviousPositions.indexOf(position) != -1) {
-                    mPreviousPositions.remove(mPreviousPositions.indexOf(position));
-                }
-
-                mPreviousPositions.add(position);
+                BackButtonHelper backButtonHelper = BackButtonHelper.getInstance();
+                backButtonHelper.setPreviousPosition(position);
 
                 if (position < 5) {
                     tabHost.setCurrentTab(position);
@@ -143,19 +141,29 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
 
     @Override
     public void onBackPressed() {
-        if (mViewPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            if (mPreviousPositions.size() > 1) {
-                mPreviousPositions.remove(mPreviousPositions.size() - 1);
-                mViewPager.setCurrentItem(mPreviousPositions.get(mPreviousPositions.size() - 1), false);
+        if(!useCustomBackButton) {
+            if (mViewPager.getCurrentItem() == 0) {
+                // If the user is currently looking at the first step, allow the system to handle the
+                // Back button. This calls finish() on this activity and pops the back stack.
+                super.onBackPressed();
             } else {
-                mViewPager.setCurrentItem(0, false);
+                // Otherwise, select the previous step.
+                BackButtonHelper backButtonHelper = BackButtonHelper.getInstance();
+                int previousPositionSize = backButtonHelper.getPreviousPositions().size();
+                if (previousPositionSize > 1) {
+                    backButtonHelper.getPreviousPositions().remove(previousPositionSize - 1);
+                    mViewPager.setCurrentItem(backButtonHelper.getPreviousPositions().get(backButtonHelper.getPreviousPositionSize() - 1), false);
+                } else {
+                    mViewPager.setCurrentItem(0, false);
+                }
             }
+        } else {
+            useCustomBackButton = false;
         }
+    }
+
+    public void setUseCustomBackButton(boolean bool) {
+        useCustomBackButton = bool;
     }
 
     public void configureTabs() {

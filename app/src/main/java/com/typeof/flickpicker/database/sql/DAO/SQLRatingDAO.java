@@ -69,16 +69,15 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
         if(c.getCount() != 0) { //that is - rating for that movie by that user already exists
                 Rating r = CoreEntityFactory.createRatingFromCursor(c);
+                removeRating(r);
                 c.close();
                 double oldRatingValue = r.getRating();
                 setMovieTableRating(rating.getMovieId(), oldRatingValue, rating.getRating());
-
-            }
-            else{
-                c.close();
-                double oldValue = 0;
-                setMovieTableRating(rating.getMovieId(), oldValue, rating.getRating());
-            }
+        } else {
+            c.close();
+            double oldValue = 0;
+            setMovieTableRating(rating.getMovieId(), oldValue, rating.getRating());
+        }
 
         ContentValues values = new ContentValues();
         values.put(RatingTable.RatingEntry.COLUMN_NAME_RATING, rating.getRating());
@@ -86,6 +85,23 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
         values.put(RatingTable.RatingEntry.COLUMN_NAME_USERID, rating.getUserId());
 
         return super.save(rating, "ratings", values);
+    }
+
+    @Override
+    public Rating getRatingObjectFromUser(long userId, long movieId) {
+        String query = "SELECT * FROM " + RatingTable.RatingEntry.TABLE_NAME + " WHERE " +
+                RatingTable.RatingEntry.TABLE_NAME + "." + RatingTable.RatingEntry.COLUMN_NAME_USERID
+                + " = " + userId +  " AND " + RatingTable.RatingEntry.TABLE_NAME + "." +
+                RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = " + movieId;
+
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+        if (c.getCount() == 0) {
+            return null;
+        }
+        Rating rating = CoreEntityFactory.createRatingFromCursor(c);
+        c.close();
+        return rating;
     }
 
     /**

@@ -5,6 +5,7 @@ import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,10 @@ import android.widget.TabHost.TabSpec;
 import android.widget.Toast;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.application.activities.MainActivity;
 import com.typeof.flickpicker.application.adapters.MovieAdapter;
+import com.typeof.flickpicker.application.adapters.ViewPageAdapter;
+import com.typeof.flickpicker.application.helpers.BackButtonHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.MovieDAO;
 import java.util.ArrayList;
@@ -39,6 +43,7 @@ public class CommunityFragment extends Fragment {
     private ListView listViewTopMovies;
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
+    private boolean moviesFromYearVisible = false;
     private int thisYear;
 
     @Override
@@ -46,7 +51,6 @@ public class CommunityFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mMovieDAO = App.getMovieDAO();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
-
     }
 
     @Nullable
@@ -58,7 +62,7 @@ public class CommunityFragment extends Fragment {
         setUpListeners();
 
         getActivity().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
 
         return communityView;
@@ -103,7 +107,7 @@ public class CommunityFragment extends Fragment {
             @Override
             public void onTabChanged(String tabId) {
 
-                setActiveTabColor();
+            setActiveTabColor();
 
             switch (tabId) {
                 case "topMovies":
@@ -130,7 +134,8 @@ public class CommunityFragment extends Fragment {
     }
     public void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
-        populateListWithYears(listViewTopMoviesByYear,yearList);
+        populateListWithYears(listViewTopMoviesByYear, yearList);
+        MainActivity mainActivity = (MainActivity)getActivity();
     }
 
     //Sets an underline at the current tab for easier navigation
@@ -171,28 +176,51 @@ public class CommunityFragment extends Fragment {
     //from that year in decending order in terms of rating
     public void setUpListeners() {
         listViewTopMoviesByYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    //get users input
-                    String selectedYearAsString = (String) listViewTopMoviesByYear.getItemAtPosition(position);
-                    int chosenYear = Integer.parseInt(selectedYearAsString);
+                MainActivity mainActivity = (MainActivity)getActivity();
+                mainActivity.setUseCustomBackButton(true);
 
-                    //get the MovieList for the year in question
-                    List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
+                setBackButtonToYearList();
+
+                //get users input
+                String selectedYearAsString = (String) listViewTopMoviesByYear.getItemAtPosition(position);
+                int chosenYear = Integer.parseInt(selectedYearAsString);
+
+                //get the MovieList for the year in question
+                List<Movie> topMoviesByYear = mMovieDAO.getTopRecommendedMoviesThisYear(desiredSizeOfList, chosenYear);
 
 
-                    if(topMoviesByYear.size() != 0) {
-                        populateListView(listViewTopMoviesByYear, topMoviesByYear);
-                    }
-                    else{
-                        //Display a message to user why no movies show up for specified year
-                        Toast message = Toast.makeText(getActivity(), "No movies in database for that year", Toast.LENGTH_SHORT);
-                        message.show();
-                    }
+                if (topMoviesByYear.size() != 0) {
+                    populateListView(listViewTopMoviesByYear, topMoviesByYear);
+                } else {
+                    //Display a message to user why no movies show up for specified year
+                    Toast message = Toast.makeText(getActivity(), "No movies in database for that year", Toast.LENGTH_SHORT);
+                    message.show();
+                }
             }
         });
     }
+
+    private void setBackButtonToYearList() {
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener( new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event )
+            {
+                if( keyCode == KeyEvent.KEYCODE_BACK ) {
+                    setTopMoviesByYearAsCurrentView();
+                }
+                return false;
+            }
+        } );
+    }
+
+
 }
 
 
