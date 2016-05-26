@@ -1,4 +1,4 @@
-package com.typeof.flickpicker.application;
+package com.typeof.flickpicker.application.helpers;
 
 import java.beans.PropertyChangeListener;
 

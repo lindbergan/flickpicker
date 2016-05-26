@@ -17,7 +17,7 @@ import android.widget.ToggleButton;
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.application.DataObservable;
+import com.typeof.flickpicker.application.helpers.DataObservable;
 import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
