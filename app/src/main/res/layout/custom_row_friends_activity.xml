@@ -6,6 +6,7 @@
     android:layout_height="125dp"
     android:weightSum="1"
     android:background="@drawable/list_cell_2"
+    android:padding="5dp"
     >
 
     <TextView
@@ -13,19 +14,18 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/no_profile_picture"
-        android:textSize="125dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="25dp"
-        android:layout_gravity="left"
+        android:textSize="100sp"
+        android:layout_gravity="center"
         android:textColor="@android:color/darker_gray"
-        android:minWidth="100dp"/>
+        android:minWidth="100dp"
+        android:gravity="center" />
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="5dp"
-        android:layout_marginLeft="15dp">
+        android:layout_marginLeft="5dp">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -79,14 +79,15 @@
             <RatingBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
                 android:isIndicator="true"
                 android:stepSize="1"
                 android:transformPivotX="0dp"
                 android:max="5"
+                android:id="@+id/ratingBar"
                 android:transformPivotY="30dp"
-                android:id="@+id/ratingBar"/>
+                />
 
     </LinearLayout>
 
