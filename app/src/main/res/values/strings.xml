@@ -18,7 +18,7 @@
     <string name="movie_detail_num_of_friends_seen_default">0</string>
     <string name="movie_detail_community_rating_label">Community rating</string>
     <string name="movie_detail_community_rating_default">2,5</string>
-    <string name="movie_detail_description_default">Lorem ago in a galaxy far, far away....</string>
+    <string name="movie_detail_description_default">Lorem ago in a galaxy far, far away&#8230;</string>
     <string name="movie_detail_add_to_watchlist_button">+</string>
     <string name="movie_detail_rate_button">Rate!</string>
 
@@ -30,14 +30,15 @@
     <string name="movieTextView">Movie</string>
     <string name="just_watchedTextView">just watched..</string>
     <string name="yearTextView">(year)</string>
-    <string name="and_rated_it_Textview">...and rated it:</string>
+    <string name="and_rated_it_Textview">&#8230;and rated it:</string>
     <string name="add_movie_to_playlist">Add movie to watchlist</string>
     <string name="remove_movie_from_playlist">Remove from watchlist</string>
-    <string name="search_for_a_friend_hint">Search for a friend...</string>
+    <string name="search_for_a_friend_hint">Search for a friend&#8230;</string>
     <string name="no_user_profile">&#xf007;</string>
     <string name="friends_have_seen_this_label_end">" friends have seen this"</string>
     <string name="rated_by_community_label_start">"Rated "</string>
     <string name="rated_by_community_label_end">" by the community"</string>
+    <string name="my_profile_names_hint">"enter name here &#8230;"</string>
 
     <!-- STRINGS CUSTOM_ROW_SEARCH_USER -->
 

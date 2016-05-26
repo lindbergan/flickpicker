@@ -19,6 +19,10 @@
     <dimen name="list_cell_margin">7dp</dimen>
     <dimen name="list_cell_friends_text_to_bar_padding">25dp</dimen>
 
+    <!-- Defining dimensions for my profile view -->
+
+    <dimen name="my_profile_name_field_padding">30dp</dimen>
+
     <!-- Defining dimensions for movie detail view -->
 
     <dimen name="movie_detail_default_margin">10dp</dimen>

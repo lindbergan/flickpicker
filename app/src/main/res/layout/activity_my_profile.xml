@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -6,178 +8,188 @@
     android:layout_height="match_parent"
     android:background="@color/color_backdrop">
 
-    <FrameLayout
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/frameLayout2">
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/no_profile_picture"
-            android:text="@string/no_user_profile"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textSize="100dp"/>
-    </FrameLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/frameLayout2"
-        android:layout_alignParentStart="true"
-        android:id="@+id/linearLayout4">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/theManTheMythTheLegend"
-            android:id="@+id/myProfileUsernameTextView"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="120"
-            android:id="@+id/myProfileScoreTextView"
-            android:layout_gravity="center_horizontal" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout4"
-        android:id="@+id/linearLayout5">
+        android:id="@+id/scrollView2" >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:paddingEnd="@dimen/movie_detail_image_padding"
-            android:paddingStart="@dimen/movie_detail_image_padding">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/frameLayout2">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/no_profile_picture"
+                    android:text="@string/no_user_profile"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="100dp"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="First Name"
-                android:id="@+id/textView5"
+                android:layout_below="@+id/frameLayout2"
                 android:layout_alignParentStart="true"
-                android:layout_marginEnd="@dimen/activity_vertical_margin"
-                android:textSize="15sp" />
+                android:id="@+id/linearLayout4">
 
-            <EditText
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theManTheMythTheLegend"
+                    android:id="@+id/myProfileUsernameTextView"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="120"
+                    android:id="@+id/myProfileScoreTextView"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="enter name here..."
-                android:ems="10"
-                android:id="@+id/myProfileFirstNameTextField"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/textView5"
-                android:background="@android:color/transparent"
-                android:textSize="15sp"
-                android:ellipsize="end"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:paddingEnd="@dimen/movie_detail_image_padding"
-            android:paddingStart="@dimen/movie_detail_image_padding">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Last Name"
-                android:id="@+id/textView7"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginEnd="@dimen/activity_vertical_margin"
-                android:textSize="15sp" />
+                android:layout_below="@+id/linearLayout4"
+                android:id="@+id/linearLayout5">
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="enter name here..."
-                android:ems="10"
-                android:id="@+id/myProfileLastNameTextField"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/textView7"
-                android:background="@android:color/transparent"
-                android:textSize="15sp"
-                android:ellipsize="end"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/my_profile_name_field_padding"
+                    android:paddingStart="@dimen/my_profile_name_field_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="First Name"
+                        android:id="@+id/textView5"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:ems="10"
+                        android:id="@+id/myProfileFirstNameTextField"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/textView5"
+                        android:background="@android:color/transparent"
+                        android:textSize="15sp"
+                        android:hint="@string/my_profile_names_hint"
+                        android:ellipsize="end"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:paddingEnd="@dimen/my_profile_name_field_padding"
+                    android:paddingStart="@dimen/my_profile_name_field_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Last Name"
+                        android:id="@+id/textView7"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginEnd="@dimen/activity_vertical_margin"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName"
+                        android:ems="10"
+                        android:id="@+id/myProfileLastNameTextField"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/textView7"
+                        android:background="@android:color/transparent"
+                        android:textSize="15sp"
+                        android:hint="@string/my_profile_names_hint"
+                        android:ellipsize="end"/>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/linearLayout5"
+                android:layout_centerHorizontal="true"
+                >
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/fab_margin"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin"
+                    android:layout_gravity="center_horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Number of movies seen"
+                        android:id="@+id/textView10"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/myProfileNumMoviesSeenTextView"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/fab_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mean rating"
+                        android:id="@+id/textView8"
+                        android:layout_gravity="center_horizontal"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="New Text"
+                        android:id="@+id/myProfileMeadRatingTextView"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"/>
+                </LinearLayout>
+            </LinearLayout>
         </RelativeLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linearLayout5"
-        android:layout_centerHorizontal="true"
-        >
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/fab_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Number of movies seen"
-                android:id="@+id/textView10"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/myProfileNumMoviesSeenTextView"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/fab_margin"
-            android:layout_marginTop="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mean rating"
-                android:id="@+id/textView8"
-                android:layout_gravity="center_horizontal"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/myProfileMeadRatingTextView"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"/>
-        </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
