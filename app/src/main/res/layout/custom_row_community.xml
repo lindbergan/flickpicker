@@ -7,6 +7,7 @@
         android:weightSum="1"
         android:background="@drawable/list_cell_2"
         android:padding="5dp"
+
     >
 
         <ImageView
@@ -14,14 +15,15 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/rowCommunityImageView"
-            android:layout_gravity="left"
-            android:minWidth="100dp"/>
+            android:layout_gravity="start"
+            android:minWidth="100dp"
+            android:adjustViewBounds="true"/>
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right|top"
+            android:layout_gravity="end|top"
             android:padding="5dp">
 
             <LinearLayout
@@ -35,7 +37,7 @@
                     android:textAppearance="?android:attr/textAppearance"
                     android:text="@string/movieTextView"
                     android:id="@+id/rowCommunityMovieTitle"
-                    android:layout_gravity="center_horizontal|left"
+                    android:layout_gravity="center_horizontal|start"
                     android:textStyle="bold"
                     android:maxLines="1"
                     android:ellipsize="end"/>
@@ -90,11 +92,6 @@
                     android:text="New Text"
                     android:id="@+id/rowCommunityFriendsText" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/friends_have_seen_this_label_end"
-                    android:id="@+id/rowCommunityFriendsTextEnd" />
             </LinearLayout>
 
             <LinearLayout
@@ -114,20 +111,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rated_by_community_label_start"
-                    android:id="@+id/rowCommunityCommunityTextStart" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:paddingStart="2dp"
                     android:text="New Text"
                     android:id="@+id/rowCommunityCommunityText" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rated_by_community_label_end"
-                    android:id="@+id/rowCommunityCommunityTextEnd" />
             </LinearLayout>
 
         </LinearLayout>
