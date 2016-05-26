@@ -92,10 +92,13 @@ public class MovieAdapter extends CustomAdapter {
                 movieDetailFragment.setArguments(args);
                 MainActivity mainActivity = (MainActivity) getContext();
 
-                // Add Collection as listener to the Single Movie Fragment
+                // Add Collection as listener to the Movie Detail Fragment
                 ViewPageAdapter viewPageAdapter = (ViewPageAdapter)mainActivity.getViewPager().getAdapter();
                 CollectionFragment collectionFragment = (CollectionFragment)viewPageAdapter.getFragmentByClass(CollectionFragment.class);
                 movieDetailFragment.addObserver(collectionFragment);
+
+                // Add main activity as observer to the Movie Detail Fragment
+                movieDetailFragment.addObserver(mainActivity);
 
                 KeyboardHelper.hideSoftKeyboard(mainActivity);
 

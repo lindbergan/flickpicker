@@ -38,7 +38,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 App.createDatabase();
-                App.setupCurrentUser();
+                App.refreshCurrentUser();
                 App.getDatabase().seedDatabase();
 
                 // Get movies from OMDB

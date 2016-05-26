@@ -28,10 +28,12 @@ import com.typeof.flickpicker.application.fragments.RecommendationsFragment;
 import com.typeof.flickpicker.application.fragments.SearchFragment;
 import com.typeof.flickpicker.application.fragments.SettingsFragment;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements PropertyChangeListener {
 
     TabHost tabHost;
 
@@ -83,7 +85,8 @@ public class MainActivity extends FragmentActivity {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -100,7 +103,8 @@ public class MainActivity extends FragmentActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
     }
@@ -135,10 +139,6 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-    }
-
-    public static void setScore(int score) {
-        mScore.setText(String.valueOf(score));
     }
 
     @Override
@@ -263,5 +263,17 @@ public class MainActivity extends FragmentActivity {
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         Log.v("Activity", "Saved Main Activity");
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals("ratingsChanged")) {
+            updateScore();
+        }
+    }
+
+    private void updateScore() {
+        App.refreshCurrentUser();
+        mScore.setText(String.valueOf(App.getCurrentUser().getScore()));
     }
 }

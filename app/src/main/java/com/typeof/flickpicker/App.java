@@ -18,7 +18,6 @@ import com.typeof.flickpicker.database.sql.DAO.SQLPlaylistDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLRatingDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLUserDAO;
 import com.typeof.flickpicker.utils.MetaData;
-import com.typeof.flickpicker.utils.RandomizedData;
 
 /**
  * App
@@ -57,7 +56,7 @@ public class App extends Application {
             createDatabase();
         }
 
-        setupCurrentUser();
+        refreshCurrentUser();
 
     }
 
@@ -66,7 +65,7 @@ public class App extends Application {
         getUserDAO().saveUser(sCurrentUser);
     }
 
-    public static void setupCurrentUser() {
+    public static void refreshCurrentUser() {
         try {
             sCurrentUser = getUserDAO().getUserById(1);
         } catch (DatabaseRecordNotFoundException e) {
