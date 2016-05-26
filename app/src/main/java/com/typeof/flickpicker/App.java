@@ -31,8 +31,8 @@ import com.typeof.flickpicker.utils.MetaData;
  */
 public class App extends Application {
 
-    private static Context mContext;
-    private static User mCurrentUser;
+    private static Context sContext;
+    private static User sCurrentUser;
     private static String databaseType;
     private static MovieDAO sMovieDAO;
     private static UserDAO sUserDAO;
@@ -44,10 +44,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = getApplicationContext();
+        sContext = getApplicationContext();
 
         // Fetch the database type from the AndroidManifest.xml file
-        databaseType = MetaData.getMetaData(mContext, "database_type");
+        databaseType = MetaData.getMetaData(sContext, "database_type");
         initDatabase();
 
         setupDAO();
@@ -60,13 +60,13 @@ public class App extends Application {
     }
 
     private static void createCurrentUser() {
-        mCurrentUser = new User("AdminU", "AdminP");
-        getUserDAO().saveUser(mCurrentUser);
+        sCurrentUser = new User("AdminU", "AdminP");
+        getUserDAO().saveUser(sCurrentUser);
     }
 
     public static void setupCurrentUser() {
         try {
-            mCurrentUser = getUserDAO().getUserById(1);
+            sCurrentUser = getUserDAO().getUserById(1);
         } catch (DatabaseRecordNotFoundException e) {
             createCurrentUser();
         }
@@ -75,10 +75,10 @@ public class App extends Application {
     private void initDatabase() {
         switch (databaseType) {
             case "sql":
-                sDatabase = new SQLDatabase(mContext);
+                sDatabase = new SQLDatabase(sContext);
                 break;
             default:
-                sDatabase = new SQLDatabase(mContext);
+                sDatabase = new SQLDatabase(sContext);
         }
     }
 
@@ -90,18 +90,18 @@ public class App extends Application {
     private void setupDAO() {
         switch (databaseType) {
             case "sql":
-                sMovieDAO = new SQLMovieDAO(mContext);
-                sUserDAO = new SQLUserDAO(mContext);
-                sRatingDAO = new SQLRatingDAO(mContext);
-                sPlaylistDAO = new SQLPlaylistDAO(mContext);
-                sFriendDAO = new SQLFriendDAO(mContext);
+                sMovieDAO = new SQLMovieDAO(sContext);
+                sUserDAO = new SQLUserDAO(sContext);
+                sRatingDAO = new SQLRatingDAO(sContext);
+                sPlaylistDAO = new SQLPlaylistDAO(sContext);
+                sFriendDAO = new SQLFriendDAO(sContext);
 
             default:
-                sMovieDAO = new SQLMovieDAO(mContext);
-                sUserDAO = new SQLUserDAO(mContext);
-                sRatingDAO = new SQLRatingDAO(mContext);
-                sPlaylistDAO = new SQLPlaylistDAO(mContext);
-                sFriendDAO = new SQLFriendDAO(mContext);
+                sMovieDAO = new SQLMovieDAO(sContext);
+                sUserDAO = new SQLUserDAO(sContext);
+                sRatingDAO = new SQLRatingDAO(sContext);
+                sPlaylistDAO = new SQLPlaylistDAO(sContext);
+                sFriendDAO = new SQLFriendDAO(sContext);
 
         }
     }
@@ -112,7 +112,7 @@ public class App extends Application {
      * being used by the application.
      *
      */
-    public static User getCurrentUser() {return mCurrentUser;}
+    public static User getCurrentUser() {return sCurrentUser;}
 
     public static MovieDAO getMovieDAO() {
         return sMovieDAO;
