@@ -7,11 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
-import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.CoreEntityFactory;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 import com.typeof.flickpicker.database.sql.tables.FriendTable;
@@ -29,7 +27,7 @@ import java.util.List;
 
 public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
     public SQLFriendDAO(Context ctx) {
         super(ctx);
@@ -53,6 +51,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
             values.put(FriendTable.FriendEntry.COLUMN_NAME_USER2ID, f.getGetUserIdTwo());
             values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getMismatch());
             values.put(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN, f.getNmbrOfMoviesBothSeen());
+
             if (!isFriend(f.getGetUserIdTwo())) {
                 return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
             }
@@ -200,7 +199,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
      * @param c                         Cursor
      * @return                          The new total mismatch value
      */
-    public double calculateNewMismatchValue(Cursor c){
+    private double calculateNewMismatchValue(Cursor c){
 
         double totalMismatch = 0;
 

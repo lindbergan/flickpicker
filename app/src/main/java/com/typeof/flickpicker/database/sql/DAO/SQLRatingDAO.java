@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class SQLRatingDAO extends SQLDAO implements RatingDAO {
 
-    private SQLMovieDAO sqlMovieDAO;
-    private SQLiteDatabase db;
+    private final SQLMovieDAO sqlMovieDAO;
+    private final SQLiteDatabase db;
 
     public SQLRatingDAO(Context ctx) {
         super(ctx);
@@ -135,7 +135,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
      * @param newRating - new rating
      * @return - returns the new rating
      */
-    public double calculateCommunityRating(Movie movie, double oldRating, double newRating){
+    private double calculateCommunityRating(Movie movie, double oldRating, double newRating){
 
         //expression for calculating new communityRating
         if (oldRating != 0){ // that is - it exists an old rating
@@ -152,7 +152,7 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
      * @param searchString - string we're searching for
      * @return - Returns Cursor with found database record
      */
-    public Cursor searchRatingBy(String column, String searchString){
+    private Cursor searchRatingBy(String column, String searchString){
         return super.search("ratings",column, searchString);
     }
 

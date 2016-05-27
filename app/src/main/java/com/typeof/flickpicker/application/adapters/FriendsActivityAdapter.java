@@ -20,7 +20,7 @@ import com.typeof.flickpicker.database.MovieDAO;
 
 public class FriendsActivityAdapter extends CustomAdapter {
 
-    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
+    private final Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
     public FriendsActivityAdapter(Context context, Object[] obj) {
         super(context, obj);

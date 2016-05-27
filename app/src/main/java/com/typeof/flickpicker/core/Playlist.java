@@ -15,9 +15,9 @@ import java.util.List;
 public class Playlist implements DatabaseObject {
 
     private long id = 0;
-    private String title;
-    private List<Number> movieIds;
-    private long userId;
+    private final String title;
+    private final List<Number> movieIds;
+    private final long userId;
 
     /**
      * Constructs a playlist object that initially sets id to zero and movieIds to null.

@@ -9,9 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 public abstract class SQLTable {
 
-    public String hasBeenCreatedSQLQuery(SQLiteDatabase db) {
+    public String hasBeenCreatedSQLQuery() {
         return "select DISTINCT tbl_name from sqlite_master where tbl_name = '" + getTableName() + "'";
     }
 
-    public abstract String getTableName();
+    protected abstract String getTableName();
 }

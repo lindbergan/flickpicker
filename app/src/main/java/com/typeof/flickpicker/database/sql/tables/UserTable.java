@@ -12,9 +12,6 @@ import com.typeof.flickpicker.database.sql.tables.SQLTable;
 
 public class UserTable extends SQLTable {
 
-    // Prevent instantiating
-    public UserTable() {}
-
     public static abstract class UserEntry implements BaseColumns {
 
         private static final String TEXT_TYPE = " TEXT";
@@ -25,7 +22,6 @@ public class UserTable extends SQLTable {
         public static final String COLUMN_NAME_USERNAME = "username";
         public static final String COLUMN_NAME_PASSWORD = "password";
         public static final String COLUMN_NAME_SCORE = "score";
-        public static final String COLUMN_NAME_NULLABLE = " NULL";
 
 
         public static String getSQLCreateTableQuery() {

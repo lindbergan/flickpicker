@@ -20,24 +20,6 @@ public class Movie implements DatabaseObject {
     private double communityRating = 0;
 
     /**
-     * Constructs a movie object that initially sets numberOfVotes and communityRating to zero.
-     * All other properties of the movie object are set by the parameters
-     * @param id the id that will be assigned to the movie object
-     * @param title the title that will be assigned to the movie object
-     * @param description the description that will be assigned to the movie object
-     * @param year the year that will be assigned to the movie object
-     * @param genre the genre that will be assigned to the movie object
-     */
-
-    public Movie(long id, String title, String description, int year, String genre) {
-        this.id = id;
-        this.year = year;
-        this.title = title;
-        this.description = description;
-        this.genre = genre;
-    }
-
-    /**
      * Constructs a movie object that initially sets id, numberOfVotes and communityRating to zero.
      * All other properties of the movie object are set by the parameters
      * @param title the title that will be assigned to the movie object
@@ -145,9 +127,6 @@ public class Movie implements DatabaseObject {
         this.description = description;
     }
 
-    public void setYear(int year) {
-        this.year = year;
-    }
 
     /**
      * Two movies are considered equal if their ids are the same

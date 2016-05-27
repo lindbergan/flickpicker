@@ -36,11 +36,6 @@ public class FriendDAOTest extends BaseTest {
 
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     /**
      * Tests addFriend()
      *
@@ -177,11 +172,11 @@ public class FriendDAOTest extends BaseTest {
         long planetOfTheApesId = mMovieDAO.saveMovie(new Movie("Planet of the Apes", 1998));
 
         long firstRatingPelle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,primaryUser));
-        long secondRatingPelle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId, primaryUser));
-        long firstRatingKalle = mRatingDAO.saveRating(new Rating(5, americanHistoryXId,secondaryUser));
-        long secondRatingKalle = mRatingDAO.saveRating(new Rating(5, planetOfTheApesId, secondaryUser));
-        long firstRatingOlle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,thirdUser));
-        long secondRatingOlle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId,thirdUser));
+        mRatingDAO.saveRating(new Rating(3, planetOfTheApesId, primaryUser));
+        mRatingDAO.saveRating(new Rating(5, americanHistoryXId,secondaryUser));
+        mRatingDAO.saveRating(new Rating(5, planetOfTheApesId, secondaryUser));
+        mRatingDAO.saveRating(new Rating(3,americanHistoryXId,thirdUser));
+        mRatingDAO.saveRating(new Rating(3, planetOfTheApesId,thirdUser));
 
         Rating pellesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingPelle);
 
@@ -212,7 +207,7 @@ public class FriendDAOTest extends BaseTest {
         long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
 
         Friend friendship = new Friend(primaryUser, secondaryUser);
-        long friendshipId = mFriendDAO.addFriend(friendship);
+        mFriendDAO.addFriend(friendship);
 
         Friend fetchedFriendship = mFriendDAO.getFriendRelation(primaryUser, secondaryUser);
         assertEquals(friendship.getGetUserIdTwo(), fetchedFriendship.getGetUserIdTwo());
@@ -228,8 +223,8 @@ public class FriendDAOTest extends BaseTest {
      */
     public void testIsFriend() throws Exception {
         User u = new User("testFriend", "testPassword");
-        mUserDAO.saveUser(u);
-        mFriendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u.getId()));
+        long friendId = mUserDAO.saveUser(u);
+        mFriendDAO.addFriend(new Friend(App.getCurrentUser().getId(), friendId));
         assertTrue(mFriendDAO.isFriend(u.getId()));
     }
 }

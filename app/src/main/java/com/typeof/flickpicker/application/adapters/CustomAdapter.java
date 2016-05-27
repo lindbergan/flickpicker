@@ -11,9 +11,10 @@ import android.widget.ArrayAdapter;
  * Is inherited to ensure that other adapters uses getView method.
  */
 
-public abstract class CustomAdapter extends ArrayAdapter {
+abstract class CustomAdapter extends ArrayAdapter {
 
-    public CustomAdapter(Context context, Object[] objects) {
+    CustomAdapter(Context context, Object[] objects) {
+        //noinspection unchecked
         super(context, android.R.layout.simple_list_item_1, objects);
     }
 

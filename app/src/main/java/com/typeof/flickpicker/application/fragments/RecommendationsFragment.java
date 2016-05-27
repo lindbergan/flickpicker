@@ -28,11 +28,6 @@ public class RecommendationsFragment extends Fragment {
 
     private ListView mListViewFeed;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,21 +44,20 @@ public class RecommendationsFragment extends Fragment {
     }
 
     //Setup the views in the corresponding XML-file
-    public void hookUpViews(View view){
+    private void hookUpViews(View view){
         mListViewFeed = (ListView) view.findViewById(R.id.recommendationsListView);
     }
 
     //Populate the listView with the elements from getRecommendations()
-    public void populateListView(){
+    private void populateListView(){
         List<Movie> recommendedMovies = getRecommendations(App.getCurrentUser());
         ListAdapter adapter = new MovieAdapter(getActivity(), recommendedMovies.toArray());
         mListViewFeed.setAdapter(adapter);
     }
 
     //A method that uses MovieAlgorithm helper class to return a list of recommended movies for the user
-    public List<Movie> getRecommendations(User user){
+    private List<Movie> getRecommendations(User user){
 
-        List<Movie> recommendedMovies = MovieAlgorithm.getRecommendations(user);
-        return recommendedMovies;
+        return MovieAlgorithm.getRecommendations(user);
     }
 }

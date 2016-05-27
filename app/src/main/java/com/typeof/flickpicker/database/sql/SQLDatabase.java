@@ -6,16 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.core.Friend;
-import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Playlist;
-import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
-import com.typeof.flickpicker.database.FriendDAO;
-import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.PlaylistDAO;
-import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.tables.FriendTable;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;
@@ -24,16 +16,13 @@ import com.typeof.flickpicker.database.sql.tables.RatingTable;
 import com.typeof.flickpicker.database.sql.tables.SQLTable;
 import com.typeof.flickpicker.database.sql.tables.UserTable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * SQLDatabase
  * Creates, Deletes and Seeds the database
  */
 public class SQLDatabase implements Database {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
     public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
@@ -112,13 +101,13 @@ public class SQLDatabase implements Database {
 
     /**
      * Combines SQL Queries from the tables
-     * @return
+     * @return  boolean whether the movie table has been created
      */
     public boolean hasBeenCreated() {
         SQLTable movieTable = new MovieTable();
 
         Cursor c;
-        String query = movieTable.hasBeenCreatedSQLQuery(this.db);
+        String query = movieTable.hasBeenCreatedSQLQuery();
 
         try {
             c = db.rawQuery(query, null);

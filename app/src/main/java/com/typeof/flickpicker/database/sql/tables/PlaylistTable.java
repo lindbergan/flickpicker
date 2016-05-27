@@ -10,9 +10,6 @@ import android.provider.BaseColumns;
 
 public class PlaylistTable extends SQLTable {
 
-    // Prevent instantiating
-    public PlaylistTable() {}
-
     public static abstract class PlaylistEntry implements BaseColumns {
 
         private static final String TEXT_TYPE = " TEXT";

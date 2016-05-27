@@ -12,8 +12,8 @@ package com.typeof.flickpicker.core;
 public class Friend implements DatabaseObject {
 
     private long id;
-    private long userIdOne;
-    private long getUserIdTwo;
+    private final long userIdOne;
+    private final long getUserIdTwo;
     private double mismatch = 0;
     private int nmbrOfMoviesBothSeen = 0;
 

@@ -12,8 +12,8 @@ public class Rating implements DatabaseObject {
 
     private long id = 0;
     private double rating;
-    private long movieId;
-    private long userId;
+    private final long movieId;
+    private final long userId;
 
     /**
      * Constructs a rating object that initially sets id to zero.

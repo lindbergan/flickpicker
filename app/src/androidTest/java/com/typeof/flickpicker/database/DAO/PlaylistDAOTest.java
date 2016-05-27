@@ -31,11 +31,6 @@ public class PlaylistDAOTest extends BaseTest {
 
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     /**
      * Tests savePlaylist()
      *

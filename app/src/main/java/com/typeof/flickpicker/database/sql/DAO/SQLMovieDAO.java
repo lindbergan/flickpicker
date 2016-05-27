@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class SQLMovieDAO extends SQLDAO implements MovieDAO {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
     public SQLMovieDAO(Context ctx) {
         super(ctx);
@@ -129,6 +129,7 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      * @param userId    Id of user that has seen the movie
      * @return          list of users
      */
+
     public List<User> getFriendsSeenMovie(long movieId, long userId) {
         List<User> friends = new ArrayList<>();
 
@@ -176,11 +177,10 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
     /**
      * Runs a given query and an array of movies
      *
-     * @param max   max number of movies fetched from database
      * @param query given query
      * @return      list of movies found in the database
      */
-    private List<Movie> getCommunityFeedback(int max, String query){
+    private List<Movie> getCommunityFeedback(String query){
         //Query the database of sorting the movieTable by "requestedSorting" and return corresponding cursor
         Cursor c = db.rawQuery(query, null);
         List<Movie> sortedMovies = new ArrayList<>();
@@ -213,18 +213,18 @@ public class SQLMovieDAO extends SQLDAO implements MovieDAO {
      */
     public List<Movie> getCommunityTopPicks(int max){
         String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "DESC LIMIT " + max;
-        return getCommunityFeedback(max, sqlString);
+        return getCommunityFeedback(sqlString);
     }
 
     public List<Movie> getMostDislikedMovies(int max){
         String sqlString = "SELECT * FROM movies ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + "  " + "ASC LIMIT " + max;
-        return getCommunityFeedback(max, sqlString);
+        return getCommunityFeedback(sqlString);
     }
 
     public List<Movie> getTopRecommendedMoviesThisYear(int max, int year){
         String sqlString = "SELECT * FROM movies WHERE  " + MovieTable.MovieEntry.COLUMN_NAME_YEAR +
                 " LIKE \'" + year + "\' ORDER BY " + MovieTable.MovieEntry.COLUMN_NAME_COMMUNITY_RATING + " DESC LIMIT " + max;
-        return getCommunityFeedback(max, sqlString);
+        return getCommunityFeedback(sqlString);
     }
 
     /**

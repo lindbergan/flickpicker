@@ -22,11 +22,6 @@ public class UserDAOTest extends BaseTest {
         mUserDao = App.getUserDAO();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
 
     /**
      * Tests if a record is saved in the database

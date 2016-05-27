@@ -3,7 +3,6 @@ package com.typeof.flickpicker.application.fragments;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,11 +39,6 @@ public class FriendsFragment extends Fragment {
     private SearchView mNameTextField;
     private TextView hiddenText;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,11 +64,11 @@ public class FriendsFragment extends Fragment {
         return view;
     }
 
-    public void getFriendsRecentActivities() {
+    private void getFriendsRecentActivities() {
         mFriendsRecentActivity = mFriendDAO.getFriendsLatestActivities(App.getCurrentUser().getId());
     }
 
-    public void initAdapters() {
+    private void initAdapters() {
         ListAdapter ratingListAdapter = new FriendsActivityAdapter(getActivity(), mFriendsRecentActivity.toArray());
         mListViewFeed.setAdapter(ratingListAdapter);
     }
@@ -86,7 +80,7 @@ public class FriendsFragment extends Fragment {
      * Uses the FriendsActivityAdapter class
      */
 
-    public void updateRecentActivities() {
+    private void updateRecentActivities() {
         mNameTextField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override

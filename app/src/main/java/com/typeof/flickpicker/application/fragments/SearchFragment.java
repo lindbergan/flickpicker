@@ -70,7 +70,7 @@ public class SearchFragment extends Fragment {
     }
 
     //Setup the views in the corresponding XML-file
-    public void hookUpViews(View view){
+    private void hookUpViews(View view){
         listViewSearchMovies = (ListView) view.findViewById(R.id.listViewSearchMovie);
         listViewSearchUser = (ListView) view.findViewById(R.id.listViewSearchFriend);
         mSearchViewMovie = (SearchView) view.findViewById(R.id.searchViewMovie);
@@ -85,7 +85,7 @@ public class SearchFragment extends Fragment {
 
     //Configures the fragment's tabs. Set the names, a marker for which tab is currently active and
     //connects listeners for tab changes.
-    public void configureTabs(View view){
+    private void configureTabs(View view){
 
         mTabHostSearch = (TabHost) view.findViewById(R.id.tabHostSearch);
         mTabHostSearch.setup();
@@ -114,12 +114,12 @@ public class SearchFragment extends Fragment {
     }
 
     //Sets an underline at the current tab for easier navigation
-    public void setActiveTabColor(){
+    private void setActiveTabColor(){
         mTabHostSearch.getTabWidget().getChildAt(mTabHostSearch.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
 
     //Set up listeners for the SearchViews. A handler with delay is implemented in order to give better response timing to user's input.
-    public void setUpListeners(){
+    private void setUpListeners(){
         mSearchViewMovie.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             // Listen to key down while in the search field
@@ -166,7 +166,7 @@ public class SearchFragment extends Fragment {
     }
 
     //Populate the listView with searchResults with the help of a custom MovieAdapter to draw the correct cells
-    public void populateMovieListView(ListView listView, List<Movie> searchResults){
+    private void populateMovieListView(ListView listView, List<Movie> searchResults){
         ListAdapter adapter = new MovieAdapter(ctx,searchResults.toArray());
         if (hiddenMoviesText.getVisibility() == View.VISIBLE) hiddenMoviesText.setVisibility(View.INVISIBLE);
         if (searchResults.size() == 0) {
@@ -176,7 +176,7 @@ public class SearchFragment extends Fragment {
     }
 
     //Populate the listView with searchResults with the help of a custom UserAdapter to draw the correct cells
-    public void populateUserListView(ListView listView, List<User> searchResults){
+    private void populateUserListView(ListView listView, List<User> searchResults){
         ListAdapter adapter = new UserAdapter(getActivity(),searchResults.toArray());
         if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
         if (searchResults.size() == 0) {

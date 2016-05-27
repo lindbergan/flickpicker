@@ -1,9 +1,6 @@
 package com.typeof.flickpicker.core;
 
 
-import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.database.UserDAO;
-
 /**
  * User
  *
@@ -14,7 +11,7 @@ import com.typeof.flickpicker.database.UserDAO;
 public class User implements DatabaseObject {
 
     private long id = 0;
-    private String username;
+    private final String username;
     private int score;
     private String password;
 

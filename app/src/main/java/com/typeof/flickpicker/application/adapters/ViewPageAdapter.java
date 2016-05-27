@@ -13,12 +13,10 @@ import java.util.List;
  */
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
 
-    List<Fragment> mFragments;
-    FragmentManager mFragmentManager;
+    private final List<Fragment> mFragments;
 
     public ViewPageAdapter(FragmentManager fm, List<Fragment> fragments) {
         super(fm);
-        mFragmentManager = fm;
         mFragments = fragments;
     }
 
@@ -44,12 +42,6 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
             }
         }
         return null;
-    }
-
-    public int getFragmentPositionByClass(Class c) {
-        Fragment fragment = getFragmentByClass(c);
-        int pos = mFragments.indexOf(fragment);
-        return mFragments.indexOf(fragment);
     }
 
 }

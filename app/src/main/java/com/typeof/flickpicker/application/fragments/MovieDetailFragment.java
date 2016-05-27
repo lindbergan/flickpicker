@@ -20,7 +20,6 @@ import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.helpers.DataObservable;
 import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
@@ -52,7 +51,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     private PlaylistDAO mPlaylistDAO;
     final private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    private MovieDAO mMovieDAO = App.getMovieDAO();
+    private final MovieDAO mMovieDAO = App.getMovieDAO();
     private long movieId;
     private Movie mMovie;
 
@@ -90,7 +89,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method to assign variables to their different components in the layout file.
      */
-    public void hookUpViews(View view){
+    private void hookUpViews(View view){
 
         mMovieImage = (ImageView) view.findViewById(R.id.movieDetailImageView);
 
@@ -114,7 +113,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method for adding the information about the selected mMovie to the correct text views
      */
-    public void populateMovieFields(){
+    private void populateMovieFields(){
 
         Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -142,7 +141,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * method that sets the status of 'add to playlist' widgets to their correct state
      * depending on if the mMovie is on the user's playlist or not
      */
-    public void setAddToPlaylistWidgets() {
+    private void setAddToPlaylistWidgets() {
 
         mAddToWatchListButton.setTextOff("+");
         mAddToWatchListButton.setTextOn("-");
@@ -162,7 +161,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * method used in onCreateView to set rating bar and button to correct states
      * depending on if the user have already rated the mMovie or not
      */
-    public void setRateWidgets(){
+    private void setRateWidgets(){
 
         if(hasUserSeenMovie()){
             setRateButtonInactive();
@@ -178,7 +177,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method for initiating the Fragment's various listeners
      */
-    public void initListeners() {
+    private void initListeners() {
 
 
 
@@ -233,7 +232,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * method that checks if the user have seen the mMovie or not
      * @return hasSeen true if user have seen mMovie, false if not
      */
-    public boolean hasUserSeenMovie(){
+    private boolean hasUserSeenMovie(){
         List<Movie> userCollection = mMovieDAO.getMovieCollectionFromUserId(10000, App.getCurrentUser().getId());
 
         for (Movie movie : userCollection) {
@@ -248,7 +247,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * method that sets 'add to watchlist' label to specific string depending on the
      * toggle button's state
      */
-    public void setAddToWatchListLabel() {
+    private void setAddToWatchListLabel() {
         if (mAddToWatchListButton.isChecked()) {
             mMovieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
         }else{
@@ -260,7 +259,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method to activate rate button and change its appearance
      */
-    public void setRateButtonActive(){
+    private void setRateButtonActive(){
         mRateButton.setBackgroundResource(R.drawable.test_button_round_corners);
         mRateButton.setClickable(true);
     }
@@ -270,7 +269,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method to inactivate rate button and change its appearance
      */
-    public void setRateButtonInactive(){
+    private void setRateButtonInactive(){
         mRateButton.setBackgroundResource(R.drawable.button_inactive);
         mRateButton.setClickable(false);
     }
@@ -282,7 +281,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * @param precision number of desired decimals
      * @return value rounded to chosen amount of decimals
      */
-    public double round(double value, int precision) {
+    private double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }

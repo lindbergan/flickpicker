@@ -21,18 +21,11 @@ import com.typeof.flickpicker.utils.OMDBParser;
 
 public class SettingsFragment extends Fragment {
 
-    private Button reSeedBtn;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.settings_fragment, container, false);
-        reSeedBtn = (Button)view.findViewById(R.id.reSeedBtn);
+        Button reSeedBtn = (Button) view.findViewById(R.id.reSeedBtn);
 
         reSeedBtn.setOnClickListener(new View.OnClickListener() {
             @Override

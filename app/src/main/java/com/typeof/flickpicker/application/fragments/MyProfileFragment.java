@@ -32,11 +32,6 @@ public class MyProfileFragment extends Fragment {
     private TextView mNrOfRatings;
     private TextView mMeanRating;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +52,7 @@ public class MyProfileFragment extends Fragment {
     /**
      * method to assign variables to their different components in the layout file.
      */
-    public void hookUpViews(View view){
+    private void hookUpViews(View view){
 
         mUserProfileImageView = (TextView) view.findViewById(R.id.no_profile_picture);
         mUsernameTextView = (TextView) view.findViewById(R.id.myProfileUsernameTextView);
@@ -71,7 +66,7 @@ public class MyProfileFragment extends Fragment {
     /**
      * method for adding the information about the user to the correct fields
      */
-    public void populateProfileFields(){
+    private void populateProfileFields(){
 
         User user = App.getCurrentUser();
         RatingDAO ratingDAO = App.getRatingDAO();
@@ -90,7 +85,7 @@ public class MyProfileFragment extends Fragment {
      * @param ratingList a list of all the user's ratings
      * @return the mean of all the user's ratings
      */
-    public double meanRating(List<Rating> ratingList) {
+    private double meanRating(List<Rating> ratingList) {
 
         double sum = 0;
         for (Rating r : ratingList) {
@@ -107,7 +102,7 @@ public class MyProfileFragment extends Fragment {
      * @param precision number of desired decimals
      * @return value rounded to chosen amount of decimals
      */
-    public double round(double value, int precision) {
+    private double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }

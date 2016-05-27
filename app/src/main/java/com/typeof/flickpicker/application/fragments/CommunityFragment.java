@@ -21,8 +21,6 @@ import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.activities.MainActivity;
 import com.typeof.flickpicker.application.adapters.MovieAdapter;
-import com.typeof.flickpicker.application.adapters.ViewPageAdapter;
-import com.typeof.flickpicker.application.helpers.BackButtonHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.MovieDAO;
 import java.util.ArrayList;
@@ -37,13 +35,12 @@ import java.util.List;
 
 public class CommunityFragment extends Fragment {
 
-    private int desiredSizeOfList = 10;
-    MovieDAO mMovieDAO;
-    TabHost mTabHost;
+    private final int desiredSizeOfList = 10;
+    private MovieDAO mMovieDAO;
+    private TabHost mTabHost;
     private ListView listViewTopMovies;
     private ListView listViewWorstMovies;
     private ListView listViewTopMoviesByYear;
-    private boolean moviesFromYearVisible = false;
     private int thisYear;
 
     @Override
@@ -69,7 +66,7 @@ public class CommunityFragment extends Fragment {
     }
 
     //Setup the views in the corresponding XML-file
-    public void hookUpViews(View view) {
+    private void hookUpViews(View view) {
         listViewTopMovies = (ListView) view.findViewById(R.id.listViewTopMovies);
         listViewWorstMovies = (ListView) view.findViewById(R.id.listViewWorstMovies);
         listViewTopMoviesByYear = (ListView) view.findViewById(R.id.listViewTopMoviesByYear);
@@ -77,7 +74,7 @@ public class CommunityFragment extends Fragment {
 
     //Configures the fragment's tabs. Set the names, a marker for which tab is currently active and
     //connects listeners for tab changes.
-    public void configureTabs(View view) {
+    private void configureTabs(View view) {
 
         mTabHost = (TabHost) view.findViewById(R.id.tabHost);
         mTabHost.setup();
@@ -124,45 +121,45 @@ public class CommunityFragment extends Fragment {
         });
     }
 
-    public void setTopMoviesAsCurrentView(){
+    private void setTopMoviesAsCurrentView(){
         List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
     }
-    public void setWorstMoviesAsCurrentView(){
+    private void setWorstMoviesAsCurrentView(){
         List<Movie> worstMoviesAllTime = mMovieDAO.getMostDislikedMovies(desiredSizeOfList);
         populateListView(listViewWorstMovies, worstMoviesAllTime);
     }
-    public void setTopMoviesByYearAsCurrentView(){
+    private void setTopMoviesByYearAsCurrentView(){
         List<String> yearList = generateYearList();
         populateListWithYears(listViewTopMoviesByYear, yearList);
-        MainActivity mainActivity = (MainActivity)getActivity();
     }
 
     //Sets an underline at the current tab for easier navigation
-    public void setActiveTabColor(){
+    private void setActiveTabColor(){
         mTabHost.getTabWidget().getChildAt(mTabHost.getCurrentTab()).getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
     }
 
     //Populate the listView with a list of years (TextFields) with the help of the default ArrayAdapter
-    public void populateListWithYears(ListView listView, List<String> yearList){
+    private void populateListWithYears(ListView listView, List<String> yearList){
 
         if (this.getActivity() != null) {
 
             int defaultLayout = android.R.layout.simple_list_item_1; //default
+            //noinspection unchecked
             ListAdapter yearAdapter = new ArrayAdapter(getActivity(), defaultLayout, yearList);
             listView.setAdapter(yearAdapter);
         }
     }
 
     //Populate the listView with a list of movies with the help of the custom MovieAdapter
-    public void populateListView(ListView listView, List<Movie> movieList) {
+    private void populateListView(ListView listView, List<Movie> movieList) {
 
         ListAdapter adapter = new MovieAdapter(getActivity(), movieList.toArray());
         listView.setAdapter(adapter);
     }
 
     //Generate a list of years covering the 20th century up until today
-    public List<String> generateYearList(){
+    private List<String> generateYearList(){
 
         List<String> years = new ArrayList<>();
 
@@ -174,14 +171,14 @@ public class CommunityFragment extends Fragment {
 
     //Set up a listener for the yearList in order to access the correct year and to display the movies
     //from that year in decending order in terms of rating
-    public void setUpListeners() {
+    private void setUpListeners() {
         listViewTopMoviesByYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 MainActivity mainActivity = (MainActivity)getActivity();
-                mainActivity.setUseCustomBackButton(true);
+                mainActivity.setUseCustomBackButton();
 
                 setBackButtonToYearList();
 
@@ -205,19 +202,24 @@ public class CommunityFragment extends Fragment {
     }
 
     private void setBackButtonToYearList() {
-        getView().setFocusableInTouchMode(true);
-        getView().requestFocus();
-        getView().setOnKeyListener( new View.OnKeyListener()
-        {
-            @Override
-            public boolean onKey( View v, int keyCode, KeyEvent event )
-            {
-                if( keyCode == KeyEvent.KEYCODE_BACK ) {
-                    setTopMoviesByYearAsCurrentView();
+        try {
+            //noinspection ConstantConditions
+            getView().setFocusableInTouchMode(true);
+            getView().requestFocus();
+            getView().setOnKeyListener(new View.OnKeyListener() {
+                @Override
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        setTopMoviesByYearAsCurrentView();
+                    }
+                    return false;
                 }
-                return false;
-            }
-        } );
+            });
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 

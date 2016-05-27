@@ -29,11 +29,6 @@ public class RatingDAOTest extends BaseTest {
         mMovieDAO = App.getMovieDAO();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     /**
      * Tests getMovieRatings()
      *

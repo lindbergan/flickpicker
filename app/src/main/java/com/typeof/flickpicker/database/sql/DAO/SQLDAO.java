@@ -13,11 +13,11 @@ import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
  * Abstract class with methods for creating, reading, updating and deleting
  * database records
  */
-public abstract class SQLDAO {
+abstract class SQLDAO {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
-    public SQLDAO(Context ctx) {
+    SQLDAO(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = mDbHelper.getWritableDatabase();
     }
@@ -30,7 +30,7 @@ public abstract class SQLDAO {
      * @return              Cursor object containing record found in database
      * @throws              DatabaseRecordNotFoundException
      */
-    public Cursor find(long id, String tableName) throws DatabaseRecordNotFoundException {
+    Cursor find(long id, String tableName) throws DatabaseRecordNotFoundException {
         Cursor cursor = db.rawQuery("SELECT * FROM " + tableName + " WHERE id = ? LIMIT 1", new String[]{String.valueOf(id)});
         if (cursor.getCount() == 0) {
             throw new DatabaseRecordNotFoundException("Record not found in database. UserId: " + id);
@@ -46,7 +46,7 @@ public abstract class SQLDAO {
      * @param values        which values to save
      * @return              returns the database rows ID
      */
-    public long save(DatabaseObject object, String tableName, ContentValues values) {
+    long save(DatabaseObject object, String tableName, ContentValues values) {
         // If we have an id on this object
         // Check if it exists in the database
 
@@ -55,7 +55,9 @@ public abstract class SQLDAO {
                 this.find(object.getId(), tableName);
                 update(object, values, tableName);
                 return object.getId();
-            } catch (DatabaseRecordNotFoundException e) {   }
+            } catch (DatabaseRecordNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         long newRowId = db.insert(tableName, " ", values);
@@ -76,7 +78,7 @@ public abstract class SQLDAO {
      * @param values        which values to update
      * @param tableName     which table to target
      */
-    public void update(DatabaseObject object, ContentValues values, String tableName) {
+    void update(DatabaseObject object, ContentValues values, String tableName) {
         String selection = "id LIKE ?";
         String[] selectionArgs = { String.valueOf(object.getId()) };
 
@@ -103,7 +105,7 @@ public abstract class SQLDAO {
      * @return              returns number of rows deleted
      * @throws              IllegalStateException
      */
-    public int delete(DatabaseObject object, String tableName) throws IllegalStateException {
+    int delete(DatabaseObject object, String tableName) throws IllegalStateException {
         if (object.getId() == 0) {
             throw new IllegalStateException("Core Entity cannot be deleted before it has been saved to the database");
         }
@@ -120,12 +122,8 @@ public abstract class SQLDAO {
      * @param searchString  which string to search for
      * @return              Cursor from database query
      */
-    public Cursor search(String tableName, String column, String searchString) {
+    Cursor search(String tableName, String column, String searchString) {
         return db.rawQuery("SELECT * FROM " + tableName + " WHERE " + column + " LIKE ?",
                 new String[]{searchString + "%"});
-    }
-    
-    public SQLiteDatabase getDatabase(){
-        return db;
     }
 }

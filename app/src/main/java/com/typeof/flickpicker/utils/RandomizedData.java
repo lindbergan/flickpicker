@@ -3,7 +3,6 @@ package com.typeof.flickpicker.utils;
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Friend;
-import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
@@ -11,14 +10,14 @@ import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 import java.util.Random;
 
-public class RandomizedData {
+class RandomizedData {
 
     private static MovieDAO mMovieDAO = App.getMovieDAO();
-    private static FriendDAO mFriendDAO = App.getFriendDAO();
+    private static final FriendDAO mFriendDAO = App.getFriendDAO();
     private static UserDAO mUserDAO = App.getUserDAO();
     private static RatingDAO mRatingDAO = App.getRatingDAO();
     private static PlaylistDAO mPlaylistDAO = App.getPlaylistDAO();
-    private static long currentUserId = App.getCurrentUser().getId();
+    private static final long currentUserId = App.getCurrentUser().getId();
 
     public static void randomizeData(int amount) {
 

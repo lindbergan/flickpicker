@@ -26,12 +26,11 @@ import java.util.Map;
  */
 public class OMDBParser extends AsyncTask<Void, Void, List<Movie>> {
 
-    private List<Movie> movies = new ArrayList<>();
+    private final List<Movie> movies = new ArrayList<>();
     private List<String> movieIds = new ArrayList<>();
-    private Context ctx;
-    public static final int numberOfMovies = 249;
-    private ProgressDialog mProgressDialog;
-    private MovieDAO mMovieDAO;
+    private final Context ctx;
+    private final ProgressDialog mProgressDialog;
+    private final MovieDAO mMovieDAO;
 
     public OMDBParser(Context ctx, MovieDAO movieDAO) {
         this.ctx = ctx;

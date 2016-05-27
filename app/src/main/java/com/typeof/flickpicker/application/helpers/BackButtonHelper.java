@@ -1,7 +1,5 @@
 package com.typeof.flickpicker.application.helpers;
 
-import android.support.v4.view.ViewPager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +10,8 @@ import java.util.List;
  */
 public class BackButtonHelper {
 
-    public static BackButtonHelper instance;
-    private List<Integer> mPreviousPositions = new ArrayList<>();
+    private static BackButtonHelper instance;
+    private final List<Integer> mPreviousPositions = new ArrayList<>();
     private BackButtonHelper() {}
 
     public static BackButtonHelper getInstance() {

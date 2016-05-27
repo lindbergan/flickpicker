@@ -1,7 +1,5 @@
 package com.typeof.flickpicker.database;
 
-import android.content.Context;
-
 /**
  * FlickPicker
  * Group 22

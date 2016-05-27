@@ -6,7 +6,7 @@ import android.util.Log;
  * ExecutionTimeLogger
  * Helper class for measuring execution times
  */
-public class ExecutionTimeLogger {
+class ExecutionTimeLogger {
     private long startNow;
     private long endNow;
 
@@ -14,7 +14,7 @@ public class ExecutionTimeLogger {
         startNow = android.os.SystemClock.uptimeMillis();
     }
 
-    public void stopTimer() {
+    private void stopTimer() {
         endNow = android.os.SystemClock.uptimeMillis();
     }
 
@@ -23,7 +23,7 @@ public class ExecutionTimeLogger {
         Log.d("EXECUTION TIME", "Execution time: " + getExecutionTime());
     }
 
-    public long getExecutionTime() {
+    private long getExecutionTime() {
         return endNow - startNow;
     }
 }

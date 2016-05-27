@@ -57,14 +57,8 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
 
     // Fields
 
-    private int desireSizeOfList = 1000;
+    private final int desireSizeOfList = 1000;
     private List<Movie> mWatchlist;
-    private List<Movie> mCollection;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -90,7 +84,7 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
     }
 
     private void populateData() {
-        mCollection = App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
+        List<Movie> collection = App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
 
         // Finds the current users watchlist
         mWatchlist = new ArrayList<>();
@@ -100,11 +94,11 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
                 mWatchlist.add(App.getMovieDAO().findMovie(i.intValue()));
             }
         }
-        populateCollection(listViewMyCollection, mCollection);
+        populateCollection(listViewMyCollection, collection);
         populateWatchlist(listViewMyWatchlist, mWatchlist);
     }
 
-    public void initViews(View view){
+    private void initViews(View view){
         listViewMyCollection = (ListView) view.findViewById(R.id.listViewMyCollection);
         listViewMyWatchlist = (ListView) view.findViewById(R.id.listViewMyPlaylist);
         mSearchViewCollection = (SearchView) view.findViewById(R.id.searchView);
@@ -113,7 +107,7 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
         hiddenWatchlistText = (TextView) view.findViewById(R.id.hiddenNoWatchlistText);
     }
 
-    public void configureTabs(View view){
+    private void configureTabs(View view){
         mTabHostMyCollection = (TabHost) view.findViewById(R.id.tabHostMyCollection);
         mTabHostMyCollection.setup();
 
@@ -137,7 +131,7 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
         });
     }
 
-    public void setActiveTabColor(){
+    private void setActiveTabColor(){
         mTabHostMyCollection.getTabWidget().getChildAt(mTabHostMyCollection.getCurrentTab()).getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.active_tab_collection_filter)
                 , PorterDuff.Mode.MULTIPLY);
     }
@@ -148,7 +142,7 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
      * Waits for the user to finish typing before searching for movies to minimize amount of searches
      */
 
-    public void setUpListeners(){
+    private void setUpListeners(){
 
         mSearchViewCollection.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -220,11 +214,11 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
 
     /**
      * Populate methods uses MovieAdapter that extends CustomAdapter
-     * @param listView
-     * @param movieList
+     * @param listView  ListView element
+     * @param movieList List of movies
      */
 
-    public void populateCollection(ListView listView, List<Movie> movieList){
+    private void populateCollection(ListView listView, List<Movie> movieList){
 
         ListAdapter adapter = new MovieAdapter(ctx,movieList.toArray());
 
@@ -237,7 +231,7 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
         listView.setAdapter(adapter);
     }
 
-    public void populateWatchlist(ListView listView, List<Movie> movieList){
+    private void populateWatchlist(ListView listView, List<Movie> movieList){
         ListAdapter adapter = new MovieAdapter(ctx,movieList.toArray());
 
         if (hiddenWatchlistText.getVisibility() == View.VISIBLE) hiddenWatchlistText.setVisibility(View.INVISIBLE);

@@ -1,15 +1,10 @@
 package com.typeof.flickpicker.application.helpers;
 
 import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.application.activities.MainActivity;
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
-
-import java.util.List;
 
 /**
  * RatingHelper

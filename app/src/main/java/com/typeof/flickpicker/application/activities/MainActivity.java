@@ -36,13 +36,12 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements PropertyChangeListener {
 
-    TabHost tabHost;
+    private TabHost tabHost;
 
     private ViewPager mViewPager;
-    public PagerAdapter mPagerAdapter;
     private static TextView mScore;
     private boolean useCustomBackButton = false;
-    Typeface mTypeface;
+    private Typeface mTypeface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
     }
 
 
-    public void initViewPager() {
+    private void initViewPager() {
         // instantiate viewpager
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
@@ -79,8 +78,8 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
         fragments.add(new MyProfileFragment());
         fragments.add(new SettingsFragment());
 
-        mPagerAdapter = new ViewPageAdapter(getSupportFragmentManager(), fragments);
-        mViewPager.setAdapter(mPagerAdapter);
+        PagerAdapter pagerAdapter = new ViewPageAdapter(getSupportFragmentManager(), fragments);
+        mViewPager.setAdapter(pagerAdapter);
         mViewPager.setOffscreenPageLimit(5);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -107,7 +106,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
 
     }
 
-    public void initHeader() {
+    private void initHeader() {
 
         TextView profile = (TextView) findViewById(R.id.myProfileIcon);
         mScore = (TextView) findViewById(R.id.userScore);
@@ -162,11 +161,11 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
         }
     }
 
-    public void setUseCustomBackButton(boolean bool) {
-        useCustomBackButton = bool;
+    public void setUseCustomBackButton() {
+        useCustomBackButton = true;
     }
 
-    public void configureTabs() {
+    private void configureTabs() {
 
         // TabHost footer
 
@@ -225,14 +224,14 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
         });
     }
 
-    public void changeColor(int position) {
+    private void changeColor(int position) {
         resetColor();
         // Sets the selected tabs color
         this.tabHost.getTabWidget().getChildTabViewAt(position).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.active_tab_color));
 
     }
 
-    public void resetColor() {
+    private void resetColor() {
         // Set all tabs to the primary color
         for (int i = 0; i < this.tabHost.getTabWidget().getChildCount(); i++) {
             this.tabHost.getTabWidget().getChildTabViewAt(i).setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.color_primary));
@@ -255,7 +254,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
      * @param iconId the Id for the TextView representing the icon for the new tab
      * @return tabSpec
      */
-    public TabHost.TabSpec createTabSpec(String tag, int viewId, int iconViewId, int iconId){
+    private TabHost.TabSpec createTabSpec(String tag, int viewId, int iconViewId, int iconId){
 
         TabHost.TabSpec tabSpec = tabHost.newTabSpec(tag);
         tabSpec.setContent(viewId);

@@ -9,7 +9,6 @@ import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.sql.CoreEntityFactory;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
@@ -24,7 +23,7 @@ import java.util.List;
  */
 public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
     public SQLPlaylistDAO(Context ctx) {
         super(ctx);
@@ -101,9 +100,9 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
 
     /**
-     * method for adding a moie to the user's playlist
-     * @param user
-     * @param movie
+     * method for adding a movie to the user's playlist
+     * @param user  Given user object
+     * @param movie Given movie object
      */
     @Override
     public void addMovieToPlaylist(User user, Movie movie){
@@ -125,8 +124,8 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
     /**
      * method for removing a movie from the user's playlist
-     * @param user
-     * @param movie
+     * @param user  Given user object
+     * @param movie Given movie object
      */
     public void removeMovieFromPlaylist(User user, Movie movie){
 
