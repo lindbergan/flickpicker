@@ -11,6 +11,7 @@ import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
+import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.CoreEntityFactory;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 import com.typeof.flickpicker.database.sql.tables.FriendTable;
@@ -248,4 +249,5 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
         c.close();
         return false;
     }
+
 }

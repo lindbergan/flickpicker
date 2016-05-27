@@ -32,22 +32,20 @@ public class RatingHelper {
     public static void createNewRating(double rating, long movieId, long userId){
         Rating newRating = new Rating(rating, movieId, userId);
 
-        //update the mismatch values in relation to users new rating
-        App.getFriendDAO().updateFriendMatches(newRating);
-
         RatingDAO ratingDAO = App.getRatingDAO();
         Rating existingRating = ratingDAO.getRatingObjectFromUser(userId, movieId);
 
         if(existingRating == null) {
             //set the user's score accordingly
             User currentUser = App.getCurrentUser();
-            int oldScore = currentUser.getScore();
-            int newScore = oldScore + 10;
-            currentUser.setScore(newScore);
+            currentUser.updateScore();
             UserDAO userDAO = App.getUserDAO();
             userDAO.saveUser(currentUser);
         }
 
         App.getRatingDAO().saveRating(newRating);
+
+        //update the mismatch values in relation to users new rating
+        App.getFriendDAO().updateFriendMatches(newRating);
     }
 }

@@ -1,6 +1,9 @@
 package com.typeof.flickpicker.core;
 
 
+import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.database.UserDAO;
+
 /**
  * User
  *
@@ -51,6 +54,10 @@ public class User implements DatabaseObject {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void updateScore() {
+        score = score + 10;
     }
 
     public void setPassword(String password) {
