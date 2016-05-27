@@ -18,6 +18,7 @@ import com.typeof.flickpicker.database.sql.DAO.SQLPlaylistDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLRatingDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLUserDAO;
 import com.typeof.flickpicker.utils.MetaData;
+import com.typeof.flickpicker.utils.MovieCacheHandler;
 
 /**
  * App
@@ -45,6 +46,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = getApplicationContext();
+
 
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(sContext, "database_type");

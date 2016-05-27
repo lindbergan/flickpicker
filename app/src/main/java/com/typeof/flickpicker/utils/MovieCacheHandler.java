@@ -11,12 +11,15 @@ import com.typeof.flickpicker.database.MovieDAO;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,16 +32,48 @@ public class MovieCacheHandler {
 
     public static void saveMoviesToDisk(Context ctx) {
         MovieDAO movieDAO = App.getMovieDAO();
-
+        String fileName = "movies.txt";
         List<Movie> movieList = movieDAO.getCommunityTopPicks(500);
 
+        int abc = movieList.size();
+
         try {
-            FileOutputStream fileOutputStream = ctx.openFileOutput("movies.txt", Context.MODE_PRIVATE);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            File file = new File(ctx.getFilesDir(), fileName);
+
+            if(!file.exists()) {
+                if (!file.createNewFile()) {
+                    throw new IOException("Cannot create file!");
+                }
+            }
+
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            ObjectOutputStream outputStream = new ObjectOutputStream(fileOutputStream);
+            outputStream.writeObject(movieList);
+            outputStream.close();
+
+        } catch (Exception ex){
+            ex.printStackTrace();
         }
+
+    }
+
+    public static void insertMoviesFromDisc(Context ctx) {
+        MovieDAO movieDAO = App.getMovieDAO();
+        List<Movie> movies = new ArrayList<>();
+
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(ctx.getAssets().open("movies.txt"));
+            movies = (List<Movie>)objectInputStream.readObject();
+            objectInputStream.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        for (Movie movie : movies) {
+            movieDAO.saveMovie(movie);
+        }
+
 
     }
 

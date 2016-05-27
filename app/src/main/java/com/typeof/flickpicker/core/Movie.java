@@ -1,6 +1,8 @@
 package com.typeof.flickpicker.core;
 
 
+import java.io.Serializable;
+
 /**
  * Movie
  *
@@ -8,7 +10,7 @@ package com.typeof.flickpicker.core;
  * The class holds information about the features of a movie, and what separates it from others.
  */
 
-public class Movie implements DatabaseObject {
+public class Movie implements DatabaseObject, Serializable {
 
     private long id = 0;
     private String title = "";
