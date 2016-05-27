@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".application.fragments.CollectionFragment"
+    tools:context=".application.fragments.MyCollectionFragment"
     android:background="@color/color_backdrop">
 
     <TabHost

@@ -38,11 +38,11 @@ import java.util.List;
  */
 
 /**
- * CollectionFragment extends Fragment
+ * MyCollectionFragment extends Fragment
  * Used for showing the user its rated movies
  */
 
-public class CollectionFragment extends Fragment implements PropertyChangeListener {
+public class MyCollectionFragment extends Fragment implements PropertyChangeListener {
 
     // Views
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.application.fragments.CollectionFragment;
+import com.typeof.flickpicker.application.fragments.MyCollectionFragment;
 import com.typeof.flickpicker.application.helpers.KeyboardHelper;
 import com.typeof.flickpicker.application.activities.MainActivity;
 import com.typeof.flickpicker.application.helpers.SingleFragmentHelper;
@@ -94,7 +94,7 @@ public class MovieAdapter extends CustomAdapter {
 
                 // Add Collection as listener to the Movie Detail Fragment
                 ViewPageAdapter viewPageAdapter = (ViewPageAdapter)mainActivity.getViewPager().getAdapter();
-                CollectionFragment collectionFragment = (CollectionFragment)viewPageAdapter.getFragmentByClass(CollectionFragment.class);
+                MyCollectionFragment collectionFragment = (MyCollectionFragment)viewPageAdapter.getFragmentByClass(MyCollectionFragment.class);
                 movieDetailFragment.addObserver(collectionFragment);
 
                 // Add main activity as observer to the Movie Detail Fragment

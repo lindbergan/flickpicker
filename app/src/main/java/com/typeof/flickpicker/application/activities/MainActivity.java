@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.application.adapters.ViewPageAdapter;
-import com.typeof.flickpicker.application.fragments.CollectionFragment;
+import com.typeof.flickpicker.application.fragments.MyCollectionFragment;
 import com.typeof.flickpicker.application.fragments.CommunityFragment;
 import com.typeof.flickpicker.application.fragments.FriendsFragment;
 import com.typeof.flickpicker.application.fragments.MyProfileFragment;
@@ -74,7 +74,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
         fragments.add(new RecommendationsFragment());
         fragments.add(new CommunityFragment());
         fragments.add(new FriendsFragment());
-        fragments.add(new CollectionFragment());
+        fragments.add(new MyCollectionFragment());
         fragments.add(new SearchFragment());
         fragments.add(new MyProfileFragment());
         fragments.add(new SettingsFragment());
