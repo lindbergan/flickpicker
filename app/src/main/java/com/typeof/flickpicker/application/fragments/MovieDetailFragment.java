@@ -21,6 +21,7 @@ import com.typeof.flickpicker.application.helpers.DataObservable;
 import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 
@@ -47,6 +48,8 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     private ToggleButton mAddToWatchListButton;
     private RatingBar mRatingBar;
     private Button mRateButton;
+    private User mUser;
+    private PlaylistDAO mPlaylistDAO;
     final private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     private MovieDAO mMovieDAO = App.getMovieDAO();
@@ -60,6 +63,8 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
         Bundle bundle = getArguments();
         movieId = bundle.getLong("movieId");
         mMovie = App.getMovieDAO().findMovie(movieId);
+        mPlaylistDAO = App.getPlaylistDAO();
+        mUser = App.getCurrentUser();
     }
 
 
@@ -142,7 +147,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
         mAddToWatchListButton.setTextOff("+");
         mAddToWatchListButton.setTextOn("-");
 
-        if (isMovieOnPlaylist()) {
+        if (mPlaylistDAO.isMovieOnPlaylist(mUser, mMovie)) {
             mAddToWatchListButton.setChecked(true);
             mMovieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
         }else{
@@ -175,6 +180,8 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      */
     public void initListeners() {
 
+
+
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -186,9 +193,8 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
             @Override
             public void onClick(View v) {
 
-
                 //if mMovie is on playlist it is removed
-                if (isMovieOnPlaylist()) {
+                if (mPlaylistDAO.isMovieOnPlaylist(mUser, mMovie)) {
                     App.getPlaylistDAO().removeMovieFromPlaylist(App.getCurrentUser(), mMovie);
                     mAddToWatchListButton.setChecked(false);
                 }
@@ -207,7 +213,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
 
                 PlaylistDAO playlistDAO = App.getPlaylistDAO();
 
-                if (isChecked && !isMovieOnPlaylist()) {
+                if (isChecked && !mPlaylistDAO.isMovieOnPlaylist(mUser,mMovie)) {
                     playlistDAO.addMovieToPlaylist((App.getCurrentUser()), mMovie);
                     setAddToWatchListLabel();
                 } else {
@@ -238,31 +244,6 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
         return false;
     }
 
-
-
-    /**
-     * method that checks if mMovie is on the user's playlist or not
-     * @return isOnWatchList true if mMovie can be found on the user's playlist
-     */
-    public boolean isMovieOnPlaylist() {
-
-        PlaylistDAO playlistDAO = App.getPlaylistDAO();
-        Playlist playlist = playlistDAO.getUserPlaylist(App.getCurrentUser().getId());
-        List<Number> movies = playlist.getMovieIds();
-
-        boolean isOnWatchList = false;
-
-        for (Number movie : movies){
-            long id = movie.longValue();
-            if(id == movieId){
-                isOnWatchList = true;
-                break;
-            }
-        }
-        return isOnWatchList;
-    }
-
-
     /**
      * method that sets 'add to watchlist' label to specific string depending on the
      * toggle button's state
@@ -274,7 +255,6 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
             mMovieDetailAddToPlaylistLabel.setText(R.string.add_movie_to_playlist);
         }
     }
-
 
 
     /**

@@ -9,12 +9,14 @@ import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Playlist;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.sql.CoreEntityFactory;
 import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SQLPlaylistDAO
@@ -138,7 +140,28 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
             }
         playlist.remove(movieId);
         savePlaylist(playlist);
+    }
+
+    /**
+     * Checks whether or not a movie is on a users playlist
+     *
+     * @param user  User object
+     * @param movie Movie object
+     * @return      boolean
+     */
+    @Override
+    public boolean isMovieOnPlaylist(User user, Movie movie) {
+        Playlist playlist = getUserPlaylist(user.getId());
+        List<Number> movieIds = playlist.getMovieIds();
+        boolean isOnWatchList = false;
+
+        for (int i = 0; i < movieIds.size(); i++) {
+            if (Integer.valueOf((int)movie.getId()).equals(movieIds.get(i))) {
+                isOnWatchList = true;
+            }
         }
 
+        return isOnWatchList;
     }
+}
 
