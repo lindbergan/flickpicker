@@ -2,6 +2,7 @@ package com.typeof.flickpicker.utils;
 
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.helpers.RatingHelper;
+import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
@@ -28,6 +29,7 @@ public class RandomizedData {
             int movieR = 1 + r.nextInt(248);
             int ratingR = 1 + r.nextInt(5);
             RatingHelper.createNewRating(ratingR, movieR, userR);
+            mFriendDAO.addFriend(new Friend(currentUserId, userR));
             if (ratingR < 4) {
                 RatingHelper.createNewRating(1 + r.nextInt(5), movieR, currentUserId);
             }
