@@ -3,12 +3,15 @@ package com.typeof.flickpicker.database.sql.DAO;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.User;
+import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.CoreEntityFactory;
+import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 import com.typeof.flickpicker.database.sql.tables.UserTable;
 
 import java.util.ArrayList;
@@ -20,9 +23,11 @@ import java.util.List;
  * Created on 16-04-20.
  */
 public class SQLUserDAO extends SQLDAO implements UserDAO {
-
+    private final SQLiteDatabase db;
     public SQLUserDAO(Context ctx) {
         super(ctx);
+        SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
+        db = dbhelper.getWritableDatabase();
     }
 
     /**
@@ -91,5 +96,25 @@ public class SQLUserDAO extends SQLDAO implements UserDAO {
     public int deleteUser(User user) {
 
         return super.delete(user, UserTable.UserEntry.TABLE_NAME);
+    }
+
+    /**
+     * Returns all users from the database
+     *
+     * @return List of users
+     */
+    @Override
+    public List<User> getAllUsers() {
+        List<User> allUsers = new ArrayList<>();
+        String query = "SELECT * FROM " + UserTable.UserEntry.TABLE_NAME;
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
+
+        do {
+            User newUser = CoreEntityFactory.createUserFromCursor(c);
+            allUsers.add(newUser);
+        } while (c.moveToNext());
+
+        return allUsers;
     }
 }

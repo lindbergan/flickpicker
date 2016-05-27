@@ -31,11 +31,9 @@ public class MovieCacheHandler {
 
 
     public static void saveMoviesToDisk(Context ctx) {
-        MovieDAO movieDAO = App.getMovieDAO();
         String fileName = "movies.txt";
+        MovieDAO movieDAO = App.getMovieDAO();
         List<Movie> movieList = movieDAO.getCommunityTopPicks(500);
-
-        int abc = movieList.size();
 
         try {
             File file = new File(ctx.getFilesDir(), fileName);

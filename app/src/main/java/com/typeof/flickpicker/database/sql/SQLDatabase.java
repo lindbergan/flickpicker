@@ -15,6 +15,7 @@ import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
 import com.typeof.flickpicker.database.sql.tables.RatingTable;
 import com.typeof.flickpicker.database.sql.tables.SQLTable;
 import com.typeof.flickpicker.database.sql.tables.UserTable;
+import com.typeof.flickpicker.utils.MovieCacheHandler;
 
 /**
  * SQLDatabase
@@ -23,10 +24,12 @@ import com.typeof.flickpicker.database.sql.tables.UserTable;
 public class SQLDatabase implements Database {
 
     private final SQLiteDatabase db;
+    private final Context ctx;
 
     public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         this.db = mDbHelper.getWritableDatabase();
+        this.ctx = ctx;
     }
 
     @Override
@@ -96,6 +99,8 @@ public class SQLDatabase implements Database {
         userDAO.saveUser(u9);
         userDAO.saveUser(u10);
         userDAO.saveUser(u11);
+
+        MovieCacheHandler.insertMoviesFromDisc(ctx);
     }
 
     /**

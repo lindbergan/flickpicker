@@ -108,4 +108,27 @@ public class UserDAOTest extends BaseTest {
         int numberOfUsersDeleted = mUserDao.deleteUser(foundUser);
         assertEquals(1, numberOfUsersDeleted);
     }
+
+    /**
+     * Tests method for getting all the users from the database.
+     * Creates a couple of users
+     * Runs getAllUsers method
+     * Asserts the size of added users should be equal to return value of getAllUsers
+     *
+     * @throws Exception
+     */
+    public void testGetAllUsers() throws Exception{
+
+        User u1 = new User("user1", "test");
+        User u2 = new User("user2", "test");
+        User u3 = new User("user3", "test");
+
+        mUserDao.saveUser(u1);
+        mUserDao.saveUser(u2);
+        mUserDao.saveUser(u3);
+
+        List<User> allUsers = mUserDao.getAllUsers();
+
+        assertEquals(3, allUsers.size());
+    }
 }
