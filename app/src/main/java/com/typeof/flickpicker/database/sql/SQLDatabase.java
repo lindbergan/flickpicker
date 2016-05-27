@@ -96,7 +96,6 @@ public class SQLDatabase implements Database {
         userDAO.saveUser(u9);
         userDAO.saveUser(u10);
         userDAO.saveUser(u11);
-
     }
 
     /**
