@@ -40,7 +40,7 @@ public class UserAdapter extends CustomAdapter {
     public View getView(int position, View view, ViewGroup parent) {
 
         final User user = (User) getItem(position);
-        boolean isFriend = App.getFriendDAO().isFriend(user.getId());
+        boolean isFriend = App.getFriendDAO().isFriend(App.getCurrentUser().getId(), user.getId());
         final ViewHolder viewHolder;
 
         if (view == null) {

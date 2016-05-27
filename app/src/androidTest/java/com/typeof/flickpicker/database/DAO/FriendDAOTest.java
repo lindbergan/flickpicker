@@ -216,15 +216,16 @@ public class FriendDAOTest extends BaseTest {
     /**
      * Tests isFriend()
      *
-     * Creates a random users
-     * Adds that user as a friend to main user
+     * Creates two random users
+     * Adds one user as a friend to the other user
      * Asserts that the relation has been added to the database
      * @throws Exception
      */
     public void testIsFriend() throws Exception {
-        User u = new User("testFriend", "testPassword");
-        long friendId = mUserDAO.saveUser(u);
-        mFriendDAO.addFriend(new Friend(App.getCurrentUser().getId(), friendId));
-        assertTrue(mFriendDAO.isFriend(u.getId()));
+        long currentUserId = mUserDAO.saveUser(new User("CurrentUser", "password"));
+        long friendId = mUserDAO.saveUser(new User("FriendOfCurrentUser", "password"));
+
+        mFriendDAO.addFriend(new Friend(currentUserId,friendId));
+        assertTrue(mFriendDAO.isFriend(currentUserId,friendId));
     }
 }

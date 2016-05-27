@@ -8,10 +8,11 @@ import com.typeof.flickpicker.database.sql.tables.UserTable;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-04-19.
+ * UserDAOTest
+ *
+ * A test class for testing the implementation of the UserDAO interface methods.
  */
+
 public class UserDAOTest extends BaseTest {
 
     private UserDAO mUserDao;

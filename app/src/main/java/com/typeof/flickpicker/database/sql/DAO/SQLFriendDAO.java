@@ -52,7 +52,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
             values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getMismatch());
             values.put(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN, f.getNmbrOfMoviesBothSeen());
 
-            if (!isFriend(f.getGetUserIdTwo())) {
+            if (!isFriend(f.getUserIdOne(),f.getGetUserIdTwo())) {
                 return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
             }
             super.update(f, values, FriendTable.FriendEntry.TABLE_NAME);
@@ -241,13 +241,18 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
      * @param user2Id   Other users id
      * @return          boolean
      */
-    public boolean isFriend(long user2Id) {
+    public boolean isFriend(long user1Id, long user2Id) {
+
         String query = "SELECT * FROM " + FriendTable.FriendEntry.TABLE_NAME + " WHERE " + FriendTable.FriendEntry.COLUMN_NAME_USER1ID
                 + " = ? AND " + FriendTable.FriendEntry.COLUMN_NAME_USER2ID + " = ?";
-        long currentUserId = App.getCurrentUser().getId();
-        Cursor c = db.rawQuery(query, new String[]{String.valueOf(currentUserId), String.valueOf(user2Id)});
+
+        Cursor c = db.rawQuery(query, new String[]{String.valueOf(user1Id), String.valueOf(user2Id)});
         c.moveToFirst();
-        if (c.getCount() == 1) return true;
+
+        if (c.getCount() == 1) {
+            c.close();
+            return true;
+        }
         c.close();
         return false;
     }
