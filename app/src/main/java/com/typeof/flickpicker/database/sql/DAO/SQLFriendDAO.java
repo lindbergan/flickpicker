@@ -30,13 +30,11 @@ import java.util.List;
 public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
     private SQLiteDatabase db;
-    private SQLMovieDAO mMovieDAO;
 
     public SQLFriendDAO(Context ctx) {
         super(ctx);
         SQLiteDatabaseHelper dbhelper = SQLiteDatabaseHelper.getInstance(ctx);
         db = dbhelper.getWritableDatabase();
-        mMovieDAO = new SQLMovieDAO(ctx);
     }
 
     /**
@@ -49,12 +47,18 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
     @Override
     public long addFriend(Friend f) {
-        ContentValues values = new ContentValues();
-        values.put(FriendTable.FriendEntry.COLUMN_NAME_USER1ID, f.getUserIdOne());
-        values.put(FriendTable.FriendEntry.COLUMN_NAME_USER2ID, f.getGetUserIdTwo());
-        values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getMismatch());
-        values.put(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN, f.getNmbrOfMoviesBothSeen());
-        return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
+        if (f.getGetUserIdTwo() != App.getCurrentUser().getId()) {
+            ContentValues values = new ContentValues();
+            values.put(FriendTable.FriendEntry.COLUMN_NAME_USER1ID, f.getUserIdOne());
+            values.put(FriendTable.FriendEntry.COLUMN_NAME_USER2ID, f.getGetUserIdTwo());
+            values.put(FriendTable.FriendEntry.COLUMN_NAME_DISMATCH, f.getMismatch());
+            values.put(FriendTable.FriendEntry.COLUMN_NAME_NUMBER_OF_MOVIES_BOTH_SEEN, f.getNmbrOfMoviesBothSeen());
+            if (!isFriend(f.getGetUserIdTwo())) {
+                return super.save(f, FriendTable.FriendEntry.TABLE_NAME, values);
+            }
+            super.update(f, values, FriendTable.FriendEntry.TABLE_NAME);
+        }
+        return f.getId();
     }
 
     /**
@@ -176,7 +180,6 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
 
                 if (c.getCount() != 0) {
                     c.moveToFirst();
-                    String[] columnNames = c.getColumnNames();
                     nmbrOfMovieBothSeen = c.getCount();
                     totalMismatch = calculateNewMismatchValue(c);
                     c.close();
