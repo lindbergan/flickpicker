@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-26.
+ * BackButtonHelper keeps track of the current fragments position in the ViewPager
  */
 public class BackButtonHelper {
 

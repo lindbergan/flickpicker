@@ -30,13 +30,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * FlickPicker
- * Group 22
- * Created on 2016-05-05.
- */
-
 /**
  * MyCollectionFragment extends Fragment
  * Used for showing the user its rated movies

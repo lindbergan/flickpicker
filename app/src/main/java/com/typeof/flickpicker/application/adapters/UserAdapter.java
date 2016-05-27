@@ -13,12 +13,6 @@ import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 2016-05-10.
- */
-
-/**
  * UserAdapter extends CustomAdapter
  * Used for displaying users
  */

@@ -34,6 +34,9 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * MainActivity is the
+ */
 public class MainActivity extends FragmentActivity implements PropertyChangeListener {
 
     private TabHost tabHost;
