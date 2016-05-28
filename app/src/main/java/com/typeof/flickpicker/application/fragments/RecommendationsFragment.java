@@ -73,7 +73,7 @@ public class RecommendationsFragment extends Fragment implements PropertyChangeL
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        if (event.getPropertyName().equals("randomize_data")) {
+        if (event.getPropertyName().equals("randomize_data") || event.getPropertyName().equals("ratings_changed")) {
             populateListView();
         }
     }
