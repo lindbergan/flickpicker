@@ -2,6 +2,7 @@ package com.typeof.flickpicker.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.squareup.picasso.Picasso;
@@ -27,8 +28,15 @@ import java.util.List;
  * Group 22
  * Created on 16-05-27.
  */
-public class MovieCacheHandler {
+public class MovieCacheHandler extends AsyncTask<Void, Void, Void> {
 
+    private final Context ctx;
+    private final OnTaskCompleted mOnTaskCompleted;
+
+    public MovieCacheHandler(Context context, OnTaskCompleted onTaskCompleted) {
+        ctx = context;
+        mOnTaskCompleted = onTaskCompleted;
+    }
 
     public static void saveMoviesToDisk(Context ctx) {
         String fileName = "movies.txt";
@@ -55,7 +63,7 @@ public class MovieCacheHandler {
 
     }
 
-    public static void insertMoviesFromDisc(Context ctx) {
+    private void insertMoviesFromDisc(Context ctx) {
         MovieDAO movieDAO = App.getMovieDAO();
         List<Movie> movies = new ArrayList<>();
 
@@ -69,11 +77,21 @@ public class MovieCacheHandler {
         }
 
         for (Movie movie : movies) {
+            movie.setId(0); // we need to reset the movie's id
             movieDAO.saveMovie(movie);
         }
 
-
     }
 
+    @Override
+    protected Void doInBackground(Void... params) {
+        insertMoviesFromDisc(ctx);
+        return null;
+    }
 
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        mOnTaskCompleted.onTaskCompleted();
+    }
 }

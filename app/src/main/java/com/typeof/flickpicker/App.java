@@ -47,7 +47,6 @@ public class App extends Application {
         super.onCreate();
         sContext = getApplicationContext();
 
-
         // Fetch the database type from the AndroidManifest.xml file
         databaseType = MetaData.getMetaData(sContext, "database_type");
         initDatabase();
@@ -56,9 +55,11 @@ public class App extends Application {
 
         if(!sDatabase.hasBeenCreated()) {
             createDatabase();
+            refreshCurrentUser();
+            sDatabase.seedDatabase();
+        } else {
+            refreshCurrentUser();
         }
-
-        refreshCurrentUser();
 
     }
 

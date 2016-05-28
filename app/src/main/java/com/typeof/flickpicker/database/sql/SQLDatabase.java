@@ -6,8 +6,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
+import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.tables.FriendTable;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;
@@ -15,13 +17,17 @@ import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
 import com.typeof.flickpicker.database.sql.tables.RatingTable;
 import com.typeof.flickpicker.database.sql.tables.SQLTable;
 import com.typeof.flickpicker.database.sql.tables.UserTable;
+import com.typeof.flickpicker.utils.DataRandomizer;
 import com.typeof.flickpicker.utils.MovieCacheHandler;
+import com.typeof.flickpicker.utils.OMDBParser;
+import com.typeof.flickpicker.utils.OnTaskCompleted;
+import com.typeof.flickpicker.utils.RandomizedData;
 
 /**
  * SQLDatabase
  * Creates, Deletes and Seeds the database
  */
-public class SQLDatabase implements Database {
+public class SQLDatabase implements Database, OnTaskCompleted {
 
     private final SQLiteDatabase db;
     private final Context ctx;
@@ -100,7 +106,16 @@ public class SQLDatabase implements Database {
         userDAO.saveUser(u10);
         userDAO.saveUser(u11);
 
-        MovieCacheHandler.insertMoviesFromDisc(ctx);
+        // Add a couple of friends as standard
+        FriendDAO friendDAO = App.getFriendDAO();
+
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u1.getId()));
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u2.getId()));
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u3.getId()));
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u4.getId()));
+
+        MovieCacheHandler movieCacheHandler = new MovieCacheHandler(ctx, this);
+        movieCacheHandler.execute();
     }
 
     /**
@@ -132,4 +147,8 @@ public class SQLDatabase implements Database {
         return created;
     }
 
+    @Override
+    public void onTaskCompleted() {
+        RandomizedData.createRandomizedData();
+    }
 }
