@@ -33,7 +33,7 @@ import java.util.List;
  * Used for showing a detailed view of a mMovie
  */
 
-public class MovieDetailFragment extends Fragment implements DataObservable {
+public class MovieDetailFragment extends Fragment {
 
     private ImageView mMovieImage;
     private TextView mMovieTitle;
@@ -200,8 +200,8 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
 
                 RatingHelper.createNewRating(mRatingBar.getRating(), movieId, App.getCurrentUser().getId());
 
-                pcs.firePropertyChange("ratingsChanged", true, false);
 
+                App.getEventBus().triggerEvent("ratings_changed");
                 setRateButtonInactive();
             }
         });
@@ -220,7 +220,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
                     setAddToWatchListLabel();
                 }
 
-                pcs.firePropertyChange("playlistChanged", true, false);
+                App.getEventBus().triggerEvent("playlist_changed");
 
             }
         });
@@ -284,11 +284,6 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     private double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
-    }
-
-    @Override
-    public void addObserver(PropertyChangeListener observer) {
-        pcs.addPropertyChangeListener(observer);
     }
 
 }

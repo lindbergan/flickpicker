@@ -52,6 +52,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        App.getEventBus().addObserver(this);
 
         initViewPager();
 
@@ -78,6 +79,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
             RandomizedData randomizedData = new RandomizedData(this);
             randomizedData.execute();
         }
+
 
     }
 
@@ -300,7 +302,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        if (event.getPropertyName().equals("ratingsChanged")) {
+        if (event.getPropertyName().equals("ratings_changed")) {
             updateScore();
         }
     }

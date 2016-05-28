@@ -42,5 +42,7 @@ public class RatingHelper {
 
         //update the mismatch values in relation to users new rating
         App.getFriendDAO().updateFriendMatches(userId);
+
+        App.getEventBus().triggerEvent("rating_created");
     }
 }

@@ -122,9 +122,8 @@ public class FriendsFragment extends Fragment implements PropertyChangeListener 
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        if (event.getPropertyName().equals("randomize_data")) {
+        if (event.getPropertyName().equals("randomize_data") || event.getPropertyName().equals("ratings_changed")) {
             getFriendsRecentActivities();
-            initAdapters();
             updateRecentActivities();
         }
     }

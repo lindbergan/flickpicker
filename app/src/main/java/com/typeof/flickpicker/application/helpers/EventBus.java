@@ -4,9 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 16-05-28.
+ * Event Manager that adds observers and lets the rest of the app use it to signal
+ * the observers that a state has changed.
  */
 public class EventBus implements DataObservable {
 

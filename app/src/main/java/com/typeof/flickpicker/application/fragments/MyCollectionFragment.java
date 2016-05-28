@@ -238,6 +238,8 @@ public class MyCollectionFragment extends Fragment implements PropertyChangeList
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        populateData();
+        if (event.getPropertyName().equals("playlist_changed") || event.getPropertyName().equals("ratings_changed")) {
+            populateData();
+        }
     }
 }
