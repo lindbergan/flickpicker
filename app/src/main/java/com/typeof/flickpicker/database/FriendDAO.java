@@ -16,7 +16,7 @@ public interface FriendDAO {
     List<User> getFriendsFromUserId(long id);
     long removeFriend(long userId1, long userId2);
     List<Rating> getFriendsLatestActivities(long userId);
-    void updateFriendMatches(Rating rating);
+    void updateFriendMatches(long userId);
     Friend getFriendRelation(long userId1, long userId2);
     boolean isFriend(long user1Id, long user2Id);
 }

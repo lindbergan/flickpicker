@@ -10,6 +10,8 @@ import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;
+import com.typeof.flickpicker.database.MovieDAO;
+import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.tables.FriendTable;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;
@@ -27,7 +29,7 @@ import com.typeof.flickpicker.utils.RandomizedData;
  * SQLDatabase
  * Creates, Deletes and Seeds the database
  */
-public class SQLDatabase implements Database, OnTaskCompleted {
+public class SQLDatabase implements Database {
 
     private final SQLiteDatabase db;
     private final Context ctx;
@@ -114,8 +116,16 @@ public class SQLDatabase implements Database, OnTaskCompleted {
         friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u3.getId()));
         friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u4.getId()));
 
-        MovieCacheHandler movieCacheHandler = new MovieCacheHandler(ctx, this);
-        movieCacheHandler.execute();
+    }
+
+    public boolean hasBeenSeeded() {
+        MovieDAO movieDAO = App.getMovieDAO();
+
+        if (movieDAO.getCommunityTopPicks(100).size() < 100) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -145,10 +155,5 @@ public class SQLDatabase implements Database, OnTaskCompleted {
         c.close();
 
         return created;
-    }
-
-    @Override
-    public void onTaskCompleted() {
-        RandomizedData.createRandomizedData();
     }
 }

@@ -153,26 +153,25 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
      * the friend and the user rates movies. A lower mismatch value gives the friend a higher
      * priority when movies are recommended to the user.
      *
-     * @param rating - Rating
+     * @param userId - Given user ID
      */
     @Override
-    public void updateFriendMatches(Rating rating){
+    public void updateFriendMatches(long userId){
 
-        long currentUserId = rating.getUserId();
-        List<User> usersFriends = getFriendsFromUserId(currentUserId);
+        List<User> usersFriends = getFriendsFromUserId(userId);
 
         for (int i = 0; i<usersFriends.size(); i++) {
 
             //check all friends
             User currentFriend = usersFriends.get(i);
-            Friend currentFriendShip = getFriendRelation(currentUserId, currentFriend.getId());
+            Friend currentFriendShip = getFriendRelation(userId, currentFriend.getId());
             double totalMismatch = 0; //default
             int nmbrOfMovieBothSeen = 0; //default
             long currentFriendsId = usersFriends.get(i).getId();
 
                 //compare to user's movies
                 String query = "SELECT firstTable.movieId AS MOVIE_ID, firstTable.userId AS USER, firstTable.rating USER_RATING, secondTable.userId AS FRIEND, secondTable.rating AS FRIEND_RATING " +
-                        "FROM ratings firstTable INNER JOIN ratings secondTable ON firstTable.userId LIKE " + currentUserId + " AND secondTable.userId like " + currentFriendsId + " AND " +
+                        "FROM ratings firstTable INNER JOIN ratings secondTable ON firstTable.userId LIKE " + userId + " AND secondTable.userId like " + currentFriendsId + " AND " +
                         "firstTable.movieId like secondTable.movieId";
 
                 Cursor c = db.rawQuery(query, null);
@@ -181,7 +180,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
                     c.moveToFirst();
                     nmbrOfMovieBothSeen = c.getCount();
                     totalMismatch = calculateNewMismatchValue(c);
-                    c.close();
+                        c.close();
                 }
 
             //set the updated values to the friendRelation && save it
@@ -192,6 +191,7 @@ public class SQLFriendDAO extends SQLDAO implements FriendDAO {
             addFriend(currentFriendShip);
         }
     }
+
 
     /**
      * Calculates the new total mismatch value based on the two users' ratings

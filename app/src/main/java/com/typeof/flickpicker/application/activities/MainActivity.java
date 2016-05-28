@@ -28,6 +28,8 @@ import com.typeof.flickpicker.application.fragments.RecommendationsFragment;
 import com.typeof.flickpicker.application.fragments.SearchFragment;
 import com.typeof.flickpicker.application.fragments.SettingsFragment;
 import com.typeof.flickpicker.application.helpers.BackButtonHelper;
+import com.typeof.flickpicker.utils.MovieCacheHandler;
+import com.typeof.flickpicker.utils.RandomizedData;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -50,6 +52,7 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         initViewPager();
 
         tabHost = (TabHost) findViewById(R.id.tabHost);
@@ -65,18 +68,38 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
         this.getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING
         );
-    }
 
+        // Check if the database has been seeded
+        if (!App.getDatabase().hasBeenSeeded()) {
+            // If not, then we seed it
+            MovieCacheHandler movieCacheHandler = new MovieCacheHandler(this);
+            movieCacheHandler.execute();
+
+            RandomizedData randomizedData = new RandomizedData(this);
+            randomizedData.execute();
+        }
+
+    }
 
     private void initViewPager() {
         // instantiate viewpager
         mViewPager = (ViewPager) findViewById(R.id.pager);
 
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new RecommendationsFragment());
-        fragments.add(new CommunityFragment());
-        fragments.add(new FriendsFragment());
-        fragments.add(new MyCollectionFragment());
+        RecommendationsFragment recommendationsFragment = new RecommendationsFragment();
+        FriendsFragment friendsFragment = new FriendsFragment();
+        CommunityFragment communityFragment = new CommunityFragment();
+        MyCollectionFragment myCollectionFragment = new MyCollectionFragment();
+
+        App.getEventBus().addObserver(recommendationsFragment);
+        App.getEventBus().addObserver(friendsFragment);
+        App.getEventBus().addObserver(communityFragment);
+        App.getEventBus().addObserver(myCollectionFragment);
+
+        fragments.add(recommendationsFragment);
+        fragments.add(communityFragment);
+        fragments.add(friendsFragment);
+        fragments.add(myCollectionFragment);
         fragments.add(new SearchFragment());
         fragments.add(new MyProfileFragment());
         fragments.add(new SettingsFragment());

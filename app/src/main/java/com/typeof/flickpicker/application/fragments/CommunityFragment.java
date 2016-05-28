@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.application.fragments;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,9 @@ import com.typeof.flickpicker.application.activities.MainActivity;
 import com.typeof.flickpicker.application.adapters.MovieAdapter;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.database.MovieDAO;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -33,7 +37,7 @@ import java.util.List;
  * A controller class for the community view
  */
 
-public class CommunityFragment extends Fragment {
+public class CommunityFragment extends Fragment implements PropertyChangeListener {
 
     private final int desiredSizeOfList = 10;
     private MovieDAO mMovieDAO;
@@ -122,7 +126,7 @@ public class CommunityFragment extends Fragment {
     }
 
     private void setTopMoviesAsCurrentView(){
-        List <Movie> topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
+        List<Movie>topMoviesAllTime = mMovieDAO.getCommunityTopPicks(desiredSizeOfList);
         populateListView(listViewTopMovies, topMoviesAllTime);
     }
     private void setWorstMoviesAsCurrentView(){
@@ -222,7 +226,12 @@ public class CommunityFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals("randomize_data")) {
+            setTopMoviesAsCurrentView();
+        }
+    }
 }
 
 

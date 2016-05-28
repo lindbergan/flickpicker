@@ -41,6 +41,6 @@ public class RatingHelper {
         App.getRatingDAO().saveRating(newRating);
 
         //update the mismatch values in relation to users new rating
-        App.getFriendDAO().updateFriendMatches(newRating);
+        App.getFriendDAO().updateFriendMatches(userId);
     }
 }

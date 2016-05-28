@@ -10,4 +10,5 @@ public interface Database {
     void dropTables();
     void seedDatabase();
     boolean hasBeenCreated();
+    boolean hasBeenSeeded();
 }

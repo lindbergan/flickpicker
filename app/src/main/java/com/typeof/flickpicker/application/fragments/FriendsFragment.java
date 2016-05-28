@@ -17,6 +17,9 @@ import com.typeof.flickpicker.application.adapters.FriendsActivityAdapter;
 import com.typeof.flickpicker.application.helpers.KeyboardHelper;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +28,7 @@ import java.util.List;
  * Used for showing friends recent activity
  */
 
-public class FriendsFragment extends Fragment {
+public class FriendsFragment extends Fragment implements PropertyChangeListener {
 
     // Fields
 
@@ -117,4 +120,12 @@ public class FriendsFragment extends Fragment {
         });
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals("randomize_data")) {
+            getFriendsRecentActivities();
+            initAdapters();
+            updateRecentActivities();
+        }
+    }
 }

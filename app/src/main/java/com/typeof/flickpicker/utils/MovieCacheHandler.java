@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.utils;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
@@ -31,7 +32,20 @@ import java.util.List;
 public class MovieCacheHandler extends AsyncTask<Void, Void, Void> {
 
     private final Context ctx;
-    private final OnTaskCompleted mOnTaskCompleted;
+    private OnTaskCompleted mOnTaskCompleted;
+    private ProgressDialog mProgressDialog;
+
+    public MovieCacheHandler(Context context) {
+        ctx = context;
+        mProgressDialog = new ProgressDialog(context);
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressDialog.setMessage("Seeding database... hold on!");
+        mProgressDialog.show();
+    }
 
     public MovieCacheHandler(Context context, OnTaskCompleted onTaskCompleted) {
         ctx = context;
@@ -63,7 +77,7 @@ public class MovieCacheHandler extends AsyncTask<Void, Void, Void> {
 
     }
 
-    private void insertMoviesFromDisc(Context ctx) {
+    public void insertMoviesFromDisc() {
         MovieDAO movieDAO = App.getMovieDAO();
         List<Movie> movies = new ArrayList<>();
 
@@ -85,13 +99,16 @@ public class MovieCacheHandler extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        insertMoviesFromDisc(ctx);
+        insertMoviesFromDisc();
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        mOnTaskCompleted.onTaskCompleted();
+        mProgressDialog.hide();
+        if (mOnTaskCompleted != null) {
+            mOnTaskCompleted.onTaskCompleted();
+        }
     }
 }

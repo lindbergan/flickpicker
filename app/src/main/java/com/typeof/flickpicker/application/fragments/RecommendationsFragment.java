@@ -15,6 +15,9 @@ import com.typeof.flickpicker.application.adapters.MovieAdapter;
 import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.utils.MovieAlgorithm;
 import com.typeof.flickpicker.core.User;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
 
@@ -24,7 +27,7 @@ import java.util.List;
  * A controller class for the recommendation view
  */
 
-public class RecommendationsFragment extends Fragment {
+public class RecommendationsFragment extends Fragment implements PropertyChangeListener {
 
     private ListView mListViewFeed;
 
@@ -57,7 +60,13 @@ public class RecommendationsFragment extends Fragment {
 
     //A method that uses MovieAlgorithm helper class to return a list of recommended movies for the user
     private List<Movie> getRecommendations(User user){
-
         return MovieAlgorithm.getRecommendations(user);
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals("randomize_data")) {
+            populateListView();
+        }
     }
 }
