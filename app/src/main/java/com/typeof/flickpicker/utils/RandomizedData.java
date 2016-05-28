@@ -75,7 +75,6 @@ public class RandomizedData extends AsyncTask<Void, Void, Void> {
         mProgressDialog.hide();
         FriendDAO friendDAO = App.getFriendDAO();
         friendDAO.updateFriendMatches(App.getCurrentUser().getId());
-        friendDAO.updateFriendMatches(App.getCurrentUser().getId());
 
         App.getEventBus().triggerEvent("randomize_data");
     }

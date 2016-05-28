@@ -200,7 +200,6 @@ public class MovieDetailFragment extends Fragment {
 
                 RatingHelper.createNewRating(mRatingBar.getRating(), movieId, App.getCurrentUser().getId());
 
-
                 App.getEventBus().triggerEvent("ratings_changed");
                 setRateButtonInactive();
             }
