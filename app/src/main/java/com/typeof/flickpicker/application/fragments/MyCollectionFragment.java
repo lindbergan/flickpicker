@@ -30,19 +30,12 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- * FlickPicker
- * Group 22
- * Created on 2016-05-05.
- */
-
-/**
- * CollectionFragment extends Fragment
+ * MyCollectionFragment extends Fragment
  * Used for showing the user its rated movies
  */
 
-public class CollectionFragment extends Fragment implements PropertyChangeListener {
+public class MyCollectionFragment extends Fragment implements PropertyChangeListener {
 
     // Views
 
@@ -57,14 +50,8 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
 
     // Fields
 
-    private int desireSizeOfList = 1000;
+    private final int desireSizeOfList = 1000;
     private List<Movie> mWatchlist;
-    private List<Movie> mCollection;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -90,7 +77,7 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
     }
 
     private void populateData() {
-        mCollection = App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
+        List<Movie> collection = App.getMovieDAO().getMovieCollectionFromUserId(desireSizeOfList, App.getCurrentUser().getId());
 
         // Finds the current users watchlist
         mWatchlist = new ArrayList<>();
@@ -100,11 +87,11 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
                 mWatchlist.add(App.getMovieDAO().findMovie(i.intValue()));
             }
         }
-        populateCollection(listViewMyCollection, mCollection);
+        populateCollection(listViewMyCollection, collection);
         populateWatchlist(listViewMyWatchlist, mWatchlist);
     }
 
-    public void initViews(View view){
+    private void initViews(View view){
         listViewMyCollection = (ListView) view.findViewById(R.id.listViewMyCollection);
         listViewMyWatchlist = (ListView) view.findViewById(R.id.listViewMyPlaylist);
         mSearchViewCollection = (SearchView) view.findViewById(R.id.searchView);
@@ -113,7 +100,7 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
         hiddenWatchlistText = (TextView) view.findViewById(R.id.hiddenNoWatchlistText);
     }
 
-    public void configureTabs(View view){
+    private void configureTabs(View view){
         mTabHostMyCollection = (TabHost) view.findViewById(R.id.tabHostMyCollection);
         mTabHostMyCollection.setup();
 
@@ -137,7 +124,7 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
         });
     }
 
-    public void setActiveTabColor(){
+    private void setActiveTabColor(){
         mTabHostMyCollection.getTabWidget().getChildAt(mTabHostMyCollection.getCurrentTab()).getBackground().setColorFilter(ContextCompat.getColor(getContext(), R.color.active_tab_collection_filter)
                 , PorterDuff.Mode.MULTIPLY);
     }
@@ -148,7 +135,7 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
      * Waits for the user to finish typing before searching for movies to minimize amount of searches
      */
 
-    public void setUpListeners(){
+    private void setUpListeners(){
 
         mSearchViewCollection.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -220,11 +207,11 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
 
     /**
      * Populate methods uses MovieAdapter that extends CustomAdapter
-     * @param listView
-     * @param movieList
+     * @param listView  ListView element
+     * @param movieList List of movies
      */
 
-    public void populateCollection(ListView listView, List<Movie> movieList){
+    private void populateCollection(ListView listView, List<Movie> movieList){
 
         ListAdapter adapter = new MovieAdapter(ctx,movieList.toArray());
 
@@ -237,7 +224,7 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
         listView.setAdapter(adapter);
     }
 
-    public void populateWatchlist(ListView listView, List<Movie> movieList){
+    private void populateWatchlist(ListView listView, List<Movie> movieList){
         ListAdapter adapter = new MovieAdapter(ctx,movieList.toArray());
 
         if (hiddenWatchlistText.getVisibility() == View.VISIBLE) hiddenWatchlistText.setVisibility(View.INVISIBLE);
@@ -251,6 +238,10 @@ public class CollectionFragment extends Fragment implements PropertyChangeListen
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-        populateData();
+        if (event.getPropertyName().equals("randomize_data")
+            || event.getPropertyName().equals("playlist_changed")
+            || event.getPropertyName().equals("ratings_changed")) {
+            populateData();
+        }
     }
 }

@@ -37,11 +37,6 @@ public class MovieDAOTest extends BaseTest {
         mFriendDAO = App.getFriendDAO();
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     /**
      * Tests findMovie()
      *
@@ -236,8 +231,9 @@ public class MovieDAOTest extends BaseTest {
      * Creates three users and saves them
      * Adds user2 and user3 as friends to user
      * user2 and user3 rates the newly created movie
+     * A fourth user is created to confirm that not all users are fetched with the method.
      * Saves a list of friends by calling getFriendsSeenMovie() with user2 and user3 as parameters
-     * Asserts that the fetched list consits of two users, user2 and user3. Confirms this by comparing ids to expected values
+     * Asserts that the fetched list consists of two users.
      * @throws Exception
      */
     public void testGetFriendsSeenMovie() throws Exception {
@@ -250,6 +246,7 @@ public class MovieDAOTest extends BaseTest {
         long id1 = mUserDAO.saveUser(user);
         long id2 = mUserDAO.saveUser(user2);
         long id3 = mUserDAO.saveUser(user3);
+        long id4 = mUserDAO.saveUser(new User("Sk8erboy_95", "adrian"));
 
         Friend f = new Friend(id1, id2);
         mFriendDAO.addFriend(f);
@@ -263,8 +260,11 @@ public class MovieDAOTest extends BaseTest {
         Rating rating1 = new Rating(4.0, id, id3);
         mRatingDAO.saveRating(rating1);
 
+        Rating rating2 = new Rating(1.0, id, id4);
+        mRatingDAO.saveRating(rating2);
+
         List<User> friends = mMovieDAO.getFriendsSeenMovie(id, id1);
-        assertTrue(friends.get(0).getId() == id2 && friends.get(1).getId() == id3);
+        assertEquals(2, friends.size());
     }
 
     /**

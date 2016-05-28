@@ -15,4 +15,5 @@ public interface PlaylistDAO {
     long removePlaylist(Playlist playlist);
     void addMovieToPlaylist(User user, Movie movie);
     void removeMovieFromPlaylist(User user, Movie movie);
+    boolean isMovieOnPlaylist(User user, Movie movie);
 }

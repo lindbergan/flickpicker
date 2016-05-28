@@ -11,9 +11,9 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class SQLiteDatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "FlickPicker.db";
-    public static final int DATABASE_VERSION = 1;
-    public static SQLiteDatabaseHelper instance;
+    private static final String DATABASE_NAME = "FlickPicker.db";
+    private static final int DATABASE_VERSION = 1;
+    private static SQLiteDatabaseHelper instance;
 
     private SQLiteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

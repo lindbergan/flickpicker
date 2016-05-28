@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
 
-import com.typeof.flickpicker.database.sql.tables.FriendTable;
 import com.typeof.flickpicker.database.sql.tables.MovieTable;
 
 /**
@@ -15,7 +14,7 @@ import com.typeof.flickpicker.database.sql.tables.MovieTable;
  */
 public class MovieTableTest extends AndroidTestCase {
 
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     /**
      * Resets Movies table
@@ -29,11 +28,6 @@ public class MovieTableTest extends AndroidTestCase {
         db = mDbHelper.getWritableDatabase();
         db.execSQL(MovieTable.MovieEntry.getSQLDropTableQuery());
         db.execSQL(MovieTable.MovieEntry.getSQLCreateTableQuery());
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
     }
 
     // Tests that the friends table exists

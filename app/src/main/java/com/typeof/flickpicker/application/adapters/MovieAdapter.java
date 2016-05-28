@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.application.fragments.CollectionFragment;
+import com.typeof.flickpicker.application.fragments.MyCollectionFragment;
 import com.typeof.flickpicker.application.helpers.KeyboardHelper;
 import com.typeof.flickpicker.application.activities.MainActivity;
 import com.typeof.flickpicker.application.helpers.SingleFragmentHelper;
@@ -91,15 +91,6 @@ public class MovieAdapter extends CustomAdapter {
                 args.putLong("movieId", movie.getId());
                 movieDetailFragment.setArguments(args);
                 MainActivity mainActivity = (MainActivity) getContext();
-
-                // Add Collection as listener to the Movie Detail Fragment
-                ViewPageAdapter viewPageAdapter = (ViewPageAdapter)mainActivity.getViewPager().getAdapter();
-                CollectionFragment collectionFragment = (CollectionFragment)viewPageAdapter.getFragmentByClass(CollectionFragment.class);
-                movieDetailFragment.addObserver(collectionFragment);
-
-                // Add main activity as observer to the Movie Detail Fragment
-                movieDetailFragment.addObserver(mainActivity);
-
                 KeyboardHelper.hideSoftKeyboard(mainActivity);
 
                 SingleFragmentHelper.setFragment(mainActivity, movieDetailFragment);

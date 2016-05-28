@@ -36,9 +36,16 @@ Find the FlickPicker app on your device and open it.
 
 ### With Android Studio
 
-In Android Studio, click $File \rightarrow Open$ in the top menu. Select the folder you cloned from the Github repo. Gradle will build automatically. Click $Run \rightarrow Run$ 'app' in the top menu. Pick a virtual device you want to install the app on. Android Studio will then launch the virtual device and install the app. When that's done the app will launch.
+In Android Studio, File -> Open in the top menu. Select the folder you cloned from the Github repo. Gradle will build automatically. Click Run -> Run 'app' in the top menu. Pick a virtual device you want to install the app on. Android Studio will then launch the virtual device and install the app. When that's done the app will launch.
+
+## First Run
+
+The first time the application starts it will create the database and seed it with dummy data. This takes between 10 - 20 seconds.
 
 ## Tips & Tricks
+
+##### Reseed Database
+Inside the app there's a Settings page where there's a button you can press to recreate the database and fill it with new dummy data. This process takes about 10 - 20 seconds.
 
 ##### Tools used: 
 Gradle, SQLlite3, Android Platform Tools

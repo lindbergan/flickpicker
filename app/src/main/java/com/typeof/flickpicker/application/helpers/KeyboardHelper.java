@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import java.util.List;
-
 /**
  * KeyboardHelper
  *
@@ -18,11 +16,10 @@ import java.util.List;
  */
 public class KeyboardHelper {
 
-    private Activity mActivity;
-    private Context ctx;
+    private final Activity mActivity;
 
     public KeyboardHelper(Activity activity, Context ctx) {
-        this.ctx = ctx;
+        Context ctx1 = ctx;
         this.mActivity = activity;
     }
 
@@ -38,7 +35,7 @@ public class KeyboardHelper {
             view.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    hideKeyboard(mActivity, ctx);
+                    hideKeyboard(mActivity);
                     return false;
                 }
             });
@@ -53,13 +50,15 @@ public class KeyboardHelper {
         }
     }
 
-    public void hideKeyboard(Activity activity, Context ctx) {
+    private void hideKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //noinspection ConstantConditions
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //noinspection ConstantConditions
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

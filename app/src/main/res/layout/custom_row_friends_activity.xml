@@ -62,18 +62,6 @@
                 android:layout_height="wrap_content"
                 android:text="@string/movieTextView"
                 android:id="@+id/moviename_textview" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" from "
-                android:id="@+id/textView9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/yearTextView"
-                android:id="@+id/movie_year_textview" />
         </LinearLayout>
 
             <RatingBar

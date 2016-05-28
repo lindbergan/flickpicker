@@ -8,7 +8,7 @@ import android.test.ApplicationTestCase;
  */
 public class BaseTest extends ApplicationTestCase<App> {
 
-    boolean appCreated = false;
+    private boolean appCreated = false;
 
     public BaseTest() {
         super(App.class);

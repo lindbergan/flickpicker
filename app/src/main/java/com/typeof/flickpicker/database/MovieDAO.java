@@ -1,6 +1,5 @@
 package com.typeof.flickpicker.database;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 
 import java.util.List;

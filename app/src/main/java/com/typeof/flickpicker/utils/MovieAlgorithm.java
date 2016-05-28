@@ -34,7 +34,7 @@ public class MovieAlgorithm {
 
     public static List<Movie> getRecommendations(User currentUser) {
 
-        List<Movie> results = new ArrayList<>();
+        List<Movie> results;
         int desiredSizeOfList = 100;
 
         //The amount of movies the user and friend both need to have seen in order to be considered
@@ -70,10 +70,10 @@ public class MovieAlgorithm {
      * @param requirements the requirements for the filtering
      * @return returns a list of friends that meet the requirements
      */
-    public static List<Friend> getFriendsWithSimilarTaste(List<User> users, User currentUser, int requirements ){
+    private static List<Friend> getFriendsWithSimilarTaste(List<User> users, User currentUser, int requirements){
 
         //Save the friends that meet the requirements in a list
-        List<Friend> friendsWithSimilarTaste = new ArrayList<Friend>();
+        List<Friend> friendsWithSimilarTaste = new ArrayList<>();
 
         for (int i = 0; i < users.size(); i++){
 
@@ -94,7 +94,7 @@ public class MovieAlgorithm {
      * @return returns a map containing all movies friends with similar taste have seen
      */
 
-    public static Map<Movie,Double> getFriendsMovies(int desiredSizeOfList, List<Friend> friendsWithSimilarTaste){
+    private static Map<Movie,Double> getFriendsMovies(int desiredSizeOfList, List<Friend> friendsWithSimilarTaste){
 
         //Create the map that will hold the movies and scores
         HashMap<Movie,Double> friendsMoviesAndScore = new HashMap<Movie,Double>();
@@ -155,9 +155,9 @@ public class MovieAlgorithm {
      * @return returns a list of mismatch values
      */
 
-    public static List<Double> getAllMismatchValues(List<Friend> friendsWithSimilarTaste){
+    private static List<Double> getAllMismatchValues(List<Friend> friendsWithSimilarTaste){
 
-        List<Double> mismatchValues = new ArrayList<Double>();
+        List<Double> mismatchValues = new ArrayList<>();
 
         for(int i = 0; i < friendsWithSimilarTaste.size(); i++){
 
@@ -186,7 +186,7 @@ public class MovieAlgorithm {
      * @param usersMovieCollection the users movie collection
      */
 
-    public static void removeMoviesUserHasSeen(Map<Movie,Double> friendsMoviesAndScore, List<Movie> usersMovieCollection){
+    private static void removeMoviesUserHasSeen(Map<Movie, Double> friendsMoviesAndScore, List<Movie> usersMovieCollection){
 
         for (int i= 0; i<usersMovieCollection.size();i++){
 
@@ -206,7 +206,7 @@ public class MovieAlgorithm {
      * @return returns a sorted map based on score in descending order
      */
 
-    public static <Movie, Double extends Comparable<Double>> Map<Movie, Double> sortMapByScore(final Map<Movie, Double> map) {
+    private static <Movie, Double extends Comparable<Double>> Map<Movie, Double> sortMapByScore(final Map<Movie, Double> map) {
         Comparator<Movie> valueComparator =  new Comparator<Movie>() {
             public int compare(Movie firstMovie, Movie secondMovie) {
                 int compare = map.get(secondMovie).compareTo(map.get(firstMovie));
@@ -214,7 +214,7 @@ public class MovieAlgorithm {
                 else return compare;
             }
         };
-        Map<Movie, Double> sortedMapByScores = new TreeMap<Movie, Double>(valueComparator);
+        Map<Movie, Double> sortedMapByScores = new TreeMap<>(valueComparator);
         sortedMapByScores.putAll(map);
         return new LinkedHashMap<Movie,Double>(sortedMapByScores);
     }
@@ -224,9 +224,9 @@ public class MovieAlgorithm {
      * @param map the map containing the movies to be extracted
      * @return returns a list of movies
      */
-    public static List<Movie> extractMoviesFromMap(Map<Movie,Double> map){
+    private static List<Movie> extractMoviesFromMap(Map<Movie, Double> map){
 
-        List<Movie> results = new ArrayList<Movie>();
+        List<Movie> results = new ArrayList<>();
 
         //loop through the set of keys (not interested in values anymore - since keys already sorted based on values)
         for(Map.Entry<Movie,Double> entryInSet : map.entrySet()){

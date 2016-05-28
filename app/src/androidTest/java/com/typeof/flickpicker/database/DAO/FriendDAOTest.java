@@ -36,11 +36,6 @@ public class FriendDAOTest extends BaseTest {
 
     }
 
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     /**
      * Tests addFriend()
      *
@@ -177,15 +172,15 @@ public class FriendDAOTest extends BaseTest {
         long planetOfTheApesId = mMovieDAO.saveMovie(new Movie("Planet of the Apes", 1998));
 
         long firstRatingPelle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,primaryUser));
-        long secondRatingPelle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId, primaryUser));
-        long firstRatingKalle = mRatingDAO.saveRating(new Rating(5, americanHistoryXId,secondaryUser));
-        long secondRatingKalle = mRatingDAO.saveRating(new Rating(5, planetOfTheApesId, secondaryUser));
-        long firstRatingOlle = mRatingDAO.saveRating(new Rating(3,americanHistoryXId,thirdUser));
-        long secondRatingOlle = mRatingDAO.saveRating(new Rating(3, planetOfTheApesId,thirdUser));
+        mRatingDAO.saveRating(new Rating(3, planetOfTheApesId, primaryUser));
+        mRatingDAO.saveRating(new Rating(5, americanHistoryXId,secondaryUser));
+        mRatingDAO.saveRating(new Rating(5, planetOfTheApesId, secondaryUser));
+        mRatingDAO.saveRating(new Rating(3,americanHistoryXId,thirdUser));
+        mRatingDAO.saveRating(new Rating(3, planetOfTheApesId,thirdUser));
 
         Rating pellesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingPelle);
 
-        mFriendDAO.updateFriendMatches(pellesRatingOnAmericanHistoryX);
+        mFriendDAO.updateFriendMatches(primaryUser);
 
         // fetch the relationship and compare the mismatch value to the expected one - if implemented correctly:
         // Should return: 2.0 [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2
@@ -212,7 +207,7 @@ public class FriendDAOTest extends BaseTest {
         long secondaryUser = mUserDAO.saveUser(new User("Kalle", "admin"));
 
         Friend friendship = new Friend(primaryUser, secondaryUser);
-        long friendshipId = mFriendDAO.addFriend(friendship);
+        mFriendDAO.addFriend(friendship);
 
         Friend fetchedFriendship = mFriendDAO.getFriendRelation(primaryUser, secondaryUser);
         assertEquals(friendship.getGetUserIdTwo(), fetchedFriendship.getGetUserIdTwo());
@@ -221,15 +216,16 @@ public class FriendDAOTest extends BaseTest {
     /**
      * Tests isFriend()
      *
-     * Creates a random users
-     * Adds that user as a friend to main user
+     * Creates two random users
+     * Adds one user as a friend to the other user
      * Asserts that the relation has been added to the database
      * @throws Exception
      */
     public void testIsFriend() throws Exception {
-        User u = new User("testFriend", "testPassword");
-        mUserDAO.saveUser(u);
-        mFriendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u.getId()));
-        assertTrue(mFriendDAO.isFriend(u.getId()));
+        long currentUserId = mUserDAO.saveUser(new User("CurrentUser", "password"));
+        long friendId = mUserDAO.saveUser(new User("FriendOfCurrentUser", "password"));
+
+        mFriendDAO.addFriend(new Friend(currentUserId,friendId));
+        assertTrue(mFriendDAO.isFriend(currentUserId,friendId));
     }
 }

@@ -3,6 +3,7 @@ package com.typeof.flickpicker;
 import android.app.Application;
 import android.content.Context;
 
+import com.typeof.flickpicker.application.helpers.EventBus;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
@@ -18,6 +19,7 @@ import com.typeof.flickpicker.database.sql.DAO.SQLPlaylistDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLRatingDAO;
 import com.typeof.flickpicker.database.sql.DAO.SQLUserDAO;
 import com.typeof.flickpicker.utils.MetaData;
+import com.typeof.flickpicker.utils.MovieCacheHandler;
 
 /**
  * App
@@ -40,6 +42,7 @@ public class App extends Application {
     private static PlaylistDAO sPlaylistDAO;
     private static FriendDAO sFriendDAO;
     private static Database sDatabase;
+    private static EventBus eventBus = new EventBus();
 
     @Override
     public void onCreate() {
@@ -54,9 +57,12 @@ public class App extends Application {
 
         if(!sDatabase.hasBeenCreated()) {
             createDatabase();
-        }
+            refreshCurrentUser();
+            sDatabase.seedDatabase();
 
-        refreshCurrentUser();
+        } else {
+            refreshCurrentUser();
+        }
 
     }
 
@@ -103,7 +109,6 @@ public class App extends Application {
                 sRatingDAO = new SQLRatingDAO(sContext);
                 sPlaylistDAO = new SQLPlaylistDAO(sContext);
                 sFriendDAO = new SQLFriendDAO(sContext);
-
         }
     }
 
@@ -137,5 +142,9 @@ public class App extends Application {
 
     public static Database getDatabase() {
         return sDatabase;
+    }
+
+    public static EventBus getEventBus() {
+        return eventBus;
     }
 }

@@ -1,15 +1,10 @@
 package com.typeof.flickpicker.application.helpers;
 
 import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.application.activities.MainActivity;
-import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
-import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
-
-import java.util.List;
 
 /**
  * RatingHelper
@@ -32,22 +27,22 @@ public class RatingHelper {
     public static void createNewRating(double rating, long movieId, long userId){
         Rating newRating = new Rating(rating, movieId, userId);
 
-        //update the mismatch values in relation to users new rating
-        App.getFriendDAO().updateFriendMatches(newRating);
-
         RatingDAO ratingDAO = App.getRatingDAO();
         Rating existingRating = ratingDAO.getRatingObjectFromUser(userId, movieId);
 
         if(existingRating == null) {
             //set the user's score accordingly
             User currentUser = App.getCurrentUser();
-            int oldScore = currentUser.getScore();
-            int newScore = oldScore + 10;
-            currentUser.setScore(newScore);
+            currentUser.updateScore();
             UserDAO userDAO = App.getUserDAO();
             userDAO.saveUser(currentUser);
         }
 
         App.getRatingDAO().saveRating(newRating);
+
+        //update the mismatch values in relation to users new rating
+        App.getFriendDAO().updateFriendMatches(userId);
+
+        App.getEventBus().triggerEvent("rating_created");
     }
 }

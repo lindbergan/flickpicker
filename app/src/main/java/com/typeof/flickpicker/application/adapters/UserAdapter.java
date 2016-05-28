@@ -13,19 +13,13 @@ import com.typeof.flickpicker.core.Friend;
 import com.typeof.flickpicker.core.User;
 
 /**
- * FlickPicker
- * Group 22
- * Created on 2016-05-10.
- */
-
-/**
  * UserAdapter extends CustomAdapter
  * Used for displaying users
  */
 
 public class UserAdapter extends CustomAdapter {
 
-    private Context c;
+    private final Context c;
 
     public UserAdapter(Context context, Object[] obj) {
         super(context, obj);
@@ -46,7 +40,7 @@ public class UserAdapter extends CustomAdapter {
     public View getView(int position, View view, ViewGroup parent) {
 
         final User user = (User) getItem(position);
-        boolean isFriend = App.getFriendDAO().isFriend(user.getId());
+        boolean isFriend = App.getFriendDAO().isFriend(App.getCurrentUser().getId(), user.getId());
         final ViewHolder viewHolder;
 
         if (view == null) {
@@ -119,14 +113,14 @@ public class UserAdapter extends CustomAdapter {
         return view;
     }
 
-    public void showAddButton(ViewHolder viewHolder) {
+    private void showAddButton(ViewHolder viewHolder) {
         viewHolder.addFriendButton.setVisibility(View.VISIBLE);
         viewHolder.removeFriendButton.setVisibility(View.INVISIBLE);
         viewHolder.addFriendButton.setClickable(true);
         viewHolder.removeFriendButton.setClickable(false);
     }
 
-    public void showRemoveButton(ViewHolder viewHolder) {
+    private void showRemoveButton(ViewHolder viewHolder) {
         viewHolder.addFriendButton.setVisibility(View.INVISIBLE);
         viewHolder.removeFriendButton.setVisibility(View.VISIBLE);
         viewHolder.addFriendButton.setClickable(false);

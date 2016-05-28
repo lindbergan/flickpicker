@@ -15,7 +15,7 @@ import com.typeof.flickpicker.database.sql.tables.RatingTable;
 
 public class RatingTableTest extends AndroidTestCase {
 
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     @Override
     protected void setUp() throws Exception {
@@ -24,11 +24,6 @@ public class RatingTableTest extends AndroidTestCase {
         db = mDbHelper.getWritableDatabase();
         db.execSQL(RatingTable.RatingEntry.getSQLDropTableQuery());
         db.execSQL(RatingTable.RatingEntry.getSQLCreateTableQuery());
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
     }
 
     // Tests that the ratings table exists

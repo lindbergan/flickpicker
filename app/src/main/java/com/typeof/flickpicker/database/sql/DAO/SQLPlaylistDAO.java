@@ -15,6 +15,7 @@ import com.typeof.flickpicker.database.sql.SQLiteDatabaseHelper;
 import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SQLPlaylistDAO
@@ -22,7 +23,7 @@ import java.util.ArrayList;
  */
 public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
 
     public SQLPlaylistDAO(Context ctx) {
         super(ctx);
@@ -99,9 +100,9 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
 
     /**
-     * method for adding a moie to the user's playlist
-     * @param user
-     * @param movie
+     * method for adding a movie to the user's playlist
+     * @param user  Given user object
+     * @param movie Given movie object
      */
     @Override
     public void addMovieToPlaylist(User user, Movie movie){
@@ -123,8 +124,8 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
 
     /**
      * method for removing a movie from the user's playlist
-     * @param user
-     * @param movie
+     * @param user  Given user object
+     * @param movie Given movie object
      */
     public void removeMovieFromPlaylist(User user, Movie movie){
 
@@ -138,7 +139,28 @@ public class SQLPlaylistDAO extends SQLDAO implements PlaylistDAO {
             }
         playlist.remove(movieId);
         savePlaylist(playlist);
+    }
+
+    /**
+     * Checks whether or not a movie is on a users playlist
+     *
+     * @param user  User object
+     * @param movie Movie object
+     * @return      boolean
+     */
+    @Override
+    public boolean isMovieOnPlaylist(User user, Movie movie) {
+        Playlist playlist = getUserPlaylist(user.getId());
+        List<Number> movieIds = playlist.getMovieIds();
+        boolean isOnWatchList = false;
+
+        for (int i = 0; i < movieIds.size(); i++) {
+            if (Integer.valueOf((int)movie.getId()).equals(movieIds.get(i))) {
+                isOnWatchList = true;
+            }
         }
 
+        return isOnWatchList;
     }
+}
 

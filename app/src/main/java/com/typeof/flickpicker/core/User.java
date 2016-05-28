@@ -11,7 +11,7 @@ package com.typeof.flickpicker.core;
 public class User implements DatabaseObject {
 
     private long id = 0;
-    private String username;
+    private final String username;
     private int score;
     private String password;
 
@@ -51,6 +51,10 @@ public class User implements DatabaseObject {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void updateScore() {
+        score = score + 10;
     }
 
     public void setPassword(String password) {

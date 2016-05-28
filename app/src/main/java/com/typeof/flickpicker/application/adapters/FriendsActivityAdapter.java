@@ -9,6 +9,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.MovieDAO;
 
@@ -20,7 +21,7 @@ import com.typeof.flickpicker.database.MovieDAO;
 
 public class FriendsActivityAdapter extends CustomAdapter {
 
-    Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
+    private final Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
     public FriendsActivityAdapter(Context context, Object[] obj) {
         super(context, obj);
@@ -34,7 +35,6 @@ public class FriendsActivityAdapter extends CustomAdapter {
     private static class ViewHolder {
         TextView username;
         TextView movieName;
-        TextView movieYear;
         RatingBar ratingBar;
     }
 
@@ -53,7 +53,6 @@ public class FriendsActivityAdapter extends CustomAdapter {
 
             viewHolder.username = (TextView) view.findViewById(R.id.username_textview);
             viewHolder.movieName = (TextView) view.findViewById(R.id.moviename_textview);
-            viewHolder.movieYear = (TextView) view.findViewById(R.id.movie_year_textview);
             viewHolder.ratingBar = (RatingBar) view.findViewById(R.id.ratingBar);
             view.setTag(viewHolder);
         }
@@ -66,9 +65,10 @@ public class FriendsActivityAdapter extends CustomAdapter {
         TextView textView = (TextView) view.findViewById(R.id.no_profile_picture);
         textView.setTypeface(font);
 
+        Movie m = movieDAO.findMovie(r.getMovieId());
+
         viewHolder.username.setText(App.getUserDAO().getUserById(r.getUserId()).getUsername());
-        viewHolder.movieName.setText(movieDAO.findMovie(r.getMovieId()).getTitle());
-        viewHolder.movieYear.setText(String.format(" (%s)", String.valueOf(movieDAO.findMovie(r.getMovieId()).getYear())));
+        viewHolder.movieName.setText(String.format("%s, from year (%s)", new Object[]{m.getTitle(), m.getYear()}));
         viewHolder.ratingBar.setRating(Float.parseFloat(Double.toString(r.getRating())));
 
         return view;

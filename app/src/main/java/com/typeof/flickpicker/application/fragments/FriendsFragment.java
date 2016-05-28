@@ -3,7 +3,6 @@ package com.typeof.flickpicker.application.fragments;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,9 @@ import com.typeof.flickpicker.application.adapters.FriendsActivityAdapter;
 import com.typeof.flickpicker.application.helpers.KeyboardHelper;
 import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.database.FriendDAO;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ import java.util.List;
  * Used for showing friends recent activity
  */
 
-public class FriendsFragment extends Fragment {
+public class FriendsFragment extends Fragment implements PropertyChangeListener {
 
     // Fields
 
@@ -39,11 +41,6 @@ public class FriendsFragment extends Fragment {
     private ListView mListViewFeed;
     private SearchView mNameTextField;
     private TextView hiddenText;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Nullable
     @Override
@@ -70,11 +67,11 @@ public class FriendsFragment extends Fragment {
         return view;
     }
 
-    public void getFriendsRecentActivities() {
+    private void getFriendsRecentActivities() {
         mFriendsRecentActivity = mFriendDAO.getFriendsLatestActivities(App.getCurrentUser().getId());
     }
 
-    public void initAdapters() {
+    private void initAdapters() {
         ListAdapter ratingListAdapter = new FriendsActivityAdapter(getActivity(), mFriendsRecentActivity.toArray());
         mListViewFeed.setAdapter(ratingListAdapter);
     }
@@ -86,7 +83,7 @@ public class FriendsFragment extends Fragment {
      * Uses the FriendsActivityAdapter class
      */
 
-    public void updateRecentActivities() {
+    private void updateRecentActivities() {
         mNameTextField.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -123,4 +120,12 @@ public class FriendsFragment extends Fragment {
         });
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent event) {
+        if (event.getPropertyName().equals("randomize_data")) {
+            getFriendsRecentActivities();
+            initAdapters();
+            updateRecentActivities();
+        }
+    }
 }

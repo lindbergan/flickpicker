@@ -9,9 +9,6 @@ import android.provider.BaseColumns;
 
 public class FriendTable extends SQLTable {
 
-    // Prevent instantiating
-    public FriendTable() {}
-
     public static abstract class FriendEntry implements BaseColumns {
 
         private static final String INTEGER_TYPE = " INT";

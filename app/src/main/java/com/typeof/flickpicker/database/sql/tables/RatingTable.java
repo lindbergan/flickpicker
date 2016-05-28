@@ -9,9 +9,6 @@ import android.provider.BaseColumns;
 
 public class RatingTable extends SQLTable {
 
-    // Prevent instantiating
-    public RatingTable() {}
-
     public static abstract class RatingEntry implements BaseColumns {
 
         private static final String INTEGER_TYPE = " INT";

@@ -20,7 +20,7 @@ import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.application.helpers.DataObservable;
 import com.typeof.flickpicker.application.helpers.RatingHelper;
 import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Playlist;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.PlaylistDAO;
 
@@ -33,7 +33,7 @@ import java.util.List;
  * Used for showing a detailed view of a mMovie
  */
 
-public class MovieDetailFragment extends Fragment implements DataObservable {
+public class MovieDetailFragment extends Fragment {
 
     private ImageView mMovieImage;
     private TextView mMovieTitle;
@@ -47,9 +47,11 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     private ToggleButton mAddToWatchListButton;
     private RatingBar mRatingBar;
     private Button mRateButton;
+    private User mUser;
+    private PlaylistDAO mPlaylistDAO;
     final private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-    private MovieDAO mMovieDAO = App.getMovieDAO();
+    private final MovieDAO mMovieDAO = App.getMovieDAO();
     private long movieId;
     private Movie mMovie;
 
@@ -60,6 +62,8 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
         Bundle bundle = getArguments();
         movieId = bundle.getLong("movieId");
         mMovie = App.getMovieDAO().findMovie(movieId);
+        mPlaylistDAO = App.getPlaylistDAO();
+        mUser = App.getCurrentUser();
     }
 
 
@@ -85,7 +89,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method to assign variables to their different components in the layout file.
      */
-    public void hookUpViews(View view){
+    private void hookUpViews(View view){
 
         mMovieImage = (ImageView) view.findViewById(R.id.movieDetailImageView);
 
@@ -109,7 +113,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method for adding the information about the selected mMovie to the correct text views
      */
-    public void populateMovieFields(){
+    private void populateMovieFields(){
 
         Typeface font = Typeface.createFromAsset(getContext().getAssets(), "fonts/fontawesome-webfont.ttf");
 
@@ -137,12 +141,12 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * method that sets the status of 'add to playlist' widgets to their correct state
      * depending on if the mMovie is on the user's playlist or not
      */
-    public void setAddToPlaylistWidgets() {
+    private void setAddToPlaylistWidgets() {
 
         mAddToWatchListButton.setTextOff("+");
         mAddToWatchListButton.setTextOn("-");
 
-        if (isMovieOnPlaylist()) {
+        if (mPlaylistDAO.isMovieOnPlaylist(mUser, mMovie)) {
             mAddToWatchListButton.setChecked(true);
             mMovieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
         }else{
@@ -157,7 +161,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * method used in onCreateView to set rating bar and button to correct states
      * depending on if the user have already rated the mMovie or not
      */
-    public void setRateWidgets(){
+    private void setRateWidgets(){
 
         if(hasUserSeenMovie()){
             setRateButtonInactive();
@@ -173,7 +177,9 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method for initiating the Fragment's various listeners
      */
-    public void initListeners() {
+    private void initListeners() {
+
+
 
         mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -186,17 +192,15 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
             @Override
             public void onClick(View v) {
 
-
                 //if mMovie is on playlist it is removed
-                if (isMovieOnPlaylist()) {
+                if (mPlaylistDAO.isMovieOnPlaylist(mUser, mMovie)) {
                     App.getPlaylistDAO().removeMovieFromPlaylist(App.getCurrentUser(), mMovie);
                     mAddToWatchListButton.setChecked(false);
                 }
 
                 RatingHelper.createNewRating(mRatingBar.getRating(), movieId, App.getCurrentUser().getId());
 
-                pcs.firePropertyChange("ratingsChanged", true, false);
-
+                App.getEventBus().triggerEvent("ratings_changed");
                 setRateButtonInactive();
             }
         });
@@ -207,7 +211,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
 
                 PlaylistDAO playlistDAO = App.getPlaylistDAO();
 
-                if (isChecked && !isMovieOnPlaylist()) {
+                if (isChecked && !mPlaylistDAO.isMovieOnPlaylist(mUser,mMovie)) {
                     playlistDAO.addMovieToPlaylist((App.getCurrentUser()), mMovie);
                     setAddToWatchListLabel();
                 } else {
@@ -215,7 +219,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
                     setAddToWatchListLabel();
                 }
 
-                pcs.firePropertyChange("playlistChanged", true, false);
+                App.getEventBus().triggerEvent("playlist_changed");
 
             }
         });
@@ -227,7 +231,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * method that checks if the user have seen the mMovie or not
      * @return hasSeen true if user have seen mMovie, false if not
      */
-    public boolean hasUserSeenMovie(){
+    private boolean hasUserSeenMovie(){
         List<Movie> userCollection = mMovieDAO.getMovieCollectionFromUserId(10000, App.getCurrentUser().getId());
 
         for (Movie movie : userCollection) {
@@ -238,36 +242,11 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
         return false;
     }
 
-
-
-    /**
-     * method that checks if mMovie is on the user's playlist or not
-     * @return isOnWatchList true if mMovie can be found on the user's playlist
-     */
-    public boolean isMovieOnPlaylist() {
-
-        PlaylistDAO playlistDAO = App.getPlaylistDAO();
-        Playlist playlist = playlistDAO.getUserPlaylist(App.getCurrentUser().getId());
-        List<Number> movies = playlist.getMovieIds();
-
-        boolean isOnWatchList = false;
-
-        for (Number movie : movies){
-            long id = movie.longValue();
-            if(id == movieId){
-                isOnWatchList = true;
-                break;
-            }
-        }
-        return isOnWatchList;
-    }
-
-
     /**
      * method that sets 'add to watchlist' label to specific string depending on the
      * toggle button's state
      */
-    public void setAddToWatchListLabel() {
+    private void setAddToWatchListLabel() {
         if (mAddToWatchListButton.isChecked()) {
             mMovieDetailAddToPlaylistLabel.setText(R.string.remove_movie_from_playlist);
         }else{
@@ -276,11 +255,10 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     }
 
 
-
     /**
      * method to activate rate button and change its appearance
      */
-    public void setRateButtonActive(){
+    private void setRateButtonActive(){
         mRateButton.setBackgroundResource(R.drawable.test_button_round_corners);
         mRateButton.setClickable(true);
     }
@@ -290,7 +268,7 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
     /**
      * method to inactivate rate button and change its appearance
      */
-    public void setRateButtonInactive(){
+    private void setRateButtonInactive(){
         mRateButton.setBackgroundResource(R.drawable.button_inactive);
         mRateButton.setClickable(false);
     }
@@ -302,14 +280,9 @@ public class MovieDetailFragment extends Fragment implements DataObservable {
      * @param precision number of desired decimals
      * @return value rounded to chosen amount of decimals
      */
-    public double round(double value, int precision) {
+    private double round(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
-    }
-
-    @Override
-    public void addObserver(PropertyChangeListener observer) {
-        pcs.addPropertyChangeListener(observer);
     }
 
 }

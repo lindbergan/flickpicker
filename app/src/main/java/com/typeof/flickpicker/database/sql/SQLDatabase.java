@@ -7,14 +7,10 @@ import android.database.sqlite.SQLiteException;
 
 import com.typeof.flickpicker.App;
 import com.typeof.flickpicker.core.Friend;
-import com.typeof.flickpicker.core.Movie;
-import com.typeof.flickpicker.core.Playlist;
-import com.typeof.flickpicker.core.Rating;
 import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.Database;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
 import com.typeof.flickpicker.database.sql.tables.FriendTable;
@@ -23,9 +19,11 @@ import com.typeof.flickpicker.database.sql.tables.PlaylistTable;
 import com.typeof.flickpicker.database.sql.tables.RatingTable;
 import com.typeof.flickpicker.database.sql.tables.SQLTable;
 import com.typeof.flickpicker.database.sql.tables.UserTable;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.typeof.flickpicker.utils.DataRandomizer;
+import com.typeof.flickpicker.utils.MovieCacheHandler;
+import com.typeof.flickpicker.utils.OMDBParser;
+import com.typeof.flickpicker.utils.OnTaskCompleted;
+import com.typeof.flickpicker.utils.RandomizedData;
 
 /**
  * SQLDatabase
@@ -33,11 +31,13 @@ import java.util.List;
  */
 public class SQLDatabase implements Database {
 
-    private SQLiteDatabase db;
+    private final SQLiteDatabase db;
+    private final Context ctx;
 
     public SQLDatabase(Context ctx) {
         SQLiteDatabaseHelper mDbHelper = SQLiteDatabaseHelper.getInstance(ctx);
         this.db = mDbHelper.getWritableDatabase();
+        this.ctx = ctx;
     }
 
     @Override
@@ -108,17 +108,35 @@ public class SQLDatabase implements Database {
         userDAO.saveUser(u10);
         userDAO.saveUser(u11);
 
+        // Add a couple of friends as standard
+        FriendDAO friendDAO = App.getFriendDAO();
+
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u1.getId()));
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u2.getId()));
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u3.getId()));
+        friendDAO.addFriend(new Friend(App.getCurrentUser().getId(), u4.getId()));
+
+    }
+
+    public boolean hasBeenSeeded() {
+        MovieDAO movieDAO = App.getMovieDAO();
+
+        if (movieDAO.getCommunityTopPicks(100).size() < 100) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * Combines SQL Queries from the tables
-     * @return
+     * @return  boolean whether the movie table has been created
      */
     public boolean hasBeenCreated() {
         SQLTable movieTable = new MovieTable();
 
         Cursor c;
-        String query = movieTable.hasBeenCreatedSQLQuery(this.db);
+        String query = movieTable.hasBeenCreatedSQLQuery();
 
         try {
             c = db.rawQuery(query, null);
@@ -138,5 +156,4 @@ public class SQLDatabase implements Database {
 
         return created;
     }
-
 }

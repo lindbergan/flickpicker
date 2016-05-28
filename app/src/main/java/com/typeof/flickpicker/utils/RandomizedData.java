@@ -1,37 +1,82 @@
 package com.typeof.flickpicker.utils;
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.os.AsyncTask;
+
 import com.typeof.flickpicker.App;
-import com.typeof.flickpicker.application.helpers.RatingHelper;
+import com.typeof.flickpicker.core.Movie;
 import com.typeof.flickpicker.core.Rating;
+import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.FriendDAO;
 import com.typeof.flickpicker.database.MovieDAO;
-import com.typeof.flickpicker.database.PlaylistDAO;
 import com.typeof.flickpicker.database.RatingDAO;
 import com.typeof.flickpicker.database.UserDAO;
+
+import java.util.List;
 import java.util.Random;
 
-public class RandomizedData {
+public class RandomizedData extends AsyncTask<Void, Void, Void> {
 
-    private static MovieDAO mMovieDAO = App.getMovieDAO();
-    private static FriendDAO mFriendDAO = App.getFriendDAO();
-    private static UserDAO mUserDAO = App.getUserDAO();
-    private static RatingDAO mRatingDAO = App.getRatingDAO();
-    private static PlaylistDAO mPlaylistDAO = App.getPlaylistDAO();
-    private static long currentUserId = App.getCurrentUser().getId();
+    private final ProgressDialog mProgressDialog;
 
-    public static void randomizeData(int amount) {
+    public RandomizedData(Context context) {
+        mProgressDialog = new ProgressDialog(context);
+    }
 
-        Random r = new Random();
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mProgressDialog.setMessage("Creating dummy data... hold on!");
+        mProgressDialog.show();
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
+    }
 
-        for (int i = 0; i < amount; i++) {
-            int userR = 1 + r.nextInt(11);
-            int movieR = 1 + r.nextInt(248);
-            int ratingR = 1 + r.nextInt(5);
-            RatingHelper.createNewRating(ratingR, movieR, userR);
-            if (ratingR < 4) {
-                RatingHelper.createNewRating(1 + r.nextInt(5), movieR, currentUserId);
-            }
+    public void createRandomizedData() {
+        Random rand = new Random();
+
+        MovieDAO movieDAO = App.getMovieDAO();
+        UserDAO userDAO = App.getUserDAO();
+        RatingDAO ratingDAO = App.getRatingDAO();
+
+        List<Movie> movieList = movieDAO.getCommunityTopPicks(500);
+        movieList.size();
+        List<User> userList = userDAO.getAllUsers();
+        
+        // create 100 ratings
+        for(int i = 0; i < 500; i++) {
+            int randomMovieIndex = rand.nextInt(movieList.size());
+            int randomUserIndex = rand.nextInt(userList.size());
+            double randomRating = rand.nextInt(5 + 1); //max rating + 1 because bound is exclusive
+
+            long randomMovieId = movieList.get(randomMovieIndex).getId();
+            long randomUserId = userList.get(randomUserIndex).getId();
+
+            Rating rating = new Rating(randomRating, randomMovieId, randomUserId);
+            ratingDAO.saveRating(rating);
         }
+    }
+
+
+
+    @Override
+    protected Void doInBackground(Void... params) {
+        createRandomizedData();
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        mProgressDialog.hide();
+        FriendDAO friendDAO = App.getFriendDAO();
+        friendDAO.updateFriendMatches(App.getCurrentUser().getId());
+
+        App.getEventBus().triggerEvent("randomize_data");
     }
 
 }

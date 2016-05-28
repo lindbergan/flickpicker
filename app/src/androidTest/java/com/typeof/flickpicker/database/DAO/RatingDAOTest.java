@@ -8,6 +8,8 @@ import com.typeof.flickpicker.core.User;
 import com.typeof.flickpicker.database.DatabaseRecordNotFoundException;
 import com.typeof.flickpicker.database.MovieDAO;
 import com.typeof.flickpicker.database.RatingDAO;
+import com.typeof.flickpicker.database.UserDAO;
+
 import junit.framework.Assert;
 import java.util.List;
 
@@ -21,17 +23,14 @@ public class RatingDAOTest extends BaseTest {
 
     private RatingDAO mRatingDAO;
     private MovieDAO mMovieDAO;
+    private UserDAO mUserDAO;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mRatingDAO = App.getRatingDAO();
         mMovieDAO = App.getMovieDAO();
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
+        mUserDAO = App.getUserDAO();
     }
 
     /**
@@ -82,18 +81,17 @@ public class RatingDAOTest extends BaseTest {
     /**
      * Tests update()
      *
-     * Creates a new movie and rating and saves them
-     * updates the value of the rating for that rating object ans saves it
-     * Fetches the rating
+     * Creates a new movie, user and rating and saves them
+     * updates the value of that rating object and saves it
+     * Fetches the rating based on id
      * Asserts that the fetched rating's rating value corresponds to the expected value
      * @throws Exception
      */
     public void testUpdate() throws Exception{
 
         long movieId = mMovieDAO.saveMovie(new Movie("The Running Man", 1991));
-        long currentUsersId = App.getCurrentUser().getId();
-
-        Rating testRating = new Rating(3.0,movieId,currentUsersId);
+        long currentUserId = mUserDAO.saveUser(new User("currentUser", "password"));
+        Rating testRating = new Rating(3.0,movieId,currentUserId);
         long ratingId = mRatingDAO.saveRating(testRating);
 
         testRating.updateRating(5.0);

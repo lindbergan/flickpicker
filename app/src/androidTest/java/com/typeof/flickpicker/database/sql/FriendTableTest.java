@@ -14,7 +14,7 @@ import com.typeof.flickpicker.database.sql.tables.FriendTable;
 
 public class FriendTableTest extends AndroidTestCase {
 
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     /**
      * Resets Friends table
@@ -28,11 +28,6 @@ public class FriendTableTest extends AndroidTestCase {
         db = mDbHelper.getWritableDatabase();
         db.execSQL(FriendTable.FriendEntry.getSQLDropTableQuery());
         db.execSQL(FriendTable.FriendEntry.getSQLCreateTableQuery());
-    }
-
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
     }
 
     // Tests that the friends table exists

@@ -15,5 +15,5 @@ public interface UserDAO {
     long saveUser(User user);
     List<User> searchUser(String column, String searchString);
     int deleteUser(User user);
-
+    List<User> getAllUsers();
 }
