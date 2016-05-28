@@ -180,7 +180,7 @@ public class FriendDAOTest extends BaseTest {
 
         Rating pellesRatingOnAmericanHistoryX = mRatingDAO.findRating(firstRatingPelle);
 
-        mFriendDAO.updateFriendMatches(pellesRatingOnAmericanHistoryX);
+        mFriendDAO.updateFriendMatches(primaryUser);
 
         // fetch the relationship and compare the mismatch value to the expected one - if implemented correctly:
         // Should return: 2.0 [abs(3-5)+abs(3-5)]/#nmbrOfMoviesBothSeen = (2+2)/2
