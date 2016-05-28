@@ -32,6 +32,8 @@ public class RandomizedData extends AsyncTask<Void, Void, Void> {
         super.onPreExecute();
         mProgressDialog.setMessage("Creating dummy data... hold on!");
         mProgressDialog.show();
+        mProgressDialog.setCancelable(false);
+        mProgressDialog.setCanceledOnTouchOutside(false);
     }
 
     public void createRandomizedData() {
