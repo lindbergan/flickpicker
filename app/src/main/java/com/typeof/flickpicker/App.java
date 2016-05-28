@@ -64,8 +64,6 @@ public class App extends Application {
             refreshCurrentUser();
         }
 
-        MovieCacheHandler.saveMoviesToDisk(getApplicationContext());
-
     }
 
     private static void createCurrentUser() {
