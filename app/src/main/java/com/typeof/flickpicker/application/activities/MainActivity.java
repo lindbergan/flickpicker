@@ -76,8 +76,6 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
             MovieCacheHandler movieCacheHandler = new MovieCacheHandler(this);
             movieCacheHandler.execute();
 
-            RandomizedData randomizedData = new RandomizedData(this);
-            randomizedData.execute();
         }
 
 
@@ -304,6 +302,10 @@ public class MainActivity extends FragmentActivity implements PropertyChangeList
     public void propertyChange(PropertyChangeEvent event) {
         if (event.getPropertyName().equals("ratings_changed")) {
             updateScore();
+        }
+        if (event.getPropertyName().equals("database_seeded")) {
+            RandomizedData randomizedData = new RandomizedData(this);
+            randomizedData.execute();
         }
     }
 

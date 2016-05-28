@@ -110,5 +110,6 @@ public class MovieCacheHandler extends AsyncTask<Void, Void, Void> {
         if (mOnTaskCompleted != null) {
             mOnTaskCompleted.onTaskCompleted();
         }
+        App.getEventBus().triggerEvent("database_seeded");
     }
 }
