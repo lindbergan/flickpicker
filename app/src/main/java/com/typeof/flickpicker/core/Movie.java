@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 public class Movie implements DatabaseObject, Serializable {
 
+    static final long serialVersionUID = 42L;
     private long id = 0;
     private String title = "";
     private int year = 0;

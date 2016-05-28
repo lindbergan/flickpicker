@@ -59,9 +59,12 @@ public class App extends Application {
             createDatabase();
             refreshCurrentUser();
             sDatabase.seedDatabase();
+
         } else {
             refreshCurrentUser();
         }
+
+        MovieCacheHandler.saveMoviesToDisk(getApplicationContext());
 
     }
 
