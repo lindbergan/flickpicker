@@ -1,5 +1,6 @@
 package com.typeof.flickpicker.application.fragments;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -30,6 +31,13 @@ import java.util.List;
 public class RecommendationsFragment extends Fragment implements PropertyChangeListener {
 
     private ListView mListViewFeed;
+    private Context mContext;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getActivity();
+    }
 
     @Nullable
     @Override
@@ -54,7 +62,7 @@ public class RecommendationsFragment extends Fragment implements PropertyChangeL
     //Populate the listView with the elements from getRecommendations()
     private void populateListView(){
         List<Movie> recommendedMovies = getRecommendations(App.getCurrentUser());
-        ListAdapter adapter = new MovieAdapter(getActivity(), recommendedMovies.toArray());
+        ListAdapter adapter = new MovieAdapter(mContext, recommendedMovies.toArray());
         mListViewFeed.setAdapter(adapter);
     }
 

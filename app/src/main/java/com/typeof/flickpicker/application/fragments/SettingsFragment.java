@@ -1,6 +1,7 @@
 package com.typeof.flickpicker.application.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +13,9 @@ import android.widget.Button;
 
 import com.typeof.flickpicker.R;
 import com.typeof.flickpicker.App;
+import com.typeof.flickpicker.utils.MovieCacheHandler;
 import com.typeof.flickpicker.utils.OMDBParser;
+import com.typeof.flickpicker.utils.RandomizedData;
 
 /**
  * SettingsFragment extends Fragment
@@ -27,16 +30,21 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.settings_fragment, container, false);
         Button reSeedBtn = (Button) view.findViewById(R.id.reSeedBtn);
 
+        final Context ctx = getActivity();
+
         reSeedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                App.createDatabase();
-                App.refreshCurrentUser();
-                App.getDatabase().seedDatabase();
+            App.createDatabase();
+            App.refreshCurrentUser();
+            App.getDatabase().seedDatabase();
 
-                // Get movies from OMDB
-                OMDBParser omdbParser = new OMDBParser(getActivity(), App.getMovieDAO());
-                omdbParser.execute();
+            // If not, then we seed it
+            MovieCacheHandler movieCacheHandler = new MovieCacheHandler(ctx);
+            movieCacheHandler.execute();
+
+            RandomizedData randomizedData = new RandomizedData(ctx);
+            randomizedData.execute();
             }
         });
 
