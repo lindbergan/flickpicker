@@ -58,18 +58,17 @@ public class SQLRatingDAO extends SQLDAO implements RatingDAO {
     public long saveRating(Rating rating){
 
         //Check if previous rating exists
-            String query = "SELECT * FROM ratings " +
-                    " WHERE " + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = " +
-                    String.valueOf(rating.getMovieId()) + " AND " +
-                    RatingTable.RatingEntry.COLUMN_NAME_USERID + " = " +
-                    String.valueOf(rating.getUserId());
+        String query = "SELECT * FROM ratings " +
+                " WHERE " + RatingTable.RatingEntry.COLUMN_NAME_MOVIEID + " = " +
+                String.valueOf(rating.getMovieId()) + " AND " +
+                RatingTable.RatingEntry.COLUMN_NAME_USERID + " = " +
+                String.valueOf(rating.getUserId());
 
-            Cursor c = db.rawQuery(query, null);
-            c.moveToFirst();
+        Cursor c = db.rawQuery(query, null);
+        c.moveToFirst();
 
         if(c.getCount() != 0) { //that is - rating for that movie by that user already exists
                 Rating oldRating = CoreEntityFactory.createRatingFromCursor(c);
-                removeRating(oldRating);
                 c.close();
                 double oldRatingValue = oldRating.getRating();
                 setMovieTableRating(rating.getMovieId(), oldRatingValue, rating.getRating());

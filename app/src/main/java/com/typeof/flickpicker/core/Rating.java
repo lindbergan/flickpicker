@@ -11,7 +11,7 @@ package com.typeof.flickpicker.core;
 public class Rating implements DatabaseObject {
 
     private long id = 0;
-    private double rating;
+    private double rating = 0;
     private final long movieId;
     private final long userId;
 
