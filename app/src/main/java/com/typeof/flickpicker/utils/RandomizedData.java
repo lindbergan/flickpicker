@@ -1,9 +1,6 @@
 package com.typeof.flickpicker.utils;
 
-import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -51,7 +48,7 @@ public class RandomizedData extends AsyncTask<Void, Void, Void> {
         for(int i = 0; i < 500; i++) {
             int randomMovieIndex = rand.nextInt(movieList.size());
             int randomUserIndex = rand.nextInt(userList.size());
-            double randomRating = rand.nextInt(5 + 1); //max rating + 1 because bound is exclusive
+            double randomRating = 1 + rand.nextInt(5); //max rating + 1 because bound is exclusive
 
             long randomMovieId = movieList.get(randomMovieIndex).getId();
             long randomUserId = userList.get(randomUserIndex).getId();
