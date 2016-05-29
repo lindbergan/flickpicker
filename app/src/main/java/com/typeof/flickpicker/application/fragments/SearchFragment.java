@@ -177,7 +177,7 @@ public class SearchFragment extends Fragment {
 
     //Populate the listView with searchResults with the help of a custom UserAdapter to draw the correct cells
     private void populateUserListView(ListView listView, List<User> searchResults){
-        ListAdapter adapter = new UserAdapter(getActivity(),searchResults.toArray());
+        ListAdapter adapter = new UserAdapter(ctx,searchResults.toArray());
         if (hiddenUsersText.getVisibility() == View.VISIBLE) hiddenUsersText.setVisibility(View.INVISIBLE);
         if (searchResults.size() == 0) {
             hiddenUsersText.setVisibility(View.VISIBLE);
